@@ -1,0 +1,618 @@
+---
+title: 'Time Series Analysis - STAT 478 - HW #6'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  pdf_document:
+    df_print: kable
+    toc: true
+    toc_depth: 2
+    #latex_engine: pdflatex
+    latex_engine: xelatex
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+ - \usepackage{siunitx}
+---
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\bm{#1}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\argmin}{\operatorname{arg\,min}}
+
+# Problem 1
+
+A data set of 324 measurements of an industrial robot's positions are in the
+robot object in the TSA package.
+
+```{r warning=FALSE,message=FALSE}
+library(TSA)
+data(robot)
+head(robot)
+```
+
+## Preliminary analysis
+
+We denote the industrial robot's position time series as $\{P_t\}$.
+A quick plot:
+```{r}
+plot(robot,xlab="time",ylab="position")
+```
+
+## Part (a)
+\fbox{\begin{minipage}{.8\textwidth}
+Fit an $\operatorname{AR}(1)$ model for these data.
+Give the equation of the estimated model.
+\end{minipage}}
+
+We suppose that $\{P_t\}  \sim \operatorname{AR}(1)$, defined as
+$$
+   P_t = c + \phi P_{t-1} + e_t
+$$
+where $e_t$ are the residuals in the model. If the model is a good fit,
+$e_t$ approximates $\operatorname{WN}(0,\sigma_e^2)$, zero-mean white noise.
+
+We fit the data to the $\operatorname{AR}(1)$ model with:
+```{r message=FALSE}
+robot.ar1 <- arima(robot,order=c(1,0,0))
+print(robot.ar1)
+robot.ar1.phi <- coef(robot.ar1)[1]
+robot.ar1.c <- coef(robot.ar1)[2]
+robot.ar1.mu <- robot.ar1.c / (1-robot.ar1.phi^2)
+
+# robot.ar1.resid <- robot.ar1 - robot
+# plot(robot.ar1.resid)
+# robot.ar1.resid.mu <- mean(robot.ar1.resid)
+# print(robot.ar1.resid.mu)
+# robot.ar1.resid.var <- var(robot.ar1.resid)
+# print(robot.ar1.resid.var)
+
+```
+
+The estimate of the $\operatorname{AR}(1)$ model is given by
+$$
+   \hat{P}_t = `r robot.ar1.phi` \hat{P}_{t-1} + `r robot.ar1.c` + \hat{e}_t,
+$$
+where ideally $\hat{e}_t \sim \operatorname{WN}(0,\sigma_{\hat{e}}^2 = `r robot.ar1$sigma2`)$.
+which has an estimated mean
+$$
+   \expect(\hat{P}_t) = \frac{\hat{c}}{1-\hat\phi} = `r robot.ar1.mu`.
+$$
+and an estimated variance
+$$
+   \var(\hat{P}) = \frac{\sigma_{\hat{e}}^2}{1-\hat{\phi}^2} = `r robot.ar1$sigma2/(1-robot.ar1.phi^2)`.
+$$
+
+Note that the sample mean and sample variance of $\{P_t\}$ is given respectively
+by $`r mean(robot)`$ and $`r var(robot)`$, which is reasonably close to the
+$\operatorname{AR}(1)$ model estimates.
+However, we need the residuals of this model to model white noise for this to be
+a good model of $\{P_t\}$, which we check for next.
+
+## Part (b)
+\fbox{\begin{minipage}{.8\textwidth}
+Give a basic plot of the standardized residuals over time and a Q-Q plot of the
+residuals.
+Comment on what these tell you about the adequacy of the model.
+\end{minipage}}
+
+We do time series and Q-Q plots of the standardized residuals with:
+```{r}
+par(mfrow=c(1,2))
+plot(rstandard(robot.ar1), xlab="time", ylab="residual")
+qqnorm(rstandard(robot.ar1))
+```
+
+The Q-Q plot is consistent with normality, but there may be an issue with
+the time series plot of the residuals, which does not appear to model zero
+mean white noise.
+There appears to be some regularity in the residuals which should be captured
+by our model.
+
+## Part (c)
+\fbox{\begin{minipage}{.8\textwidth}
+Give a plot of the sample autocorrelation function of the residuals.
+Also perform a Ljung-Box test (with $K = 30$).
+Comment on what these tell you about whether the errors are independent in this
+model.
+\end{minipage}}
+
+First, we plot the sample ACF:
+```{r}
+acf(robot.ar1$residuals)
+```
+
+The sample ACF does not indicate zero mean white noise since we see
+autocorrelations that frequently fall outside of the confidence intervals for
+zero mean white noise.
+
+However, it may be difficult to determine from these plots whether the ACF is
+compatible with white noise when we look at the lags separately.
+We perform the Ljung-Box to perform the hypothesis test
+$$
+   H_0 : r_1 = r_2 = \cdots = r_{30} = 0
+$$
+whose test statistic is $\chi^2$ distributed with $\operatorname{df} = K-p = 29$
+degrees of freedom under the null hypothesis of zero mean white noise.
+
+```{r}
+K <- 30
+p <- 1
+q <- 0
+Box.test(robot.ar1$residuals,
+         lag=K,
+         type="Ljung-Box",
+         fitdf=p+q)
+```
+
+We see that the probability that a white noise process generates the observed
+test statistic $X^2 = 83.243$ occurs with probability less than $0.001$, which
+we consider to be very strong evidence against the hypothesis that the residuals
+are a zero mean white noise process.
+
+We conclude that the model fails to capture some of the regularity in the
+time series data.
+We would prefer a model that essentially models all the regularity, leaving
+only uncorrelated white noise in the residuals.
+
+## Part (d)
+\fbox{\begin{minipage}{.8\textwidth}
+Fit an $\operatorname{IMA}(1,1)$ model for these data.
+Give the equation of the estimated model.
+\end{minipage}}
+
+The $\operatorname{IMA}(1,1)$ model is equivalent to the
+$\operatorname{AMIMA}(0,1,1)$ model,
+$$
+   \nabla \{Y_t\} \sim \operatorname{MA}(1).
+$$
+
+
+```{r}
+robot.ima11 <- arima(robot,order=c(0,1,1))
+robot.diff <- diff(robot,1)
+robot.diff.ma1 <- arima(robot.diff,order=c(0,0,1))
+
+print(robot.ima11)
+print(robot.diff.ma1)
+```
+
+The estimate of the $\operatorname{IMA}(1,1)$ model is given by
+$$
+   \hat{P}_t = 
+$$
+where $\hat{e}_t \sim \operatorname{WN}(0,\sigma_{\hat{e}}^2 = `r robot.ar1$sigma2`)$.
+which has an estimated mean
+$$
+   \expect(\hat{P}_t) = \frac{\hat{c}}{1-\hat\phi} = `r robot.ar1.mu`.
+$$
+and an estimated variance
+$$
+   \var(\hat{P}) = \frac{\sigma_{\hat{e}}^2}{1-\hat{\phi}^2} = `r robot.ar1$sigma2/(1-robot.ar1.phi^2)`.
+$$
+
+
+We can undo the transformations to model the original time series,
+$$
+   \hat{P}_t = 
+$$
+
+
+## Part (e)
+Compare the results from parts (a) and (d) using AIC.
+
+```{r}
+print(robot.ar1$aic)
+print(robot.ima11$aic)
+```
+
+The AIC is smaller (better) for the $\operatorname{IMA}(1,1)$ model, thus
+if we use the AIC measure to perform the model selection between these
+two candidate models, the $\operatorname{IMA}(1,1)$ should be selected.
+
+# Problem 2
+I have put the following dataset on blackboard: Gasprices: average price
+(US dollars per gallon) for regular gasoline in the United States; there are
+$n = 145$ weekly observations collected from 1/5/2009 to 10/10/2011
+(Source: Rajon Coles, Fall 2011).
+Using the methods from Chapter 5, identify a small set of candidate
+$\operatorname{ARIMA}(p, d, q)$ models for the dataset.
+You may need to transform the data before considering differencing.
+There may be a single model that emerges as a ``clear favorite'' or there may not.
+Write up detailed notes that describe how you decided on the model(s) you did.
+Your summary should convince me that your model(s) is (are) worthy of further consideration.
+
+## Preliminary steps
+
+We load the gas price data into a data frame named \emph{gasprices}:
+```{r message=FALSE}
+library(dplyr)
+Yt <- ts(read.table(file="./gasprices.txt"))
+```
+
+The head of the data frame is:
+```{r}
+head(Yt)
+```
+
+## Part (a)
+\fbox{\begin{minipage}{.8\textwidth}
+After a potential transformation, fit a set of candidate models ($3$ or fewer
+models) to the dataset.
+Discuss your findings.
+\end{minipage}}
+
+We load the gas prices into a time series object and then plot it:
+```{r}
+plot(Yt)
+```
+
+From the plot, the gas price is non-stationary.
+A few key observations:
+\begin{enumerate}
+\item The variance appears constant, so something like a log-transformation
+to transform a time series with non-constant variance to a time series with
+constant variance seems unnceccessary.
+\item The mean appears non-constant.
+In particular, the gas prices in the data seem to be trending upwards,
+but this is not necessarily the case, e.g., it may be a random walk process.
+I think we can summarize the plot with the idea that there is no natural
+mean.
+\item There are no obvious cycles or seasonality in the data.
+\end{enumerate}
+
+We model gas prices as a time series $\{ Y_t \}$.
+The $1$st order difference process, $\{\nabla Y_t\}$, is defined as
+$$
+   \nabla Y_t = Y_t - Y_{t-1}
+$$
+and $d$-th order difference process $\{\nabla^d Y_t\}$ is defined as
+\begin{align*}
+   \nabla^0 Y_t &= Y_t\\
+   \nabla^d Y_t &= \nabla \left(\nabla^{d-1} Y_t\right).
+\end{align*}
+where $\nabla^0 Y_t$ is the base case in this recursive definition.
+
+If $\{Y_t\}$ is non-stationary, it generally has a $1$-st or $2$-nd-order difference
+stationary process.
+(Higher-order difference processes are not commonly necessary.)
+
+The first-order difference process of gas prices, $\{\nabla Y_t\}$, has the
+following plots:
+```{r}
+Yt.diff <- diff(Yt,1)
+plot(Yt.diff)
+par(mfrow=c(2,2))
+hist(Yt.diff)
+qqnorm(Yt.diff)
+acf(Yt.diff)
+pacf(Yt.diff)
+```
+
+These plots of $\{\nabla Y_t\}$ seem to sufficiently approximate white noise.
+In subsequent analysis, we will use this differenced time series.
+
+Looking at the ACF, $\{\nabla Y_t\}$ seems consistent with $\operatorname{MA}$,
+but the PACF is not what we expect.
+Likewise, looking at the PACF, $\{\nabla Y_t\}$ is consistent with
+$\operatorname{AR}$, but the ACF is not what we expect.
+We have somewhat of a mixture of both.
+
+We plot the EACF to help decide on plausible ARMA models.
+```{r}
+eacf(Yt.diff,ar.max=3,ma.max=3)
+```
+We see that $\operatorname{ARIMA}(0,1,1)$, $\operatorname{ARIMA}(0,1,2)$,
+and $\operatorname{ARIMA}(1,1,1)$ seem like reasonable candidate models for
+$\{Y_t\}$.
+
+This does not seem too suprising, given the ACF and PACF plots.
+<!-- We are tempted to include $\operatorname{ARMA}(1,0)$ in the candidate set also, -->
+<!-- since when we did the analysis on this it had the best AIC and its residuals -->
+<!-- were compatible, but we choose to discard it from the candidate set. -->
+
+## Part (b)
+\fbox{\begin{minipage}{.8\textwidth}
+Perform diagnostic check for each model: check residuals for normality
+(histogram, qq-plot), the ACF, and the Ljung-Box test.
+\end{minipage}}
+
+We evaluate each of the candidate models in the following subsections.
+
+### Model 1: $\operatorname{ARMA}(0,1,2)$
+The histogram, QQ-plot, and ACF of the residuals for $\operatorname{ARMA}(0,1,1)$ are given by the following plots.
+```{r message=FALSE}
+library(forecast)
+model1 <- Arima(Yt,order=c(0,1,2))
+par(mfrow=c(1,3))
+hist(model1$residual,xlab="Residual",main="ARIMA(0,1,2)")
+qqnorm(model1$residual,main="QQ-plot")
+acf(model1$residual,main="Residuals")
+```
+
+The residuals seem like a reasonable approximation of white noise.
+Next, we do a Box-Ljung test:
+```{r}
+K <- 30
+p <- 0
+q <- 2
+Box.test(model1$residuals,
+         lag=K,
+         type="Ljung-Box",
+         fitdf=p+q)
+```
+The observed test statistic is compatible with the hypothesis that the residuals
+are white noise.
+
+### Model 2: $\operatorname{ARMA}(0,1,1)$
+The histogram, QQ-plot, and ACF of the residuals for $\operatorname{ARMA}(0,1,1)$ are given by the following plots.
+```{r message=FALSE}
+library(forecast)
+model2 <- Arima(Yt,order=c(0,1,1))
+par(mfrow=c(1,3))
+hist(model2$residual,xlab="Residual",main="ARIMA(0,1,1)")
+qqnorm(model2$residual,main="QQ-plot")
+acf(model2$residual,main="Residuals")
+```
+
+The residuals seem like a reasonable approximation of white noise.
+Next, we do a Box-Ljung test:
+```{r}
+p <- 0
+q <- 1
+Box.test(model2$residuals,
+         lag=K,
+         type="Ljung-Box",
+         fitdf=p+q)
+```
+The observed test statistic is compatible with the hypothesis that the residuals are white noise.
+
+### Model 3: $\operatorname{ARMA}(1,1,1)$
+The histogram, QQ-plot, and ACF of the residuals for $\operatorname{ARMA}(1,1,1)$ are given by the following plots.
+```{r message=FALSE}
+library(forecast)
+model3 <- Arima(Yt,order=c(1,1,1))
+par(mfrow=c(1,3))
+hist(model3$residual,xlab="Residual",main="ARIMA(1,1,1)")
+qqnorm(model3$residual,main="QQ-plot")
+acf(model3$residual,main="Residuals")
+```
+
+The residuals seem like a reasonable approximation of white noise.
+Next, we do a Box-Ljung test:
+```{r}
+p <- 1
+q <- 1
+Box.test(model3$residuals,
+         lag=K,
+         type="Ljung-Box",
+         fitdf=p+q)
+```
+
+The observed test statistic is compatible with the hypothesis that the residuals
+are white noise.
+
+## Part (c)
+\fbox{\begin{minipage}{.8\textwidth}
+Choose a final model (if all fit fine, choose the one with the smallest AIC).
+Report your final model and calculate forecasts and prediction intervals for 5
+future values.
+Display the forecasts and prediction bands visually like.
+\end{minipage}}
+
+Both models fit fine, so we will use the model with the minimum AIC.
+```{r}
+round(c(model1$aic,model2$aic,model3$aic),3)
+```
+
+We see that the $\operatorname{ARIMA}(0,1,2)$ model for $\{Y_t\}$ has the
+minimum AIC of these models with an AIC of `r round(model1$aic,3)`, so we choose
+this model.
+
+The model summary is given by:
+```{r}
+summary(model1)
+```
+
+The forecast and prediction intervals for the $\operatorname{ARMA}(1,1,1)$ model are given by:
+```{r}
+library(forecast)
+model1.fc <- forecast(Yt[125:145],model=model1,h=5)
+plot(model1.fc)
+```
+
+## Additional thoughts: evaluating model performance via data splitting
+Out of curiosity, we evaluate the performance of the selected model, the fitted $\operatorname{ARIMIA}(1,1,1)$ model, via data splitting, i.e., learning on a training set and comparing the forecast with the test set.
+```{r message=FALSE}
+library(forecast)
+
+Yt.train <- ts(Yt[1:115],start=1)
+Yt.test <- ts(Yt[116:145],start=116)
+
+model1.train <- Arima(Yt.train,order=c(0,1,2))
+model1.train.fc <- forecast(Yt.train,model=model1.train,h=30)
+
+plot(model1.train.fc)
+lines(Yt.test, lty=2)
+```
+
+Over the long run, the forecast is not bad, but it is not very sensitive to
+recent history (the positive trend near the end of the training time series).
+Out of curiosity, we fit a double exponential smoothing model to the training
+set and then plot its forecast and prediction intervals:
+```{r message=FALSE}
+dema.train <- holt(Yt.train,h=30,initial="optimal")
+dema.train.fc <- forecast(Yt.train,model=dema.train,h=30)
+plot(dema.train.fc)
+lines(Yt.test,lty=2)
+```
+
+This produces a better short-term forecast that follows the recent trend
+found at the end of the training time series.
+As the forecast extends further into the future, it diverges significantly from
+the test data. (Forecasts will often perform better if any trends are dampened
+over time, asymptotically converging to a $0$ slope. Such a dampening effect
+would improve the forecast for this model.)
+
+As a famous quote puts, "It is difficult to make predictions, especially about
+the future."
+Due to the often extreme uncertainty about the future, we tend not to put much
+stock in long term forecasting (unless the data is highly regular, e.g., we
+assume the Sun will continue to rise in the morning long into the future).
+Given this uncertainty and the \emph{present bias} (we tend to discount far-off rewards), we usually seek a model that we expect to perform well on near-term forecasts.
+On this metric, we are inclined to prefer the double exponential smoothing model presented above.
+
+# Problem 3
+A data set of public transportation boardings in Denver from August 2000 through
+December 2005 are in the boardings object in the TSA package.
+These data are already logged.
+
+```{r}
+library(TSA)
+data(boardings)
+log.boardings = boardings[,1]
+print(log.boardings)
+```
+
+## Part (a)
+\fbox{\begin{minipage}{.8\textwidth}
+Give a time series plot of these data.
+Comment on the plot and any seasonality.
+Is it reasonable to use a stationary model for this time series?
+\end{minipage}}
+
+The time series is plotted with:
+```{r}
+plot(log.boardings)
+```
+
+First, there does appear to be a slight seasonable component, although admittedly
+it is not especially pronounced.
+
+It does not appear to be stationary.
+We perform the Dickey-Fuller test to further convince ourselves:
+```{r message=FALSE}
+tseries::adf.test(log.boardings)
+```
+
+At this $p$-value, we do not reject the null hypothesis of non-stationary data.
+We take the difference and perform the Dickey-Fuller test on that
+transformation:
+
+```{r warning=FALSE,message=FALSE}
+log.boardings.diff <- diff(log.boardings,1)
+plot(log.boardings.diff)
+tseries::adf.test(log.boardings.diff)
+```
+
+The plot seems to resemble a stationary process.
+Moreover, the $p$-value of the Dickey-Fuller hypothesis test is around $0.01$,
+which we consider to be very strong evidence against the null hypothesis of
+non-stationary data.
+
+## Part (b)
+\fbox{Plot the sample ACF of the series. Interpret what the plot tells you.}
+
+We plot the ACF with:
+
+```{r}
+par(mfrow=c(1,2))
+acf(log.boardings.diff)
+pacf(log.boardings.diff)
+```
+
+This ACF diverges from the theoretical ACF of stationary data, but a $2$-nd
+order difference does not improve the situation.
+This does not seem too bad.
+
+## Part (c)
+\fbox{\begin{minipage}{.8\textwidth}
+Choose a seasonal ARIMA model that fits the data.
+Write down your model and the corresponding AIC.
+\end{minipage}}
+
+We look at the EACF with:
+```{r}
+library(TSA)
+eacf(log.boardings.diff,ar.max=4,ma.max=4)
+```
+
+This EACF indicates $\operatorname{ARIMA}(p,d=1,q)$ with $(p,q) \in \{(0,0),(1,0),(1,1)\}$.
+
+Given the seasonality of the data, we elect to fit a seasonal ARIMA model
+with parameters $(p,d,q) \times (P,D,Q)$, found by using the \emph{auto-arima}
+function and the data indicates a periodicity of $s=12$ ($S_t = S_{t+s}$).
+
+```{r}
+fit <- auto.arima(log.boardings)
+summary(fit)
+print(fit$aic)
+```
+
+We see that the AIC is $-247.1219$ and the best fit model is of type
+$$
+   \operatorname{Seasonal-ARIMA}(p=1,d=1,q=0) \times (P=0,D=1,Q=1).
+$$
+with coefficients given by
+```{r}
+coef(fit)
+```
+
+## Part (d)
+\fbox{\begin{minipage}{.8\textwidth}
+Check residuals for normality (histogram, qq-plot), for independence (ACF and
+the Ljung-Box test).
+Comment on your findings.
+\end{minipage}}
+
+We plot a histogram, Q-Q plot, and ACF of the residuals with:
+```{r}
+par(mfrow=c(1,3))
+hist(fit$residual,xlab="Residual",main="Seasonal ARIMA")
+qqnorm(fit$residual,main="QQ-plot of residuals")
+acf(fit$residual,main="ACF of residuals")
+```
+
+We are not entirely comfortable with these plots representing idealized
+white noise, but real data sets are not typically going to have a data
+generating process that is truly distributed according to the ARIMA models, so
+some discrepencies are expected.
+
+As the saying goes, all models are wrong, but hopefully some are useful.
+These plots satisfy us that we have sufficiently modeled the significant
+patterns in the data.
+
+However, we conduct one last hypothesis test on the residuals with:
+```{r}
+Box.test(fit$residuals,
+         lag=K,
+         type="Ljung-Box",
+         fitdf=3)
+```
+
+According to the Box-Ljung test, at a typical significance level $\alpha=0.05$,
+the residuals are compatible with a white noise process.
+
+### Additional plots
+
+For fun, we do some forecasting with the model:
+
+```{r}
+library(forecast)
+
+plot(log.boardings,lty=2)
+lines(fit$fitted,col="green")
+
+fit.fc <- forecast(log.boardings,model=fit,h=100)
+plot(fit.fc)
+```
+Note that this is with the log-transformed time series, so the forecast of
+the original time series is given by taking the exponential value of these
+forecasts.

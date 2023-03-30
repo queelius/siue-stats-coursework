@@ -1,0 +1,642 @@
+---
+title: 'Discrete Multivariate Analysis - 579 - Exam 2'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{multirow}
+ - \usepackage{booktabs}
+ - \usepackage{minted}
+ - \usepackage{color}
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 1
+    latex_engine: xelatex
+    df_print: kable
+  html_document:
+    df_print: paged
+---
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\RR}{\operatorname{RR}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+source("test_functions.R")
+```
+
+# Problem 1
+A genetic model predicts the ratio of green seedlings to yellow seedlings
+to be $3:1$.
+Consider data from a sample of $n=1100$ seedlings, where $n_1 = 860$
+is the number of green and $n_2 = 240$ is the number of yellow.
+
+## Part (a)
+\fbox{Compute the statistic $X^2$ for testing the proposed model.}
+
+The observed data models the binomial distribution
+$$
+  n_g \sim \operatorname{BIN}(n, \pi_g)
+$$
+where $n_g$ and $n_y = n - n_g$ are respectively the number of green and yellow
+seedlings and $\pi_g$ and $\pi_y=1-\pi_g$ are respectively the probability
+of a green and yellow seedling.
+
+Under the null model, the odds of green seedlings to yellow seedlings is $3:1$,
+thus
+$$
+  H_0 : \pi_{g 0} = 0.75 \;\; (\pi_{y 0} = 0.25).
+$$
+
+We perform a chi-squared test for goodness of fit whose test statistic is given
+by
+$$
+  X^2 = \frac{(n_g - \hat{m}_g}{\hat{m}_g} + \frac{(n_y - \hat{m}_y)^2}{\hat{m}_y}
+$$
+where $\hat{m}_g = n \pi_{g 0}$ and $\hat{m}_y = \pi_{y 0}$.
+
+The parameter space of the unconstrained binomial model is given by
+$$
+  \vec{\pi}(\pi_g) = (\pi_g, 1-\pi_g)',
+$$
+which has a dimension of $\dim \vec{\pi} = 1$.
+
+The \emph{null model}, which is the specified binomial $\pi_{g 0} = 0.75$, has
+the parameter space $\vec{\pi}_0 = (0.75,0.25)'$, which is just a \emph{point}
+with a dimension of $\dim \vec{\pi}_0 = 0$.
+
+Thus, under the null model, $X^2$ is distributed $\chi^2$ with
+$$
+  \operatorname{df} = \dim \vec{\pi} - \dim \vec{\pi}_0 = 1 - 0 = 1
+$$
+degrees of freedom, denoted by $\chi^2(1)$.
+
+### ANSWER
+We compute the observed $X^2$ statistic with:
+```{r}
+  obs <- c(ng=860,ny=240)
+  pi.0 <- c(pi.g0=.75,pi.y0=.25)
+  x2_test <- multinomial_goodness_of_fit(obs, pi.0)$X2
+  x2_test
+```
+
+We see that $X^2$ realizes the value $X_0^2 = `r round(x2_test$stat,3)`$.
+
+## Part (b)
+\fbox{Determine the upper 10th percentile for the reference distribution.}
+
+Assuming $X^2 \sim \chi^2(1)$, the $(1-\alpha) \times 100 \%$ percentile,
+denoted by $\chi_{\alpha}^2(1)$, is given by solving the equation
+$$
+  \Pr[X^2 \geq \chi_{\alpha}^2(1)] = \alpha
+$$
+for $\chi_{\alpha}^2$.
+
+We compute the $10$-th percentile with the following R code:
+```{r}
+alpha <- 0.10
+q <- round(qchisq(p=alpha,df=x2_test$df,lower.tail=FALSE),3)
+```
+
+### ANSWER
+We see that the $10$-th percentile is $\chi^2_{`r alpha`}(`r x2_test$df`) = `r q`$.
+
+## Part (c)
+\fbox{Provide an interpretation of your result, stated in the context of the problem.}
+
+### ANSWER
+We say that any observed statistic $X_0^2$ with $\operatorname{df}=`r x2_test$df`$ greater than
+$\chi^2_{`r alpha`}(`r x2_test$df`) = `r q`$ is not compatible with the null model at significance
+level $\alpha = `r alpha`$.
+
+Since the observed statistic $X_0^2 = `r round(x2_test$stat,3)` > `r q`$, the null model, which is
+the genetic theory where the ratio of green to yellow is $3:1$, is not compatible
+with the data.
+
+## Part (d)
+\fbox{What are the shortcomings of hypothesis testing as a measure of evidence?}
+
+### ANSWER
+Hypothesis testing, as a dichotomous measure of evidence, does not provide as much information as a more
+quantitative evidence measure. For instance, it does not provide information about effect size.
+
+## Part (e)
+\fbox{Compute a $90\%$ confidence interval for $\pi_1$.}
+
+The MLE of $\pi_g$ is given by $\hat{\pi}_g = \frac{n_g}{n}$.
+A $(1-\alpha) \times 100 \%$ confidence interval for $\pi_g$ is given by
+$$
+  \hat{\pi}_g \pm z_{\alpha/2} \hat\sigma_{\hat\pi_g}.
+$$
+where $\hat\sigma_{\hat\pi_g} = \sqrt{\frac{\hat{\pi}_g (1-\hat{\pi}_g)}{n}}$.
+
+### ANSWER
+Letting $\alpha = 0.10$, the MLE and $90\%$ confidence interval for $\pi_g$ is
+computed with the following R code:
+```{r}
+n <- sum(obs)
+mle <- obs[1]/n
+
+alpha <- 0.1
+s2 <- mle*(1-mle)/n
+q <- qnorm(1-alpha/2)  # should be around 1.645
+conf <- c(mle - q * sqrt(s2),
+          mle + q * sqrt(s2))
+```
+
+We see that $\hat{\pi}_g = `r round(mle,digits=3)`$ and a $90\%$ confidence
+interval is $(`r round(conf,digits=3)`)$.
+
+## Part (f)
+\fbox{Provide an interpretation of your result, stated in the context of the problem.}
+
+### ANSWER
+Based on the observed data, we estimate that the probability $\pi_g$ of a green
+strain is between `r round(conf[1],digits=3)` and `r round(conf[2],digits=3)`.
+
+As expected, the null model specifies a value for $\pi_g$ ($0.75$) that is not
+contained in the computed confidence interval.
+
+## Part (g)
+\fbox{Compute the statistic $G^2$ for testing the proposed model.}
+
+The same reasoning as in part (a), except we use a different statistic called
+the likelihood ratio statistic,
+$$
+  G^2 = - 2 \log \Lambda
+$$
+where
+$$
+  \Lambda = \frac{l(\pi_{g 0})}{l(\hat{\pi}_g)}.
+$$
+where $\hat{\pi}_g$ is the maximum likelihood estimate $n_g / n$.
+
+This may be rewritten as
+$$
+  G^2 = 2 \sum_{j=1}^{c} \log\left(\frac{n_j}{n \pi_{j 0}}\right).
+$$
+
+Under the null model, $G^2$ is distributed $\chi^2$ with $1$ degree of freedom.
+
+### ANSWER
+We compute the observed $G_2$ statistic with the following R code:
+```{r}
+G2_test <- multinomial_goodness_of_fit(obs,pi.0)$G2
+G2_test
+```
+
+We see that $G^2$ realizes the value `r round(G2_test$stat,3)`.
+
+## Part (h)
+\fbox{Compute the $p$-value for the proposed model.}
+
+### ANSWER
+The reference distribution is the chi-squared distribution with $`r G2_test$df`$
+degrees of freedom.
+
+The $p$-value given $`r G2_test$df`$ degree of freedom is defined as
+$$
+  \text{$p$-value} = \operatorname{P}(G^2 > \chi^2(1)),
+$$
+which was computed to be $`r round(G2_test$p,3)`$. (For comparison, the $p$-value for
+the $X^2$ test was $`r round(x2_test$p,3)`$.)
+
+## Part (i)
+\fbox{Provide an interpretation of your result, stated in the context of the problem.}
+
+### ANSWER
+According to the Fisher scale for interpreting $p$-values, a $p$-value of $0.01$
+is considered \emph{strong} evidence against the null model.
+
+Since we obtained a $p$-value of slightly larger, the data provides \emph{strong}
+evidence against the genetic theory positing that the ratio of green to yellow
+seedlings is $3:1$.
+
+## Part (j)
+\fbox{What are the shortcomings of using a $p$-value as a measure of evidence?}
+
+### ANSWER
+The $p$-value overstates evidence against the null model by comparing
+the null model to the alternative model that is best supported by the data.
+
+# Problem 2
+Consider the results from a study on the relationship between dose level and the
+severity of side effects.
+(Larger y values correspond to a more severe response.)
+
+Data:
+
+              $y = 0$   $y = 1$   $y = 2$   $y = 3$   $y = 4$
+-----------   -------   ------    ------    ------    ------
+low dose      6         9         6         3         1
+medium dose   2         5         6         6         6
+high dose     1         4         6         8         8
+
+
+## Preliminary analysis
+We model the cross-sectional data as being an observation of a $3 \times 5$
+random matrix where the row levels, denoted by $X$, correspond to dosage level
+and the column levels, denoted by $Y$, correspond to severity of side effects.
+The elements (cells) of the random matrix are jointly sampled from the
+multinomial distribution
+$$
+  \{n_{i j}\} \sim \operatorname{MULT}(n, \{\pi_{i j}\}).
+$$
+where $n_{i j}$ denotes the $(i,j)$-th element of the random matrix, $\pi_{i j}$
+denotes the parameter that specifies the joint probability $\Pr(X=i,Y=j)$, and
+$n$ denotes the number of trials.
+
+The full model has a parameter space of dimension $3 \times 5 - 1 = 14$.
+
+## Part (a)
+\fbox{\begin{minipage}{.95\columnwidth}
+Compute the statistic $X^2$ and the $p$-value for testing the model with
+independence between dose level and response severity.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+We consider a simpler model than the full model where $X$ and $Y$ are
+independent, i.e., $\pi_{i j\,0} = \Pr(X=i)\Pr(Y=j) = \pi_{i+}\pi_{+j}$.
+Since we are only free to specify $\pi_{i+}$ and $\pi_{+j}$, the parameter space
+of the independence model is of dimension $(3-1) + (5-1) = 6$.
+
+To decide whether the observed data is compatible with $X$ and $Y$ being
+independent, we perform the hypothesis test
+$$
+  H_0 : \{\pi_{i j}\} = \{\pi_{i j\,0}\}.
+$$
+
+An estimator of $\pi_{i+}$ is $\hat{\pi}_{i+} = n_{i+}/n$ and an estimator of
+$\hat{\pi}_{+j}$ is $n_{+j}/n$, therefore an estimator of $\pi_{i j\,0}$ is given by
+$$
+  \hat{\pi}_{i j\,0} = \hat{\pi}_{i+} \hat{\pi}_{+j} = \frac{n_{i+}n_{+j}}{n^2}.
+$$
+We perform a chi-square test for independence.
+The test statistic is given by
+$$
+  X^2 = \sum_{i=1}^{4} \frac{(n_{i j} - \hat{m}_{i j})^2}{\hat{m}_{i j}}
+$$
+where $\hat{m}_{i j} = n \hat{\pi}_{i j\,0}$.
+Asymptotically, $X^2$ is distributed $\chi^2$ with $14 - 6 = 8$ degrees of freedom.
+
+### ANSWER
+We compute the observed value of $X^2$ and its $p$-value with the following R code:
+```{r}
+obs <- matrix(c(6,9,6,3,1,
+                2,5,6,6,6,
+                1,4,6,8,8), nrow=3, byrow=TRUE)
+colnames(obs) <- c("y=0","y=1","y=2","y=3","y=4")
+rownames(obs) <- c("low dose","medimum dose","high dose")
+ind_test <- multinomial_goodness_of_fit_independence_test(obs)$X2
+ind_test
+```
+
+The test statistic $X^2$ realizes the value
+$`r round(ind_test$stat,3)`$
+whose $p$-value is
+`r round(ind_test$p,3)`.
+We consider this $p$-value to be moderate evidence against the null model.
+Stated differently, the observed data is moderately incompatible with the
+independence model.
+
+## Part (b)
+\fbox{\begin{minipage}{.95\columnwidth}
+Now compute the statistic $Z$ and the $p$-value for testing the independence
+model using the correlation estimate $\hat\gamma$.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+Under the assumption of a monotonic association between $X$ and $Y$, if $X$ and
+$Y$ are independent then their $\gamma$ correlation is zero.
+To decide whether the observed data is compatible with $X$ and $Y$ being
+independent, we perform the hypothesis test
+$$
+  H_0 : \gamma = 0.
+$$
+
+The test statistic is given by
+$$
+  Z^* = \frac{\hat\gamma-0}{\hat\sigma(\hat\gamma)},
+$$
+which is normally distributed $\mathcal{N}(0,1)$ under the null model.
+
+### ANSWER
+We compute $Z^*$ and $p$-value with the following R code:
+```{r}
+gamma_test <- independence_test_monotonic_association(obs)
+```
+
+The observed $Z^*$ is `r round(gamma_test$stat,3)` and its $p$-value is less
+than $0.001$, which we consider to be very strong evidence against the 
+independence model.
+
+That is, the observed data provides very strong evidence against 
+the independence model under the assumption of a monotonic association.
+
+## Part (c)
+\fbox{\begin{minipage}{.8\textwidth}
+Explain why a monotonic association model is better than a general association
+model in this example.
+\end{minipage}}
+
+### ANSWER
+Estimates for simpler models have smaller variances than for estimates from
+more complicated models.
+
+# Problem 3
+Consider the results from a prospective study on the relationship between sex
+and hair color.
+
+```{r}
+obs <- matrix(c(75,16,9,120,64,16),nrow=2,byrow=TRUE)
+dimnames(obs) <- list(sex=c("male","female"),
+                      hc.level=c("dark","blonde","red"))
+print(obs)
+```
+
+## Part (a)
+\fbox{\begin{minipage}{.95\columnwidth}
+State the likelihood function for data from a product multinomial sample.
+State the equation for the maximum likelihood estimate $\hat{\pi}^{(F)}_{j|i}$
+under the full model.
+State the equation for the maximum likelihood estimate $\hat{\pi}^{(I)}_{j|i}$
+under the independence model.
+\end{minipage}}
+
+### ANSWER
+In a prospective study, each row of the table represents an independent
+multinomial.
+Thus, the data model is given by
+$$
+\{n_{i j}\} \sim \operatorname{PROD\_MULT}(\{n_{i+}\},\{\pi_{j|i}\}).
+$$
+
+We are given a table of $I=2$ rows and $J=3$ columns, and thus we have $I$
+independent multinomials.
+Therefore, the likelihood function is given by
+$$
+  l(\{\pi_{j|i}\}) = \prod_{i=1}^{I} \frac{n_{i+}!}{\prod_{j=1}^{J} n_{i j}!}
+    \prod_{j=1}^{J} \pi_{j|i}^{n_{i j}}.
+$$
+Observe that
+$$
+  l(\{\pi_{j|i}\}) \propto \prod_{i=1}^{I} \prod_{j=1}^{J} \pi_{j|i}^{n_{i j}}.
+$$
+
+Under the full model, the maximum likelihood of $\pi_{j|i}$ is given by
+$$
+  \hat{\pi}_{j | i}^{(F)} = \frac{n_{i j}}{n_{i+}}
+$$
+and under the independence model it is given by
+$$
+  \hat{\pi}_{j | i}^{(I)} = \frac{n_{+j}}{n}
+$$
+for $i \in \{1,2\}$ and $j \in \{1,2,3\}$.
+
+## Part (b)
+\fbox{Compute the table of expected counts $\hat{m}$ under the independence model.}
+
+The expected count $\hat{m}_{i j}$ under the independence model is given by
+$$
+  \hat{m}_{i j} = \frac{n_{i+}n_{+j}}{n} = n_{i+} \hat{\pi}_{j|i}^{(I)}.
+$$
+
+### ANSWER
+We use the R function $\operatorname{chisq.test}$ to compute the expected cell
+counts $\{\hat{m}_{i j}\}$:
+
+```{r}
+m.hat <- chisq.test(obs,correct = FALSE)$expected
+print(round(m.hat,3))
+```
+
+## Part (c)
+\fbox{\begin{minipage}{.95\columnwidth}
+Compute the statistic $G^2$ and the $p$-value for testing the independence model.
+Provide an interpretation of your result, stated in the context of the problem.
+\end{minipage}}
+
+In the full model, the paramter space is given by
+$$
+  \vec{\pi}^{(F)}(\theta_1,\theta_2, \theta_3, \theta_4) =
+  \begin{pmatrix}
+    \pi_{1|1} = \theta_1  &  \pi_{2|1} = \theta_2 &   \pi_{3|1} = 1-\theta_1-\theta_2\\
+    \pi_{1|2} = \theta_3  &  \pi_{2|2} = \theta_4 &   \pi_{3|2} = 1-\theta_3-\theta_4
+  \end{pmatrix}
+$$
+which is of dimension $I(J-1) = 4$ and under the independence model, the
+parameter space is
+$$
+  \vec{\pi}^{(I)}(\theta_1,\theta_2) =
+  \begin{pmatrix}
+    \pi_{1|1} = \theta_1  &  \pi_{2|1} = \theta_2 &   \pi_{3|1} = 1-\theta_1-\theta_2\\
+    \pi_{1|2} = \theta_1  &  \pi_{2|2} = \theta_2 &   \pi_{3|2} = 1-\theta_1-\theta_2
+  \end{pmatrix}
+$$
+which is of dimension $J-1=2$.
+Thus, under the independence model, $G^2$ is distributed $\chi^2$ with
+$\operatorname{df} = I(J-1) - (J-1) = (J-1)(I-1) = 2$
+
+### ANSWER
+We compute $G^2$ from the observed counts $\{n_{i j}\}$ and the expected counts
+$\{\hat{m}_{i j}\}$:
+```{r}
+I <- dim(obs)[1]
+J <- dim(obs)[2]
+G2 <- 2*sum(obs*log(obs/m.hat))
+df <- (I-1)*(J-1)
+p.value <- pchisq(G2,df,lower.tail = FALSE)
+
+print(round(G2,3))
+print(round(p.value,3))
+```
+
+We obtain a $p$-value around $0.01$, which we consider to be strong evidence
+against the independence model (the data supports the general association model).
+That is to say, the conditional distribution
+$$
+  \Pr(\text{hair color} \,|\, \text{sex} = \text{male})
+$$
+and
+$$
+  \Pr(\text{hair color} \,|\, \text{sex} = \text{female}).
+$$
+are different.
+
+## Part (d)
+\fbox{\begin{minipage}{.95\columnwidth}
+Provide an interpretation of the association, stated in the context of the problem,
+by comparing the observed counts with the expected counts.
+\end{minipage}}
+
+### ANSWER
+We display a table comparing expected and observed such that if the observed
+is less than the expected, display $-1$, and if observed is greater than
+expected, display a $1$:
+```{r}
+print(sign(obs-m.hat))
+```
+
+The observed data is compatible with a model where males are more likely
+to have dark or red hair (and less likely to have blonde hair) and
+females are more likely to have blonde hair (and less likely to have dark or
+red hair).
+
+# Problem 4
+According to the Hardy-Weinberg model, the number of flies resulting from a
+crossing of genetic traits are in categories $1$, $2$, $3$ with probabilities
+\begin{align*}
+  \pi_{1 o}(\theta) &= (1-\theta)^2\\
+  \pi_{2 o}(\theta) &= 2\theta(1-\theta)\\
+  \pi_{3 o}(\theta) &= \theta^2
+\end{align*}
+
+## Part (a)
+\fbox{\begin{minipage}{.95\columnwidth}
+Show that the maximum likelihood estimator of $\theta$ from data $(n_1,n_2,n_3) \sim \operatorname{MULT}(n,\pi_1,\pi_2,\pi_3)$ is
+$$
+  \hat\theta = \frac{n_2 + 2 n_3}{2n}.
+$$
+\end{minipage}}
+
+We assume the data model is given by
+$$
+  (n_1,n_2,n_3) \sim \operatorname{MULT}(n, \pi_1, \pi_2, \pi_3)
+$$
+where $n_j$ denotes the number of flies in category $j$ and $\pi_j$ denotes
+the probability a fly is in category $j$.
+
+Under the specified model, the likelihood function is given by
+$$
+  \operatorname{L}(\theta) \propto \prod_{j=1}^{3} \pi_{j o}(\theta)^{n_j}
+$$
+and the kernel of the log-likelihood function is given by
+\begin{align*}
+  l(\theta)
+    &= \sum_{j=1}^{3} n_j \log \pi_{j o}(\theta)\\
+    &= n_1 \log \pi_{1 o}(\theta) +
+       n_2 \log \pi_{2 o}(\theta) +
+       n_3 \log \pi_{3 o}(\theta)\\
+    &= n_1 \log (1-\theta)^2 +
+       n_2 \log 2 \theta(1-\theta) +
+       n_3 \log \theta^2\\
+    &= 2 n_1 \log (1-\theta) + n_2 \log \theta + n_2 \log(1-\theta)
+      + 2 n_3 \log \theta + \rm{const}\\
+    &= (2 n_1 + n_2) \log (1-\theta) + ( n_2 + 2 n_3)\log \theta + \rm{const}.
+\end{align*}
+
+The derivative of the log-likelihood is thus given by
+$$
+  \frac{d l}{d \theta} =
+    -\frac{2 n_1 + n_2}{1-\theta} + 
+    \frac{n_2 + 2 n_3}{\theta}.
+$$
+
+The ML estimate of $\theta$ is given by
+$$
+  \eval{\frac{d l}{d \theta}}{\hat\theta} = 0.
+$$
+Solving for $\hat\theta$, we see that
+$$
+  \frac{2 n_1 + n_2}{1-\hat\theta} = \frac{n_2 + 2 n_3}{\hat\theta}.
+$$
+Next, we take the reciprocal of both sides,
+$$
+  \frac{1-\hat\theta}{2 n_1 + n_2} = \frac{\hat\theta}{n_2 + 2 n_3}.
+$$
+Expanding the LHS, we get
+$$
+  \frac{1}{2 n_1 + n_2} - \frac{\hat\theta}{2 n_1 + n_2} = \frac{\hat\theta}{n_2 + 2 n_3}
+$$
+which may be rewritten as
+$$
+  \hat\theta \left(\frac{1}{2 n_1 + n_2} + \frac{1}{n_2 + 2 n_3}\right) = \frac{1}{2 n_1 + n_2}.
+$$
+Dividing both sides by the part in parentheses, we get
+$$
+  \hat\theta = \frac{1}{(2 n_1 + n_2) \left(\frac{1}{2 n_1 + n_2} + \frac{1}{n_2 + 2 n_3}\right)},
+$$
+which simplifies to
+$$
+  \hat\theta = \frac{1}{1 + \frac{2 n_1 + n_2}{n_2 + 2 n_3}} = \frac{1}{\frac{2 n_3 + 2 n_1 + 2 n_2}{n_2 + 2 n_3}}.
+$$
+Performing the division, we get the simplification
+$$
+  \hat\theta = \frac{n_2 + 2 n_3}{2(n_3 + n_1 + n_2)}.
+$$
+
+### ANSWER
+Observe that $n_1 + n_2 + n_3$ is $n$, thus
+$$
+  \hat\theta = \frac{n_2 + 2 n_3}{2 n}.
+$$
+
+## Part (b)
+\fbox{\begin{minipage}{.95\columnwidth}
+Suppose we observe data $n_1 = 40$, $n_2 = 50$, $n_3 = 10$ from a sample of size $n = 100$.
+Compute the mle $\hat\theta$ and the estimated category probabilities $\pi_0(\hat\theta)$.
+\end{minipage}}
+
+Using the MLE equation, we compute the result using R:
+```{r}
+n = c(40,50,10)
+mle <- (n[2] + 2*n[3])/sum(n)
+```
+
+### ANSWER
+We see that
+$$
+  \hat\theta = `r mle`.
+$$
+Plugging in this result,
+$$
+  \vec{\pi}_{o}(\hat\theta) = (
+    (1-\hat\theta)^2,
+    2\hat\theta(1-\hat\theta),
+    \hat\theta^2)'
+$$
+which we compute with R:
+```{r}
+pi0.hats <- c((1-mle)^2,
+            2*mle*(1-mle),
+            mle^2)
+```
+
+We see that $\vec{\pi}_{o}(\hat\theta) = (`r pi0.hats`)'$.
+
+## Part (c)
+\fbox{\begin{minipage}{.95\columnwidth}
+Compute the statistic $G^2$ and the $p$-value for testing the Hardy-Weinberg model.
+Provide an interpretation of your result, stated in the context of the problem.
+\end{minipage}}
+
+### ANSWER
+
+The parameter space of the Hardy-Weinberg model is a function of a single
+parameter $\theta$ and thus has a dimension of $1$.
+The parameter space of the full model is $2$.
+Thus, the reference distribution is $\chi^2$ with
+$\operatorname{df} = 2 - 1 = 1$ degrees of freedom.
+
+The following R code computes the realization of $G^2$, denoted by $G_0^2$, and
+its $p$-value:
+```{r}
+hardy_test <- multinomial_goodness_of_fit(obs=n,pi.0=pi0.hats,t=1)$G2
+hardy_test
+```
+
+We see that $G_0^2 = `r round(hardy_test$stat,3)`$ with a $p$-value less than
+$0.001$, which we consider to be very strong evidence against the Hardy-Weinberg.
+
+# Library of test functions
+
+\inputminted{R}{test_functions.R}

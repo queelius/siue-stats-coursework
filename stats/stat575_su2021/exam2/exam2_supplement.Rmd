@@ -1,0 +1,91 @@
+---
+title: "Test"
+author: "Test"
+date: "8/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Inverse transform method for sampling from random variable with kernel $g$
+First, we can use the inverse-transform method.
+The kernel of $g$ is $\exp(-|x|)$, and so the normalizing constant $Z$ is given by
+$$
+  \frac{1}{Z} \int_{-\infty}^{\infty} g(x) dx = 1,
+$$
+which may be rewritten as
+$$
+  \int_{-\infty}^{0} e^{x} dx + \int_{0}^{\infty} e^{-x} dx = Z,
+$$
+which has the solution $Z=2$.
+Thus, random variable $Y$ that has a kernel $g$ has a density
+$$
+  f_Y(y) = \frac{1}{2} \exp(-|x|).
+$$
+
+```{r}
+g.density <- function(x) { 0.5*exp(-abs(x)) }
+```
+
+The cdf $F_Y$ is defined as
+$$
+  F_Y(y) = \frac{1}{2}\int_{-\infty}^{y} \exp(-|s|) ds.
+$$
+If $y \leq 0$, then
+$$
+  F_Y(y) = \frac{1}{2} \int_{-\infty}^{y} \exp(s) ds = \frac{1}{2}\exp(y)
+$$
+and if $y > 0$, then
+$$
+  F_Y(y) = F_Y(0) + \frac{1}{2} \int_{0}^{y} \exp(-s) ds = \frac{1}{2} + \frac{1}{2}(1 - \exp(-y)),
+$$
+which may be written as the piece-wise function
+$$
+  F_Y(y) =
+  \begin{cases}
+    \frac{1}{2} \exp(y)                & y \leq 0\\
+    1 - \frac{1}{2} \exp(-y) & y > 0.
+  \end{cases}
+$$
+
+Now, we find the inverse of $F_Y$.
+Over $y \leq 0$, the inverse of $F_Y$ is given by
+$$
+  p = \frac{1}{2} \exp(y).
+$$
+Solving for $y$, we obtain $y = \log(2p)$. Note that given $y \leq 0$, $p \in (0,0.5]$.
+Over $y > 0$, the inverse of $F_Y$ is given by
+$$
+  p = 1 - \frac{1}{2} \exp(-y).
+$$
+Solving for $y$, we obtain
+$$
+  y = -\log(2-2p)
+$$
+where $p \in (0.5,1)$. We thus have a piecewise function
+$$
+  F^{-1}(p) =
+  \begin{cases}
+    \log(2p)        & p \in (0,0.5]\\
+    -\log(2-2p)     & p \in (0.5,1).
+  \end{cases}
+$$
+Thus, to sample from $Y$, we observe $u$ from $U(0,1)$ and, if $u \leq 0.5$,
+we let $y = \log(2u)$ and otherwise let $y = -\log(2-2u)$.
+
+```{r}
+ry <- function(n)
+{
+  ys <- numeric(n)
+  for (i in 1:n)
+  {
+    u <- runif(1)
+    if (u <= 0.5) { ys[i] <- log(2*u) }
+    else { ys[i] <- -log(2-2*u)}
+  }
+  ys
+}
+```
+

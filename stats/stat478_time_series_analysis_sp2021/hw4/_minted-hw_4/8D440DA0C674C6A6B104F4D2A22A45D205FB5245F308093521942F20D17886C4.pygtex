@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+   \PYG{n}{data} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{n+nf}{read.table}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}./DJI\PYGZus{}yearly.txt\PYGZdq{}}\PYG{p}{,} \PYG{n}{header}\PYG{o}{=}\PYG{k+kc}{TRUE}\PYG{p}{)}
+   \PYG{n}{tsdata} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{n+nf}{ts}\PYG{p}{(}\PYG{n}{data}\PYG{p}{[,}\PYG{l+m}{2}\PYG{p}{])}
+   \PYG{n+nf}{plot}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{)}
+\end{Verbatim}

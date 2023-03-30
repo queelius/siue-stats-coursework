@@ -1,0 +1,171 @@
+---
+title: 'Time Series Analysis - STAT 478 - Project'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  pdf_document:
+    df_print: kable
+    toc: true
+    toc_depth: 2
+    #latex_engine: pdflatex
+    latex_engine: xelatex
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+---
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\bm{#1}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\argmin}{\operatorname{arg\,min}}
+
+# Confidentiality
+We load the confidentiality measure as a time series $\{C_t\}$.
+```{r}
+library(dplyr)
+data <- read.table(file="./acc1")
+```
+
+Let's look at a bit of the data:
+```{r}
+head(data)
+tail(data)
+```
+
+
+
+```{r}
+Ct <- c(1,2,3,4,5.1)
+# Ct <- Ct / max(Ct)
+```
+
+Let's plot the time series:
+```{r}
+plot(Ct)
+acf(Ct)
+pacf(Ct)
+```
+
+This is non-stationary.
+Variance is increasing as confidentiality increases, and the mean is non-constant.
+In particular, there are a number of level shifts.
+We'll try the log-transformation $\{ \log C_t \}$ to mitigate the non-constant
+variance and then a first-order difference $\{\nabla \log C_t\}$:
+
+```{r}
+Ct.log <- log(Ct)
+```
+
+Let's plot it:
+```{r}
+plot(Ct.log)
+```
+
+This looks better, but of course the level shifts remain.
+
+Let's take the difference to remove the level shifts, except for outliers
+representing the level jumps.
+Note that we must not lose the information on the level jumps.
+They may seem like outliers in the difference plot, but they are one of the
+most critical features.
+
+```{r}
+Ct.log.diff <- diff(Ct.log,1)
+plot(Ct.log.diff)
+```
+
+The variance here seems reasonably constant.
+
+
+
+```{r}
+par(mfrow=c(1,2))
+acf(Ct.log.diff)
+pacf(Ct.log.diff)
+```
+
+Naturally, the level shifts are causing the spikes in the difference process.
+
+The confidence interval is too small to see in the ACF and PACF.
+Let's try to get a better look.
+
+```{r}
+acf(Ct.log.diff,ylim=c(-0.025, 0.025))
+```
+
+It seems quite a few values are outside of the confidence interval.
+
+Let's do some residual plots to check for normality.
+```{r}
+library(forecast)
+model <- arima(Ct.log.diff, c(0,0,1))
+hist(model$residual,xlab="Residual",main="Histogram")
+qqnorm(model$residual,main="QQ-plot")
+acf(model$residual,main="Residuals")
+pacf(model$residual,main="Residuals")
+```
+
+These aren't normally distributed residuals.
+
+I think this calls for another modeling approach.
+I saw that there are some R libraries that deal with level shifts.
+Let's try \emph{changepoint}:
+
+```{r include=FALSE}
+library(changepoint)
+#Ct <- Ct[5000:length(Ct)]
+cp <- changepoint::cpt.meanvar(Ct,method="BinSeg", Q=26, minseglen=50)
+
+plot(cp)
+
+pts <- cpts(cp)
+l <- 1
+r <- -1
+
+par(mfrow=c(1,2))
+for (i in 2:length(pts))
+{
+  r <- pts[i]
+  ys_seg <- Ct[l:r]
+  ts_seg <- l:r
+  ps_seg <- cbind(ts_seg,ys_seg)
+  plot(ps_seg)
+  model <- auto.arima(ys_seg)
+  
+  plot(model$residuals)
+
+  l <- r+1
+}
+```
+
+
+An interesting use-case for analying this time series data is not to forecast
+from a particular data set, but to take the information in one or more time
+series, deriving the distribution -- say, the distribution of changepoints and
+their respective changes, and then generating plausible new time series
+for predicting how potentially compromised one's confidentiality is.
+
+In what follows, we consider the case of taking the change point data:
+```{r include=FALSE}
+ts <- append(pts,pts[length(pts)]+1000)
+ys <- Ct[ts]
+ps <- cbind(ts,ys)
+plot(ps)
+```
+
+The change points actually seem pretty consistent.
+Maybe it is uniformly distributed.
+The question might then be, one is the expected jump with respect to the
+change point.
+Seems to follow a somewhat exponential curve, or at least some quadratic.
+However, I only have the data from a single simulation. I need to fix up
+my code and then run some more simulations if I want to pursue this angle
+more, because certainly it may be the case that the curve changes significantly
+from one run to the next.

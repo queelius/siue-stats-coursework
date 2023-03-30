@@ -1,0 +1,338 @@
+---
+title: 'STAT 581 - Problem Set 8'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  pdf_document:
+    #df_print: kable
+    latex_engine: xelatex
+    #keep_tex: true
+    highlight: tango
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+ - \usepackage{fbox}
+ - \usepackage{amsmath}
+ - \usepackage{custom}
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+```{r, echo=F, message=F}
+mixed.test = function(A,B,y)
+{
+  av=anova(lm(y~A*B))
+  F.a = av$`Mean Sq`[1]/av$`Mean Sq`[3]
+  p.value = pf(F.a,df1=av$Df[1],df2=av$Df[3],lower.tail = FALSE)
+  table1 = matrix(c(av$`Sum Sq`[1],av$`Sum Sq`[2],av$`Sum Sq`[3],av$`Sum Sq`[4],
+                    av$Df[1],av$Df[2],av$Df[3],av$Df[4],
+                    av$`Mean Sq`[1],av$`Mean Sq`[2],av$`Mean Sq`[3],av$`Mean Sq`[4]),nrow = 4)
+  dimnames(table1) = list(c("Fixed Effect A","Random Effect B","Interaction AB","Error"),
+                          c("SS","df","MS"))
+  print(table1)
+  
+  table2 = matrix(c(F.a,p.value),nrow = 1)
+  dimnames(table2) = list(c(""),c("F-test for fixed effect","p-value"))
+  print(table2)
+  
+  a=nlevels(A)
+  b=nlevels(B)
+  n=length(y) / a / b
+  
+  var.hat = av$`Mean Sq`[4]
+  var.interaction.hat = (av$`Mean Sq`[3]-av$`Mean Sq`[4])/n
+  var.block = (av$`Mean Sq`[2]-av$`Mean Sq`[3])/n/a
+  
+  table3 = matrix(c(var.hat,var.interaction.hat,var.block),nrow=1)
+  dimnames(table3) = list(c(""),c("error.var","interaction.var","block.var"))
+  print(table3)
+}
+```
+
+# Problem 1
+
+> An experiment is designed to test for systematic differences in the hardness
+> measurements provided by two devices (fixed effect, factor $A$).
+> Ten specimens are randomly selected (random effect, factor $B$).
+> Each device is used to make $n=3$ hardness measurements on each specimen.
+> The data is available on Blackboard as an Excel File.
+
+## Part (a)
+
+> Write the model for this mixed effects design, defining the fixed effect
+> parameters, and the random effect parameters.
+
+The mixed-effects model is given by
+$$
+  Y_{i j k} = \mu + \tau_i + \beta_j + (\tau\!\beta)_{i j} + \epsilon_{i j k}
+  \;
+  \begin{cases}
+    i = 1,\ldots,a=2\\
+    j = 1,\ldots,b=10\\
+    k = 1,\ldots,n=3
+  \end{cases}
+$$
+where the fixed effect parameters are
+$$
+  \tau_1,\ldots,\tau_a \qquad \left(\sum \tau_i = 0\right)
+$$
+and the random effect parameters are
+$$
+  \sigma_\beta^2, \sigma_{\tau\!\beta}^2, \sigma^2.
+$$
+
+## Part (b)
+> Create an interaction plot to display the device effect on hardness
+> measurement.
+
+First, we load the data:
+```{r}
+library("readxl")
+data = read_excel("handout8data.xlsx")
+A = as.factor(na.omit(data$device))
+B = as.factor(na.omit(data$specimen))
+y = na.omit(data$hardness)
+
+a = length(levels(A))
+b = length(levels(B))
+N = length(y)
+n = N / (a * b)
+
+df.A = a-1
+df.B = b-1
+df.AB = (a-1)*(b-1)
+c("a"=a,"b"=b,"n"=n,"N"=N,"df.A"=df.A,"df.B"=df.B,"df.AB"=df.AB)
+```
+
+The interaction plot is given by:
+```{r}
+# remember that we are testing whether operator differences are
+# generalizable to a larger population of parts.
+interaction.plot(B,A,y)
+```
+
+## Part (c)
+> Use a mixed model likelihood approach to test for a systematic difference in
+> the measurements of the two devices.
+> Compute the $F_0$ statistic, and the $p$-value.
+> Provide an interpretation, stated in the context of the problem.
+
+We compute the statistic with:
+```{r}
+library("lme4")
+contrasts(A)=contr.sum
+mixed.mod = lmer(y ~ A + (1|B) + (1|A:B))
+anova(mixed.mod)
+```
+
+We see that $F_0 = .312$ ($p = .579$).
+
+### Interpretation
+
+Based on these observed test statistics, the experiment finds that factor $A$
+(device) has no effect on response $y$ (hardness measurement of specimen).
+
+## Part (d)
+> Compute estimates of the fixed effect parameters.
+
+The formula for the estimates of the fixed effect parameters $\{\tau_i\}$ are
+given by
+$$
+  \hat{\tau}_i = \bar{y}_{i \cdot\cdot} - \bar{y}_{\cdot\cdot\cdot}
+$$
+for $i=1,\ldots,a=2$.
+We use the following R code to compute $\hat{\tau}_1$:
+```{r}
+coef(summary(mixed.mod))
+```
+
+Since $\tau_1 + \tau_2 = 0$, this means $\hat{\tau}_1 = .083$ and
+$\hat{\tau}_2 = -\hat{\tau}_1 = -.083$.
+
+## Part (e)
+> Now write an $F_A$ statistic as a ratio of mean squares.
+
+We use Dr. Neath's custom function
+$$
+  \operatorname{mixed.test} : [\text{fixed factors}] \times
+    [\text{random factors}] \times [\text{responses}] \mapsto
+    [\text{statistics}]
+$$
+to compute the $F_A$ statistic:
+```{r}
+mixed.test(A,B,y)
+```
+
+The $F$-test statistic for the factor $A$ effect is given by
+$$
+  F_A = \frac{\ms{A}}{\ms{A B}} = .692,
+$$
+which has the reference distribution
+$$
+  F(\rm{df}_A=a-1,\rm{df}_{A B} = (a-1)(b-1)) = F(1,9).
+$$
+Thus, the $p$-value is given by $\Pr\{F(1,9) > F_A\} = .427$.
+
+## Part (f)
+> Write the algebraic formula for the $F_0$ statistic from a block design on the
+> sample means.
+
+$$
+  F_0 = \frac
+    {b \sum_{i=1}^{a}(\bar{Y}_{i\cdot\cdot} - \bar{Y}_{\cdot\cdot\cdot})^2/(a-1)}
+    {\sum_{i=1}^{a}\sum_{j=1}^{b}(
+      \bar{Y}_{i j\cdot}-
+      \bar{Y_{i \cdot\cdot}}-
+      \bar{Y}_{\cdot j \cdot}+
+      \bar{Y}_{\cdot\cdot\cdot}
+      )^2 / (a-1)(b-1)}.
+$$
+
+## Part (g)
+> Show computationally that (e) and (f) lead to the same test statistic.
+
+We must use the means of the response over repeated measurements of the block
+(specimen) at a given factor level $A$.
+These values have already been computed for us `handout8data.xlsx`:
+```{r}
+# the variables below represent the same data, only with repeat measurements
+# summarized by their sample mean.
+d = as.factor(na.omit(data$d))
+s = as.factor(na.omit(data$s))
+h.means = na.omit(data$h)
+```
+
+Now, we do the calculations:
+```{r}
+# below we run a randomized block design with the sample means as the
+# response variables.
+# note that the test for a fixed factor effect is equivalent to that
+# from the mixed.test function.
+rcbd.mod = lmer(h.means ~ d + (1|s))
+anova(rcbd.mod)
+```
+
+We see that this result matches the result in (e), i.e., `mix.test(A,B,y)`
+produced the same result.
+
+## Part (h)
+> Use the result from (g) to argue why interaction mean squares is the
+> appropriate error term.
+
+Repeat measurements are summarized by a sample mean.
+The test statistic for a block design then leads to the interaction mean
+squares under a mixed model as the error term.
+
+# Problem 2
+> A mixed effects design is used to investigate the effects of operator (fixed
+> effect, factor A) and machine (random effect, factor B) on the breaking
+> strength of a synthetic fiber.
+> There are $a=3$ operators under investigation.
+> A random sample of $b=4$ machines is selected, and each operator produces
+> $n=2$ samples on each of the selected machines.
+> The data is available on Blackboard as an Excel File.
+
+## Part (a)
+> State the expected value for each of the mean squares.
+
+\begin{align*}
+  E(\ms{A}) &= \sigma^2 + n \sigma_{\tau \! \beta}^2 +
+    \frac{b n \sum_{i=1}^{a}\tau_i^2}{a-1},\\
+  E(\ms{B}) &= \sigma^2 + n \sigma_{\tau \! \beta}^2 + a n \sigma_{\beta}^2,\\
+  E(\ms{A B}) &= \sigma^2 + n \sigma_{\tau \! \beta}^2,\\
+  E(\ms{E}) &= \sigma^2.
+\end{align*}
+
+## Part (b)
+> Compute unbiased estimates for the random effect parameters.
+
+```{r}
+A = as.factor(na.omit(data$op))
+B = as.factor(na.omit(data$mach))
+y = na.omit(data$strength)
+mixed.test(A,B,y)
+```
+
+The random effect parameters are given by $\sigma^2$, $\sigma_\beta^2$, and
+$\sigma_{\tau\beta}^2$.
+Estimators for these parameters are given by
+\begin{align*}
+  \hat\sigma^2               &= \ms{E}     = 3.792,\\
+  \hat\sigma_{\beta}^2       &= \frac{\ms{B}-\ms{A B}}{a n} = -0.549,\\
+  \hat\sigma_{\tau\!\beta}^2 &= \frac{\ms{A B}-\ms{E}}{n} = 1.826.
+\end{align*}
+
+## Part (c)
+> Use the result from (a) to argue why interaction mean squares is the
+> appropriate error term.
+
+Under the null hypothesis
+$$
+  H_0 : \tau_1 = \cdots = \tau_a = 0,
+$$
+$E(\ms{A}) = \sigma^2 + n \sigma_{\tau \! \beta}^2 +
+    \frac{b n \sum_{i=1}^{a}\tau_i^2}{a-1} = \sigma^2 + n \sigma_{\tau\!\beta}^2$.
+The scaling requires a denominator with the same expected
+value.
+Thus, $\ms{A B}$ is the appropriate error term.
+
+## Part (d)
+> Perform a test for operator effects.
+> Compute the $F_A$ statistic, and the $p$-value.
+> Provide an interpretation, stated in the context of the problem.
+
+From part (b), $F_A = \frac{\ms{A}}{\ms{A B}} = 10.769$, which has a $p$-value
+of $.010$.
+
+### Interpretation
+The experiment finds that factor $A$ (operator) does have an effect on the fiber strength.
+
+## Part (e)
+> Now, use the idea of random factors as an experimental unit to explain why
+> interaction mean squares is the appropriate error term.
+> In particular, comment on how taking repeat measurements on a selected level
+> of a random factor does not increase the pertinent sample size.
+
+Taking repeat measurements at each randomly selected level may serve to
+increase the measurement accuracy, but does not increase the pertinent
+sample size.
+(However, taking repeat measurements does allow us to learn more about the
+treatment effect *at those* selected levels, e.g., a therapy may work well for
+you but is not effective on average.)
+
+
+# Appendix: code
+
+```{r,eval=F}
+mixed.test = function(A,B,y)
+{
+  av=anova(lm(y~A*B))
+  F.a = av$`Mean Sq`[1]/av$`Mean Sq`[3]
+  p.value = pf(F.a,df1=av$Df[1],df2=av$Df[3],lower.tail = FALSE)
+  table1 = matrix(c(av$`Sum Sq`[1],av$`Sum Sq`[2],av$`Sum Sq`[3],av$`Sum Sq`[4],
+                    av$Df[1],av$Df[2],av$Df[3],av$Df[4],
+                    av$`Mean Sq`[1],av$`Mean Sq`[2],av$`Mean Sq`[3],av$`Mean Sq`[4]),nrow = 4)
+  dimnames(table1) = list(c("Fixed Effect A","Random Effect B","Interaction AB","Error"),
+                          c("SS","df","MS"))
+  print(table1)
+  
+  table2 = matrix(c(F.a,p.value),nrow = 1)
+  dimnames(table2) = list(c(""),c("F-test for fixed effect","p-value"))
+  print(table2)
+  
+  a=nlevels(A)
+  b=nlevels(B)
+  n=length(y) / a / b
+  
+  var.hat = av$`Mean Sq`[4]
+  var.interaction.hat = (av$`Mean Sq`[3]-av$`Mean Sq`[4])/n
+  var.block = (av$`Mean Sq`[2]-av$`Mean Sq`[3])/n/a
+  
+  table3 = matrix(c(var.hat,var.interaction.hat,var.block),nrow=1)
+  dimnames(table3) = list(c(""),c("error.var","interaction.var","block.var"))
+  print(table3)
+}
+```

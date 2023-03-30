@@ -1,0 +1,271 @@
+---
+title: 'STAT 581 - HW #2'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  #md_document:
+  #  variant: markdown_github
+  pdf_document:
+    df_print: kable
+    latex_engine: xelatex
+    #keep_tex: true
+    highlight: tango
+    #highlight: breezedark
+    #highlight: pygments
+    #highlight: zenburn
+    #highlight: haddock
+    #highlight: kate
+    #highlight: espresso
+fontsize: 11pt
+geometry: margin=.5in
+documentclass: article
+#documentclass: paper
+#documentclass: standalone
+#classoption: twocolumn
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+ - \usepackage{fbox}
+ - \usepackage{amsmath}
+ - \usepackage{hw4}
+---
+
+```{r echo=F}
+#knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80), tidy = TRUE)
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80))
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+A product developer is investigating the tensile strength of a new synthetic
+fiber that will be used to make cloth for men's shirts.
+Strength may be affected by the percentage of cotton used in the blend of
+material for the fiber.
+A completely randomized experiment with five levels of cotton content is
+performed.
+
+# Part 1
+\fbox{State the statistical hypothesis of interest.}
+
+The hypothesis of interest is whether the percentage of cotton at five
+different levels effects the tensile strength of a new synthetic fiber.
+
+We may formulate this as a hypothesis test of the form
+\begin{align*}
+  H_0 &: \mu_1 = \cdots = \mu_5\\
+  H_A &: \text{$\mu_i \neq \mu_j$ for at least one pair $(i,j)$, $i\neq j$,}
+\end{align*}
+where $\mu_k$ is the expected tensile strength at the $k$-th level of cotton.
+
+If $H_0$ is true, the percentage of cotton has no effect on tensile strength.
+
+# Part 2
+\fbox{Briefly explain how the form of the alternative hypothesis requires a need
+for further investigation.}
+
+If there are differences in the cotton level means, further investigation is
+required to determine where the differences occur.
+
+# Part 3
+\fbox{Create a Boxplot as a graphical display of the data.}
+
+```{r}
+library(printr)
+library("readxl")
+
+h2.data = read_excel("./handout2data.xlsx")
+strength = na.omit(h2.data$strength)
+percent = na.omit(as.factor(h2.data$percent))
+
+boxplot(strength~percent)
+```
+
+# Part 4
+\fbox{Compute the sample mean and sample variance of tensile strength for each level of cotton percentage.}
+
+```{r}
+means = by(strength,percent,mean)
+variances = by(strength,percent,var)
+cbind(means,variances)
+```
+
+# Part 5
+\fbox{State the ANOVA model using treatment level effects. Compute estimates of the model parameters.}
+
+In this CRD experiment, we observe $n=5$ responses at each of $a=5$ levels of
+cotton (we treat the cotton percentage level as categorical, even though if we
+show that the cotton level has a practical effect on tensile strength, we may
+treat it as a quantitative input in, say, a regression model).
+
+The data is given by
+\begin{align*}
+  Y_{1 1},\ldots,Y_{1 5} &\sim \mathcal{N}(\mu+\tau_1,\sigma^2)\\
+  &\vdots\\
+  Y_{5 1},\ldots,Y_{5 5} &\sim \mathcal{N}(\mu+\tau_5,\sigma^2).
+\end{align*}
+
+The model is given by
+$$
+  Y_{i j} = \mu + \tau_i + \epsilon_{i j}
+  \begin{cases}
+    i = 1,\ldots,5\\
+    j = 1,\ldots,5,
+  \end{cases}
+$$
+where
+\begin{align*}
+  Y_{i j}               &\qquad\text{is the $j$-th response for tensile strength for the $i$-th cotton level},\\
+  \mu                   &\qquad\text{is the overall mean of the tensile strength},\\
+  \tau_i                &\qquad\text{is the effect that the $i$-th cotton level has on the tensile strength},\\
+  \epsilon_{i j}        &\qquad\overset{\rm{iid}}{\sim} \mathcal{N}(0,\sigma^2),\\
+  \sum_{i=1}^{5} \tau_i &\qquad= 0.
+\end{align*}
+
+The estimates of the model parameters are given by
+\begin{align*}
+  \hat{\mu}       &= \bar{y}_{\cdot \cdot},\\
+  \hat{\tau}_i    &= \bar{y}_{i \cdot} - \bar{y}_{\cdot \cdot}.
+\end{align*}
+
+We compute these estimates with the following R code:
+```{r}
+mu.hat = mean(strength)
+tau.hat = means - mu.hat
+```
+
+We see that $\hat{\mu} = `r mu.hat`$ and
+```{r test,echo=F}
+df = data.frame(c(15,20,25,30,35),
+                c(tau.hat[[1]],tau.hat[[2]],tau.hat[[3]],tau.hat[[4]],tau.hat[[5]]))
+names(df) = c("cotton level", "$\\hat{\\tau}$")
+knitr::kable(df)
+```
+
+# Part 6
+
+## Part (a)
+\fbox{\begin{minipage}{\textwidth}
+Compute the $F_0$ statistic and the $p$-value.
+Perform the statistical test at level $\alpha = .05$.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+```{r}
+model.2 = aov(strength~percent)
+summary(model.2)
+```
+
+We see that $F_0 = 14.76$ and the $p$-value $= .000$.
+Thus, since $p = .000 < \alpha = .05$, the null model where cotton level
+has no effect on tensile strength is not compatible with the data.
+
+## Part (b)
+\fbox{\begin{minipage}{\textwidth}
+Compute the $t_0$ statistic and the $p$-value for testing the $30\%$ group
+versus the $25\%$ group.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+All pair-wise hypothesis tests
+\begin{align*}
+  H_0^{(i,j)} &: \tau_i = \tau_j\\
+  H_A^{(i,j)} &: \tau_i \neq \tau_j.
+\end{align*}
+may be computed with the following R code:
+```{r}
+# to perform multiple comparisons between groups,
+# we will use the multcomp package
+library("multcomp")
+model.2.lsd = glht(model.2, linfct=mcp(percent = "Tukey"))
+summary(model.2.lsd, test=univariate())
+```
+
+We are interested in the hypothesis test
+\begin{align*}
+  H_0^{(4,3)} &: \tau_4 = \tau_3\\
+  H_A^{(4,3)} &: \tau_4 \neq \tau_3,
+\end{align*}
+which computes the results
+$$
+  t_0^{(4,3)} = 2.228
+$$
+and
+$$
+  p^{(4,3)} = .038.
+$$
+
+At $\alpha = .05$, this result is statistically significant.
+Since $t_0^{(4,3)} < 0$, we decide $\tau_4 > \tau_3$.
+The experiment finds that cotton level $4$ ($30\%$) has a larger effect on
+tensile strength than cotton level $3$ ($25\%$).
+
+## Part (c)
+\fbox{\begin{minipage}{\textwidth}
+Compute the $t_0$ statistic and the $p$-value for testing the $25\%$ group
+versus the $20\%$ group.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+We are interested in the hypothesis test
+\begin{align*}
+  H_0^{(3,2)} &: \tau_3 = \tau_2\\
+  H_A^{(3,2)} &: \tau_3 \neq \tau_2,
+\end{align*}
+which computes the results
+$$
+  t_0^{(3,2)} = 1.225
+$$
+and
+$$
+  p^{(3,2)} = .235.
+$$
+
+At $\alpha = .05$, this result is not statistically significant.
+The experiment finds that cotton level $3$ ($25\%$) and cotton level $2$ ($25\%$)
+have the same effect on tensile strength.
+
+## Part (d)
+\fbox{\begin{minipage}{\textwidth}
+Use the grouping information for Fisher pairwise comparisons to further
+investigate the nature of the treatment effect. Provide an interpretation,
+stated in the context of the problem.
+\end{minipage}}
+
+```{r}
+cld(summary(model.2.lsd, test=univariate()))
+```
+
+The experiment finds that $30\%$ cotton has the greatest effect on tensile
+strength, $25\%$ and $20\%$ have the second greatest effect (but no difference
+between them), and $15\%$ and $35\%$ have the weakest effect (but no difference
+between them).
+
+# Part 7
+\fbox{\begin{minipage}{\textwidth}
+Briefly discuss some other issues that may provide additional insight to an experimental result beyond
+a finding of statistical significance.
+\end{minipage}}
+
+Statistical significance is a statement of evidence, not belief.
+Other issues to consider:
+
+1. The scientific context of the effect being tested.
+   Is there an engineering explanation that may account for a relation between
+   tensile strength and cotton level?
+
+   Are there favorable past experimental effects? For instance, in the Bayesian
+   perspective, we may encode results from prior experiments as a prior.
+
+2. The complexity of the effect being tested, i.e., is multiple testing required
+   to understand the effect?
+
+3. The size of the effect, i.e., is the effect of practical importance? For
+   instance, the data may not be compatible with the no effects model, but if
+   the strength is only marginally effected by the cotton level, it may not be
+   worth acting on this finding of statistical signifance.
+
+4. The quality of the experimental design, i.e., is the type II error
+   considered? Do we adjust for differences in experimental units or other
+   factor effects?

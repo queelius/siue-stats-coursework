@@ -1,0 +1,58 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{alex}
+
+\RequirePackage{multirow}
+\RequirePackage{booktabs}
+\RequirePackage{minted}
+\RequirePackage{color}
+\RequirePackage{amsmath}
+\RequirePackage{mathtools}
+\RequirePackage{amsthm}
+\RequirePackage{hyperref}
+\RequirePackage{xcolor}
+\RequirePackage{siunitx}
+\RequirePackage[nottoc]{tocbibind}
+
+\renewcommand{\v}[1]{\symbfit{#1}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\backshift}{\operatorname{B}}
+\newcommand{\arima}{\operatorname{ARIMA}}
+\newcommand{\arma}{\operatorname{ARMA}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand*{\argmin}{\operatorname{arg\,min}}
+\newcommand*{\argmax}{\operatorname{arg\,max}}
+\newcommand{\set}[1]{\mathbb{#1}}
+\newcommand{\RR}{\operatorname{RR}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{definition}{Definition}
+\newtheorem{postulate}{Postulate}
+\newtheorem{assumption}{Assumption}
+\newtheorem{conjecture}{Conjecture}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{notation}{Notation}
+
+\newcounter{examplecounter}
+\newenvironment{example}
+{
+    \begin{quote}%
+    \refstepcounter{examplecounter}%
+    \textbf{Example \arabic{examplecounter}}%
+    \quad
+}
+{%
+    \end{quote}%
+}
+
+\endinput

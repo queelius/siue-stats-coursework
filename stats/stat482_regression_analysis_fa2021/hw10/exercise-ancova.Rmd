@@ -1,0 +1,80 @@
+---
+title: "Turkey Weight Example"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data on Blackboard
+
+
+An experiment is conducted to investigate the relationship between the weight of a turkey (response variable y) and its state of origin(g=Georgia, v=Virginia, w=Wisconsin), with the age of the turkey serving as a covariate (continuous input variable x)
+
+
+:
+
+
+```{r}
+
+
+setwd("F:/Lexar/stat 482 data sets")
+turkey.dat = read.csv('turkey.csv')
+turkey.dat
+
+contrasts(turkey.dat$origin) = contr.treatment(3,base = 3)
+contrasts(turkey.dat$origin)
+
+interaction.mod = lm(weight ~ age+origin+age*origin,data=turkey.dat)
+summary(interaction.mod)
+
+additive.mod = lm(weight ~ age + origin, data = turkey.dat)
+anova(additive.mod,interaction.mod)
+
+linear.mod = lm(weight ~ age, data = turkey.dat)
+anova(linear.mod,additive.mod)
+
+summary(additive.mod)
+
+b.hat = additive.mod$coefficients
+
+intercept.w = b.hat[1]
+intercept.g = b.hat[1]+b.hat[3]
+intercept.v = b.hat[1]+b.hat[4]
+slope = b.hat[2]
+
+
+attach(turkey.dat)
+plot(age[origin == 'g'], weight[origin == 'g'], xlab='age',
+ylab='weight', pch=1, col='blue',xlim = c(min(age),max(age)),ylim = c(min(weight),max(weight)))
+points(age[origin == 'v'], weight[origin == 'v'], pch=2, col='red')
+points(age[origin == 'w'], weight[origin == 'w'], pch=15, col='green')
+abline(intercept.g,slope,col='blue')
+abline(intercept.v,slope,col='red')
+abline(intercept.w,slope,col='green')
+
+
+dfe = nrow(model.matrix(additive.mod)) - ncol(model.matrix(additive.mod))
+
+V = vcov(additive.mod)
+
+a = c(0,0,1,-1)
+
+b.hat.12 = a %*% b.hat
+se.12 = sqrt(a %*% V %*% a)
+
+t.stat.12 = b.hat.12 / se.12
+p.value.12 = 2*(1-pt(abs(t.stat.12),dfe))
+print(c(t.stat.12,p.value.12))
+
+b.hat.12.lower = b.hat.12 - qt(.975,dfe) * se.12
+b.hat.12.upper = b.hat.12 + qt(.975,dfe) * se.12
+
+print(c(b.hat.12.lower,b.hat.12.upper))
+
+confint(additive.mod)
+
+```
+
+

@@ -1,0 +1,6 @@
+h1:blocks Blocks
+h2:equations Equations
+eq:binom
+You may refer to using , like see Equation @ref(eq:binom).h2:theorems-and-proofs Theorems and proofs
+h2:callout-blocks Callout blocks
+

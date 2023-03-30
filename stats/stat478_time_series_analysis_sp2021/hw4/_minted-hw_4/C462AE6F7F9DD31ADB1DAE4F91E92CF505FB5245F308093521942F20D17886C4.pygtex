@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{discount} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{l+m}{0.1}
+\PYG{n}{ema1} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{n+nf}{EMA}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{,}\PYG{n}{tsdata}\PYG{p}{[}\PYG{l+m}{1}\PYG{p}{],}\PYG{n}{discount}\PYG{p}{)}
+\PYG{n+nf}{plot}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{,}\PYG{n}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}b\PYGZdq{}}\PYG{p}{,}\PYG{n}{col}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}blue\PYGZdq{}}\PYG{p}{,}\PYG{n}{pch}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}*\PYGZsq{}}\PYG{p}{,}\PYG{n}{ylab}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}y\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nf}{lines}\PYG{p}{(}\PYG{n}{ema1}\PYG{p}{,}\PYG{n}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}l\PYGZdq{}}\PYG{p}{,}\PYG{n}{col}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}orange\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nf}{legend}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}topleft\PYGZdq{}}\PYG{p}{,}
+  \PYG{n}{legend} \PYG{o}{=} \PYG{n+nf}{c}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Data\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}EMA1\PYGZdq{}}\PYG{p}{),}
+  \PYG{n}{col} \PYG{o}{=} \PYG{n+nf}{c}\PYG{p}{(}
+     \PYG{l+s}{\PYGZdq{}blue\PYGZdq{}}\PYG{p}{,}
+     \PYG{l+s}{\PYGZdq{}orange\PYGZdq{}}\PYG{p}{),}
+  \PYG{n}{pch} \PYG{o}{=} \PYG{n+nf}{c}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}*\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}\PYGZhy{}\PYGZsq{}}\PYG{p}{))}
+\end{Verbatim}

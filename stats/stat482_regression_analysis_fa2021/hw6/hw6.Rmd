@@ -1,0 +1,373 @@
+---
+title: 'Regression Analysis - STAT 482 - HW #6'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{multirow}
+ - \usepackage{booktabs}
+ - \usepackage{minted}
+ - \usepackage{color}
+ - \usepackage{xcolor}
+ - \usepackage{tcolorbox} 
+ - \usepackage{enumerate}
+output:
+  pdf_document:
+    toc: false
+    latex_engine: xelatex
+    df_print: kable
+  html_document:
+    df_print: paged
+---
+
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+
+# Problem 1
+
+Consider the simple linear regression model with inputs centered so that $\sum x_i = 0$:
+$$
+  y_i = \beta_0 + \beta_1 x_i + \epsilon_i, i=1,\ldots,n,
+$$
+where
+$$
+  \epsilon_1,\ldots,\epsilon_n \overset{\text{iid}} \sim \mathcal{N}(0,\sigma^2).
+$$
+
+\begin{tcolorbox}[split=\f]
+Part (a)
+\tcblower
+Write the model using matrix notation.
+\end{tcolorbox}
+
+See page \pageref{sec:notation} for remarks on notation.
+
+The model may be written as
+$$
+  Y = X \beta + \epsilon,
+$$
+where
+$$
+  Y =
+  \begin{bmatrix}
+    Y_1\\
+    \vdots\\
+    Y_n
+  \end{bmatrix}
+$$
+is a $n \times 1$ response vector,
+$$
+  X =
+  \begin{bmatrix}
+    1 & x_1\\
+    \vdots & \vdots\\
+    1 & x_n
+   \end{bmatrix}
+$$
+is a $2 \times n$ input (design) matrix,
+$$
+  \beta =
+  \begin{bmatrix}
+     \beta_0\\
+     \beta_1
+  \end{bmatrix}
+$$
+is a $2 \times 1$ parameter vector, and
+$$
+  \epsilon =
+  \begin{bmatrix}
+    \epsilon_1\\
+    \vdots\\
+    \epsilon_n
+  \end{bmatrix}
+$$
+is a $n \times 1$ multivariate normal vector such that $\epsilon \sim \mathcal{N}_n(0,\sigma^2 I)$.
+
+\begin{tcolorbox}[split=\f]
+Part (b)
+\tcblower
+Use matrix multiplication to derive a simplified expression for each of the
+following:
+\begin{enumerate}[(i)]
+\item $b_0$,$b_1$
+\item $\var(b_0)$, $\var(b_1)$, $\cov(b_0,b_1)$
+\item $\var(\hat{y}_h)$.
+\end{enumerate}
+\end{tcolorbox}
+
+## (i) $b_0$ and $b_1$
+
+The least squares estimator for simpler linear regression is given by
+$$
+  (b_0\;b_1)' = (X'X)^{-1} X' Y.
+$$
+
+To simplify the RHS, first we compute
+$$
+  X'X
+  =
+  \begin{bmatrix}
+    1   & \cdots & 1\\
+    x_1 & \cdots & x_n
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & x_1\\
+    \vdots & \vdots\\
+    1 & x_n
+   \end{bmatrix}\\
+  =
+  \begin{bmatrix}
+    n        & \sum x_i\\
+    \sum x_i & \sum x_i^2
+  \end{bmatrix}.
+$$
+By the constraint $\sum x_i = 0$, this simplifies to
+$$
+  X'X =
+  \begin{bmatrix}
+    n & 0\\
+    0 & \sum x_i^2
+  \end{bmatrix},
+$$
+which has the inverse
+$$
+  (X'X)^{-1} =
+  \begin{bmatrix}
+    \frac{1}{n} & 0\\
+    0           & \frac{1}{\sum x_i^2}
+  \end{bmatrix}.
+$$
+
+Next, we compute
+$$
+  X'Y
+  =
+  \begin{bmatrix}
+    1   & \cdots & 1\\
+    x_1 & \cdots & x_n
+  \end{bmatrix}
+  \begin{bmatrix}
+    y_1\\
+    \vdots\\
+    y_n
+   \end{bmatrix}\\
+  =
+  \begin{bmatrix}
+    \sum y_i\\
+    \sum x_i y_i
+  \end{bmatrix}.
+$$
+
+Finally, we compute the product of $(X'X)^{-1}$ and $X'Y$,
+\begin{align*}
+  (b_0\;b_1)' = (X'X)^{-1} X'Y
+  &=
+  \begin{bmatrix}
+    \frac{1}{n} & 0\\
+    0           & \frac{1}{\sum x_i^2}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \sum y_i\\
+    \sum x_i y_i
+  \end{bmatrix}\\
+  &=
+  \begin{bmatrix}
+    \bar{y}\\
+    \frac{\sum x_i y_i}{\sum x_i^2}
+  \end{bmatrix}.
+\end{align*}
+
+## (ii) $\var(b_0)$, $\var(b_1)$, $\cov(b_0,b_1)$
+Let $A$ be a constant matrix and $B$ be a random vector.
+By the property that $\cov(A B) = A \cov(B) A'$,
+\begin{align*}
+  \cov(b) &= \cov((X'X)^{-1} X' Y)\\
+          &= (X'X)^{-1} X' \var(Y) ((X'X)^{-1} X')'\\
+          &= \sigma^2 (X'X)^{-1} X'((X'X)^{-1} X')'.
+\end{align*}
+By the properties that $(A B)' = B'A'$, $C' = C$ if $C$ is symmetric, and
+$D^{-1} D = D D^{-1} = I$ if $D$ is non-singular,
+\begin{align*}
+  \cov(b) &= \sigma^2 (X'X)^{-1} X'X (X'X)^{-1}\\
+          &= \sigma^2 (X'X)^{-1}\\
+          &= \sigma^2
+            \begin{bmatrix}
+              \frac{1}{n} & 0\\
+              0           & \frac{1}{\sum x_i^2}
+            \end{bmatrix}.
+\end{align*}
+
+By definition,
+$$
+  \var(b_0) = \cov(b)_{1 1} = \frac{\sigma^2}{n},
+$$
+$$
+  \var(b_1) = \cov(b)_{2 2} = \frac{\sigma^2}{\sum x_i^2},
+$$
+and
+$$
+  \cov(b_0,b_1) = \cov(b)_{1 2} = 0.
+$$
+
+## (iii) $\var(\hat{Y}_h)$
+
+Given that $\hat{Y}_h = b_0 + b_1 x_h$, we may rewrite this as
+$\hat{Y}_h = \symbf{x_h'} b$ where $\symbf{x_h} = [1 \; x_h]'$ and
+$b = [b_0 \; b_1]'$.
+Thus,
+\begin{align*}
+  \var(\hat{Y}_h)
+    &= \cov(\symbf{x_h'} b)\\
+    &= \symbf{x_h'} \cov(b) \symbf{x_h}\\
+    &=
+    \begin{bmatrix}
+      1 & x_h
+    \end{bmatrix}
+    \sigma^2
+    \begin{bmatrix}
+      \frac{1}{n} & 0\\
+      0           & \frac{1}{\sum x_i^2}
+    \end{bmatrix}
+    \begin{bmatrix}
+      1\\
+      x_h
+    \end{bmatrix}\\
+    &=
+    \sigma^2
+    \begin{bmatrix}
+      1 & x_h
+    \end{bmatrix}
+    \begin{bmatrix}
+      \frac{1}{n}\\
+      \frac{x_h}{\sum x_i^2}
+    \end{bmatrix}\\
+    &=
+    \sigma^2
+    \left[
+      \frac{1}{n} + \frac{x_h^2}{\sum x_i^2}
+    \right].
+\end{align*}
+
+
+# Problem 2
+Refer to data from Exercise 6.15
+
+The goal is to study the relationship between patient satisfaction ($y$) and
+patient's age ($x_1$), severity of illness ($x_2$), and anxiety level ($x_3$).
+
+\begin{tcolorbox}[split=\f]
+Part (a)
+\tcblower
+Provide an interpretation of a regression coefficient in a multiple regression
+model.
+\end{tcolorbox}
+
+Let
+$$
+  E(Y|x) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3.
+$$
+
+Then,
+$$
+  \frac{\partial  E(Y|x_1,\ldots,x_3)}{\partial x_i} = \beta_i,
+$$
+which means we may interpret the beta coefficients as representing partial
+effects.
+
+In particular, it represents the difference in the mean response (satisfaction
+level) from a one unit increase in $x_i$, with all other input levels held fixed.
+
+\begin{tcolorbox}[split=\f]
+Part (b)
+\tcblower
+Compute $b$, the estimated regression coefficients for the patient satisfaction
+data.
+\end{tcolorbox}
+
+```{r}
+data = read.table('CH06PR15.txt')
+names(data) = c("age","severity","anxiety","satisfaction")
+head(data)
+mod = lm(satisfaction ~ age + severity + anxiety, data=data)
+summary(mod)
+```
+
+We see that $b = (`r round(mod$coefficients,digits=3)`)'$.
+Our fitted model is thus given by
+$$
+  \hat{E}(Y|x) = x'b = 1.053 - .006 x_1 + .002 x_2 + .03 x_3
+$$
+where $x = [1\;x_1\;x_2\;x_3]'$.
+
+\begin{tcolorbox}[split=\f]
+Part (c)
+\tcblower
+Provide a comment on the direction of the input effects, stated in the context
+of the problem.
+\end{tcolorbox}
+
+Analyzing $b$, we see that age has a negative effect on satisfaction and
+severity of illness and anxiety have a positive effect on satisfaction.
+
+\begin{tcolorbox}[split=\f]
+Part (d)
+\tcblower
+Compute $\widehat{\cov}(b)$, the estimated covariance matrix for the regression
+coefficients.
+\end{tcolorbox}
+
+```{r}
+knitr::kable(vcov(mod), digits=5, caption='Covariance matrix')
+```
+
+For instance, we see that $\var(b_0) = 0.37674$ and $\cov(b_0,b_1) = -0.00149$.
+
+# Notation
+\label{sec:notation}
+To denote the $(i,j)$-th element of a matrix $A$, we may use the notation
+$A_{i j}$. To denote the $i$-th row, we may use $A_{i:}$. To denote
+the $j$-th column of a matrix, we may use $A_{:j}$. If $A$ is a column vector,
+then $A_i \coloneqq A_{i 1}$.
+
+If we explicitly denote the elements of a matrix with, say,
+$A \coloneqq [a_{i j}]$, then $a_{1 2}$ denotes the $(1,2)$-th element of $A$.
+
+The transpose of an object $A$ is denoted by $A'$.
+The inverse of $A$ is denoted by $A^{-1}$.
+If $*$ is a binary operator, then $*$ applied to the ordered pair $(A,B)$ may
+be denoted by $A*B$, e.g., $+(A,B) \coloneqq A+B$.
+The product of $A$ and $B$ is denoted by $A B$.
+
+I do not distinguish the type of a mathematical object by typography, except
+when there is already an established convention, like using $\mathbb{R}$ to
+denote the set of real numbers.
+Otherwise, instead of using $\textbf{A}$ of type $\mathbb{R}^{n \times p}$ to
+denote a matrix, I may just use $A$. I also do not hold to the convention of only
+using uppercase letters to denote matrices, e.g., $a$, $\theta$, or $\Theta$
+may denote any kind of object, matrix, vector, set, number, tuple, and so on.
+
+The pay-off comes by not having to think about how to consistently convey
+type, and instead depend on the context to determine the type of an object.
+When we introduce random variations of each of these types, combined with
+their corresponding estimators, using a consistent notation that allows one to
+infer the type of the object with just the typography becomes a losing
+proposition.
+
+In many ways, I prefer the way type information
+is provided by programming languages, where recursive types may be easily
+specified using descriptive terms. In a mathematical paper, often my "programming"
+language of choice is English.

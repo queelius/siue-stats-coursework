@@ -1,0 +1,77 @@
+---
+title: "Studios Example"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data from Table 6.5
+
+A photography studio operates in multiple communities. Data is collected to investigate the relationship between the number of adults in a community (x1, measured in 1000s of people), the per capita disposable income in that community (x2, measured in 1000s of dollars), and sales for the studio in that community (y, measured in 1000s of dollars).
+
+:
+
+
+```{r}
+
+
+
+setwd("F:/Lexar/stat 482 data sets")
+studios.dat = read.csv('TABLE0605.csv')
+str(studios.dat)
+
+studios.mod = lm(sales ~ adults + income, data=studios.dat)
+
+summary(studios.mod)
+
+v = vcov(studios.mod)
+print(v,digits = 3)
+corr.b = v[2,3]/sqrt(v[2,2]*v[3,3])
+corr.b
+
+predict(studios.mod,data.frame(adults=65.4,income=17.6),interval = "confidence")
+predict(studios.mod,data.frame(adults=65.4,income=17.6),interval = "prediction")
+
+
+
+
+y = studios.dat$sales
+x = cbind(1,studios.dat[,-3])
+x = as.matrix(x)
+
+xty = t(x) %*% y
+xtxi = solve(t(x) %*% x)
+
+b.hat = xtxi %*% xty
+b.hat
+
+n=nrow(studios.dat)
+p=ncol(studios.dat)
+
+H = x %*% xtxi %*% t(x)
+y.hat = H %*% y
+sse = t((y - y.hat)) %*% (y - y.hat)
+mse = sse / (n-p)
+
+cov.b = mse[1,1] * xtxi
+cov.b
+
+se.b = sqrt(diag(cov.b))
+se.b
+
+
+x.h = as.matrix(c(1,65.4,17.6))
+
+y.hat = t(x.h) %*% b.hat
+V.hat = t(x.h) %*% cov.b %*% x.h
+
+lower.ci = y.hat - qt(.975,n-p) * sqrt(V.hat)
+upper.ci = y.hat + qt(.975,n-p) * sqrt(V.hat)
+print(c(lower.ci,upper.ci),digits = 4)
+
+
+```
+
+

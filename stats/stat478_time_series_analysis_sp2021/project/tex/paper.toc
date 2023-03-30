@@ -1,0 +1,19 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {section}{\numberline {2}Encrypted Search model}{2}{section.2}%
+\contentsline {section}{\numberline {3}Threat model: known-plaintext attack}{4}{section.3}%
+\contentsline {section}{\numberline {4}Confidentiality measure}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Forecasting model}{5}{subsection.4.1}%
+\contentsline {section}{\numberline {5}Data description}{6}{section.5}%
+\contentsline {section}{\numberline {6}Time series analysis of \(\{\pi _t\}\)}{6}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Visualization and stationary transformations}{7}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}ARIMA model selection}{9}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Model construction and evaluation}{10}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}ARIMA(0,1,1)}{10}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}ARIMA(0,1,2)}{11}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}ARIMA(1,1,2)}{12}{subsubsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.4}Forecasting}{14}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Incorporating \emph {a priori} information}{15}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Estimating $T^*$}{18}{subsection.6.6}%
+\contentsline {section}{\numberline {7}Future work: dynamic regression on co-variates}{18}{section.7}%
+\contentsline {section}{\numberline {8}Conclusion}{20}{section.8}%
+\contentsline {section}{References}{20}{section*.2}%

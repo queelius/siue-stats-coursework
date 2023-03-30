@@ -1,0 +1,232 @@
+---
+title: "Regression Analysis - STAT 482 - Probem Set 9"
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{mathtools}
+- \usepackage{amsthm}
+- \usepackage{multirow}
+- \usepackage{booktabs}
+- \usepackage{minted}
+- \usepackage{color}
+- \usepackage{xcolor}
+- \usepackage{tcolorbox}
+- \usepackage{enumerate}
+output:
+  pdf_document:
+    toc: no
+    latex_engine: xelatex
+    df_print: kable
+    keep_tex: yes
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+```{=tex}
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+```
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+# Problem 1
+
+> A router is used to cut locating notches on a circuit board.
+> The vibration level is considered to be an important characteristic of the
+> process.
+> Two factors are thought to affect vibration ($y$): bit size ($x_1$) and
+> cutting speed ($x_2$).
+> The data is available as a csv file posted on Blackboard.
+
+## Part (a)
+> Provide a definition for an interaction effect.
+
+The interaction effect measures the change in an input effect as the other input
+changes levels.
+
+## Part (b)
+> Fit an interaction model using coded variables.
+> Compute the coefficient estimates and the standard error.
+
+## Coded data transformation
+
+```{r}
+data = read.csv('hw9-1.csv')
+
+to_binary_coded = function(x)
+{
+  2*(x-mean(x)) / (max(x)-min(x))
+}
+data$x1 = to_binary_coded(data$bit.size)
+data$x2 = to_binary_coded(data$cutting.speed)
+data$y = data$vibration
+head(data)
+```
+
+# Estimates
+```{r}
+x.mod = lm(y ~ x1*x2,data=data) # equiv to y~x1+x2+x1:x2 and y~x1+x2+I(x1*x2)
+summary(x.mod)
+coef(x.mod)
+```
+
+We see that
+$$
+  \hat{E}(Y|x) = 23.83 + 8.32 x_1 + 3.77 x_2 + 4.36 x_1 x_2.
+$$
+
+## Part (c)
+> Write the estimated regression as a function of $x_1$ for $x_2 = 1,0,-1$.
+
+We have the regression function $\hat{E}(Y|x)$, so, for instance,
+$\hat{E}(Y|x_2=0) = 23.83 + 8.32 x_1 + 3.77 (0) + 4.36 (0) x_1 = 23.83+8.32 x_1$.
+However, in R, we may compute the slope and intercept estimates with:
+```{r}
+b0 = coef(x.mod)[1]
+b1 = coef(x.mod)[2]
+b2 = coef(x.mod)[3]
+b12 = coef(x.mod)[4]
+reg.estimates.x1 = matrix(c(b0+b2,b0,b0-b2,b1+b12,b1,b1-b12),nrow=3)
+dimnames(reg.estimates.x1) = list(c("x2=+1","x2=0","x2=-1"),
+                                  c("intercept","slope"))
+reg.estimates.x1
+```
+
+Thus,
+```{=tex}
+\begin{align*}
+\hat{E}(Y&|x_1,x_2=+1)  = 27.600 + 12.675 x_1,\\
+\hat{E}(Y&|x_1,x_2=0)  = 23.831 + 8.319 x_1,\\
+\hat{E}(Y&|x_1,x_2=-1) = 20.063 + 3.963 x_1.
+\end{align*}
+```
+
+## Part (d)
+> Create interaction plots for both the interaction model and the additive
+> effects model.
+
+Interaction plot of the interaction model:
+```{r}
+x.pred = predict(x.mod)
+# applying the plot to x1,x2,x.pred same as
+# applying the plot to x1,x2,y.
+interaction.plot(data$x1,data$x2,x.pred,
+                 col=c("red","blue"),
+                 trace.label="x2",
+                 xlab="x1",
+                 ylab="y")
+```
+
+Interaction plot of the additive model:
+```{r}
+add.mod = lm(y~x1+x2,data=data)
+add.pred = predict(add.mod)
+interaction.plot(data$x1,data$x2,add.pred,
+                 col=c("red","blue"),
+                 trace.label="x2",
+                 xlab="x1",
+                 ylab="y")
+```
+
+## Part (e)
+> Test for an interaction effect.
+> (Compute the test statistic and p-value.)
+> Provide an interpretation, stated in the context of the problem.
+
+```{r}
+anova(add.mod,x.mod)
+```
+
+$F^* \approx 50$ is quite large ($p = .000$).
+We find the data to be incompatible with the additive model.
+
+# Problem 2
+> A sample of healthy females is selected to investigate the relationship
+> between age ($x$) and the level of a steroid ($y$).
+> Refer to the data from Exercise 8.6.
+
+## Part (a)
+> Fit a quadratic model using coded variables.
+> Compute $R^2$ for the quadratic model.
+
+```{r}
+data = read.table('CH08PR06.txt')
+names(data) = c('y','x')
+head(data)
+
+# poly uses coded variables (orthogonal)
+#     => z1 = a1 + b1 x
+#        z2 = a2 + b2 x + c2 x^2
+quad.mod = lm(y ~ poly(x,2),data=data)
+coef(quad.mod)
+r2 = summary(quad.mod)$r.squared
+r2
+```
+
+The estimate for the quadratic regression model is
+$$
+  E(Y|x) = 17.644 + 28.165 x - 15.906 x^2,
+$$
+for which
+$$
+  R^2 = `r r2`.
+$$
+
+## Part (b)
+> Fit a cubic model using coded variables.
+> Compute $R^2$ for the cubic model.
+
+```{r}
+cubic.mod = lm(y ~ poly(x,3),data=data)
+coef(cubic.mod)
+r2 = summary(cubic.mod)$r.squared
+```
+
+The estimate for the cubic regression model is
+$$
+  E(Y|x) = 17.644 + 28.165 x - 15.906 x^2 + 4.086 x^3,
+$$
+which, given the orthogonal design, has the same coefficients as previously for
+the lower-order terms.
+
+As expected, $R^2$ has increased,
+$$
+  R^2 = `r r2`,
+$$
+but only slightly.
+
+## Part (c)
+> Create a scatterplot of the data, comparing the fitted values from the
+> quadratic model with the fitted values from the cubic model.
+> Extrapolate the predictions $10$ years beyond the largest age in the data set.
+
+```{r}
+newdat = data.frame(x=seq(min(data$x),max(data$x)+10,length.out=100))
+newdat$cubic.pred = predict(cubic.mod, newdata = newdat)
+newdat$quad.pred = predict(quad.mod, newdata = newdat)
+                          
+plot(data$x,data$y,
+     xlim=c(min(data$x),max(data$x)+10),
+     ylim=c(0,40),
+     xlab="x",
+     ylab="y")
+legend(16, 8, legend=c("cubic","quadratic"),
+       col=c("red","green"), lty=1:1, cex=0.8)
+points(newdat$x,newdat$cubic.pred,type="l",col="red")
+points(newdat$x,newdat$quad.pred,type="l",col="green")
+```
+
+Informally, unless we have prior information (e.g., scientific insight), the
+simpler (quadradic) model seems like a more likely fit to the underlying data
+generating process.

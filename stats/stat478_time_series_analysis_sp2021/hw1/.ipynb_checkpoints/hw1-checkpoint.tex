@@ -1,0 +1,215 @@
+\documentclass[12pt]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+%\usepackage{mathpazo} % Use the Palatino font
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx} % Required for including images
+
+\usepackage{booktabs} % Required for better horizontal rules in tables
+
+\usepackage{minted}
+%\usemintedstyle[R]{friendly}
+
+\usepackage{listings} % Required for insertion of code
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!red,
+}
+\usepackage{enumerate} % To modify the enumerate environment
+
+\title{Homework \#1} % Assignment title
+\author{Alex Towell (\href{mailto:atowell@siue.edu}{\bfseries{atowell@siue.edu}})}
+
+\date{01/29/2021} % Due date
+\institute{Southern Illinois University-Edwardsville}
+\class{STAT 478 - Time Series Analysis}
+\professor{Dr. Beidi Qiang}
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+
+\newcommand{\eval}[3]{\left. #1 \right\vert_{#2}^{#3}}
+
+\begin{document}
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+\section*{Question 1}
+
+\begin{problem}
+Show $\var(Y) = \expect(Y^2) - \expect^2(Y)$ starting from the definition $\var(Y) = \expect(Y-\expect(Y))^2$ b expanding and properties of expectation.
+\end{problem}
+
+\subsection*{Answer}
+By definition, the variance of $Y$ is $\var(Y) \coloneqq \expect(Y-\expect(Y))^2$.
+We may rewrite the definition by expanding the right-hand-side,
+\begin{equation}
+	\var(Y) = \expect(Y^2 - \expect(Y) Y - \expect(Y) Y + \expect^2(Y))\,.
+\end{equation}
+By the linearity of expectation, we may apply the following sequence of transformations,
+\begin{align}
+	\var(Y) &= \expect(Y^2) - 2 \expect(\expect(Y) Y) + \expect(\expect^2(Y))\\
+		    &= \expect(Y^2) - 2 \expect^2(Y) + \expect^2(Y)\\
+		    &= \expect(Y^2) - \expect^2(Y)\,.
+\end{align}
+
+\section*{Question 2}
+\begin{problem}
+Let $(X,Y)$ have joint density $\operatorname{f}_{X,Y}(x,y) \coloneqq (x+y)$ over $R \coloneqq \{(x,y) \colon 0 \leq x \leq 1, 0 \leq y \leq 1\}$, the unit square in the plane.
+\medskip
+\begin{enumerate}[(\itshape a\normalfont)]
+\item Find $\expect(X)$,$\var(X)$, and $\expect(X Y)$.
+\item Find $\corr(X,Y)$. Are $X$ and $Y$ independent?
+\item Find $\cov(X,X+Y)$. Are $X$ and $Y$ independent?
+\end{enumerate}
+\end{problem}
+	
+\subsection*{Answer}
+\begin{enumerate}[(\itshape a\normalfont)] % Sub-questions styled as italic letters
+	\item To find $\expect(X)$ and $\var(X)$, we first find the marginal distribution of $X$,	
+	\begin{align}
+		\operatorname{f}_{X}(x)
+			&= \int_{0}^{1} \operatorname{f}_{X,Y}(x,y) \mathrm{d}y\\
+			&= \int_{0}^{1} (x+y) \mathrm{d}y\\
+			&= x \int_{0}^{1} \mathrm{d}y + \int_{0}^{1} y \mathrm{d}y\\
+			&= x \eval{y}{y=0}{1} + \eval{\frac{y^2}{2}}{y=0}{1}\\
+			&= x+\frac{1}{2}
+	\end{align}
+	The expectation of $X$ is defined as
+	\begin{equation}
+		\expect(X) \coloneqq \int_{0}^{1} x \operatorname{f}(x) \mathrm{d}x\,.
+	\end{equation}
+	Plugging in the value of $\operatorname{f}(x)$ in the above and applying the operations results in the following,
+	\begin{align}
+		\expect(X)
+			&\coloneqq \int_{0}^{1} x \left(x+\frac{1}{2}\right) \mathrm{d}x\\
+			&=\int_{0}^{1} x^2 \mathrm{d}x + \frac{1}{2} \int_{0}^{1} x \mathrm{d}x\\
+			&=\eval{\frac{x^3}{3}}{0}{1} + \eval{\frac{x^2}{4}}{0}{1}\\
+			&=\frac{7}{12}\,.
+	\end{align}
+	The variance of $X$ is given by
+	\begin{equation}
+		\var(X) \coloneqq \expect(X^2) - \expect^2(X)\,.
+	\end{equation}
+	We know that $\expect(X) = 7/12$, so we now compute $\expect(X^2)$:
+	\begin{align}
+		\expect(X^2)
+			&\coloneqq \int_{0}^{1} x^2 \left(x+\frac{1}{2}\right) \mathrm{d}x\\
+			&=\int_{0}^{1} x^3 \mathrm{d}x + \frac{1}{2} \int_{0}^{1} x^2 \mathrm{d}x\\
+			&=\eval{\frac{x^4}{4}}{0}{1} + \eval{\frac{x^3}{6}}{0}{1}\\
+			&=\frac{5}{12}\,.
+	\end{align}
+	
+	The expectation of $X Y$ is given by
+	\begin{align}
+		\expect(X Y)
+			&\coloneqq \int_{0}^{1} \int_{0}^{1} x y \operatorname{f}_{X,Y}(x,y) \mathrm{d}x \mathrm{d}y\\
+			&= \int_{0}^{1} \int_{0}^{1} x y (x+y) \mathrm{d}x \mathrm{d}y\\
+			&= \int_{0}^{1} \int_{0}^{1} x^2 y + x y^2 \mathrm{d}x \mathrm{d}y\\
+			&= \int_{0}^{1} y \int_{0}^{1} x^2 \mathrm{d}x \mathrm{d}y + \int_{0}^{1} y^2 \int_{0}^{1} x \mathrm{d}x \mathrm{d}y\\			
+			&= \int_{0}^{1} y \eval{\frac{x^3}{3}}{x=0}{1} \mathrm{d}y + \int_{0}^{1} y^2 \eval{\frac{x^2}{2}}{x=0}{1} \mathrm{d}y\\	
+			&= \int_{0}^{1} \frac{y}{3} \mathrm{d}y + \int_{0}^{1} \frac{y^2}{2} \mathrm{d}y\\				
+			&= \eval{\frac{y^2}{6}}{0}{1} + \eval{\frac{y^3}{6}}{0}{1}\\
+			&= \frac{1}{3}\,.			
+	\end{align}
+	
+	\item The correlation of $X$ and $Y$, denoted by $\corr(X,Y)$, is defined as
+	\begin{equation}
+		\corr(X,Y) \coloneqq \frac{\cov(X,Y)}{\sigma_X \sigma_Y}\,.
+	\end{equation}
+	where $\cov(X,Y)$ denotes the covariance of $X$ and $Y$, defined as
+	\begin{equation}
+		\cov(X,Y) \coloneqq \expect\left[(X-\expect(X))(Y-\expect(Y))\right]\,.
+	\end{equation}
+	
+	To find the correlation, we first find the covariance.
+	We may rewrite the covariance equation by expanding the product of the binomials,
+	\begin{equation}
+		\cov(X,Y) = \expect\left[X Y -\expect(X) Y - \expect(Y) X + \expect(X) \expect(Y)\right]\,.
+	\end{equation}
+	By linearity of expectation, we may rewrite the above as
+	\begin{equation}
+		\cov(X,Y) = \expect(X Y) - \expect(X) \expect(Y)\,.
+	\end{equation}
+	
+	Without proof we claim the expectation of $Y$ is the same as $X$ by applying the same proof in (a) for $Y$ instead of $X$.
+	We also found $\expect{X Y}$ in part (a).
+	Plugging in these solutions to the above equation yields the result
+	
+	\begin{align}
+		\cov(X,Y) &= \frac{1}{3} - \frac{7}{12} \frac{7}{12}\\
+				  &= -\frac{1}{144}\,.
+	\end{align}
+	
+	Thus, the correlation is
+	\begin{align}
+		\corr(X,Y) &= \frac{-\frac{1}{144}}{\sqrt{5/12}\sqrt{5/12}}\\
+				   &= -\frac{1}{60}\,.
+	\end{align}
+	
+	Joint random variables $X$ and $Y$ are independent if their correlation is $0$.
+	Since $X$ and $Y$ have a non-zero correlation, they are by definition not independent.
+	
+	Note: We also knew they were dependent by the fact that their joint PDF could not be factored
+	into a product of two terms, one involving only $x$ and the other involving only $y$.
+	
+	\item The covariance $X$ and $X+Y$ is given by
+	\begin{align}
+		\cov(X,X+Y)
+			&= \expect(X (X+Y)) - \expect(X)\expect(X+Y)\\
+			&= \expect(X^2 + X Y) - \expect(X)(\expect(X)+\expect(Y))\\
+			&= \expect(X^2) + \expect(X Y) - \expect(X)(\expect(X)+\expect(Y))\,.
+	\end{align}
+	All of these expecations have already been derived.
+	Plugging them in yields the result
+	\begin{align}
+		\cov(X,X+Y) &= \frac{5}{12} + \frac{1}{3} + \frac{7}{12}\left(\frac{7}{12}+\frac{7}{12}\right)\\
+		            &= 103/72
+	\end{align}
+	and thus, approximately,
+	\begin{equation}
+		\cov(X,X+Y) \approx 1.43\,.
+	\end{equation}
+
+	Random variables $X$ and $X+Y$ are not independent.	
+\end{enumerate}
+
+
+\section*{Question 3}
+
+\begin{problem}
+	I will show code.
+\end{problem}
+
+\subsection*{Answer}
+\begin{minted}[mathescape,linenos,tabsize=2,breaklines]{R}
+#milk production example
+
+milk <- read.csv("milk-production.csv")
+milk.ts=ts(milk[,2],frequency=12, start=c(1962,1))
+plot.ts(milk.ts)
+decomp.milk=decompose(milk.ts)
+plot(decomp.milk)
+
+library(forecast)
+milk.ma4=ma(milk.ts,order=4)
+plot.ts(milk.ts)
+lines(milk.ma4)
+
+# The following is an example is a data set of the number of births per month in New York city, from January 1946 to December 1959
+
+# $\sum_{x \in X} 2 x$
+
+births <- scan("http://robjhyndman.com/tsdldata/data/nybirths.dat")
+birth.ts <- ts(births, frequency=12, start=c(1946,1))
+plot.ts(birth.ts)
+decomp.birth=decompose(birth.ts)
+plot(decomp.birth)
+\end{minted}
+
+\end{document}

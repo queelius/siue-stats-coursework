@@ -1,0 +1,685 @@
+---
+title: 'Time Series Analysis - 478 - HW #3'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{hhline}
+output:
+  pdf_document:
+    df_print: kable
+    toc: true
+    toc_depth: 1
+  html_document:
+    df_print: paged
+---
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}} 
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+
+# Problem 1
+
+Regression through the origin: We will consider a special case of simple linear
+regression where the intercept is assumed to be zero from the outset. Let
+$$
+   Y i = \beta x_i + \epsilon_i\,,
+$$
+where $\expect (\epsilon_i) = 0$ and $\var (\epsilon_i) = \sigma^2$.
+
+## Part (A)
+\fbox{
+Define $Q(\beta) \coloneqq \sum_{i=1}^{n} (Y_i - \beta x_i)^2$.
+the minimizer of $Q(\beta)$ is $\hat\beta = \frac{\sum x_i Y_i}{\sum x_i^2}$.}
+
+\begin{proof}
+The function to minimize is given by
+\begin{equation}
+   Q(\beta) = \sum_{i=1}^{n} (Y_i - \beta x_i)^2\,,
+\end{equation}
+which has a minimum when its derivative is zero,
+\begin{align*}
+   \eval{\frac{\mathrm{d}Q}{\mathrm{d}\beta}}{\hat\beta} = 0\\
+   -2 \sum (Y_i - \hat\beta x_i) x_i = 0\\
+   \sum Y_i x_i = \hat\beta \sum x_i^2\,.
+\end{align*}
+Solving for $\hat\beta$,
+\begin{equation}
+   \hat\beta = \frac{ \sum Y_i x_i }{\sum x_i^2}\,.
+\end{equation}
+\end{proof}
+
+## Part (B)
+\fbox{
+Show $\expect(\hat\beta) = \beta$.}
+\begin{proof}
+The expectation of $\hat\beta$ is given by
+\begin{align*}
+   \expect(\hat\beta) &= \expect\left(\frac{ \sum Y_i x_i }{\sum x_i^2}\right)\\
+                      %&= \frac{\expect(\sum Y_i x_i)}{\sum x_i^2}\\
+                      &= \frac{\sum \expect(Y_i x_i)}{\sum x_i^2}\\
+                      %&= \frac{\sum x_i \expect(Y_i)}{\sum x_i^2}\\
+                      &= \frac{\sum x_i \expect(\beta x_i + \epsilon_i)}{\sum x_i^2}\\
+                      &= \frac{\beta \sum x^2_i}{\sum x_i^2}\,,
+\end{align*}
+which finally can be simplified to
+\begin{equation}
+   \expect(\hat\beta) = \beta\,.
+\end{equation}
+\end{proof}
+
+## Part (C)
+\fbox{
+Show $\var(\hat\beta) = \frac{\sigma^2}{\sum x^2_i}$.}
+
+\begin{proof}
+The variance of $\hat\beta$ is given by
+\begin{align*}
+   \var(\hat\beta) &= \left(\sum x_i^2\right)^{-2}\var\left(\sum Y_i x_i\right)\\
+                   %&= \left(\sum x_i^2\right)^{-2}\sum \var(Y_i x_i)\\
+                   &= \left(\sum x_i^2\right)^{-2}\sum x_i^2 \var(Y_i)\\
+                   &= \left(\sum x_i^2\right)^{-2}\sum x_i^2 \var(\beta x_i + \epsilon_i)\\
+                   &= \left(\sum x_i^2\right)^{-2}\sum x_i^2 \var(\epsilon_i)\\
+                   &= \sigma^2 \left(\sum x_i^2\right)^{-2} \sum x_i^2
+\end{align*}
+which finally can be simplified to
+\begin{equation}
+   \var(\hat\beta) = \sigma^2 \left(\sum x_i^2\right)^{-1}\,.
+\end{equation}
+\end{proof}
+
+## Part (D)
+\fbox{
+Write the model as $\mat Y = \mat X \beta + \mat \epsilon$.}
+
+The equation $\mat{Y} = \mat X \mat \beta + \mat \epsilon$ can be rewritten as
+\begin{equation}
+   \begin{pmatrix}
+       Y_1\\
+       Y_2\\
+       \vdots\\
+       Y_n
+   \end{pmatrix}
+   =
+   \begin{pmatrix}
+       x_1\\
+       x_2\\
+       \vdots\\
+       x_n
+   \end{pmatrix}
+   \beta
+   +
+   \begin{pmatrix}
+       \epsilon_1\\
+       \epsilon_2\\
+       \vdots\\
+       \epsilon_n
+   \end{pmatrix}\,.
+\end{equation}
+
+\begin{proof}
+The original model is given by
+$$
+   Y_i \coloneqq \beta x_i + \epsilon_i\,.
+$$
+
+When we perform the calculation $\mat Y = \mat X \beta$, the $i$-th element of
+$\mat{Y}$ is $Y_i = \beta x_i + \epsilon_i$.
+\end{proof}
+
+## Part (E)
+\fbox{Verify $\hat\beta = (\mat X' \mat X)^{-1}\mat X' \mat Y$ is equivalent to the minimizer in Part (A).}
+
+\begin{proof}
+To show that $\hat\beta = (\mat{X}'\mat{X})^{-1} \mat{X}'\mat{Y} = \frac{\sum x_i Y_i}{\sum x_i^2}$,
+we apply the matrix operations to demonstrate equivalence to Part (A).
+
+The transpose of $\mat{X}$ is $\mat{X}' = (x_1 \, x_2 \, \cdots \, x_n)$, a row vector. Making the
+appropriate substitutions, we get
+\begin{equation}
+\hat\beta = \left(
+   (x_1 \, x_2 \, \cdots \, x_n)
+   \begin{pmatrix}
+       x_1\\
+       x_2\\
+       \vdots\\
+       x_n
+   \end{pmatrix}
+   \right)^{-1}
+   (x_1 \, x_2 \, \cdots \, x_n)
+   \begin{pmatrix}
+       Y_1\\
+       Y_2\\
+       \vdots\\
+       Y_n
+   \end{pmatrix}\,.
+\end{equation}
+
+We see that $X'X$ is just the sum of squares $x_1^2 + \cdots + x_n^2$ and
+$X'Y$ is just $x_1 Y_1 + \cdots + x_n Y_n$, resulting in
+\begin{equation*}
+\hat\beta = (x^2_1 + x^2_2 + \cdots + x^2_n)^{-1}
+   (x_1 Y_1 + x_2 Y_2 + \cdots + x_n Y_n)\,.
+\end{equation*}
+Since the inverse operation $^{-1} \colon \mathbb{R} \mapsto \mathbb{R}$ is just the reciprocal,
+we may rewrite the above as
+\begin{equation*}
+   \hat\beta = \frac{x_1 Y_1 + x_2 Y_2 + \cdots + x_n Y_n}{x^2_1 + x^2_2 + \cdots + x^2_n}\,.
+\end{equation*}
+which may finally rewritten as
+\begin{equation}
+\hat\beta = \frac{\sum x_i Y_i}{\sum x_i^2}\,.
+\end{equation}
+\end{proof}
+
+## Part (F)
+\fbox{Show that $\var(\hat\beta) = \sigma^2(\mat X' \mat X)^{-1}$ is equivalent to the scalar form in Part (C).}
+
+\begin{proof}
+The variance of $\hat\beta$ is given by
+\begin{equation}
+   \var(\hat\beta) = \var\left((\mat{X}'\mat{X})^{-1} \mat{X}' \mat{Y}\right)\,.
+\end{equation}
+Note that the variance of a random vector $\mat{T}$ multiplied on the left
+by a vector $\mat{U}$ is given by
+\begin{equation}
+   \var(\mat{U} \mat{T}) = \mat{U} \var(\mat{T}) \mat{U'}\,.
+\end{equation}
+Thus,
+\begin{equation}
+   \var(\hat\beta) = \left((\mat{X}'\mat{X})^{-1} \mat{X}'\right)\var(\mat{Y})\left((\mat{X}'\mat{X})^{-1} \mat{X}'\right)'\,.
+\end{equation}
+By the property of transposition, $(\mat{A}\mat{B})' = \mat{B}'\mat{A}'$, we may rewrite the above as
+$$
+   \var(\hat\beta) = (\mat{X}'\mat{X})^{-1} \mat{X}' \var(\mat{Y}) \mat{X} (\mat{X}'\mat{X})^{-T}\,.
+$$
+By the assumption that $\{\epsilon_i\}$ are i.i.d., the variance of $\mat Y$
+is $\sigma^2 \mat I_{p}$,
+\begin{align*}   
+   \var(\hat\beta) &= (\mat{X}'\mat{X})^{-1} \mat{X}'
+   \sigma^2 \mat{I}
+   \mat{X} (\mat{X}'\mat{X})^{-T}\\
+   &= \sigma^2 (\mat{X}'\mat{X})^{-1} \mat{X}'
+   \mat{X} (\mat{X}'\mat{X})^{-T}\\
+   &= \sigma^2  (\mat{X}'\mat{X})^{-T}\,.
+\end{align*}
+Given a symmetric matrix $\mat{A}$, $\mat{A}' = \mat{A}$.
+Since $\mat{X}' \mat{X}$ is ``symmetric'' (a scalar value, being viewed as
+a matrix, is by definition symmetric), we can simplify the above to
+\begin{align*}
+   \var(\hat\beta) = \sigma^2  (\mat{X}'\mat{X})^{-1}\,.
+\end{align*}
+\end{proof}
+
+Observe that since $\hat\beta = c \mat Y$ where $c$ is constant and
+$\mat Y$ is a vector of normals, $\hat\beta$ is normally distributed
+$\hat\beta \sim \mathcal{N}(\beta, \var(\hat\beta))$.
+
+# Problem 2
+Burple, Stephens, and Gloopshire (2014) report on a study in the Journal of
+Questionable Research. Data were collected on the number of minutes $Y_i$ it
+took $n = 237$ Glippers to learn how to drive a small, motorized car. Two
+predictors of interest are the estimated age of the glipper in months
+$x_{i 1}$ and the Glippers Maladaptive Score (GMS) $x_{i 2}$, a number from $50$
+to $100$ that summarizes how poor the glipper’s vision is. Consider the
+following multiple regression output from R.
+
+Coefficients        Estimate     Std. Error
+------------      ----------     ----------
+(Intercept)       -182.57923        7.41169 
+Age                  8.56069        0.31150
+GMS                  0.28066        0.04621
+
+Table: Regression output from R
+
+type        df   ss     ms
+----        --   --     --
+regression
+error            23565
+total       236  104682         
+
+Table: Anaylysis of  Variance Table
+
+
+
+## Common code
+The following R code is used to produce many of the answers to this problem set.
+
+```{r}
+n <- 237
+p <- 3
+ss.e <- 23565
+ss.t <- 104682
+
+# ss.e + ss.r = ss.t => ss.r = ss.t - ss.e
+ss.r <- ss.t - ss.e
+
+df.r <- p-1
+df.e <- n-p
+df.t <- n-1
+
+ms.r <- ss.r / df.r
+ms.e <- ss.e / df.e
+
+# sample variance
+ms.t <- ss.t / df.t
+
+B0.est <- -182.57923
+B1.est <- 8.56069
+B2.est <- 0.28066
+
+B0.se <- 7.41169
+B1.se <- 0.31150
+B2.se <- 0.04621
+
+```
+
+
+## Part (A)
+\fbox{Complete the ANOVA table.}
+
+There are $p = 3$ parameters in the model and it is given that
+there are $n = 237$ observations with a sum of squared error $\rm{SS_E} = 23565$
+and sum of squared total $\rm{SS_T} = 104682$.
+
+From this given information, we may compute the remaining values in the
+ANOVA table by observing the following set of relationships:
+\begin{align*}
+   \rm{SS_R} &= \rm{SS_T} - \rm{SS_E}\\
+   \rm{MS_R} &= \rm{SS_R} / \rm{df_R}\\
+   \rm{MS_E} &= \rm{SS_E} / \rm{df_E}\\
+   \rm{MS_T} &= \rm{SS_T} / \rm{df_T}
+\end{align*}
+where $\rm{df}_R = p-1$, $\rm{df}_E = n-p$, and $\rm{df}_T = n-1$.
+
+We output the ANOVA table with the following R code:
+```{r}
+anova_table <- data.frame(
+   type = c("regression","residual","total"), 
+   ss = c(ss.r,ss.e,ss.t),
+   dof = c(df.r,df.e,df.t),
+   ms = c(ms.r,ms.e,ms.t)
+)
+knitr::kable(anova_table, digits=2, caption = "ANOVA table.")
+```
+
+## Part (B)
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Calculate the F-statistic from the ANOVA table and use it to test
+$$
+H_0 \colon \beta_1 = \beta_2 = 0\,.
+$$
+What does this imply about $\beta_1$ and $\beta_2$?
+\end{minipage}}
+
+Consider the model
+\begin{equation}
+  Y_i = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon_i
+\end{equation}
+where $x_1$ and $x_2$ are the independent predictor variables.
+
+If we wish to do an overall test on the model, then we are interested in the
+hypothesis test 
+\begin{align*}
+   H_0 &\colon \beta_1 = \beta_2 = 0\,\\
+   H_1 &\colon \beta_1 \neq 0 \lor \beta_2 \neq 0\,.
+\end{align*}
+
+Rejection of $H_0$ implies that one or more predictors is signficant in the
+model.
+
+If $H_0$ is true and the model errors are normal and independent with constant
+variance, then the test statistic for significance of regression is
+\begin{equation}
+    F_0 = \frac{\rm{SS_R} / (p-1)}{\rm{SS_E}/(n-p)} = \frac{\rm{MS_R}}{\rm{MS_E}}\,,
+\end{equation}
+where $F_0 \sim F(p-1,n-p)$.
+
+We compute the statistic using the following R code:
+```{r}
+F.ratio=ms.r/ms.e
+p_value=1-pf(F.ratio,p,n-p)	#p-value from the F test
+cat("test statistic F0 =",F.ratio, "with p-value", p_value, "\n")
+```
+
+We see that $\Pr(F_0 > 3) \approx 0.05$. We have a much larger value and
+we see that the $p$-value is essentially $0$. Thus, we have very strong evidence
+to reject the null hypothesis, i.e., either $\beta_1$ or $\beta_2$ (or both) are
+not zero and we conclude that one or more of the predictors in the model is
+significant.
+
+## Part (C)
+\fbox{
+\begin{minipage}{.8\textwidth}
+Report each of $\hat\beta_1$ and $\hat\beta_2$.
+Construct $t$-tests $H_0 \colon \beta_1 = 0$ and $H_0 \colon \beta_2 = 0$
+individually.
+Can either predictor be dropped in the presence of the other?
+\end{minipage}
+}
+
+Observe $\hat\beta \sim \mathcal{N}(\mat \beta, \sigma^2 \mat C)$ and therefore
+$\hat\beta_j \sim \mathcal(\beta_j, \sigma^2 C_{j j})$.
+Thus, $\frac{\hat\beta_j - \beta_j}{\sqrt(\sigma^2 C_{j j})} \sim \mathcal{N}(0,1)$.
+Since we do not know $\sigma^2$, we estimate it with $\hat\sigma^2 = \rm{MS_E}$,
+in which case
+
+$$
+   \frac{\hat\beta_j - \beta_j}{\se(\hat\beta_j)} \sim t(\rm{df} = n-p)\,,
+$$
+where $\se(\hat\beta_j) \coloneqq \sqrt{\hat\sigma^2 C_{j j}}$ is denoted
+the standard error and $\mat C \coloneqq (\mat X' \mat X)^{-1}$.
+
+We consider the hypothesis test for testing the significance of $\beta_j$,
+\begin{align*}
+  H_0 : \beta_j = 0\,,\\
+  H_1 : \beta_j \neq 0\,,
+\end{align*}
+with test statistic
+$$
+    t_0 = \frac{\hat\beta_j}{\se(\hat\beta_j)} \sim t(\rm{df}=n-p)\,.
+$$
+We reject $H_0$ if $t_0$ has a sufficiently small $p$-value,
+where
+$$
+   \text{$p$-value} = 2 \Pr(t < -|t_0|)\,.
+$$
+We specify that we reject $H_0$ if $p\text{-value} \leq \alpha = 0.05$ (or
+equivalently $|t_0| > t_{\alpha/2,n-p}$).
+
+```{r}
+B1.t0 <- B1.est / B1.se
+B2.t0 <- B2.est / B2.se
+cat("B1.t0 =",B1.t0,"\n")
+cat("B2.t0 =",B2.t0,"\n")
+
+#p-value from the T test
+B1.pval=2*pt(-1*abs(B1.t0),df=n-p)
+B2.pval=2*pt(-1*abs(B2.t0),df=n-p)
+cat("B1 pvalue =",B1.pval,",B2 pvalue =", B2.pval)
+```
+
+It is given that $\hat\beta_1 = 8.56$ and $\hat\beta_2 = 0.28$ respectively
+with standard errors $0.31150$ and $0.04621$ and $p$-values of $3.321975e^{-75}$ and $5.019091e^{-09}$. These $p$-values are practically \emph{zero} and thus
+in the presence in the presence of the other, neither predictor should be
+dropped.
+
+## Part (D)
+\fbox{Interpret both coefficients.}
+
+The estimated coefficients in the model are given by $\hat\beta_1 = 8.56$ and
+$\hat\beta_2 = 0.28$, thus
+
+\begin{equation}
+\hat{Y}_i = \hat\beta_0 + 8.56 x_{i 1} + 0.28 x_{i 2} + \epsilon_i
+\end{equation}
+which has an estimated expectation
+\begin{equation}
+E(\hat{Y}_i) = \hat\beta_0 + 8.56 x_{i 1} + 0.28 x_{i 2}\,,
+\end{equation}
+where $x_{i 1}$ is the estimated age of the glipper in months, $x_{i 2}$ is
+the Glippers Maladaptive Score (GMS), a number between $50$ and $100$ that
+summarizes how poor the glipper's vision is, and $\hat{Y}_i$ is the number of
+minutes it takes a glipper to learn how to drive a small, motorized car
+with those predictors.
+
+According to the model, the rate of increase with respect to age and GMA is
+expected to increase the number of minutes to learn by $8.56$ and $0.28$ minutes
+respectively.
+
+## Part (E)
+\fbox{Report $R^2$; how is it interpretted here?}
+
+Recall that $R^2 = SS_R / SS_T = 1 - SS_E / SS_T$.
+Thus, it is the percentage of the variability explained by the regression model
+versus the total variability. All things else being equal, the more of the
+variability we can explain by the regression model the better. Since $R^2$ is a
+number between $0$ and $1$, the closer to $1$ the better.
+
+We run the following R code:
+```{r}
+#R2 <- 1 - ss.e / ss.t
+R2 <- ss.r / ss.t
+cat("R2 =",R2,"\n")
+```
+We see that $R^2 \approx 0.77$, and thus the model explains around $77\%$
+of the variability in the data.
+
+Note that a large value of $R^2$ does not necessarily imply the model is good,
+since we can always capture more variability in a model by adding more
+parameters to it, which contributes to \emph{over-fitting} the particulars of
+the observe data.
+
+# Problem 3
+Consider the ”mtcars” data in R. You can load and view the dataset by typing
+”mtcars” in R console. Consider the response variable mileage per hour ($Y=\rm{mpg}$),
+and two predictors, horsepower and weight $(X_1 = \rm{hp}, X_2 = \rm{wt})$. Ignore other variables for now.
+
+## Part (A)
+\fbox{
+\begin{minipage}{.8\textwidth}
+Obtain and report the scatterplot matrix; what does it tell you about the relationship between mpg and each of the predictors, horsepower and weight?
+\end{minipage}}
+
+We print out the scatterplot matrix with the following R code.
+```{r}
+pairs(mpg~hp+wt,mtcars, main="Scatterplot Matrix")		#construct scatterplots 
+```
+
+The scatter plot visually indicates that the miles per gallon (mpg) is
+negatively correlated with both the horsepower (hp) and the weight (wt).
+
+## Part (B)
+\fbox{
+\begin{minipage}{.8\textwidth}
+Fit the regression model $Y_i = \beta_0 + \beta_1 x_{i 1} + \beta_2 x_{i 2} + \epsilon_i$.
+Report the ANOVA table and the table of regression coefficients.
+\end{minipage}
+}
+
+We use the following R code to fit the model and then report the ANOVA table.
+```{r}
+#### Regression Analysis Using lm() ####
+
+# fit a multiple regression model
+mpg_hp_wt.model=lm(mpg~hp+wt, data=mtcars)
+
+# get details from the regression output
+summary(mpg_hp_wt.model)
+
+# get the anova table
+anova(mpg_hp_wt.model)
+```
+
+
+## Part (C)
+\fbox{Comment on the significance of the overall model.}
+The $p$-value $9.109e^{-12}$ for the overall test is extremely small (very large $F_0$ statistic),
+thus we have very strong evidence that either $\beta_1$ or $\beta_2$ (or both)
+are not zero. In other words, we conclude that one or more of the predictors
+in the model are significant.
+
+## Part (D)
+\fbox{Comment of the significance of each predictor.
+Can either predictor be dropped in the presence of the other?}
+
+The hypothesis for testing the significance of $\beta_j$,
+\begin{align*}
+  H_0 : \beta_j = 0\,,
+\end{align*}
+is given by the individual $t$-test
+\begin{equation}
+    t_0 = \frac{\hat\beta_j}{\se(\hat\beta_j)}\,,
+\end{equation}
+which are reported in the regression summary in Part (B). Both have $p$-values
+that are approximately \emph{zero} so in the presence of the other neither
+should be dropped.
+
+## Part (E)
+\fbox{Obtain the normal probability plot and a histogram of the residuals. What do these plots tell you?}
+
+A QQ-normal probability plot is shown next.
+```{r}
+# construct qq plot of the residuals
+qqnorm(mpg_hp_wt.model$residual)
+```
+The QQ-plot of the residuals is not quite a 45 degree line, suggesting that
+the assumption of normality on the error term may not be reasonable under some
+circumstances.
+
+Next, we show the historgram of the residuals
+```{r}
+# construct a histogram plot of the residuals
+hist(mpg_hp_wt.model$residual)
+```
+This is not terribly symmetric, confirming our earlier suspicions.
+
+## Part (F)
+\fbox{Obtain $\ssr(x_1)$, $\ssr(x_2|x_1)$, and verify $\ssr(x_1, x_2) = \ssr(x_1) + \ssr(x_2|x_1)$.}
+
+The following R code generates the sum of squared regressions for the models.
+
+```{r}
+#### Testing on group of coefficients
+result.full=lm(mpg~hp+wt, data=mtcars)
+result.red_x1=lm(mpg~hp, data=mtcars)
+result.red_x2=lm(mpg~wt, data=mtcars)
+summary(result.full)	#get details from the regression output
+anova(result.full)		#ANOVA table for the full model
+anova(result.red_x1)		#ANOVA table for the reduced model
+anova(result.red_x2)		#ANOVA table for the reduced model
+anova(result.red_x1,result.full,test = "F")	#F-test for the effect of act and year togother
+```
+
+The sum of squares for the regression for the full model is $\ssr(x_1,x_2) = 930.996$.
+The sum of squares for the regression when we remove $x_1$ is $\ssr(x_2) = 847.7252$.
+The sum of squares for the regression when we remove $x_2$ is $\ssr(x_1) = 678.3729$.
+The extra sum of squares when we add $x_2$ given $x_1$ is already in the model is $\ssr(x_2|x_1) = \ssr(x_1,x_2) - \ssr(x_1) = 930.996 - 678.3729 = 252.6266$.
+Thus, plugging them in, $930.996 = 678.3729+252.6266$.
+
+
+
+## Part (G)
+\fbox{Obtain and interpret an $95\%$ interval estimate of $\expect(Y_h)$ when $x_{h 1} = 100$ and $x_{h 2} = 4$.}
+
+Look in the next section, Alternative approach to Problem 3, where I compute the
+intervals. There's a lot of other stuff there, also, but the intervals are
+near the end of the R code block.
+
+
+
+I get the result $[16.66102, 20.41629]$.
+
+# Alternative approach to Problem 3
+We use the matrix approach. Here is the R code.
+
+```{r}
+#### Regression analysis using matrix methods ####
+p3.Y <- mtcars[c("mpg")]
+rownames(p3.Y) <- NULL
+colnames(p3.Y) <- NULL
+p3.Y <- data.matrix(p3.Y)
+p3.n <- nrow(p3.Y)
+p3.X <- mtcars[c("hp","wt")]
+rownames(p3.X) <- NULL
+colnames(p3.X) <- NULL
+p3.X <- cbind(rep(1,p3.n),data.matrix(p3.X))
+
+p3.XtX=t(p3.X)%*%p3.X		#get X'X
+p3.C=solve(p3.XtX)
+
+p3.coeffs=p3.C%*%t(p3.X)%*%p3.Y	#Least Squares result
+
+print(p3.coeffs)
+
+# number of parameters p
+p3.p <- 3
+
+# degrees of freedom for SSR,SSE,and SST respectively
+p3.df.r <- p3.p-1
+p3.df.e <- p3.n-p3.p
+p3.df.t <- p3.n-1
+
+# SSE = y'y - B'x'y
+p3.ss.e=t(p3.Y)%*%p3.Y-t(p3.coeffs)%*%t(p3.X)%*%p3.Y       # calculate SSE
+p3.ms.e=p3.ss.e/p3.df.e # calculate MSE
+
+# SSR = B'X'y - n avg(y)^2
+p3.ss.r=(t(p3.coeffs)%*%t(p3.X)%*%p3.Y-p3.n*mean(p3.Y)^2)	  # calculate SSR
+p3.ms.r=p3.ss.r/p3.df.r	                                # calculate MSR
+
+# SST = sum(y[i] - avg(y))
+#     = y'y - n*avg(y)
+p3.ss.t=t(p3.Y)%*%p3.Y-p3.n*mean(p3.Y)^2                	# calculate SSTO
+p3.ms.t=p3.ss.t/p3.df.t
+
+# estimate of sigma^2 is mean squared error (MSE)
+p3.sigma2_hat = p3.ms.e
+print(p3.sigma2_hat)
+
+# covariance matrix for coefficient estimators
+p3.cov=p3.sigma2_hat[1]*p3.C
+print(p3.C)
+
+p3.r.sq=(t(p3.coeffs)%*%t(p3.X)%*%p3.Y-p3.n*mean(p3.Y)^2)/p3.ss.t  # calculate R-square
+print(p3.r.sq)
+p3.F.ratio=p3.ms.r/p3.ms.e		#F test for overall model significance
+p3.pval=1-pf(p3.F.ratio,2,p3.n-3)	#p-value from the F test
+
+p3.anova <- data.frame(
+   type = c("regression","residual","total"), 
+   ss = c(p3.ss.r,p3.ss.e,p3.ss.t),
+   dof=c(p3.df.r,p3.df.e,p3.df.t),
+   ms = c(p3.ms.r,p3.ms.e,p3.ms.t)
+)
+knitr::kable(p3.anova, digits=2, caption = "ANOVA table.")
+
+p3.B0.est = p3.coeffs[1]
+p3.B0.se = sqrt(p3.ms.e*p3.C[1,1])
+
+p3.B1.est = p3.coeffs[2]
+p3.B1.se = sqrt(p3.ms.e*p3.C[2,2])
+
+p3.B2.est = p3.coeffs[3]
+p3.B2.se = sqrt(p3.ms.e*p3.C[3,3])
+
+p3.B0.t0 <- p3.B0.est / p3.B0.se
+p3.B1.t0 <- p3.B1.est / p3.B1.se
+p3.B2.t0 <- p3.B2.est / p3.B2.se
+
+
+cat("overall F0 =",p3.F.ratio,"pval =",p3.pval)
+cat("B0 =",p3.B0.est,"se(B0) =",p3.B0.se,"t0 =",p3.B0.t0)
+cat("B1 =",p3.B1.est,"se(B1) =",p3.B1.se,"t0 =",p3.B1.t0)
+cat("B2 =",p3.B2.est,"se(B2) =",p3.B2.se,"t0 =",p3.B2.t0)
+
+##### code for confidence intervals
+x0 <- c(1,100,4)
+yhat=t(p3.coeffs)%*%x0
+print(yhat)
+se.yhat=sqrt(p3.ms.e*t(x0)%*%p3.C%*%x0)		#std.error for the mean response
+CI.l=yhat-qt(0.975,n-3)*se.yhat
+CI.u=yhat+qt(0.975,n-3)*se.yhat 	#the lower/upper limit for a 95% CI
+print(CI.l)
+print(CI.u)
+
+```
+
+
+
+We collect the results and summarize the results in the following table:
+
+            $\hat\beta_j$   $\se(\hat\beta_j)$ $t_0$           $F_0$
+-----       --------        --                 --              -----
+$\beta_0$   37.22727        1.598788           23.28469        69.21121
+$\beta_1$   -0.03177295     0.00902971         -3.518712
+$\beta_2$   -3.877831       0.6327335          -6.128695
+
+Table: Coefficient statistics

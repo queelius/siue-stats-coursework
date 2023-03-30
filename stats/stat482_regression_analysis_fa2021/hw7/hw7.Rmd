@@ -1,0 +1,194 @@
+---
+title: 'Regression Analysis - STAT 482 - Probem Set 7'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{multirow}
+ - \usepackage{booktabs}
+ - \usepackage{minted}
+ - \usepackage{color}
+ - \usepackage{xcolor}
+ - \usepackage{tcolorbox} 
+ - \usepackage{enumerate}
+output:
+  pdf_document:
+    toc: false
+    latex_engine: xelatex
+    df_print: kable
+  html_document:
+    df_print: paged
+---
+
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+The goal is to study the relationship between patient satisfaction ($y$) and
+patient's age ($x_1$), severity of illness ($x_2$), and anxiety level ($x_3$).
+Refer to the data from Exercise 6.15.
+
+\begin{tcolorbox}[split=\f]
+Problem 1
+\tcblower
+Compute $t$ statistics for testing the effect of each input variable.
+Explain what type of effect is being tested here.
+\end{tcolorbox}
+
+### Computations
+
+```{r}
+data = read.table('CH06PR15.txt')
+names(data) = c("y", "x1","x2","x3")
+add.mod = lm(y ~ x1 + x2 + x3, data=data)
+coef(summary(add.mod))
+```
+
+The $t$ statistics are given by
+\begin{align*}
+  t_1^* &= -5.315\\
+  t_2^* &= -0.898\\
+  t_3^* &= -1.897.
+\end{align*}
+
+### Explanation
+
+The statistic $t_\ell^*$ is testing the partial effect of input $x_\ell$,
+accounting for the effects of all other inputs.
+(Recall that in the additive model, $\beta_\ell$ represents the $\ell$-th input
+effect, with all other inputs held fixed.)
+
+\begin{tcolorbox}[split=\f]
+Problem 2
+\tcblower
+Compute the $F$ statistic for testing the multiple regression model against a no
+effects model.
+Explain what type of effect is being tested here.
+\end{tcolorbox}
+
+### Computation
+
+```{r}
+null.mod = lm(y ~ 1, data=data)
+anova(null.mod,add.mod)
+```
+
+We see that $F^* = 30.052$.
+
+### Explanation
+This is a test for the joint effect of $(x_1,x_2,x_3)$ on response $y$.
+
+\begin{tcolorbox}[split=\f]
+Probem 3
+\tcblower
+Compute the sequential sum of squares $\sos{R}(X_1)$, $\sos{R}(X_2|X_1)$, $\sos{R}(X_3|X_1,X_2)$.
+Explain what each sum of squares represents, stated in the context of the problem.
+\end{tcolorbox}
+
+### Computation
+
+```{r}
+anova(add.mod)
+```
+
+We see that
+\begin{align*}
+  \sos{R}(X_1)         &= 8275.389,\\
+  \sos{R}(X_2|X_1)     &= 480.915,\\
+  \sos{R}(X_3|X_1,X_2) &= 364.160.
+\end{align*}
+
+### Explanation
+
+$\sos{R}(X_1)$ measures the variation in response (satisfaction) explained by
+$X_1$ (age), not accounting for information on $X_2$ (severity of illness) and
+$X_3$ (anxiety level); $\sos{R}(X_2|X_1)$ measures the variation in satisfaction
+explained by $X_2$ beyond that explained by $X_1$ and not accounting for
+information in $X_3$; lastly, $\sos{R}(X_3|X_1,X_2)$ measures the variation in
+satisfaction explained by $X_3$ beyond that explained by $X_1$ and $X_2$.
+
+### Additional remarks
+Note that
+$$
+  \sos{R}(X_1,X_2,X_3) = \sos{R}(X_1) + \sos{R}(X_2|X_1) + \sos{R}(X_3|X_1,X_2)
+$$
+measures the variation in satisfaction explained by $X_1$, $X_2$, and $X_3$.
+The additive nature of $\sos{R}$ is reminiscent of Shannon information $\entropy$, where
+if $X_1,X_2,X_3$ are random variables, then
+$$
+  \entropy(X_1,X_2,X_3) = \entropy(X_1) + \entropy(X_2|X_1) + \entropy(X_3|X_1,X_2).
+$$
+If $X_1$, $X_2$, and $X_3$ are independent, then
+$\entropy(X_1,X_2,X_3) = \entropy(X_1) + \entropy(X_2) + \entropy(X_3)$.
+Likewise, if $X_1$, $X_2$, and $X_3$ explain independent aspects of the
+variation in the response, I speculate that $\sos{R}(X_1,X_2,X_3) = \sos{R}(X_1) + \sos{R}(X_2) + \sos{R}(X_3)$.
+Unlike joint probabilities or relative likelihoods, which are multiplicative,
+information (entropy) and $\sos{R}$ are additive.
+This additive property of information is desirable since, for instance, having $k$ times as
+large of an i.i.d sample for, say, estimating $\theta$, should convey $k$ times as
+much information about $\theta$ (i.e., less variance in an estimator of $\theta$
+based on the information in such a sample).
+
+That said, it is not clear to me how to fit $\sos{R}$ into this conceptual framework,
+if indeed it would even be prudent to do so.
+
+\begin{tcolorbox}[split=\f]
+Problem 4
+\tcblower
+Consider testing for the effect of anxiety level on patient satisfaction.
+
+\begin{enumerate}
+  \item[(a)] Test for an effect of $X_3$ against a model which only includes
+  $X_1$ (i.e., compute $F_{3|1}^*$ and its $p$-value).
+  \item[(b)] Test for an effect of $X_3$ against a model which includes both
+  $X_1$ and $X_2$ (i.e., compute $F_{3|1,2}^*$ and its $p$-value).
+  \item[(c)] Explain the different motivations for the above tests, stated in
+  the context of the problem.
+\end{enumerate}
+\end{tcolorbox}
+
+### Part (a)
+
+```{r}
+m1 = lm(y ~ x1, data=data)
+m13 = lm(y ~ x1+x3, data=data)
+anova(m1,m13)
+```
+
+We see that $F_{3|1}^* = 7.580 \; \text{($p$-value = $.009$)}$.
+When we already have $X_1$ in the model, adding $X_3$ would be
+an appropriate decision.
+
+### Part (b)
+
+```{r}
+m12 = lm(y ~ x1+x2, data=data)
+m123 = add.mod
+anova(m12,m123)
+```
+
+We see that $F_{3|1,2}^* = 3.600 \; \text{($p$-value = $.065$)}$.
+When we already include $X_1$ and $X_2$ in the model,
+the need for $X_3$ is not as great as before.
+
+### Part (c)
+
+In part (a), we are testing for the effect of anxiety level on patient
+satisfaction after accounting for the effect of patient age.
+
+In part (b), we are testing for the effect of anxiety level on patient
+satisfaction after accounting for both the effect of patient age and severity
+of illness.

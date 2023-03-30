@@ -1,0 +1,164 @@
+---
+title: "Regression Analysis - STAT 482 - Exam 1: Due December 2, 2021"
+author: "Alex Towell (atowell@siue.edu)"
+geometry: margin=1cm
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{mathtools}
+- \usepackage{amsthm}
+- \usepackage{color}
+- \usepackage{xcolor}
+- \usepackage{geometry}
+- \usepackage{enumerate}
+output:
+  pdf_document:
+    toc: no
+    latex_engine: xelatex
+    df_print: kable
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+```{=tex}
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\param}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\ci}{\operatorname{CI}}
+```
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+# Problem 1
+> Experience with a certain type of plastic indicates that a relationship exists
+> between the hardness (measured in Brinell units) of items molded from the
+> plastic (response variable $y$ ) and the elapsed time (measured in hours)
+> since the termination of the molding process (input variable $x$).
+> Sixteen batches of the plastic were made, and from each batch one test item
+> was molded. Each test item was randomly assigned to one of the four
+> predetermined time levels. The data is available on Blackboard as a csv file.
+
+\vspace{50pt}
+
+## (a)
+> State the simple linear regression model.
+
+\vspace{50pt}
+
+## (b)
+> Provide an interpretation for the regression parameter
+
+\vspace{50pt}
+
+## (c)
+> Compute an interval estimate for $\beta_1$, stated in the context of the
+> problem.
+
+\vspace{50pt}
+
+## (d)
+> Compute a confidence interval for $h$ at $x_h = 40$ hours.
+
+\vspace{50pt}
+
+## (e)
+> Compute a prediction interval for $Y_{h(\text{new})}$ at $x_h = 40$ hours.
+
+\vspace{50pt}
+
+## (f)
+> Explain the di¤erence between a confidence interval and a prediction interval,
+> stated in the context of the problem.
+
+\vspace{50pt}
+
+## (g)
+> State the equations for $E(\ms{R})$ and $\ms{E}$.
+
+\vspace{50pt}
+
+## (h)
+> Use part (g) to explain a motivation behind the F test for input effects.
+
+\vspace{50pt}
+
+## (i)
+> Compute the $F^*$ statistic and the $p$-value.
+> Provide an interpretation of the result, stated in the context of the problem.
+
+\vspace{50pt}
+
+## (j)
+> Compute the coefficient of determination $r^2$.
+> Provide an interpretation of the result, stated in the context of the problem.
+
+\vspace{50pt}
+
+## (k)
+> State the full model (saturated model) in testing for regression model fit.
+
+\vspace{50pt}
+
+## (l)
+> Compute $\sos{PE}$ and $\sos{LF}$ for testing the fit of the linear regression
+> model.
+
+\vspace{50pt}
+
+## (m)
+> Compute the $F_{LF}$ statistic and the $p$-value.
+> Provide an interpretation of the result, stated in the context of the problem.
+
+\vspace{50pt}
+
+## (n)
+> Create a plot comparing the fitted values from the regression model with the
+> fitted values from the saturated model.
+
+\vspace{50pt}
+
+## (o)
+> Explain an advantage of using the regression estimate $\hat{\mu}_{40}$ instead
+> of the sample mean $\bar{y}_{40}$ and explain when this advantage will lead to
+> a more accurate estimator.
+
+\vspace{50pt}
+
+# Problem 2
+> Measurements were made on men involved in a physical fitness course. The input
+> variables under consideration are age (in years), weight (in kgs), time to run
+> 1.5 miles (in minutes), heart rate while resting (in bpm), heart rate while
+> running, and maximum heart rate. The goal is to determine which input
+> variables are needed to model the oxygen uptake rate (ml/kg body weight per
+> minute). The data is available on Blackboard as a csv file.
+
+\vspace{50pt}
+
+## (a)
+> Describe the goal of the discrepancy function approach to model selection. How
+> is the best model defined? What are the two sources of model error?
+
+\vspace{50pt}
+
+## (b)
+> Plot the $C_p$ statistic against the model dimension. Plot the $C_p$ statistic
+> against the candidate models. Which variables are included in the selected
+> model?
+
+\vspace{50pt}
+
+## (c)
+> Test the selected model against its best competitor having fewer parameters.
+> (Compute the test statistic and the $p$-value.) How does discrepancy based
+> model selection compare to $p$-value based selection?

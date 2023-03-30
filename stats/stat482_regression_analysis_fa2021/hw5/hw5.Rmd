@@ -1,0 +1,331 @@
+---
+title: 'Regression Analysis - STAT 482 - HW #5'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{multirow}
+ - \usepackage{booktabs}
+ - \usepackage{minted}
+ - \usepackage{color}
+ - \usepackage{xcolor}
+ - \usepackage{tcolorbox} 
+output:
+  pdf_document:
+    toc: false
+    latex_engine: xelatex
+    df_print: kable
+  html_document:
+    df_print: paged
+---
+
+\newcommand{\sse}{\operatorname{SS_E}}
+\newcommand{\sspe}{\operatorname{SS_{PE}}}
+\newcommand{\sslf}{\operatorname{SS_{LF}}}
+\newcommand{\mspe}{\operatorname{MS_{PE}}}
+\newcommand{\mslf}{\operatorname{MS_{LF}}}
+\newcommand{\ssto}{\operatorname{SSTO}}
+\newcommand{\ssx}{\operatorname{SS_X}}
+\newcommand{\ssr}{\operatorname{SS_R}}
+\newcommand{\msr}{\operatorname{MS_R}}
+\newcommand{\mse}{\operatorname{MS_E}}
+\newcommand{\var}{\operatorname{V}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\dfe}{\operatorname{df_E}}
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+Refer to the data from Exercise 3.15
+
+A designed experiment is conducted to study the concentration of a solution
+($y$) over time ($x$) in hours.
+
+# Problem 1
+
+\begin{tcolorbox}[split=\f]
+Part (a)
+\tcblower
+Compute the estimated regression line.
+\end{tcolorbox}
+
+```{r}
+#setwd("/home/spinoza/filetopia/gdrive/alex/college/grad_math_classes/stat482_regression_analysis_fa2021/hw/hw5")
+
+data = read.table('CH03PR15.txt')
+names(data) = c("conc","hours")
+head(data)
+
+reg.mod = lm(conc ~ hours, data=data)
+reg.mod
+```
+
+Our estimate of the linear regression function is given by
+$$
+  \hat{Y} = 2.575 - 0.324 x.
+$$
+
+### Additional analysis
+
+A simple visual analysis shows that this first-order linear regression
+model is unable to capture the variability in the concentration with respect to
+hours.
+
+```{r}
+par(mfrow=c(1,2))
+plot(xlab="hour",ylab="concentration",data$hours,data$conc,col="blue",pch='*')
+lines(data$hours,reg.mod$fitted.values,col="red")
+legend(4,3,legend=c("data","regression"),col=c("blue","red"),pch=c('*','-'))
+
+plot(reg.mod$residuals,pch='*',xlab="hour",ylab="residual")
+```
+
+A plot of the regression function versus the data shows that it is biased.
+A plot of the residuals shows a clear pattern, suggesting that we could do 
+better with a more complex model that is able to capture the systemic
+variability in the data.
+
+\begin{tcolorbox}[split=\f]
+Part (b)
+\tcblower
+Compute a point estimate for $\mu_5$, the mean concentration for $x=5$ hours.
+\end{tcolorbox}
+
+```{r}
+u5.hat = predict(reg.mod, newdata=data.frame(hours=5))
+u5.hat
+```
+
+We see that $\hat{\mu}_5 = \hat{\expect}(Y|X=5) = `r u5.hat`$.
+We note that this estimate is not compatible with the datam, and thus we would
+not predict that the mean concentration of the solution at $5$ hours is
+`r u5.hat`.
+
+\begin{tcolorbox}[split=\f]
+Part (c)
+\tcblower
+Explain an advantage of using the regression estimate $\hat{\mu}_5$
+instead of the sample mean $\bar{y}_5$, and explain when this advantage will
+lead to a more accurate estimator.
+\end{tcolorbox}
+
+## Variance
+A measure of the precision of an estimator is give by its variance.
+A primary advantage of the linear regression estimator of the mean
+$$
+  \hat{\mu}_5 = b_0 + 5 b_1,
+$$
+compared to the saturated model estimator
+$$
+  \bar{y}_5 = \operatorname{avg}\left(\{y_i : x_i=5\}\right)
+$$
+is that $\hat{\mu}_5$ has smaller variance,
+$\var(\hat{\mu}_5) < \var(\bar{y}_5)$, i.e., it is a more precise estimator.
+
+### Information
+The variance of an estimator of $\expect(Y|X=5)$ decreases as the information we
+have about $\expect(Y|X=5)$ increases.
+One way in which the information increases is by increasing the sample size.
+In the case of $\hat{y}_5$, we are only using the information
+in the subset $\{(x_i,y_i) : x_i = 5\}$, but in the case of $\hat{\mu}_5$,
+we are using the information in the entire sample $\{(x_i,y_i)\}$.
+
+## Bias
+A measure of the accuracy of an estimator is its bias.
+If the linear regression model is an appropriate model for the data generating
+process, it will have a small bias. Moreover, if the true data generating
+process is given by
+$$
+  Y_i | x_i \overset{\text{indep}}{\sim} \mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)
+$$
+then the estimator of the mean response
+$$
+  \hat{\expect}(Y|x) = b_0 + b_1 x
+$$
+is the UMVU estimator for the mean response of the data generating process.
+
+### Additional commentary
+This is not strictly related to the question posed by this problem set but is
+rather for my own instruction.
+Feel free to ignore, but any feedback is quite welcome.
+
+This has to do with a distinction between estimating the data generating process
+and performing forecasts or predictions with appropriate confidence intervals.
+
+Assuming
+$$
+  Y_i|x_i \overset{\text{iid}}{\sim} \mathcal{N}(\beta_0+\beta_1 x_i, \sigma^2),
+$$
+the UMVU estimator of the data generating process $Y|x$ is given by
+$$
+  \widehat{Y|x} \sim \mathcal{N}(b_0 + b_1 x, \hat{\sigma}^2)
+$$
+where $\hat{\sigma}^2 = \mse$ and $(b_0,b_1)'$ is the least squares estimator
+of $(\beta_0,\beta_1)$.
+
+Observe that $\widehat{Y|x}$ has a sampling distribution since $b_0$, $b_1$,
+and $\hat{\sigma}^2$ are functions of the random sample
+$\{(x_i,Y_i) : i=1,\ldots,n\}$.
+Thus, if we wished to, say, perform an individual forecast of $Y|x$, confidence
+intervals must incorporate this sampling variance as described in a previous
+homework.
+However, the estimator $\widehat{Y|x}$ remains the most accurate and precise
+estimator for the conditional random variable $Y|x$.
+
+The prediction problem $Y_{h(\text{new})}|x_h$ and the estimator of the conditional
+distribution $Y|x$ answer different questions whose distinction, at first
+glance, may not even be recognized.
+Even now, I am still not convinced my analysis is correct.
+It seems a bit slippery. Tread carefully!
+
+# Problem 2
+
+\begin{tcolorbox}[split=\f]
+Part (a)
+\tcblower
+State the full model (saturated model) in testing for regression model fit.
+\end{tcolorbox}
+
+In the saturated model, the mean response is \emph{unconstrained}, but we
+require at least one of the inputs to have \emph{replications}.
+
+There are $c=5$ levels of the input variable, $x_1=1,x_2=3,x_3=5,x_4=7,x_5=9$,
+where the $i$-th input variable has $n_i=3$ replications for a total of
+$n=\sum_{i=1}^{c} n_i = 3(5) = 15$ observations.
+
+The saturated model is given by
+$$
+  Y_{i j} = \mu_i + \epsilon_{i j}
+$$
+where $\epsilon_{i j} \overset{\text{iid}}{\sim} \mathcal{N}(0,\sigma^2)$
+for $i=1,\ldots,5$ and $j=1,\ldots,3$.
+
+We may also write the reduced model, the linear regression model, as
+$$
+  Y_{i j} = \beta_0 + \beta_1 x_i + \epsilon_{i j}.
+$$
+
+
+\begin{tcolorbox}[split=\f]
+Part (b)
+\tcblower
+Compute $\sspe$ and $\sslf$ for testing the fit of the linear regression model.
+State the respective degrees of freedom.
+\end{tcolorbox}
+
+The sum of squared errors with respect to the full (saturated) model is given by
+$$
+  \sspe = \sse(F) = \sum_{i=1}^{c}\sum_{j=1}^{n_i} (Y_{i j} - \bar{Y}_i)^2
+$$
+which simplifies to
+$$
+  \sspe = \sum_{i=1}^{c} (n_i-1) s_i^2,
+$$
+where $\sspe$ is called the \emph{pure error some of squares},
+which has $\dfe(F) = \sum_{i=1}^{c} (n_i-1) = n-c = 15-5 = 10$
+degrees of freedom.
+
+The sum of squared errors with respect to the reduced (linear regression) model
+is given by
+$$
+  \sse(R) = \sum_{i=1}^{c}\sum_{j=1}^{n_i} (Y_{i j} - \hat{Y}_i)^2
+$$
+where $\hat{Y}_i = b_0 + b_1 x_i$.
+This is the sum of squares $\sse$ as previously defined, which has
+$\dfe(R) = n-2 = 15-2 = 13$ degrees of freedom.
+
+The sum of squares lack of fit is given by
+$$
+  \sslf = \sse(R) - \sse(F) = \sum_{i=1}^{c} n_i(\bar{Y}_i - \hat{Y}_i)^2,
+$$
+which has $\dfe(R) - \dfe(F) = (n-2) - (n-c) = c-2 = 3$ degrees of freedom.
+
+\begin{tcolorbox}[split=\f]
+Part (c)
+\tcblower
+Compute $F_{\operatorname{LF}}^*$ and the $p$-value.
+Provide an interpretation of your result.
+\end{tcolorbox}
+
+Intuitively, if $\sslf$ is small, the difference between the saturated model
+and the reduced model is small, which suggests that reduced model is a good fit.
+Since the reduced model, the linear regression model, uses more of the
+information in the sample, we prefer it over the saturated model for
+previously stated reasons.
+
+We formalize this intuition with the hypothesis test
+\begin{align*}
+  H_0 &: \expect(Y|x) = \beta_0 + \beta_1 x\\
+  H_A &: \expect(Y|x) \neq \beta_0 + \beta_1 x
+\end{align*}
+and the general linear test statistic
+\begin{align*}
+  F_{\text{LF}}^*
+    &= \frac{\sslf / (\dfe(R)-\dfe(F))}{\sspe/\dfe(F)}\\
+    &= \frac{\sslf / (c-2)}{\sspe/(n-c)}\\
+    &= \frac{\mslf}{\mspe},
+\end{align*}
+which under the null hypothesis is distributed as $F(c-2,n-c)$.
+The $p$-value of the test statistic is thus given by
+$$
+  \Pr\{F(c-2,n-c) \geq F_{\operatorname{LF}}^*\}.
+$$
+
+```{r}
+data$fact.hours = as.factor(data$hours)
+full.mod = lm(conc ~ fact.hours - 1, data=data)
+anova(reg.mod,full.mod)
+```
+
+We see that the ANOVA table provides all the necessary
+information.
+We represent the information in the more familiar form with the following table:
+\begin{table}[ht]
+\caption{Generalized linear test statistic (ANOVA)}
+\centering
+\begin{tabular}{|l|l|l||l|l|}
+\hline
+model                                                      & $\dfe$   & $\sse$   & loss fit            & \textbf{test statistic}\\
+\hline
+\hline
+(R) $Y_{i j} = \beta_0 + \beta_1 x_i + \epsilon_{i j}$ & $n-2=13$ & $2.9247$ & $\sslf = 2.7673$                    & $F_{\operatorname{LF}}^*=58.603$\\
+(F) $Y_{i j} = \mu_i + \epsilon_{i j}$                 & $n-c=10$ & $0.1573$ & $\dfe(\operatorname{LF}) = c-2 = 3$ & $p \approx .000$\\
+\hline
+\end{tabular}
+\end{table}
+
+We see that $F_{\operatorname{LF}}^*=58.603$ which has a $p$-value under the
+null hypothesis of $.000$.
+
+### Interpretation
+
+At a $p$-value $\approx .000$, the data is not compatible with the linear
+regression model given any reasonable significance level.
+We will need a more flexible model.
+
+\begin{tcolorbox}[split=\f]
+Part (d)
+\tcblower
+Create a plot comparing the fitted values from the regression model with the
+fitted values from the saturated model.
+\end{tcolorbox}
+
+```{r}
+plot(data$fact.hours,
+     full.mod$fitted.values,
+     type = "b",
+     ylab = "concentration",
+     xlab = "hours",
+     ylim = c(min(data$conc),max(data$conc)))
+
+abline(reg.mod$coefficients,col="red")
+points(data$fact.hours,data$conc,pch=16)
+```

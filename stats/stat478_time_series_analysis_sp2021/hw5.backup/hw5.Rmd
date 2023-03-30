@@ -1,0 +1,567 @@
+---
+title: 'Time Series Analysis - STAT 478 - HW #5'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  pdf_document:
+    df_print: kable
+    toc: true
+    toc_depth: 2
+    #latex_engine: pdflatex
+    latex_engine: xelatex
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+---
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\bm{#1}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\argmin}{\operatorname{arg\,min}}
+
+# Problem 1
+
+Consider the $\operatorname{MA}(2)$ process, where all the $\{e_t\}$ values are
+independent white noise with variance $\sigma^2$.
+$$
+   Y_t = e_t − 0.5 e_{t−1} − 0.3 e_{t−2}
+$$
+
+## Prelimary analysis
+
+In general, a $\operatorname{MA}(2)$ process has the form
+$$
+   Y_t = \mu + e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2}
+$$
+where $\{e_t\}$ is i.i.d. WN with mean $0$ and variance $\sigma^2$.
+
+We denote such a moving average process  by $\operatorname{MA}(2 ; \mu,\theta_1,\theta_2,\sigma)$
+which we model with the following R function:
+```{r}
+MA2 <- function(mu, theta1, theta2, sigma=1)
+{
+   return(function(N)
+   {
+      et <- rnorm(n=N+2,mean=0,sd=sigma)
+      yt <- mu +
+            et[1:N] -
+            theta1 * et[2:(N+1)] -
+            theta2 * et[3:(N+2)]
+      return(yt)
+   })
+}
+```
+This function takes three parameters, $\mu$, $\theta_1$, and $\theta_2$, and
+optionally a fourth parameter $\sigma$, and returns an anonymous function that
+accepts a single parameter, $n$, which specifies the number of points to generate
+from the process.
+
+Matching $e_t − 0.5 e_{t−1} − 0.3 e_{t−2}$ and
+$\mu + e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2}$
+term by term, we see that $\mu = 0$, $\theta_1 = 0.5$, and $\theta_2 = 0.3$,
+or in other words
+$$
+   \{Y_t\} \sim \operatorname{MA2}(\mu=0,\theta_1=0.5,\theta_2=0.3,\sigma).
+$$
+
+## Part (a)
+\fbox{Find $\expect(Y_t)$.}
+A moving average process of order $2$ with $\mu = 0$ has an expectation of zero.
+However, just this once, we will manually derive the characteristic.
+By the linearity of expectation,
+\begin{align}
+   \expect(Y_t)
+      &= \expect(e_t) - 0.5 \expect(e_{t-1}) - 0.3 \expect(e_{t-2)}\\
+      &= 0 - 0.5 (0) - 0.3 (0) = 0.
+\end{align}
+
+## Part (b)
+\fbox{Find $\cov(Y_t,Y_t) = \var(Y_t)$.}
+
+Since $\{Y_t\} \sim \operatorname{MA}(2 ; \mu=0, \theta=0.5, \theta_2 = 0.3, \sigma)$, the variance is given
+by
+$$
+   \var(Y_t) = \sigma^2(1 + \theta_1^2 + \theta_2^2) = \sigma^2(1 + 0.5^2 + 0.3^2) = 1.34 \sigma^2.
+$$
+
+However, we may manually derive it using the computational variance formula,
+\begin{align*}
+   \var(Y_t) &= \expect(Y_t^2) - \expect^2(Y_t)\\
+             &= \expect(e_t − 0.5 e_{t−1} − 0.3 e_{t−2})^2\\
+             &= \expect\!\left(e_t^2 − e_t e_{t−1} − \frac{3}{5} e_t e_{t−2} + \frac{1}{4} e_{t-1}^2 + \frac{3}{10} e_{t-1} e_{t-2} + \frac{9}{100} e_{t-2}^2\right)\\
+             &= \sigma^2 - 0 - \frac{3}{5} 0 + \frac{1}{4} \sigma^2 + \frac{3}{10} 0 + \frac{9}{100}\sigma^2\\
+             &= \sigma^2 \left(1 + \frac{1}{4} \frac{9}{100}\right)\\
+             &= 1.34 \sigma^2.
+\end{align*}
+
+## Part (c)
+\fbox{Find $\gamma_k = \cov(Y_t,Y_{t+k})$. and, from this, find the ACF, $\rho_k$.}
+
+Since $\{Y_t\} \sim \operatorname{MA}(2; \mu=0,\theta=0.5, \theta_2=0.3, \sigma)$, the covariance of $Y_t$ and $Y_{t+k}$
+is given by
+\begin{align}
+   \cov(Y_t,Y_{t+k}) =
+   \begin{cases}
+      \var(Y_t)                               & k = 0,\\
+      \sigma^2(-\theta_1 + \theta_1 \theta_2) & k = 1,\\
+      \sigma^2(-\theta_2)                     & k = 2,\\
+      0                                       & k > 2.
+   \end{cases}
+\end{align}
+
+We already derived the variance of $Y_t$ and, since $\theta_1 = 0.5$ and $\theta_2 = 0.3$,
+we may rewrite the above as
+\begin{align}
+   \gamma_k =
+   \begin{cases}
+      1.34 \sigma^2     & k = 0,\\
+      -0.35 \sigma^2    & k = 1,\\
+      -0.3 \sigma^2     & k = 2,\\
+      0                 & k > 2
+   \end{cases}
+\end{align}
+and since $\rho_k = \gamma_k / \gamma_0$,
+\begin{equation}
+   \rho_k =
+   \begin{cases}
+      1           & k = 0,\\
+      -0.261      & k = 1,\\
+      -0.224      & k = 2,\\
+      0           & k > 2.
+   \end{cases}
+\end{equation}
+
+## Part (d)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Generate time series datasets of length $n=200$ according to this
+$\operatorname{MA}(2)$ process.
+Plot the observed time series and the sample ACF and PACF.
+Do the plots agree with what you know to be true?
+\end{minipage}}
+
+In code, we model $\{Y_t\} \sim \operatorname{MA2}(\theta_1=0.5, \theta_2 = 0.3, \mu = 0)$
+with:
+```{r}
+Yt <- MA2(theta1=.5, theta2=.3, mu=0)
+```
+
+We sample $n=200$ values from $\{Y_t\}$ with
+```{r}
+y200 <- Yt(N=200)
+```
+
+We plot the realization of the time series with the following R code:
+```{r}
+plot(y200,type="l")
+points(y200)
+```
+
+The mean appears to be centered around $0$ with a constant variance, as expected.
+
+The sample ACF and PACF are given by:
+```{r}
+par(mfrow=c(1,2),oma=c(0,0,0,0))
+acf(y200)
+pacf(y200)
+```
+
+As expected, since $\{Y_t\}$ models $\operatorname{MA}(2)$, the sample ACF cuts
+off after lag $k=2$.
+The PACF is not as informative, other than suggesting that $\{Y_t\}$ is not
+a good fit for an autoregressive model.
+
+# Problem 2
+\fbox{\begin{minipage}{.9\textwidth}
+Consider the $\operatorname{AR}(1)$ process: $Y_t = \phi Y_{t−1} + e_t$, where all the $\{e_t\}$ values are independent white noise with variance $\sigma^2$.
+\end{minipage}}
+
+## Preliminary analysis
+
+In general, a $\operatorname{AR}(1)$ process is given by
+$$
+   Y_t = \Delta + \phi Y_{t-1} + e_t
+$$
+where $\{e_t\}$ is i.i.d. WN with mean $0$ and variance $\sigma^2$.
+
+We denote such an autoregressive process by $\operatorname{AR}(1 ; \phi, \Delta, \sigma)$,
+which we model with the following R function:
+```{r}
+AR1 <- function(phi, delta, sigma=1)
+{
+   return(function(N)
+   {
+      yt <- vector(length=N)
+      yt[1] <- 0 #rnorm(n=1,mean=0,sd=sigma)
+      for (i in 2:N)
+      {
+	      et <- rnorm(n=1,mean=0,sd=sigma)
+	      yt[i] <- delta+phi*yt[i-1]+et
+      }
+      return(yt)
+   })
+}
+```
+
+This function takes three parameters, $\phi$, $\Delta$, and $\sigma$, and
+returns an anonymous function that accepts a single parameter, $n$, which
+specifies the number of points to generate from the process.
+
+Observe that an autoregressive process $\operatorname{AR}(1; \phi, \Delta, \sigma^2)$
+has a mean $\mu = \Delta / (1-\phi)$ and variance $\sigma_{Y_t}^2 = \sigma^2 / (1-\phi^2)$.
+
+## Part (a)
+\fbox{Show that if $|\phi| = 1$, the process cannot be stationary.}
+
+To be stationary, the variance must be constant.
+The variance of $Y_t$ when $|\phi|=1$ is given by
+\begin{align*}
+   \var(Y_t)
+      &= \var(Y_{t−1}) + \sigma^2\\
+      &= \var(Y_{t−2}) + 2 \sigma^2\\
+      &\vdots\\
+      &= \var(Y_{t-(t-2)}) + (t-2) \sigma^2\\
+      &= \var(Y_{t-(t-1)}) + (t-1) \sigma^2\\
+      &= t \sigma^2.
+\end{align*}
+Thus, if $|\phi|=1$, $Y_t$ has a variance of $t \sigma^2$, which is a function
+of time and is thus non-stationary.
+
+## Part (b)
+\fbox{Take $\phi = −0.6$, calculate find the ACF, $\rho_k$.}
+
+For a time series that models $\operatorname{AR}(1)$, the autocorrelation
+function $\rho_k$ is given by $\phi^k$.
+Thus, since $\{Y_t\}$ models $\operatorname{AR}(1 ; \phi=-0.6, \Delta = 0, \sigma^2)$,
+$\{Y_t\}$ has the autocorrelation function
+$$
+   \rho_k = (-0.6)^k
+$$
+for $k = 0,1,2,\ldots$.
+
+## Part (c)
+\fbox{\begin{minipage}{.9\textwidth}
+Take $\phi = −0.6$.
+Generate time series datasets of length $n = 200$ according to the $\operatorname{AR}(1)$ process.
+Plot the observed time series and the sample ACF and PACF.
+Do the plots agree with what you know to be true?
+\end{minipage}}
+
+First, we know that $Y_t = \phi Y_{t−1} + e_t$.
+Matching this term by term to Matching $\Delta \phi Y_{t−1} + e_t$ shows that
+$\Delta = 0$ (and therefore $\expect(Y_t) = 0$).
+
+In code, we model $\{Y_t\} \sim \operatorname{AR1}(\phi=-0.6, \Delta = 0, \sigma=1)$
+with:
+```{r}
+Yt <- AR1(phi=-0.6, delta=0, sigma=1)
+```
+
+We sample $n=200$ values from $\{Y_t\}$ with:
+```{r}
+y200 <- Yt(N=200)
+```
+
+We plot the realization of the time series with the following R code:
+```{r}
+plot(y200,type="l")
+points(y200)
+```
+
+The mean appears to be centered around $0$ with a constant variance as expected.
+Also, since $\phi$ is negative, $Y_t$ and $Y_{t+1}$ are negatively correlated
+and thus exhibits jittery up and down movements as expected.
+
+The sample ACF and PACF are given by:
+```{r}
+par(mfrow=c(1,2),oma=c(0,0,0,0))
+acf(y200)
+pacf(y200)
+```
+
+The sample PACF cuts off (with a single outlier) after lag $1$, as expected of
+a $\operatorname{AR}(1)$ process.
+
+## Part (d)
+\fbox{\begin{minipage}{.8\textwidth}
+What happens when we increase the sample size? Repeat part (c) when $n = 1000$.
+Comment on your findings.
+\end{minipage}}
+
+We sample $n=1000$ values from $\{Y_t\}$ with
+```{r}
+y1000 <- Yt(N=1000)
+```
+
+We plot the realization of the time series with the following R code:
+```{r}
+plot(y1000,type="l")
+points(y1000)
+```
+
+The mean appears to be centered around $0$ with a constant variance,
+as expected.
+
+The sample ACF and PACF are given by:
+```{r}
+par(mfrow=c(1,2),oma=c(0,0,0,0))
+acf(y1000)
+pacf(y1000)
+```
+
+We see the same general pattern as before in each case, except due to the
+increased sample size the confidence intervals have narrowed.
+
+# Problem 3
+A data set of $57$ consecutive measurements from a machine tool are in the
+\emph{deere3} object in the TSA package.
+
+## Preliminary steps
+We load the requisite time series data with the following R code:
+```{r message=FALSE, warning=FALSE}
+library(TSA)
+data(deere3)
+```
+
+## Part (a)
+\fbox{\begin{minipage}{.8\textwidth}
+Plot the time series.
+What basic pattern do you see from the plot?
+Might a stationary model be appropriate for this plot?
+\end{minipage}}
+
+We plot the time series with the following R code:
+```{r}
+plot(deere3)
+```
+
+A stationary model may be appropriate since it fluctuates randomly around some
+central tendency and the fluctuates seem relatively constant (albeit quite
+large).
+
+## Part (b)
+\fbox{\begin{minipage}{.8\textwidth}
+Plot the sample ACF and PACF.
+Tentatively specify the type of model (AR, MA, or ARMA) as well as the order(s)
+of the model.
+Write up detailed notes that describe how you decided on the model.
+\end{minipage}}
+
+```{r}
+par(mfrow=c(1,2),oma=c(0,0,0,0))
+acf(deere3)
+pacf(deere3)
+```
+
+We seek a parsimonious model that sufficiently explains the data.
+Tentatively, we choose a $\operatorname{AR}(1)$ model.
+
+The sample ACF decays and the sample PACF drops off to values compatible with
+$0$ after lag $k=1$.
+Thus, the sample ACF and PACF are compatible with a $\operatorname{AR}(1)$ process.
+Due to its parsimony and compatibility with the data, we choose $\operatorname{AR}(1)$.
+
+## Part (c)
+\fbox{\begin{minipage}{.8\textwidth}
+Fit an $\operatorname{AR}(1)$ model using arima function in R and use it to
+forecast the next ten values of the series, and provides the forecasted values.
+\end{minipage}}
+
+We seek to fit the time series to a first-order autoregressive model of the form
+$$
+   Y_t = \delta + \phi Y_{t-1} + e_t
+$$
+where $e_t$ is white noise with mean $0$ and variance $\sigma^2$ and
+$\delta = \mu(1-\phi)$.
+
+We perform the fit using the following R code:
+```{r}
+ar1 <- arima(deere3,order=c(1,0,0)) # fit an AR(1) model
+ar1
+```
+
+We see that $\hat{\mu} = 124.3832$, $\hat{\phi} = 0.5255$,
+$\hat{\sigma}^2 = 2069355$, and $\hat{\delta} = \hat{\mu}(1-\hat{\phi}) = 59.2$.
+Thus, we estimate that
+$$
+   \hat{Y}_t = 59.02 + 0.5255 \hat{Y}_{t-1} + e_t.
+$$
+
+We perform a $10$-step ahead forecast with the following R code:
+```{r}
+predict(ar1,n.ahead=10)$pred
+```
+
+For small look-aheads, since nearby values in the time series are correlated,
+nearby previous values should have some measurable effect on the forecast.
+However, we expect that, as the look-ahead time for the forecast goes to infinity,
+the forecast converges to $\hat\mu = 124.3832$.
+
+## Additional experimentation
+For fun, we construct a generative autoregressive model of order $1$ with:
+```{r}
+Xt <- AR1(phi=0.5255, delta=59.0198284, sigma=sqrt(2069355))
+```
+
+If we sample a large number of points from this generative model and then
+fit a $\operatorname{AR}(1)$ model to it, we get estimates similiar to before:
+```{r}
+arima(Xt(N=1000),order=c(1,0,0))
+```
+
+# Problem 4
+A data set of durations until payment for $130$ consecutive orders from a
+Winegrad distributor are in the days object in the TSA package.
+
+## Preliminary steps
+We load the data with the following R code:
+```{r message=FALSE, warning=FALSE}
+library(TSA)
+data(days)
+```
+
+## Part (a)
+\fbox{\begin{minipage}{.8\textwidth}
+Plot the time series.
+What basic pattern do you see from the plot?
+Might a stationary model be appropriate for this plot?
+\end{minipage}}
+
+We plot the time series with the following R code:
+```{r}
+plot(days)
+```
+
+A stationary model may be appropriate since it fluctuates randomly around some
+central tendency and the fluctuates seem relatively constant (albeit quite
+large).
+
+## Part (b)
+\fbox{\begin{minipage}{.8\textwidth}
+Plot the sample ACF and PACF.
+Tentatively specify the type of model (AR, MA, or ARMA) as well as the order(s) of the model.
+Write up detailed notes that describe how you decided on the model.
+\end{minipage}}
+
+The sample ACF and PACF are given by:
+```{r}
+par(mfrow=c(1,2),oma=c(0,0,0,0))
+acf(days)
+pacf(days)
+```
+
+There does not seem to be much of a pattern to the data.
+The ACF and PACF suggest that the data is compatible with the hypothesis that
+the values in the time series are linearly uncorrelated.
+
+We choose a model that is a white noise process with a non-zero mean.
+We might think of this as a degenerate case of the ARMA model denoted by
+$\operatorname{ARMA}(0,0)$.
+
+### Model selection
+In what follows, we analyze model selection for this time series in more
+depth.
+Given a set of candidate models that may hopefully sufficiently explain
+the data, one strategy of model selection is to choose the model with the lowest
+Akaike information criterion (AIC) on the given data set.
+
+In particular, suppose the set of candidate models $M$ is given by
+$$
+   M = \left\{ \operatorname{ARMA}(p,q) \, \vert \, p \in P, q \in Q \right\}
+$$
+where $P$ and $Q$ are subsets of the natural numbers and we let the selected
+model $m^*$ be defined as
+$$
+   m^* = \argmin_{m \in M} \operatorname{AIC}(m).
+$$
+
+If $M$ is a relatively small set, we can simply perform a brute-force exhaustive
+search through.
+We let $P = \{0,1,2,3\}$ and $Q = \{0,1,2,3\}$ and thus $|M|=16$.
+We perform the exhaustive search with the following R code:
+```{r}
+P <- c(0,1,2,3)
+Q <- c(0,1,2,3)
+aics <- matrix(nrow=length(P)*length(Q),ncol=3)
+colnames(aics) <- c("AIC","p","q")
+i <- 1
+for (p in P)
+{
+   for (q in Q)
+   {
+      aics[i,1] <- arima(days,order=c(p,0,q))$aic
+      aics[i,2] <- p
+      aics[i,3] <- q
+      i <- i + 1
+   }
+}   
+aics <- aics[order(aics[,1],decreasing=FALSE),]
+aics
+cat("m* = ARIMA(",aics[1,2],",",aics[1,3],")\n")
+```
+
+We see that $m^* = \operatorname{ARMA}(1,2)$.
+However, the next best model according to AIC on $M$ is $\operatorname{ARMA}(0,0)$.
+The \emph{third} best model is $\operatorname{ARMA}(0,2)$, which is identical to $\operatorname{MA}(2)$.
+
+Given the simplicity of white noise (with a non-zero mean), as an ad hoc
+decision I remain inclined to accept $\operatorname{ARMA}(0,0)$ as the most
+likely model for the data.
+In other words, my \emph{prior} on $M$ more heavily weighs the simpler models
+with smaller $p$ and $q$ than simply choosing the minimum AIC on $M$.
+
+## Part (c)
+\fbox{\begin{minipage}{.8\textwidth}
+Fit an $\operatorname{MA}(2)$ model using arima function in R and use it to forecast the next ten values of the series, and list the forecasted values.
+\end{minipage}}
+
+We seek to fit the time series to a second-order moving average model of the
+form
+$$
+   Y_t = \mu + e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2}
+$$
+where $e_t$ is white noise with mean $0$ and variance $\sigma^2$.
+
+We perform the fit using the following R code:
+```{r}
+ma2 <- arima(days,order=c(0,0,2))
+ma2
+```
+
+We see that $\hat\mu = 28.6931$, $\hat\theta_1 = 0.1113$, and
+$\hat\theta_2 = 0.1557$.
+Thus, we estimate that
+$$
+   \hat{Y}_t = 28.6931 + e_t - 0.1113 e_{t-1} - 0.1557 e_{t-2}.
+$$
+
+We perform a $10$-step ahead forecast with the following R code:
+```{r}
+predict(ma2,n.ahead=10)$pred
+```
+We see that the first two forecasts are a function of the last two observations.
+After that, the forecast is $\hat\mu = 28.6931$, which is consistent with the
+assumption of a constant mean stationary process.
+
+## Additional experimentation
+For fun, we construct a generative moving average model of order $2$ with:
+```{r}
+Zt <- MA2(mu=28.6931,theta1=-0.1113,theta2=-0.1557,sigma=51.33)
+```
+
+If we sample a large number of points from this generative model and then
+fit a $\operatorname{MA}(2)$ model to it, we get estimates similiar to before:
+```{r}
+par(mfrow=c(1,2),oma=c(0,0,0,0))
+zt <- Zt(N=1000)
+acf(zt)
+pacf(zt)
+arima(zt,order=c(0,0,2))
+```

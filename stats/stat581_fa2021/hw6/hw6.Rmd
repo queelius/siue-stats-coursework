@@ -1,0 +1,396 @@
+---
+title: 'STAT 581 - Problem Set 6'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  #md_document:
+  #  variant: markdown_github
+  pdf_document:
+    df_print: kable
+    latex_engine: xelatex
+    #keep_tex: true
+    highlight: tango
+    #highlight: breezedark
+    #highlight: pygments
+    #highlight: zenburn
+    #highlight: haddock
+    #highlight: kate
+    #highlight: espresso
+fontsize: 11pt
+geometry: margin=.5in
+documentclass: article
+#documentclass: paper
+#documentclass: standalone
+#classoption: twocolumn
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+ - \usepackage{fbox}
+ - \usepackage{amsmath}
+ - \usepackage{hw4}
+---
+
+
+```{r echo=F}
+#knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80), tidy = TRUE)
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80))
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+# Problem 1
+
+A soft drink bottler is interested in studying the effects on a filling process.
+A factorial experiment is run using three factors: percent carbonation (in %),
+operating pressure (in psi), and line speed (in bpm).
+The response variable is deviation from the target fill height.
+The experiment consists of $n=2$ runs for each of the $a b c = 12$ treatment
+combinations.
+The data is available on Blackboard as an Excel File.
+
+## Preliminary analysis
+
+The three-factor factorial experiment with $a=3$ levels of the *carbonation*
+factor (in \%), denoted by $A$, $b=2$ levels of the operating *pressure* (in psi),
+denoted by $B$, and $c=2$ levels of the line *speed* (in bpm), denoted by $C$.
+Each treatment combination has $n=2$ replicates for a total of $N=a b c n=24$
+observations.
+The response variable $y$ is deviation from the target fill height.
+
+We describe the observations in the three-factor factorial experiment by the
+fixed-effects interaction model where treatments are defined to be deviations from the
+overall mean,
+$$
+  Y_{i j k \ell} = \mu + \tau_i + \beta_j + \gamma_k +
+                   (\tau\!\beta)_{i j} + (\tau\!\gamma)_{i k} +
+                   (\beta\!\gamma)_{j k} + (\tau\!\beta\gamma)_{i j k} +
+                   \epsilon_{i j k \ell}
+  \begin{cases}
+    i = 1,\ldots,a=3\\
+    j = 1,\ldots,b=2\\
+    k = 1,\ldots,c=2\\
+    \ell = 1,\ldots,n=2\\
+  \end{cases}
+$$
+where $\mu$ is the overall main effect, $\tau_i$ is the effect of the $i$-th
+level of factor $A$, $\beta_j$ is the effect of the $j$-th level of factor $B$,
+and $\gamma_k$ is the effect of the $k$-th level of factor $C$.
+The interaction effects may also be observed using the same labeling, e.g.,
+$(\tau\!\gamma)_{i k}$ is the interaction effect of the $i$-th level of factor
+$A$ and the $k$-th level of factor $C$.
+
+## (a)
+\fbox{\begin{minipage}{\textwidth}
+Perform tests for all main effects and for all interaction effects.
+State the $F$-statistic and $p$-value for each of the main effect tests, and for
+the test of an interaction between carbonation and pressure.
+\end{minipage}}
+
+```{r}
+library("readxl")
+h6.data = read_excel("handout6data.xlsx")
+
+A = as.factor(na.omit(h6.data$carbon))
+B = as.factor(na.omit(h6.data$pressure))
+C = as.factor(na.omit(h6.data$speed))
+y = na.omit(h6.data$deviation)
+
+contrasts(A) = contr.sum # we use these in the additional analysis section
+contrasts(B) = contr.sum # to make it easier to provide explicit estimates of
+contrasts(C) = contr.sum # the parameters
+
+x.mod = aov(y ~ A*B*C)
+summary(x.mod)
+```
+
+The tests for each of the main effects and a test of an interaction between
+carbon $(A$) and pressure $(B$) is given by the following table:
+
+| effects      | $F^*$   | $p$-value |
+|--------------|---------|-----------|
+| $A$          | $178.4$ | $.000$    |
+| $B$          | $64.1$  | $.000$    |
+| $C$          | $31.1$  | $.000$    |
+| $A \times B$ | $3.7$   | $.056$    |
+
+## (b)
+\fbox{\begin{minipage}{\textwidth}
+Explain how an interaction plot is used in studying an interaction effect.
+\end{minipage}}
+
+If an interaction plot is parallel, or nearly so, then there is no need
+to include the interaction term.
+
+In the $3$-factor ANOVA model, a $3$-factor interaction occurs when a $2$-factor
+interaction depends on the level of the $3$rd factor.
+
+## (c)
+\fbox{\begin{minipage}{\textwidth}
+Determine fitted values for the main effects model, as well as fitted values for
+the model including the carbonation / pressure interaction.
+Plot the fitted values for each model using an interaction plot.
+Comment on the decision of whether or not to include the interaction term.
+\end{minipage}}
+
+From the earlier results, we saw that factors $A$ (carbon), $B$ (pressure),
+and $C$ (speed) were statistically significant, but only the interaction between
+factor $A$ and $B$ (carbon and pressure) had any significance.
+
+### Additive model
+The additive model is given by
+$$
+  Y_{i j k \ell}^{(R)} = \mu + \tau_i + \beta_j + \gamma_k + \epsilon_{i j k \ell}.
+$$
+Thus,
+$$
+  E(Y_{i j k}^{(R)}) = \mu + \tau_i + \beta_j + \gamma_k.
+$$
+
+We fit the additive model with:
+```{r}
+mod.R = aov(y ~ A+B+C)
+```
+
+We define the estimated means for the models with:
+```{R}
+fits.R = predict(mod.R)
+```
+
+The interaction plots for the additive where the left and right plots are
+respectively for factor $C$ at levels $1$ and $2$.
+```{r}
+par(mfrow=c(1,2))
+for (i in 1:nlevels(C))
+{
+  interaction.plot(A[C==levels(C)[i]],B[C==levels(C)[i]],
+                   fits.R[C==levels(C)[i]],
+                   xlab="A",
+                   ylab="mean response",
+                   trace.label="B")
+}
+```
+
+### Interaction model
+The model that includes interactions between factors $A$ (carbon) and $B$
+(pressure) is given by
+$$
+  Y_{i j k \ell}^{(F)} = \mu + \tau_i + \beta_j + \gamma_k +
+                   (\tau\!\beta)_{i j} + \epsilon_{i j k \ell}.
+$$
+Thus,
+$$
+  E(Y_{i j k}^{(F)}) = \mu + \tau_i + \beta_j + \gamma_k + (\tau\!\beta)_{i j}.
+$$
+
+We fit the interaction model with:
+```{r}
+mod.F = aov(y ~ A+B+C+A:B)
+```
+
+We define the estimated means for the models with:
+```{R}
+fits.F = predict(mod.F)
+```
+
+The interaction plots for the interaction model  where the left and right plots
+are respectively for factor $C$ at levels $1$ and $2$.
+```{r}
+par(mfrow=c(1,2))
+for (i in 1:nlevels(C))
+{
+  interaction.plot(A[C==levels(C)[i]],B[C==levels(C)[i]],
+                   fits.F[C==levels(C)[i]],
+                   xlab="A",
+                   ylab="mean response",
+                   trace.label="B")
+}
+```
+
+### Decision
+The interaction model fits show only a slight difference difference from the
+additive model.
+As a general rule, we prefer simpler models to complex models, and so we decide
+to leave out the interaction term.
+
+## (d)
+\fbox{\begin{minipage}{\textwidth}
+Create box plots showing the main effects.
+Provide an overall conclusion, stated in the context of the problem.
+\end{minipage}}
+
+```{r}
+par(mfrow=c(1,3))
+plot(fits.R ~ A)
+plot(fits.R ~ B)
+plot(fits.R ~ C)
+```
+
+We see that each factor has a positive effect on fill height.
+The factor with the biggest marginal effect on fill height is the percent of
+carbonation (factor $A$).
+
+# Problem 2
+An engineer is interested in the effects of cutting speed, tool geometry, and
+cutting angle on the life (in hours) of a machine tool.
+Two levels of each factor are set, and $n=3$ runs of a $2^3$ design are
+completed.
+The data is available on Blackboard as an Excel File.
+
+## (a)
+\fbox{\begin{minipage}{\textwidth}
+Perform tests for all main effects and for all interaction effects.
+State the $F$-statistic and $p$-value for each test of an effect deemed to be
+important.
+\end{minipage}}
+
+```{r}
+data2 = read_excel("handout6data.xlsx")
+
+A = as.factor(na.omit(data2$spd))
+B = as.factor(na.omit(data2$geo))
+C = as.factor(na.omit(data2$angle))
+y = na.omit(h6.data$life)
+
+contrasts(A) = contr.sum
+contrasts(B) = contr.sum
+contrasts(C) = contr.sum
+
+saturated.mod = aov(y ~ A*B*C)
+summary(saturated.mod)
+```
+
+Factors $B$ and $C$ are important effects and the the interaction between $A$
+and $C$ is also important.
+Thus, $A$, $B$, $C$, and $A:C$ should be included in the model (we include $A$
+because of the importance of $A:C$).
+
+| effects | $F^*$    | $p$-value |
+|---------|----------|-----------|
+| $A$     | $.022$   | $.884$    |
+| $B$     | $25.547$ | $.000$    |
+| $C$     | $9.287$  | $.008$    |
+| $A:C$   | $15.519$ | $.001$    |
+
+## (b)
+\fbox{\begin{minipage}{\textwidth}
+Fit a reduced model with the main effects, and the statistically significant
+interaction effect.
+\end{minipage}}
+
+```{r}
+reduced.mod = aov(y ~ A+B+C+A:C)
+summary(reduced.mod)
+```
+
+### (i)
+\fbox{\begin{minipage}{\textwidth}
+Create a plot for the interaction effect.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+```{r}
+# define the estimated means for the reduced model for plotting (randomness has
+# been smoothed)
+fits.r = predict(reduced.mod)
+interaction.plot(A,C,fits.r,ylab="y")
+```
+
+#### Interpretation
+The experiment finds that when cutting speed (factor $A$) is low, cutting angle
+has a positive effect on the life of a machine tool (response).
+
+### (ii)
+\fbox{\begin{minipage}{\textwidth}
+Create a box plot showing the main effect for the remaining factor.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+```{r}
+plot(fits.r ~ B)
+```
+
+#### Interpetation
+Tool geometry (factor $B$) has a positive effect on the life of a machine tool.
+
+### (iii)
+\fbox{\begin{minipage}{\textwidth}
+Create a plot of the fitted values for the reduced model.
+Which setting of the factors should be used if the goal is to maximize tool
+life.
+Explain how this result follows from the interaction plot and the main effects
+plot.
+\end{minipage}}
+
+```{r}
+A.C = interaction(A,C)
+interaction.plot(B,A.C, fits.r)
+```
+
+#### Maximum setting
+In this characterization experiment, we find that the best combination of
+factor levels is given by a low cutting speed ($A^-$), a high tool geometry
+($B^+$), and a high cutting angle ($C^+$).
+
+#### Explanation
+First, we observe that $A^-$ and $C^+$ has the best interaction effect (its
+corresponding line is above all of the others).
+Second, we see that $B$ has a positive effect, i.e., as we go from $B^-$ to
+$B^+$, the response increases, and thus $B^+$ is better.
+Taking these two facts together, we see that the best combination in this
+experiment is $(A^-,B^+,C^+)$.
+
+We may also just look at the highest point on the graph and see that
+$(A^-,B^+,C^+)$ has the highest mean response.
+However, the interaction plot reveals more, particularly if in follow-up
+experiments where we use what we learned in this experiment to narrow down
+our search for an optimal combination (where optimality may be with respect to,
+say, mean response or minimal variability in the response).
+
+# Appendix
+## Problem 1: additional analysis of the additive model
+The model parameter estimates are given by:
+```{r}
+dummy.coef(mod.R)
+```
+
+Thus, the estimated mean response $\hat{Y}_{i j k}^{(R)}$ is given by
+\begin{align*}
+  \hat{Y}_{i j k}^{(R)} = 3.125
+    - &I(i=1) 3.625 - I(i=2) 6.25 + I(i=3) 4.250\\
+    - &I(j=1) 1.375 + I(j=2) 1.375\\
+    - &I(k=1) 9.58\bar{3} + I(k=2) 9.58\bar{3}.
+\end{align*}
+
+In R code, this may be brute-force implemented as:
+```{r}
+yhat.R = function(i,j,k)
+{
+  y = 3.125
+  if (i == 1) y = y - 3.625; if (i == 2) y = y - .625; if (i == 3) y = y + 4.25
+  if (j == 1) y = y - 1.375; if (j == 2) y = y + 1.375
+  if (k == 1) y = y - .95833333; if (k == 2) y = y + .95833333
+  y
+}
+```
+
+We print out all of the estimates of the mean response with:
+```{r}
+for (i in 1:3)
+  for (j in 1:2)
+    for (k in 1:2)
+      cat("Y(",c(i,j,k),") = ",yhat.R(i,j,k),"\n")
+```
+
+
+## Problem 1: plots of interactions that were deemed insignificant
+The data showed no statistically significant interaction effects between
+factors $A$ and $B$ and between factors $B$ and $C$.
+Thus, their interaction plots are, as expected, parallel:
+```{r}
+par(mfrow=c(1,2))
+interaction.plot(A,B,fits.r,ylab="y")
+interaction.plot(B,C,fits.r,ylab="y")
+```
+

@@ -1,0 +1,238 @@
+---
+title: "Regression Analysis - STAT 482 - Probem Set 10"
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{mathtools}
+- \usepackage{amsthm}
+- \usepackage{multirow}
+- \usepackage{booktabs}
+- \usepackage{minted}
+- \usepackage{color}
+- \usepackage{xcolor}
+- \usepackage{tcolorbox}
+- \usepackage{enumerate}
+output:
+  pdf_document:
+    toc: no
+    latex_engine: xelatex
+    df_print: kable
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+```{=tex}
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\param}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\ci}{\operatorname{CI}}
+```
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+> A company wishes to study the effects of three different types of promotions
+> on sales of its crackers.
+> For each store in the sample, the sales for the promotion period ($y$) and the
+> sales for the preceeding period ($x$) are observed.
+> The data is available from Table 22.1 on the course website.
+> Response variable $y$ is listed in the first column, continuous input $x$ is
+> listed in the second column, categorical input promotion type (1,2,3) is
+> listed in the third column.
+> The fourth column, the observation number, can be ignored.
+
+## Preliminary
+We load the data in R with:
+```{r}
+data = read.table('CH22TA01.txt')[,1:3]
+colnames(data) = c("sales","pre.sales","type")
+data$type = as.factor(data$type)
+head(data)
+```
+
+## Problem 1
+> Define indicator variables $I_1$ and $I_2$ using promotion type 3 as the
+> baseline level.
+
+We let
+$$
+  I_1 =
+  \begin{cases}
+    1, & \text{if} \;\param{type} = 1,\\
+    0, & \text{otherwise}
+  \end{cases}
+$$
+and
+$$
+  I_2 =
+  \begin{cases}
+    1, & \text{if} \;\param{type} = 2,\\
+    0, & \text{otherwise}.
+  \end{cases}
+$$
+
+We do this transformation in R with:
+```{r}
+contrasts(data$type) = contr.treatment(3,base=3)
+contrasts(data$type)
+```
+
+## Problem 2
+> Write an additive model for response $y$ using continuous input variable $x$ and
+> indicator variables $I_1$, $I_2$.
+
+The model of the mean $\param{sales}$ given $\param{pre-sales}$ and $\param{type}$
+is given by
+$$
+  E(\param{sales}) = \beta_0 + \beta_1 \param{pre-sales} + \beta_2 I_1 + \beta_3 I_2.
+$$
+
+### Comments
+The model of the data generating process given the predictors is given by
+$$
+  \param{sales}_i = \beta_0 + \beta_1 \param{pre-sales} + \beta_2 I_1 + \beta_3 I_2 + \epsilon_i,
+$$
+where $\epsilon_i$ is zero mean i.i.d. normal.
+
+## Problem 3
+> Write a regression function for each of the promotion types.
+
+$$
+  E(\param{sales}) = 
+  \begin{cases}
+    (\beta_0 + \beta_2) + \beta_1 \param{pre-sales} & \text{if} \;\param{type} = 1,\\
+    (\beta_0 + \beta_3) + \beta_1 \param{pre-sales} & \text{if} \;\param{type} = 2,\\
+    \beta_0 + \beta_1 \param{pre-sales}         & \text{if} \;\param{type} = 3.
+  \end{cases}
+$$
+
+## Problem 4
+> Define predictor effect parameters as partial differences in means.
+
+Letting $y$ denote $\param{sales}$, $x$ denote the continuous predictor
+$\param{pre-sales}$, and $t_j$ denote $\param{type}=j$.
+
+Then,
+\begin{align*}
+  \beta_1 &= \frac{\partial E(y)}{\partial x}\\
+  \beta_2 &= E(y|x,t_1) - E(y|x,t_3)\\
+  \beta_3 &= E(y|x,t_2) - E(y|x,t_3)\\
+  \beta_2-\beta_3 &= E(y|x,t_1) - E(y|x,t_2).
+\end{align*}
+
+## Problem 5
+> Provide an interpretation for each effect parameter, stated in the context of
+> the problem.
+
+$\beta_1$ is the difference in mean \param{sales} from a $1$ unit
+increase in \param{pre-sales}, with the \param{type} held constant.
+
+$\beta_2$ is the difference in mean \param{sales} between \param{type} $1$
+and \param{type} $3$, with \param{pre-sales} held constant.
+
+$\beta_3$ is the difference in mean \param{sales} between \param{type} $2$
+and \param{type} $3$, with \param{pre-sales} held constant.
+
+$\beta_2-\beta_3$ is the difference in mean \param{sales} between \param{type} $1$
+and \param{type} $2$, with \param{pre-sales} held constant.
+
+
+## Problem 6
+> Compute interval estimates for each of the effect parameters.
+
+To derive $\ci(\beta_2 - \beta_3)$, we replicate a bit of distribution theory.
+Let $a = (0\;0\;1\;-1)'$ and $b = (b_0\;b_1\;b_2\;b_3)$, then
+$$
+  a' b = b_2 - b_3,
+$$
+for which
+$$
+  E(a' b) = a' E(b) = (0\;0\;1\;-1) (\beta_0\;\beta_1\;\beta_2\;\beta_3)' = \beta_2 - \beta_3
+$$
+and
+$$
+  \var(a' b) = a' \cov(b) a = \sigma^2 a' (X'X)^{-1} a
+$$
+where
+$$
+  X =
+  \begin{Bmatrix}
+    1 & x_1 & I_{1 1} & I_{1 2}\\
+    1 & x_2 & I_{2 1} & I_{2 2}\\
+    \vdots & \vdots & \vdots\\
+    1 & x_n & I_{n 1} & I_{n 2}.
+  \end{Bmatrix}
+$$
+
+Note that we do not know $\sigma^2$, so we estimate it with $\ms{E}$.
+
+We compute the estimates of the coefficients in the additive model with:
+```{r}
+library(matlib)
+add.mod = lm(sales ~ pre.sales+type,data=data)
+
+b.hat = coef(add.mod)
+dfe = nrow(model.matrix(add.mod)) - ncol(model.matrix(add.mod))
+V = vcov(add.mod)
+a = c(0,0,1,-1)
+
+b.hat.12 = a %*% b.hat
+se.12 = sqrt(a %*% V %*% a)
+
+#t.stat.12 = b.hat.12 / se.12
+#p.value.12 = 2*(1-pt(abs(t.stat.12),dfe))
+#print(c(t.stat.12,p.value.12))
+
+b.hat.12.lower = b.hat.12 - qt(.975,dfe) * se.12
+b.hat.12.upper = b.hat.12 + qt(.975,dfe) * se.12
+
+print(c(b.hat.12.lower,b.hat.12.upper))
+confint(add.mod)
+```
+
+We see that
+\begin{align*}
+  \ci(\beta_1) = [.673,1.124],\\
+  \ci(\beta_2) = [10.323,15.630],\\
+  \ci(\beta_3) = [5.285,10.518],\\
+  \ci(\beta_2-\beta_3) = [2.370, 7.780].
+\end{align*}
+
+## Problem 7
+> Create a scatterplot of the data with the estimated regression lines.
+
+```{r}
+intercept.3 = b.hat[1]
+intercept.1 = b.hat[1]+b.hat[3]
+intercept.2 = b.hat[1]+b.hat[4]
+slope = b.hat[2]
+
+cat(slope, intercept.1, intercept.2, intercept.3)
+
+attach(data)
+plot(pre.sales[type == 1],
+     sales[type == 1],
+     xlab='pre-sales',
+     ylab='sales',
+     pch=1,
+     col='blue',
+     xlim=c(min(pre.sales),max(pre.sales)),
+     ylim=c(min(sales),max(sales)))
+points(pre.sales[type == 2], sales[type == 2], pch=2, col='red')
+points(pre.sales[type == 3], sales[type == 3], pch=15, col='green')
+
+abline(intercept.1,slope,col='blue')
+abline(intercept.2,slope,col='red')
+abline(intercept.3,slope,col='green')
+```

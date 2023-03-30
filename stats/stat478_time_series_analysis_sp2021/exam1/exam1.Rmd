@@ -1,0 +1,816 @@
+---
+title: 'Time Series Analysis - 478 - Exam 1'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{bm}
+output:
+  pdf_document:
+    df_print: kable
+    toc: true
+    toc_depth: 3
+  html_document:
+    df_print: paged
+---
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+<!-- \newcommand{\mat}[1]{\pmb{#1}}  -->
+\newcommand{\mat}[1]{\bm{#1}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+
+# Part 1
+
+## Problem 1.1
+
+Suppose that $\mat{Z} \coloneqq (Z_1,Z_2,Z_3)'$ is a random vector with a mean vector
+$\mat{\mu} = \expect(\mat{Z}) = (0,1,-1)'$ and a variance-covariance matrix
+$$
+   \mat{\Sigma} = \var(\mat{Z}) =
+   \begin{pmatrix}
+       1    & -0.5 & 0   \\
+       -0.5 & 2    & 1.5 \\
+       0    & 1.5  & 3   \\
+   \end{pmatrix}.
+$$
+
+<!-- \fbox{ -->
+<!-- \begin{minipage}{.9\textwidth} -->
+<!-- Note to Dr. Q: This problem set was strangely informative for me. -->
+<!-- I'm not entirely sure why, but having to work with the covariance matrix to do the subsequent calculations made the related ideas more concrete to me. -->
+<!-- Thank you! -->
+<!-- \end{minipage}} -->
+
+### Part (a)
+\fbox{Calculate $\expect(Z_1 - 3 Z_2 - 2 Z_3)$.}
+First, given a matrix $\mat{A}$, we denote the $(i,j)$-th element by $A_{i j}$.
+If $\mat{A}$ is a vector, we simplify this notation and denote the $i$-th element
+by $A_i$.
+
+The expectation of $Z_1 - 3 Z_2 - 2 Z_3$ is given by
+\begin{align*}
+      \expect(Z_1 - 3 Z_2 - 2 Z_3) &= \expect(Z_1) - \expect(3 Z_2) - \expect(2 Z_3)\\
+      &= \expect(Z_1) - 3 \expect(Z_2) - 2 \expect(Z_3)\\
+      &= \mu_1 - 3 \mu_2 - 2 \mu_3.
+\end{align*}
+
+It is given that $\mat{\mu} = (0,1,-1)$ and thus
+\begin{align*}
+   \expect(Z_1 - 3 Z_2 - 2 Z_3) &= 0 - 3(1) - 2(-1)\\
+      &= 0 - 3 + 2\\
+      &= -1.
+\end{align*}
+
+### Part (b)
+\fbox{Calculate $\var(2 Z_1 + Z_3)$.}
+
+We use the theorems
+$$
+   \var(X+Y) = \var(X) + \var(Y) + 2 \cov(X,Y),
+$$
+and
+$$
+   \cov(a X, b Y) = a b \cov(X,Y).
+$$
+The variance of $2 Z_1 + Z_3$ is given by
+\begin{align*}
+   \var(2 Z_1 + Z_3)
+      &= \var(2 Z_1) + \var(Z_3) + 2 \cov(2 Z_1,Z_3)\\
+      &= 2^2 \var(Z_1) + \var(Z_3) + 2 \left(2 \cov(Z_1,Z_3)\right)\\
+      &= 4 \Sigma_{1 1} + \Sigma_{3 3} + 4 \Sigma_{1 3}\\
+      &= 4(1) + (3) + 4(0)\\
+      &= 7.
+\end{align*}
+
+\fbox{
+\begin{minipage}{.9\textwidth}
+Note to Dr. Q: We observe that since $\Sigma_{1 3} = 0$, $Z_1$ and $Z_3$ are
+linearly uncorrelated.
+Thus, any function $\operatorname{g}(x,y)$ applied to $Z_1$ and $Z_3$ has
+approximate mean
+$$
+   \expect(\operatorname{g}(Z_1,Z_3)) \approx \operatorname{g}(\mu_1,\mu_2) + 
+      \eval{\frac{\partial^2 \operatorname{g}}{\partial x^2}}{\mu_1} \Sigma_{1 1} +
+      \eval{\frac{\partial^2 \operatorname{g}}{\partial y^2}}{\mu_3} \Sigma_{3 3}
+$$
+and approximate variance
+$$
+   \var(\operatorname{g}(Z_1,Z_3)) \approx
+      \left(\eval{\frac{\partial \operatorname{g}}{\partial x}}{\mu_1}\right)^2 \Sigma_{1 1} +
+      \left(\eval{\frac{\partial \operatorname{g}}{\partial y}}{\mu_3}\right)^2 \Sigma_{3 3},
+$$
+which are \emph{exact} if $\operatorname{g}$ is a linear function.
+\end{minipage}
+}
+
+### Part (c)
+\fbox{Calculate $\cov(3 Z_1 - Z_2, Z_2 + 2 Z_3)$.}
+
+We use the computational variance theorem $\cov(X,Y) = \expect(XY) - \expect(X)\expect(Y)$,
+which also means $\expect(XY) = \cov(X,Y) + \expect(X)\expect(Y)$.
+
+The covariance of $3 Z_1 - Z_2$ and $Z_2 + 2 Z_3$ is given by
+\begin{align*}
+   \cov(3 Z_1 - Z_2, Z_2 + 2 Z_3)
+      &= \expect\left[(3 Z_1 - Z_2)(Z_2 + 2 Z_3)\right] - \expect(3 Z_1 - Z_2)\expect(Z_2 + 2 Z_3)\\
+      &= \expect(3 Z_1 Z_2 + 6 Z_1 Z_3 - Z_2^2 - 2 Z_2 Z_3) - (3 \expect(Z_1) - \expect(Z_2))(\expect(Z_2) - 2 \expect(Z_3))\\
+      &= 3 \expect(Z_1 Z_2) + 6\expect(Z_1 Z_3) - \expect(Z_2^2) - 2 \expect(Z_2 Z_3) - (3 \mu_1 - \mu_2)(\mu_2 - 2 \mu_3).
+\end{align*}
+
+Since $\expect(Z_i Z_j) = \Sigma_{i j} + \mu_i \mu_j$, we may rewrite the above as
+$$
+\begin{split}
+   \cov(3 Z_1 - Z_2, Z_2 + 2 Z_3)
+      = 3 (\Sigma_{1 2} + \mu_1 \mu_2) & + 6(\Sigma_{1 3} + \mu_1 \mu_3) - (\Sigma_{2 2} + \mu_2^2) - 2 (\Sigma_{2 3} + \mu_2 \mu_3)\\
+      &- (3 \mu_1 - \mu_2)(\mu_2 - 2 \mu_3).
+\end{split}
+$$
+We are given the values of $\Sigma_{i j}$ and $\mu_i$ for $i,j \in \{1,2,3\}$.
+We may rewrite the above by making these substitutions,
+$$
+\begin{split}
+   \cov(3 Z_1 - Z_2, Z_2 + 2 Z_3)
+      = 3 (-0.5 + 0 \cdot 1) & + 6(0 + 0\cdot(-1)) - (2 + 1^2) - \\
+      &2 (1.5 + 1 (-1)) - (3 \cdot 0 - 1)(1 - 2 (-1)).
+\end{split}
+$$
+The final calculation results in
+$$
+   \cov(3 Z_1 - Z_2, Z_2 + 2 Z_3) = -3/2 - 3 - 1 + 3 = -3/2 - 2/2 = -5/2.
+$$
+
+
+
+## Problem 1.2
+
+Let $\{e_t\}$ be a normal white noise process with mean zero and variance $\sigma^2$.
+Consider the process $Y_t = e_t e_{t-1}$.
+
+### Part (a)
+\fbox{Calculate $\expect(Y_t)$ and $\var(Y_t)$.}
+
+The expectation of $Y_t$ is given by
+$$
+   \expect(Y_t) = \expect(e_t e_{t-1}).
+$$
+By independence, $\expect(Y_t)$ may be rewritten as
+$$
+   \expect(Y_t) = \expect(e_t) \expect(e_{t-1}) = 0.
+$$
+
+The variance of $Y_t$ is given by
+$$
+   \var(Y_t) = \expect(Y_t^2) - \expect^2(Y_t).
+$$
+We showed that $\expect(Y_t) = 0$, thus the variance of $Y_t$ may be rewritten as
+$$
+   \var(Y_t) = \expect((e_t e_{t-1})^2) = \expect(e_t^2 e_{t-1}^2).
+$$
+Since $e_t$ and $e_{t-1}$ are independent, $e_t^2$ and $e_{t-1}^2$ are independent, and
+thus the variance of $Y_t$ may be rewritten as
+$$
+   \var(Y_t) = \expect(e_t^2) \expect(e_{t-1}^2) = (\sigma^2 + 0)(\sigma^2 + 0) = \sigma^4.
+$$
+We observe that $\{Y_t\}$ has constant mean $0$ and constant variance $\sigma^4$.
+
+### Part (b)
+\fbox{Calculate the ACF (autocorrelation function).}
+
+The autocovariance of $Y_t$ and $Y_{t-\ell}$, $\ell \geq 0$, is given by
+$$
+   \cov(Y_t,Y_{t-\ell}) = \expect(Y_t Y_{t-\ell}) - \expect(Y_t) \expect(Y_{t-\ell}).
+$$
+We have already shown in part (a) that $\expect(Y_k) = 0$ for any $k$, thus
+$$
+   \cov(Y_t,Y_{t-\ell}) = \expect(Y_t Y_{t-\ell}).
+$$
+Substituting the definition of $Y_t$ and $Y_{t-\ell}$ into the above covariance gives
+$$
+   \cov(Y_t,Y_{t-\ell}) = \expect(e_t e_{t-1} e_{t-\ell} e_{t - \ell - 1}).
+$$
+We perform a case analysis to derive the autocovariance for different values of $\ell$.
+
+If $\ell=0$, then $\cov(Y_t,Y_t) = \var(Y_t) = \sigma^4$.
+
+If $\ell=1$, then $\cov(Y_t,Y_{t-1}) = \expect(e_t e_{t-1} e_{t-1} e_{t-2})$.
+Let $W \coloneqq e_{t-1}^2$, in which case $\cov(Y_t,Y_{t-1}) = \expect(e_t W e_{t-2})$.
+Since these are independent random variables,
+$$
+   \cov(Y_t,Y_{t-1}) = \expect(e_t) \expect(W) \expect(e_{t-2}) = 0 \cdot \expect(W) \cdot 0 = 0.
+$$
+
+If $\ell=2$, then
+$$
+   \cov(Y_t,Y_{t-2}) = \expect(e_t e_{t-1} e_{t-2} e_{t-3}).
+$$
+Since these are independent random variables,
+$$
+   \cov(Y_t,Y_{t-1}) = \expect(e_t) \expect(e_{t-1}) \expect(e_{t-2}) \expect(e_{t-3}) = 0.
+$$
+Any $\ell \geq 2$ resutls in two elements of $\{Y_t\}$ that have no random noise elements in common and thus also have a covariance of zero.
+
+Since the autocovariance function is symmetric about $t$, $\cov(Y_t,Y_{t+\ell}) = \cov(Y_t,Y_{t-\ell})$, and
+thus we see that the autocovariance function is strictly a function of the lag $\ell$.
+
+We reparameterize the autocovariance function $\gamma$ with respect to $\ell$,
+$$
+   \gamma_\ell =
+   \begin{cases}
+      \sigma^4    & \ell = 0\\
+      0           & \ell \neq 0.
+   \end{cases}
+$$
+The autocorrelation function ls$\rho_\ell$ is defined as $\gamma_\ell / \gamma_0$, thus
+$$
+   \rho_\ell =
+   \begin{cases}
+      1    & \ell = 0\\
+      0    & \ell \neq 0.
+   \end{cases}
+$$
+
+### Part (c)
+
+\fbox{Is the process weakly stationary? Why?}
+
+The process is weakly stationary. It is weakly stationary because its mean is a constant $0$, its variance is a constant $\sigma^4$, and its autocorrelation function is strictly a function of lag $\ell$.
+
+
+## Problem 1.3
+\fbox{
+\begin{minipage}{.9\textwidth}
+Suppose that we have fit the straight-line regression without intercept $\hat y = \hat\beta_1 x_1$.
+However, the response $y$ is in fact affected by a second variable $x_2$.
+So the true regression function is
+$$
+   y = \beta_1 x_1 + \beta_2 x_2 + \epsilon.
+$$
+Assume $\epsilon$’s are i.i.d. with mean $0$ and variance $\sigma^2$.
+Calculate the bias of $\hat\beta_1$ in the original simple linear regression,
+i.e. calculate $\expect(\hat\beta_1-\beta_1)$.
+\end{minipage}}
+
+First, we find an estimator $\hat\beta_1$ given a random sample $\{Y_i\}$ generated from
+the model
+$$
+   Y_i = \beta_1 x_{i 1} + \beta_2 x_{i 2} + \epsilon_i,
+$$
+except we incorrectly or approximately assume $Y_i = \beta_1 x_{i 1} + \epsilon_i$.
+The true statistical error of the $i$-th random variable $Y_i$ is given by
+$$
+   \epsilon_i = Y_i - \beta_1 x_{i 1} - \beta_2 x_{i 2}
+$$
+and we are interested in minimizing the sum of the squares of the statistical errors
+$$
+   \operatorname{L} = \sum_{i=1}^{n} \epsilon_i^2.
+$$
+We (incorrectly or approximately) assume $\epsilon_i = Y_i - \beta_1 x_{i 1}$ and parameterize
+$\operatorname{L}$ with respect to $\beta_1$, resulting in the function
+$$
+   \operatorname{L}(\beta_1) = \sum_{i=1}^n (Y_i - \beta_1 x_{i 1})^2.
+$$
+We obtain an estimator for $\beta_1$ by solving for $\hat{\beta_1}$ in
+$$
+   \eval{\frac{\partial \operatorname{L}}{\partial \beta_1}}{\hat{\beta_1}}= 0.
+$$
+Thus,
+\begin{align*}
+         -2 \sum_i (Y_i - \hat\beta_1 x_{i 1}) x_{i 1} &= 0\\
+         \sum_i \left(Y_i x_{i 1} - \hat\beta_1 x_{i 1}^2 \right) &= 0\\
+         \hat\beta_1 \sum_i x_{i 1}^2  &= \sum_i Y_i x_{i 1}
+\end{align*}
+which finally simplifies to
+$$
+   \hat\beta_1 = \frac{\sum_{i=1}^n Y_i x_{i 1}}{\sum_{i=1}^n x_{i 1}^2}
+$$
+
+We are interested in the bais of $\hat\beta_1$, denoted by
+$$
+   \operatorname{b}(\hat\beta_1) \coloneqq \expect(\hat\beta_1 - \beta_1).
+$$
+By the linearity of expectation, the bias may be rewritten as
+$$
+   \operatorname{b}(\hat\beta_1) = \expect(\hat\beta_1) - \beta_1.
+$$
+The expectation of $\hat\beta_1$ is given by
+\begin{align*}
+   \expect(\hat\beta_1)
+      &= \expect\left(\frac{\sum_i Y_i x_{i 1}}{\sum_i x_{i 1}^2}\right)\\
+      &= \frac{\expect\left(\sum_i Y_i x_{i 1}\right)}{\sum_i x_{i 1}^2}\\
+      &= \frac{\sum_i \expect(Y_i x_{i 1})}{\sum_i x_{i 1}^2}\\
+      &= \frac{\sum_i x_{i 1} \expect(Y_i) }{\sum_i x_{i 1}^2}.
+\end{align*}
+The true model of $\{Y_i\}$ is given by $Y_i = \beta_1 x_{i 1} + \beta_2 x_{i 2} + \epsilon_i$,
+so
+\begin{align*}
+   \expect(\hat\beta_1)
+      &= \frac{\sum_i x_{i 1} \expect(\beta_1 x_{i 1} + \beta_2 x_{i 2} + \epsilon_i)}{\sum_i x_{i 1}^2}\\
+      &= \frac{\sum_i x_{i 1} (\beta_1 x_{i 1} + \beta_2 x_{i 2})}{\sum_i x_{i 1}^2}\\
+      &= \frac{\sum_i \beta_1 x_{i 1}^2 + \beta_2 x_{i 1} x_{i 2}}{\sum_i x_{i 1}^2}\\
+      &= \frac{\sum_i \beta_1 x_{i 1}^2}{\sum_i x_{i 1}^2} + \frac{\sum_i \beta_2 x_{i 1} x_{i 2}}{\sum_i x_{i 1}^2}\\
+      &= \beta_1 \frac{\sum_i x_{i 1}^2}{\sum_i x_{i 1}^2} + \beta_2 \frac{\sum_i x_{i 1} x_{i 2}}{\sum_i x_{i 1}^2}\\
+      &= \beta_1 + \beta_2 \frac{\sum_i x_{i 1} x_{i 2}}{\sum_i x_{i 1}^2}
+\end{align*}
+The bias is defined as $\operatorname{b}(\hat\beta_1) = \expect(\hat\beta_1) - \beta_1$, thus
+$$
+   \operatorname{b}(\hat\beta_1) = \beta_2 \frac{\sum_{i=1}^n x_{i 1} x_{i 2}}{\sum_{i=1}^n x_{i 1}^2}.
+$$
+
+<!-- It may look more pleasing when we use matrix notation, -->
+<!-- $$ -->
+<!--    \operatorname{b}(\hat\beta_1) = \beta_2 \frac{\mat{x_1}' \mat{x_2}}{\mat{x_1}' \mat{x_1}}. -->
+<!-- $$ -->
+
+
+The bias of $\hat\beta_1$ is a function of the observed values $\{x_{i 1}\}$
+and $\{x_{i 2}\}$ and the magnitude of $\beta_2$.
+
+## Problem 1.4
+
+Consider the simple linear regression model $y = \beta_0 + \beta_1 x + \epsilon$,
+where $\beta_0$ is known. $\epsilon$’s are i.i.d. with mean $0$ and variance $\sigma^2$.
+
+### Part (a)
+\fbox{Find the least square estimator of $\beta_1$ in this model.}
+
+Since $\beta_0$ is known, we only need to find an estimator for $\beta_1$.
+The least-squares estimator of $\beta_1$ is defined as
+
+$$
+   \hat\beta_1 = {\mathop{\mathrm{argmin}}\limits}_{\beta_1} \operatorname{L}(\beta_1 | \beta_0)
+$$
+where $\operatorname{L}(\beta_1 | \beta_0) = \sum_{i=1}^n \left(Y_i - \beta_0 - \beta_1 x_i\right)^2$.
+We obtain the estimator by solving for $\hat\beta_1$ in
+$$
+   \eval{\frac{\partial \operatorname{L}}{\partial \beta_1}}{\hat\beta_1} = 0.
+$$
+
+Thus,
+\begin{align*}
+         -2 \sum_{i=1}^n (Y_i - \beta_0 - \hat\beta_1 x_i)x_i &= 0\\
+         \sum_{i=1}^n \left(x_i Y_i - \beta_0 x_i - \hat\beta_1 x_i^2\right) &= 0\\
+         \sum_{i=1}^n x_i Y_i - \beta_0 \sum_{i=1}^n x_i - \hat\beta_1 \sum_{i=1}^n x_i^2 &= 0\\
+         \hat\beta_1 \sum_{i=1}^n x_i^2  &= \sum_{i=1}^n x_i Y_i - \beta_0 \sum_{i=1}^n x_i,
+\end{align*}
+which finally simplifies to
+$$
+   \hat\beta_1 = \frac{\sum_{i=1}^n x_i Y_i - \beta_0 \sum_{i=1}^n x_i}{\sum_{i=1}^n x_i^2}.
+$$
+
+Of course, when $\{Y_i\} = \{y_i\}$, $\hat{\beta_1}$ realizes the particular vlaue
+$$
+   \hat\beta_1 = \frac{\sum_{i=1}^n x_i y_i - \beta_0 \sum_{i=1}^n x_i}{\sum_{i=1}^n x_i^2}.
+$$
+
+The expectation of $\hat\beta_1$ is given by
+\begin{align*}
+   \expect(\hat\beta_1)
+      &= \expect{\frac{\sum_i x_i Y_i - \beta_0 \sum_i x_i}{\sum_i x_i^2}}\\
+      &= \left(\sum_i x_i^2\right)^{-1}\expect\left(\sum_i x_i Y_i - \beta_0 \sum_i x_i\right)\\
+      &= \left(\sum_i x_i^2\right)^{-1}\left(\sum_i x_i \expect(\beta_0 + \beta_1 x_i + \epsilon_i) - \beta_0 \sum_i x_i\right)\\
+      &= \left(\sum_i x_i^2\right)^{-1}\left(\beta_0 \sum_i x_i + \beta_1 \sum_i x_i^2 - \beta_0 \sum_i x_i\right)\\
+      &= \beta_1 \left(\sum_i x_i^2\right)^{-1}\left(\sum_i x_i^2\right)\\
+      &= \beta_1,
+\end{align*}
+which shows that it is unbiased (as expected).
+
+### Part (b)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Construct a $100(1-\alpha)\%$ confidence interval for $\beta_1$.
+Compare the interval with the one when $\beta_0$ is also unknown.
+Is it narrower?
+\end{minipage}
+}
+
+To construct the confidence interval, we must find the standard deviation of $\hat\beta_1$.
+The variance is given by
+\begin{align*}
+   \var(\hat\beta_1) &= \var\left(\frac{\sum_{i=1}^n x_i Y_i - \beta_0 \sum_{i=1}^n x_i}{\sum_{i=1}^n x_i^2}\right)\\
+   &= \left(
+         \sum_{i=1}^n x_i^2
+      \right)^{-2}
+      \var\left(
+         \sum_{i=1}^n x_i Y_i - \beta_0 \sum_{i=1}^n x_i
+      \right)
+\end{align*}
+
+Since $\beta_0$ and $x_i$ for $i=1,\ldots,n$ are constants, the above simplies to
+
+\begin{align*}
+   \var(\hat\beta_1)
+      &= \left(\sum_{i=1}^n x_i^2\right)^{-2}
+         \var\left(\sum_{i=1}^n x_i Y_i\right)\\
+      &= \left(\sum_{i=1}^n x_i^2\right)^{-2}
+         \sum_{i=1}^n \var(x_i Y_i)\\
+      &= \left(\sum_{i=1}^n x_i^2\right)^{-2}
+         \sum_{i=1}^n x_i^2 \var(Y_i)\\
+      &= \left(\sum_{i=1}^n x_i^2\right)^{-2}
+         \sum_{i=1}^n x_i^2 \var(\beta_0 + \beta_1 x_i + \epsilon_i)\\
+      &= \left(\sum_{i=1}^n x_i^2\right)^{-2}
+         \sum_{i=1}^n x_i^2 \var(\epsilon_i)\\
+      &= \left(\sum_{i=1}^n x_i^2\right)^{-2}
+         \sum_{i=1}^n x_i^2 \sigma^2\\
+      &= \sigma^2 \left(\sum_{i=1}^n x_i^2\right)^{-2}
+         \sum_{i=1}^n x_i^2
+\end{align*}
+which finally yields the result
+$$
+   \var(\hat\beta_1) = \frac{\sigma^2}{\sum_{i=1}^n x_i^2}.
+$$
+The standard error is therefore
+$$
+   \se(\hat\beta_1) = \frac{\sigma}{\sqrt{\sum_{i=1}^n x_i^2}}.
+$$
+
+Since $\hat\beta_1$ is a linear combination of standard normal deviates, $\hat\beta_1$ is normally
+distributed with a mean $\beta_1$ and a variance $\var(\hat\beta_1)$.
+Thus, a $100(1-\alpha)\%$ confidence interval for $\beta_1$ is
+$$
+   \beta_1 \in \left[\hat\beta_1 - z_{\alpha/2} \se(\hat\beta_1),\hat\beta_1 + z_{\alpha/2} \se(\hat\beta_1)\right]
+$$
+or, substituting the expression for the standard deviation,
+$$
+   \beta_1 \in \left[\hat\beta_1 - \frac{z_{\alpha/2} \sigma}{\sqrt{\sum_i x_i^2}}, \hat\beta_1 + \frac{z_{\alpha/2} \sigma}{\sqrt{\sum_i x_i^2}}\right].
+$$
+
+
+To compare this estimator with the estimator for unknown
+$\mat\beta = (\beta_0, \beta_1)$, we choose to use the matrix equations for this part
+as a demonstration of a simpler alternative approach.
+The unbiased least-squares estimator of $\mat\beta$ is given by
+$$
+   \hat{\mat{\beta}}_f = (\mat X' \mat X)^{-1} \mat X' \mat{Y}.
+$$
+where
+$$
+   \mat X =
+   \begin{pmatrix}
+      1 & x_1\\
+      1 & x_2\\
+      \vdots & \vdots\\
+      1 & x_n\\
+   \end{pmatrix}
+$$
+and 
+$$
+   \mat Y =
+   \begin{pmatrix}
+      Y_1\\
+      \vdots\\
+      Y_n\\
+   \end{pmatrix}.
+$$ 
+Performing the matrix calculations, we see that
+$$
+   \left(\mat X' \mat X\right) =\
+   \begin{pmatrix}
+      n                 &     \sum_i x_i\\
+      \sum_i x_i        &     \sum_i x_i^2
+   \end{pmatrix}
+$$
+and
+$$
+   \left(\mat X' \mat X\right)^{-1} =\
+   \frac{1}{n \sum_i x_i^2 - \left(\sum_i x_i\right)^2}
+   \begin{pmatrix}
+      \sum_i x_i^2      &     -\sum_i x_i\\
+      -\sum_i x_i        &     n
+   \end{pmatrix}
+$$
+The variance-covariance matrix of $\hat\beta_f$ is therefore
+$$
+   \mat{\Sigma} = \var(\hat\beta_f) = \sigma^2 \left(\mat X' \mat X\right)^{-1}
+$$
+and therefore the variance of $\hat\beta_{1,f}$ is given by
+\begin{align*}
+   \var(\hat\beta_{1,f})
+      &= \sigma^2 \Sigma_{2 2}\\
+      &= \frac{n \sigma^2}{n \sum_i x_i^2 - \left(\sum_i x_i\right)^2}\\
+      &= \frac{\sigma^2}{\sum_i x_i^2 - \frac{1}{n}\left(\sum_i x_i\right)^2}\\
+\end{align*}
+
+Recall that $\var(\hat\beta_1) = \frac{\sigma^2}{\sum_i x_i^2}$.
+The ratio of $\var(\hat\beta_1)$ to $\var(\hat\beta_{1,f})$ is therefore
+\begin{align*}
+   w  &= \frac{\sum_i x_i^2 - \frac{1}{n}\left(\sum_i x_i\right)^2}{\sum_i x_i^2}\\
+      &= 1 - \frac{\left(\sum_i x_i\right)^2}{\sum_i x_i^2}\\
+      &= 1 - \frac{n \bar{x}^2}{\overline{x^2}},
+\end{align*}
+which implies $0 < w < 1$, i.e., $\var(\hat\beta_{1,f})$ is larger than $\var(\hat\beta_1)$.
+In particular, since $w = \frac{\var(\hat\beta_1)}{\var(\hat\beta_{1,f})}$,
+$$
+   \sigma_{\hat\beta_1} = \sqrt{w} \sigma_{\hat\beta_{1,f}}
+$$
+and thus we may conclude that the confidence interval
+for $\hat\beta_1$ is a factor $\sqrt{w}$ as wide as the confidence interval
+for $\hat\beta_{1,f}$, where $\sqrt{w} < 1$.
+
+It was immediately obvious that knowing the value of $\beta_0$ should reduce
+the uncertainty of $\beta_1$ given a sample, but I thought this proof was
+fairly interesting.
+
+Finally, to answer the question, since a larger variance yields a larger
+confidence interval, the confidence interval for $\hat\beta_1$ is narrower than
+the confidence interval for $\hat\beta_{1,f}$.
+
+<!-- The normal equations when both $\beta_0$ and $\beta_1$ are unknown are given by -->
+<!-- $$ -->
+<!--    \hat\beta_{0,\text{full}} = \bar{Y} - \hat\beta_{1,\text{full}} \bar{x} -->
+<!-- $$ -->
+<!-- and -->
+<!-- $$ -->
+<!--    \hat\beta_{1,\text{full}} = \frac{\sum x_i Y_i}{\sum x_i^2} - \hat\beta_{0,\text{full}} \frac{\sum x_i}{\sum x_i^2}. -->
+<!-- $$ -->
+
+<!-- The variance of $\hat\beta_{1,\text{full}}$ is given by -->
+<!-- \begin{align*} -->
+<!--    \var(\hat\beta_{1,\text{full}}) -->
+<!--       &= \var\left(\frac{\sum x_i Y_i}{\sum x_i^2} - \hat\beta_{0,\text{full}} \frac{\sum x_i}{\sum x_i^2}\right)\\ -->
+<!--       &= \var\left(\frac{\sum x_i Y_i}{\sum x_i^2}\right) + \var\left(\hat\beta_{0,\text{full}} \frac{\sum x_i}{\sum x_i^2}\right)\\ -->
+<!--       &= \left(\sum_i x_i^2\right)^{-2} \var\left(\sum_i x_i Y_i\right) + \left(\frac{\sum_i x_i}{\sum x_i^2}\right)^2 \var(\hat\beta_{0,\text{full}}) -->
+<!-- \end{align*} -->
+
+
+<!-- The variance of $\hat\beta_{1,\text{full}}$ is given by -->
+<!-- \begin{align*} -->
+<!--    \var(\hat\beta_{1,\text{full}}) &= \var\left(\frac{\sum_{i=1}^n x_i Y_i - \hat\beta_{0,\text{full}} \sum_{i=1}^n x_i}{\sum_{i=1}^n x_i^2}\right)\\ -->
+<!--    &= \left( -->
+<!--          \sum_{i=1}^n x_i^2 -->
+<!--       \right)^{-2} -->
+<!--       \var\left( -->
+<!--          \sum_{i=1}^n x_i Y_i - \hat\beta_{0,\text{full}} \sum_{i=1}^n x_i -->
+<!--       \right)\\ -->
+<!--    &= \left( -->
+<!--          \sum_{i=1}^n x_i^2 -->
+<!--       \right)^{-2} -->
+<!--       \var\left( -->
+<!--          \sum_{i=1}^n x_i Y_i -->
+<!--       \right) + -->
+<!--       \left( -->
+<!--          \sum_{i=1}^n x_i^2 -->
+<!--       \right)^{-2} -->
+<!--       \var\left( -->
+<!--          \hat\beta_{0,\text{full}} \sum_{i=1}^n x_i -->
+<!--       \right) -->
+<!-- \end{align*} -->
+<!-- Observe that the left term on the right-hand-side in the above equation -->
+<!-- is the same as $\var(\hat\beta_1)$, thus -->
+<!-- \begin{align*} -->
+<!--    \var(\hat\beta_{1,\text{full}}) -->
+<!--    &= \var(\hat\beta_1) + -->
+<!--       \left( -->
+<!--          \sum_{i=1}^n x_i^2 -->
+<!--       \right)^{-2} -->
+<!--       \var\left( -->
+<!--          \hat\beta_{0,\text{full}} \sum_{i=1}^n x_i -->
+<!--       \right)\\ -->
+<!--    &= \var(\hat\beta_1) + -->
+<!--       \left( -->
+<!--          \sum_{i=1}^n x_i^2 -->
+<!--       \right)^{-1} -->
+<!--       \var(\hat\beta_{0,\text{full}}). -->
+<!-- \end{align*} -->
+
+# Part 2
+
+## Problem 2.1
+The `EmployeeData` data set gives the number of employees (in thousands) for a metal
+fabricator and one of their primary vendors for each month over a 5-year period. You may find the
+data in .txt file on blackboard and read the data into R using read.table command.
+
+### Part (a)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Fit a simple linear model to the data, where $y_t$ is the number of employees
+during time period $t$ at the metal fabricator and $x_t$ is the number of
+employees at the vendor.
+Report the ANOVA table and summary for the model coefficients.
+\end{minipage}}
+
+```{r}
+emp_data <- read.table("EmployeeData.txt", header=TRUE)
+
+# fit a multiple regression model
+ols.fit <- lm(metal~vendor, data=emp_data)
+
+# get details from the regression output
+summary(ols.fit)
+
+# get the anova table
+anova(ols.fit)
+```
+
+### Part (b)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Plot of the number of employees at the fabricator versus the number of employees
+at the vendor with the ordinary least squares regression line overlaid.
+\end{minipage}}
+
+```{r}
+# vendor and metal seem to be positively correlated.
+with(emp_data,plot(vendor,metal))
+abline(ols.fit)
+
+#plot(vendor,metal)
+#lines(vendor,fitted(ols.fit))
+
+```
+
+
+### Part (c)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Plot of the residuals versus $t$ (the time ordering).
+Does it look random?
+\end{minipage}}
+
+Here's the time-ordering plot of the residuals.
+```{r}
+N=nrow(emp_data)
+t=1:N
+plot(t,ols.fit$residual)
+acf(ols.fit$residual)
+```
+
+The residuals do not appear to be i.i.d. normally distributed around $0$.
+
+### Part (d)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Conduct a Durbin-Watson test to determine the correlation in the residuals.
+Comment on your conclusion.
+\end{minipage}}
+
+```{r message=FALSE}
+library("lmtest")
+dwtest(ols.fit)
+# with(emp_data,dwtest(metal~vendor))
+```
+
+If the test statistic $\rm{DW}$ is around $2$, there is strong evidence that
+there is no autocorrelation.
+In this case, the statistic is quite small, and so we have strong evidence to
+reject the null hypothesis of no autocorrelation.
+
+### Part (e)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Use one iteration of the Cochrane-Orcutt procedure to estimated the regression
+coefficients.
+Also calculate the standard errors of the coefficients.
+Are the standard errors (from the Cochrane-Orcutt procedure) larger than the
+ones from simple linear regression?
+\end{minipage}}
+
+```{r}
+# calculte phi fot the Cochrane Method
+phi.hat=lm(ols.fit$residual[2:N]~0+ols.fit$residual[1:N-1])$coeff	
+
+# transform y and x according to the Cochrane Method
+y.trans=emp_data$metal[2:N]-phi.hat*emp_data$metal[1:N-1]		   
+x.trans=emp_data$vendor[2:N]-phi.hat*emp_data$vendor[1:N-1]
+
+# fit OLS regression with transformed data
+coch.or=lm(y.trans~x.trans)		
+summary(coch.or)
+acf(coch.or$residual)
+```
+
+The standard error of the simple linear regression model for the intercept
+was $3.299962$. The standard error for the intercept in the Cochrane-Orcutt
+model is significantly smaller at $0.78655$.
+
+The standard error of the simpler linear regression model for the slope is
+$0.009423$. The standard error for the intercept in the Cochrane-Orcutt
+model is slightly larger at $0.01300$.
+
+The ACF for the Cochrane-Orcutt fit exhibits far less correlation, most of the
+lag times being within the bands.
+
+## Problem 2.2
+The following analysis are based on the data in `HomePrice.txt` file on
+blackboard.
+You may read the data into R using read.table command.
+This `HomePrice` dataset has the following variables:
+
+\begin{enumerate}
+\item[-] $Y$ = sale price of home
+\item[-] $X_1$ = logged square footage of home
+\item[-] $X_2$ = logged square footage of the lot
+\end{enumerate}
+
+### Part (a)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Fit an ordinary linear regression model,
+$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon$.
+Report the ANOVA table and summary for the model coefficients.
+\end{minipage}}
+
+```{r}
+hp_data <- read.table("HomePrice.txt", header=TRUE)
+colnames(hp_data) = c("t","Y","X1","X2")
+
+# fit a multiple regression model
+hp_model <- lm(Y~X1+X2, data=hp_data)
+
+# get details from the regression output
+summary(hp_model)	
+
+# get the anova table
+anova(hp_model)
+```
+
+
+### Part (b)
+\fbox{Plot of the OLS residuals versus OLS fitted values. Comment on any pattern you see.}
+
+```{r}
+# studentized residuals
+r.unweighted = rstudent(hp_model)
+
+# the following plot of the fitted values vs the residuals suggests
+# non-constant variance. the variance seems to be increasing with respect
+# to y. the residuals do seem to have a zero mean though.
+plot(r.unweighted,hp_model$fitted)
+
+# variance seems more constant with respect to home price (X1)
+plot(r.unweighted,hp_data$X1)
+plot(r.unweighted,hp_data$X2)
+```
+
+The studentized residuals of the regression seems to have a non-costant
+variance with respect to the fitted values $\hat{y}$, $X_1$, and $X_2$.
+Primarily, they exhibit the fanning out characteristic that you typically see
+with non-constant variance.
+
+### Part (c)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Calculate the absolute values of the OLS residuals.
+Regress the absolute values of the OLS residuals versus the OLS fitted values
+and store the fitted values from this regression.
+\end{minipage}}
+
+```{r}
+# the absolute value of the OLS residuals.
+abs_residuals = abs(residuals(hp_model))
+
+# we're fitting
+#     s(i) = gamma0 + gamma1 y(i) + zeta(i)
+# where zeta(i) is the random error.
+abs_residuals_fit=lm(abs_residuals~hp_model$fitted)
+```
+
+### Part (d)
+\fbox{
+\begin{minipage}{.9\textwidth}
+Calculate weights equal to $1/\hat{e}^2$, where $\hat{e}$ are the fitted values
+from the regression in the last step.
+Using these weights this time in a weighted least squares regression.
+Report the ANOVA table and summary for the model coefficients.
+\end{minipage}}
+
+```{r}
+# weighted least squares. we're taking the squared reciprocal of the estimated
+# residuals from the regression model as the weight matrix.
+wts=1/(fitted(abs_residuals_fit))^2
+
+# fit the weighted regression model to the data
+hp_model.weighted=lm(Y~X1+X2, data=hp_data,weights=wts)
+
+anova(hp_model.weighted)
+summary(hp_model.weighted)
+```
+
+### Part (e)
+\fbox{Plot of the WLS residuals versus WLS fitted values. Does it look random now?}
+
+```{r}
+# weighted residual analysis
+
+# studentized residuals
+r.weighted = rstudent(hp_model.weighted)
+
+# plot studentized residual vs fitted values
+plot(r.weighted,hp_model.weighted$fitted)
+plot(r.weighted,hp_data$X1)
+plot(r.weighted,hp_data$X2) 
+```
+
+The studentized residuals of the weighted regression seems to have a more
+constant variance with respect to the fitted values $\hat{y}$, $X_1$, and $X_2$.
+Primarily, they do not exhibit the fanning out characteristic that you
+typically see with non-constant variance.
+
+In conclusion, the weighted regression seems to generate residuals that are
+more presentative of random white noise with zero mean and constant variance.

@@ -1,0 +1,55 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{alex}
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{siunitx}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\backshift}{\operatorname{B}}
+\newcommand{\arima}{\operatorname{ARIMA}}
+\newcommand{\arma}{\operatorname{ARMA}}
+\newcommand{\mat}[1]{\bm{#1}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\argmin}{\operatorname{arg\,min}}
+\newcommand*{\argmax}{\operatorname{arg\,max}}
+\newcommand{\set}[1]{\mathbb{#1}}
+\newcommand{\conf}{\pi_t}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{definition}{Definition}
+\newtheorem{postulate}{Postulate}
+\newtheorem{assumption}{Assumption}
+\newtheorem{conjecture}{Conjecture}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{notation}{Notation}
+
+\newcounter{examplecounter}
+\newenvironment{example}
+{
+    \begin{quote}%
+    \refstepcounter{examplecounter}%
+    \textbf{Example \arabic{examplecounter}}%
+    \quad
+}
+{%
+    \end{quote}%
+}
+
+\endinput

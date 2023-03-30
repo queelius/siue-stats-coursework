@@ -1,0 +1,427 @@
+---
+title: "Regression Analysis - STAT 482 - Exam 2: Due Dec 14, 2021"
+author: "Alex Towell (atowell@siue.edu)"
+geometry: margin=1cm
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{mathtools}
+- \usepackage{amsthm}
+- \usepackage{color}
+- \usepackage{xcolor}
+- \usepackage{geometry}
+- \usepackage{enumerate}
+output:
+  pdf_document:
+    toc: no
+    latex_engine: xelatex
+    #df_print: kable
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+```{=tex}
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\param}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\ci}{\operatorname{CI}}
+```
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+# Problem 1
+> A beer distributor is interested in the amount of time to service its retail
+> outlets. Two factors are thought to influence the delivery time ($y$) in
+> minutes: the number of cases delivered ($x_1$) and the distance traveled
+> ($x_2$) in miles. A random sample of delivery time data has been collected.
+> The data is available on Blackboard as a csv file.
+
+## Preliminary analysis
+
+\begin{align*}
+  x_1 &= \text{number of cases delivered}\\
+  x_2 &= \text{distance traveled (miles)}\\
+  y   &= \text{delivery times (minutes)}
+\end{align*}
+where
+$$
+  \corr(x_1,x_2) < 0.
+$$
+
+## (a)
+> Provide an interpretation of a regression coefficient in a multiple regression
+> model.
+
+### Reproduce
+
+$\beta_\ell$ is the difference in mean response from a $1$ unit increase
+in $x_\ell$, with all other input levels held fixed.
+
+## (b)
+> Compute $b_1,b_2$, the estimated the regression coefficients for the delivery
+> time data.
+
+```{r}
+data1 = read.csv('exam2-1.csv')
+head(data1)
+data1.m12 = lm(time ~ cases + distance, data=data1)
+data1.m12
+```
+
+### Reproduce
+$b_1 = .921$
+$b_2 = .329$.
+
+## (c)
+> Compute $t$ statistics for testing the effect of each input variable. Explain
+> what type of effect is being tested here.
+
+```{r}
+coef(summary(data1.m12))
+```
+
+### Reproduce
+
+| parameter | $t$-statistic  | $p$-value  |
+| --------- | -------------- | ---------- |
+| cases     | $t_1^*=13.399$ | $p_1=.000$ |
+| distance  | $t_2^*=4.988$  | $p_2=.000$ |
+
+
+The $t_\ell$-statistic is testing the *partial* effect of input $x_\ell$,
+accounting for the effects of all other inputs.
+
+## (d)
+> Compute $\sos{R}(X_1)$ and $\sos{R}(X_2|X_1)$.
+> Explain what each sum of squares represents.
+
+```{r}
+anova(data1.m12)
+```
+
+### Reproduce
+
+$\sos{R}(x_1) = 308.008$ and $\sos{R}(x_2|x_1) = 49.464$.
+
+$\sos{R}(x_1)$ measures the variation in delivery time $(y)$ explained by number of cases ($x_1$).
+$\sos{R}(x_2|x1)$ measures the variation in delivery time $(y)$ explained by distance ($x_2$), beyond
+that explained by number of cases ($x_1$).
+
+## (e)
+> Test for a marginal effect of $x_2$ against a model which includes no other
+> input variables. (Compute the test statistic and $p$-value.) Provide an
+> interpretation of the result, stated in the context of the problem.
+
+```{r}
+data1.m0 = lm(time ~ 1, data=data1)
+data1.m2 = lm(time ~ distance, data=data1)
+anova(data1.m2)
+anova(data1.m0,data1.m2)  # equivalent to anova(data1.m2)
+```
+
+### Reproduce
+
+$F_2^* = .016$ ($p$-value $= .901$).
+
+The observed data is compatible with the no effects (reduced) model.
+It is not necessary to add distance ($x_2$) to the no effects
+model for predicting delivery time ($y$).
+
+## (f)
+> Test for a partial effect of $x_2$ against a model which includes $x_1$.
+> (Compute the test statistic and $p$-value.)
+> Provide an interpretation of the result, stated in the context of the problem.
+
+```{r}
+data1.m1 = lm(time ~ cases, data=data1)
+anova(data1.m1,data1.m12)
+```
+
+### Reproduce
+$F_{2|1} = 24.876$ ($p$-value $= .000$).
+
+The observed data is *not* compatible with the reduced model.
+We accept the addition of distance ($x_2$) to a model which already includes
+number of cases ($x_1$).
+
+## (g)
+> Compute the correlation matrix. What feature of multidimensional modeling is
+> illustrated in this problem?
+
+```{r}
+cor(data1)
+```
+
+### Reproduce
+Multicollinearity.
+We see that $r_{1 2} = -.405$, thus the inputs are highly (negative) correlated.
+
+Investigating relationships in higher dimensions requires higher-level statistical
+methods, such as regression analysis.
+Two-dimensional methods and graphs are insufficient.
+
+# Problem 2
+> A bakery is interested in the best formulation for a new product. A
+> small-scale experiment is conducted to investigate the relationship between
+> the product satisfaction ($y$), and the moisture content (input 1) and
+> sweetness (input 2) of the product. The input variables have been coded
+> $(x_1,x_2)$ for ease of calculation. The data is available on Blackboard as a
+> csv file.
+
+## (a)
+> Provide a definition for an orthogonal design. Discuss an advantage to using
+> an orthogonal design.
+
+### Reproduce
+A design is orthogonal if $X'X$ is diagonal, where $X$ is the design matrix.
+For orthogonal designs, regression coefficient estimates and variance explained
+by the inputs do not depend on which other inputs are included in the model.
+
+## (b)
+> Provide a definition for an interaction effect.
+
+### Reproduce
+
+An interaction effect occurs when the effect of an input effect depends on the levels of the other inputs.
+
+## (c)
+> Fit an interaction model using the coded variables. Compute the regression
+> coefficient estimates and their standard errors.
+
+```{r}
+data2 = read.csv('exam2-2.csv')
+data2
+data2.xmod = lm(satisfaction ~ x1*x2, data=data2)
+summary(data2.xmod)
+```
+
+### Reproduce
+
+| coefficient   | estimate       | std. error          |
+| ------------- | -------------- | ------------------- |
+| $\beta_0$     | $b_0=82.000$   | $\se(b_0) = .644$   |
+| $\beta_1$     | $b_1=3.975$    | $\se(b_1) = .288$   |
+| $\beta_2$     | $b_2=4.500$,   | $\se(b_2) = .644$   |
+| $\beta_{1 2}$ | $b_{12}=0.575$ | $\se(b_{12} = .288$ |
+
+## (d)
+> Write the estimated regression as a function of $x_1$ for $x_2 = 1,0,-1$.
+
+```{r}
+b0 = coef(data2.xmod)[1]
+b1 = coef(data2.xmod)[2]
+b2 = coef(data2.xmod)[3]
+b12 = coef(data2.xmod)[4]
+reg.est.x1 = matrix(c(b0+b2,b1+b12,  # x2=+1
+                      b0,b1,         # x2=0
+                      b0-b2,b1-b12), # x2=-1
+                    nrow=3,byrow=T)
+
+dimnames(reg.est.x1) = list(c("x2=+1","x2=0","x2=-1"),c("intercept","slope"))
+reg.est.x1
+```
+
+### Reproduce
+
+We have the regression function $\hat{E}(Y|x) = b_0 + b_1 x_1 + b_2 x_2 + b_{1 2} x_1 x_2$.
+The regression function for $x_2 = 1,0,-1$ is thus:
+
+- $\hat{E}(Y|x_2=+1) = (b_0 + b_2) + (b_1 + b_{1 2}) x_1 = 86.500 + 3.400 x_1$
+- $\hat{E}(Y|x_2=0) = b_0 + b_1 x_1 = 82.000 + 3.975 x_1$
+- $\hat{E}(Y|x_2=-1) = (b_0 -b_2) + (b_1 - b_{1 2}) x_1 = 77.500 + 4.550 x_1$
+
+## (e)
+> Create interaction plots for both the interaction model and the additive
+> effects model.
+
+```{r}
+# interaction model:
+data2.xmod.fits = predict(data2.xmod)
+interaction.plot(data2$x1,data2$x2,data2.xmod.fits,
+            col=c("red","blue"),
+            trace.label="x2",
+            xlab="x1",
+            ylab="y")
+
+# additive model
+data2.amod = lm(satisfaction ~ x1+x2,data=data2)
+data2.amod.fits = predict(data2.amod)
+interaction.plot(data2$x1,data2$x2,data2.amod.fits,
+            col=c("red","blue"),
+            trace.label="x2",
+            xlab="x1",
+            ylab="y")
+```
+
+## (f)
+> Test for an interaction effect. (Compute the test statistic and $p$-value.)
+
+```{r}
+anova(data2.amod, data2.xmod)
+```
+
+### Reproduce
+$F^* = 3.99$ ($p$-value $= .07$).
+
+Since the $p$-value is so close to $.05$, the experimental result
+is hard to interpret. However, we can see from the interaction plots
+that they are pretty similiar, so it would seem like we do not lose
+much information with the additive model.
+
+If we wish to stick to the hard cut-off of $\alpha = .05$, then we
+would say that the experiment finds the data to be compatible with the
+additive (reduced) model.
+
+# Problem 3
+> An engineer is interested in comparing three chemical processes (categorical
+> input with groups $A$,$B$,$C$) for manufacturing a compound. It is suspected
+> that the impurity (continuous input $x$) of the raw material will affect the
+> yield (response variable $y$) of the product. The data is available on
+> Blackboard as a csv file.
+
+## Preliminary
+
+\begin{align*}
+  \text{categorical process} &= \{A,B,C\}\\
+  x &= \text{impurity}\\
+  y &= yield.
+\end{align*}
+
+## (a)
+> Define indicator variables $I_1$ and $I_2$ using chemical process $C$ as the
+> baseline level.
+
+### Reproduce
+$$
+  I_1
+  \begin{cases}
+    1, & \text{if} \;\param{process} = A,\\
+    0, & \text{otherwise}
+  \end{cases}
+$$
+
+$$
+  I_2
+  \begin{cases}
+    1, & \text{if} \;\param{process} = B,\\
+    0, & \text{otherwise}.
+  \end{cases}
+$$
+
+## (b)
+> Write an additive model for response y using continuous input variable $x$ and
+> indicator variables $I_1$, $I_2$.
+
+### Reproduce
+
+$$
+  E(Y|\cdot) = \beta_0 + \beta_1 x + \beta_2 I_1 + \beta_3 I_2.
+$$
+
+## (c)
+> Write a regression function for each of the chemical processes.
+
+### Reproduce
+$$
+  E(Y|\cdot) = 
+  \begin{cases}
+    (\beta_0 + \beta_2) + \beta_1 x & \text{if} \;\param{process} = A,\\
+    (\beta_0 + \beta_3) + \beta_1 x & \text{if} \;\param{process} = B,\\
+    \beta_0 + \beta_1 x             & \text{if} \;\param{process} = C.
+  \end{cases}
+$$
+
+
+## (d)
+> Provide an interpretation for each effect parameter, stated in the context of
+> the problem.
+
+### Reproduce
+$\beta_1$ is the difference in mean \param{yield} from a $1$ unit
+increase in \param{impurity} ($x$), with the \param{process} held constant.
+
+$\beta_2$ is the difference in mean \param{yield} between \param{process} $A$
+and \param{process} $C$, with \param{impurity} ($x$) held constant.
+
+$\beta_3$ is the difference in mean \param{yield} between \param{process} $B$
+and \param{process} $C$, with \param{impurity} ($x$) held constant.
+
+$\beta_2-\beta_3$ is the difference in mean \param{yield} between \param{process} $A$
+and \param{process} $B$, with \param{impurity} ($x$) held constant.
+
+
+## (e)
+> Compute interval estimates for each of the effect parameters.
+
+```{r}
+library(matlib)
+data3 = read.csv('exam2-3.csv')
+data3$process = as.factor(data3$process)
+
+contrasts(data3$process) = contr.treatment(3,base=3)
+data3.amod = lm(yield ~ impurity+process,data=data3)
+
+b.hat = coef(data3.amod)
+dfe = nrow(model.matrix(data3.amod)) - ncol(model.matrix(data3.amod))
+V = vcov(data3.amod)
+a = c(0,0,1,-1)
+
+b.hat.12 = a %*% b.hat
+se.12 = sqrt(a %*% V %*% a)
+
+b.hat.12.lower = b.hat.12 - qt(.975,dfe) * se.12
+b.hat.12.upper = b.hat.12 + qt(.975,dfe) * se.12
+
+confint(data3.amod)
+
+cat("beta2-beta1",c(b.hat.12.lower,b.hat.12.upper))
+```
+
+### Reproduce
+\begin{align*}
+  \ci(\beta_1) = [.181,.997],\\
+  \ci(\beta_2) = [4.326,7.383],\\
+  \ci(\beta_3) = [2.202,5.035],\\
+  \ci(\beta_2-\beta_3) = [.597,3.875].
+\end{align*}
+
+## (f)
+> Create a scatterplot of the data with the estimated regression lines.
+
+```{r}
+intercept.3 = b.hat[1]
+intercept.1 = b.hat[1]+b.hat[3]
+intercept.2 = b.hat[1]+b.hat[4]
+slope = b.hat[2]
+
+cat(slope, intercept.1, intercept.2, intercept.3)
+
+attach(data3)
+
+plot(impurity[process == "A"],
+     yield[process == "A"],
+     xlab='impurity',
+     ylab='yield',
+     pch=1,
+     col='blue',
+     xlim=c(min(impurity)-1,max(impurity)+1),
+     ylim=c(min(yield)-1,max(yield)+1))
+
+points(impurity[process=="B"], yield[process=="B"], pch=2, col='red')
+points(impurity[process=="C"], yield[process=="C"], pch=15, col='green')
+
+abline(intercept.1,slope,col='blue')
+abline(intercept.2,slope,col='red')
+abline(intercept.3,slope,col='green')
+```

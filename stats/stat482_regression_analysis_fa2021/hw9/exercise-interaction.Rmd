@@ -1,0 +1,65 @@
+---
+title: "Ohm's Law Example"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data from Handout
+
+We are interested in modeling the effects of current flow (in amps) and resistance (in Ohms) on the voltage output (in volts).
+
+:
+
+
+```{r}
+
+flow = c(4,4,6,6,4,4,6,6)
+resistance = c(1,1,1,1,2,2,2,2)
+voltage = c(3.802,4.013,6.065,5.992,7.934,8.159,11.865,12.138)
+
+ohms.dat = data.frame(flow,resistance,voltage)
+
+ohms.dat$x1 = 2*(ohms.dat$flow - mean(ohms.dat$flow)) / (range(ohms.dat$flow)[2]-range(ohms.dat$flow)[1])
+
+ohms.dat$x2 = 2*(ohms.dat$resistance - mean(ohms.dat$resistance)) / (range(ohms.dat$resistance)[2]-range(ohms.dat$resistance)[1])
+
+ohms.dat$y = ohms.dat$voltage
+
+ohms.dat
+
+additive.mod = lm(y ~ x1+x2,data=ohms.dat)
+summary(additive.mod)
+
+pred.add = predict(additive.mod)
+
+interaction.plot(ohms.dat$x1,ohms.dat$x2,pred.add, col = c("red","blue"),trace.label = "x2",xlab = "x1",ylab = "y")
+
+interaction.mod = lm(y ~ x1+x2+I(x1*x2),data=ohms.dat)
+summary(interaction.mod)
+
+interaction.plot(ohms.dat$x1,ohms.dat$x2,ohms.dat$y, col = c("red","blue"),trace.label = "x2",xlab = "x1",ylab = "y")
+
+b0 = interaction.mod$coefficients[1]
+b1 = interaction.mod$coefficients[2]
+b2 = interaction.mod$coefficients[3]
+b12 = interaction.mod$coefficients[4]
+
+
+reg.estimates.x1 = matrix(c(b0+b2,b0,b0-b2,b1+b12,b1,b1-b12),nrow = 3)
+dimnames(reg.estimates.x1) = list(c("x2=+1","x2=0","x2=-1"),c("intercept","slope"))
+
+reg.estimates.x1
+
+
+
+original.mod = lm(voltage ~ flow*resistance,data=ohms.dat)
+summary(original.mod)
+
+
+
+```
+
+

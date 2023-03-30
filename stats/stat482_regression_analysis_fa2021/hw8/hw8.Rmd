@@ -1,0 +1,248 @@
+---
+title: "Regression Analysis - STAT 482 - Probem Set 8"
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{mathtools}
+- \usepackage{amsthm}
+- \usepackage{multirow}
+- \usepackage{booktabs}
+- \usepackage{minted}
+- \usepackage{color}
+- \usepackage{xcolor}
+- \usepackage{tcolorbox}
+- \usepackage{enumerate}
+output:
+  pdf_document:
+    toc: no
+    latex_engine: xelatex
+    df_print: kable
+    keep_tex: yes
+  md_document:
+    toc: no
+    always_allow_html: true
+  html_document:
+    theme: united
+    highlight: tango
+  word_document:
+    toc: no
+  bookdown::pdf_book:
+    toc: no
+    latex_engine: xelatex
+    df_print: kable
+    keep_tex: yes
+  bookdown::gitbook:
+    df_print: kable
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+```{=tex}
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+```
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+# Problem 1
+
+> We are interested in modeling the relationship among the predictor variables
+> for the body fat example. Specifically, we wish to model midarm circumference
+> ($w$) as a function of triceps skinfold thickness ($x_1$) and thigh
+> circumference ($x_2$). Refer to the data from Table 7.1. The data for $x_1$ is
+> listed in the first column, $x_2$ is listed in the second column, and $w$ is
+> listed in the third column. We are not interested in the body fat
+> measurements, listed in the fourth column, for this problem.
+
+## Part (a)
+
+> Compute the correlation matrix for $w$, $x_1$, $x_2$.
+
+We drop the last column of data, body fat, from the data set since we are
+strictly looking at the relations between $w$ (midarm), $x_1$ (triceps), and
+$x_2$ (thigh).
+
+```{r}
+data = read.csv('TABLE0701.csv')[,1:3]
+head(data)
+```
+
+Here is the correlation matrix:
+
+```{r}
+data.cor = cor(data)
+knitr::kable(round(data.cor,digits=3))
+```
+
+## Part (b)
+
+> Test for a marginal effect of $x_2$ on $w$ against a model which includes no
+> other input variables. (Compute the test statistic and $p$-value.) Provide an
+> interpretation of the result, stated in the context of the problem.
+
+We test for a marginal effect of $x_2$ on $w$ by comparing the effects model
+$m_2$ with the no effects models $m_0$ where
+
+```{=tex}
+\begin{align*}
+    m_0 &: w_i = \beta_0 + \epsilon_i\\
+    m_2 &: w_i = \beta_0 + \beta_1 x_{2 i} + \epsilon_i.
+\end{align*}
+```
+We compute the statistics with:
+```{r}
+names(data) = c("x1","x2","w")
+m0 = lm(w~1,  data=data)
+m2 = lm(w~x2, data=data)
+print(anova(m0,m2))
+```
+
+We see that $F^*_2 = .130$ with $p$-value $.723$.
+
+This is a very large $p$-value, and so $x_2$ (thigh) is not adding much
+explanatory power compared to the model $m_0$ with no explanatory inputs. In
+other words, $x_2$ provides very little predictive power of $w$ (midarm).
+
+### Interpretation
+
+The observed data is compatible with the reduced (no effects) model $m_0$. It is
+not necessary to add thigh measurement ($x_2$) to the no effects model for
+predicting midarm measurement ($w$).
+
+## Part (c)
+
+> Test for a partial effect of $x_2$ on $w$ against a model which includes
+> $x_1$. (Compute the test statistic and $p$-value.) Provide an interpretation
+> of the result, stated in the context of the problem.
+
+We test for a partial effect of $x_2$ on $w$ given that $x_1$ is already in the
+model by comparing models $m_1$ and $m_{1 2}$ where
+```{=tex}
+\begin{align*}
+  m_1     &: w_i = \beta_0 + \beta_1 x_{i 1} + \epsilon_i,\\
+  m_{1 2} &: w_i = \beta_0 + \beta_1 x_{i 1} + \beta_2 x_{2 i} + \epsilon_i.
+\end{align*}
+```
+
+We compute the statistics with:
+```{r}
+m1 = lm(w~x1, data=data)
+m12 = lm(w~x1+x2, data=data)
+anova(m1,m12)
+```
+
+We see that $F^*_{2|1} = 1388.641$ with a $p$-value $.000$.
+
+### Interpretation
+The observed data is not compatible with the reduced model $m_1$.
+We accept the addition of thigh circumference ($x_2$) as a predictor for midarm 
+circumference ($w$) to the model which already includes triceps ($x_1$).
+
+## Part (d)
+
+> Fit the regression model for $w$ which includes both $x_1$ and $x_2$.
+
+```{r}
+m12
+```
+
+We estimate that $$
+  \hat{w} = 62.331 + 1.881 x_1 - 1.608 x_2,
+$$
+or using more descriptive names,
+$$
+    \widehat{\texttt{\color{olive}midarm}} = 62.331 + 1.881 \times \texttt{\color{olive}triceps} - 1.608 \times \texttt{\color{olive}thigh}.
+$$
+
+## Part (e)
+
+> What feature of multidimensional modeling is illustrated in this problem?
+
+Multicollinearity, i.e., highly correlated inputs.
+Specifically, observe that $x_1$ and $x_2$ are strongly positively correlated,
+$r_{1 2} = `r data.cor[1,2]`$, but $x_1$ and $x_2$ have, respectively, a
+positive and negative partial effect on $w$. The combination of these partial
+effects and the correlation of $x_1$ and $x_2$ cancels out their total effect
+on $w$.
+
+Deceptively, if we look at the scatterplots of $x_1$ versus $w$ and $x_2$ vs
+$w$, they seem relatively uncorrelated. Investigating relationships in higher
+dimensions requires higher level statistical methods, such as regression
+analysis, rather than two-dimensional methods and graphs.
+
+### Additional comments
+
+Much of the data in science, e.g., astronomy, comes from observational studies.
+Suppose we make an observation of the random sample
+$\mathcal{D} = \{(X_{i 1},X_{i 2},X_{i 3})\}_{i=1}^{n}$. If we are interested in
+$X_1$ and wish to, say, estimate its mean response, then $\expect(X_1|X_2,X_3)$ is
+better than $\expect(X_1)$ since $\var(X_1|X_2,X_3) \leq \var(X_1)$.
+
+A controlled experimental design can tell us much more, of course, but we often
+must make do with what data we already have.
+
+A question one might have is, should we take a sub-sample of $\mathcal{D}$ such
+that we better approximate an orthogonal design? Honestly, this question seems a
+bit silly -- unless the data is garbage (garbage in, garbage out), we should rarely
+throw away data. We are generally better off being aware of the issues with
+multicollinearity and doing our analysis based off the complete sample.
+
+# Problem 2
+
+> A small scale experiment is conducted to investigate the relationship between
+> crew productivity ($y$) and crew size ($x_1$) and bonus pay ($x_2$). Refer to
+> the data from Table 7.6.
+
+## Part (a)
+
+> Provide a definition for an orthogonal design. Discuss an advantage to using
+> an orthogonal design.
+
+A design is orthogonal if $X'X$ is diagonal.
+
+Since $X'X$ is diagonal, the covariance matrix $\cov(b)$ is diagonal, and thus
+the components of $b=(b_0 \; b_1 \; \ldots \; b_p)'$ are uncorrelated.
+
+Since $b$ is normally distributed, the mean vector and covariance matrix of any
+subset of components may be obtained by simply dropping the component indexes
+to be averaged over. Thus, for orthogonal designs, regression coefficient
+estimates and variation explained by an input do not depend on which other
+inputs are included in the model.
+
+Finally, in orthogonal designs, marginal effects and partial effects are
+the same.
+
+## Part (b)
+
+> Fit a multiple regression model using coded inputs. Compute the coefficient
+> estimate $b_l$, the standard error $\se(b_l)$, the $t$-statistic, and the
+> $p$-value, for each of the coded input variables.
+
+```{r}
+data = read.table('CH07TA06.txt')
+names(data) = c("x1","x2","y")
+attach(data)
+
+c1 = 2*(x1-mean(x1))/(range(x1)[2]-range(x1)[1])
+c2 = 2*(x2-mean(x2))/(range(x2)[2]-range(x2)[1])
+
+orthog.mod = lm(y~c1+c2)
+summary(orthog.mod)
+```
+
+Both inputs are statistically significant, and so we select the full additive
+model.
+
+The computed values for the statistics may be read of the table.
+For instance, we see that $b_0 = 50.375$, $b_1 = 5.375$, and $b_2 = 4.6250$.

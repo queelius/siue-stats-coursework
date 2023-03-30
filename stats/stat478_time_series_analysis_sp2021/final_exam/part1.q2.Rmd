@@ -1,0 +1,104 @@
+---
+title: 'Time Series Analysis - STAT 478 - Final Exam - Part 1 Q2'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  pdf_document:
+    df_print: kable
+    #latex_engine: pdflatex
+    latex_engine: xelatex
+header-includes:
+ - \usepackage{alex}
+---
+# Part 1: Problem 2
+\fbox{\begin{minipage}{.9\textwidth}
+Consider a linear trend process $Y_t = β_0 + β_1 t + e_t$, where $\{e_t\}$ is a
+0 mean white noise process with variance $σ^2$.
+Let $\tilde{Y}_T$ be the simple exponential smoother, i.e.,
+$$
+   \tilde{Y}_T = (1 − θ)\sum_{t=0}^{\infty} \theta^t Y_{T-t}.
+$$
+Show that the simple exponential smoother is a biased estimator for the linear
+trend process by calculating
+$$
+   \bias(\tilde{Y}_T) = \expect(Y_T) − \expect(\tilde{Y}_T).
+$$
+\end{minipage}}
+
+\begin{proof}
+The estimator $\tilde{Y}_T$ is biased if $\bias(\tilde{Y}_T) \neq 0$.
+
+To solve $\bias(\tilde{Y}_T)$, we must first solve $\expect(Y_T)$ and
+$\expect(\tilde{Y}_T)$.
+The expectation of $Y_T$ is given by
+\begin{align*}
+   \expect(Y_t)
+      &= \expect(β_0 + β_1 T + e_T)\\
+      &= β_0 + β_1 T + \expect(e_T)\\
+      &= β_0 + β_1 T.
+\end{align*}
+The expectation of $\tilde{Y}_T$ is given by
+\begin{align*}
+   \expect(\tilde{Y}_T)
+      &= \expect\left((1 − θ)\sum_{t=0}^{\infty} \theta^t Y_{T-t}\right)\\
+      &= (1 − θ)\expect\left(\sum_{t=0}^{\infty} \theta^t Y_{T-t}\right)\\
+      %%%%%%%%%%%%%%%%%%%%%%&= (1 − θ)\left(\sum_{t=0}^{\infty} \expect(\theta^t Y_{T-t})\right)\\
+      &= (1 − θ)\left(\sum_{t=0}^{\infty} \theta^t\expect(Y_{T-t})\right).
+\end{align*}
+By definition, $Y_{T-t} = β_0 + β_1(T-t) + e_{T-t}$, so we may perform that
+substitution, resulting in
+\begin{align*}
+   \expect(\tilde{Y}_T)
+      &= (1 − θ)\left(\sum_{t=0}^{\infty} \theta^t\expect(β_0 + β_1(T-t) + e_{T-t})\right)\\
+      &= (1 − θ)\left(\sum_{t=0}^{\infty} \theta^t \left(β_0 + β_1(T-t) + \expect(e_{T-t})\right)\right)\\
+      %%&= (1 − θ)\left(\sum_{t=0}^{\infty} \theta^t β_0 + β_1(T-t))\right)\\
+      &= (1 − θ)\left(
+         \sum_{t=0}^{\infty} \theta^t(β_0 + β_1 T) -
+         \sum_{t=0}^{\infty} \theta^t β_1 t
+      \right)\\
+      &= (1 − θ)\left(
+         (β_0 + β_1 T) \sum_{t=0}^{\infty} \theta^t -
+         β_1 \sum_{t=0}^{\infty} t \theta^t
+      \right).
+\end{align*}
+
+The only parts left to solve in the above are the infinite summations.
+Assuming $|\theta|<1$, we observe that $\sum_{t=0}^{\infty} \theta^t$ is a
+geometric series that sums to $(1 - \theta)^{-1}$ and
+$\sum_{t=0}^{\infty} t \theta^t$ is an infinite series that sums to
+$\theta(1-\theta)^{-2}$.
+Thus, we may make these substitutions, yielding
+\begin{align*}
+   \expect(\tilde{Y}_T)
+      &= (1 − θ)\left(
+         (β_0 + β_1 T) (1 - \theta)^{-1} -
+         β_1 \theta (1 - \theta)^{-2}
+      \right)\\
+      &= β_0 + β_1 T - β_1 \theta (1 - \theta)^{-1}.
+\end{align*}
+
+Then,
+\begin{align*}
+   \bias(\tilde{Y}_T)
+      &= \expect(Y_T) − \expect(\tilde{Y}_T)\\
+      &= (β_0 + β_1 T) − β_0 + β_1 T - β_1 \theta (1 - \theta)^{-1},
+\end{align*}
+which simplifies to
+$$
+   \bias(\tilde{Y}_T) = \frac{\theta}{1 - \theta} β_1.
+$$
+\end{proof}
+
+There are two interesting special cases:
+\begin{enumerate}
+\item The bias is $\beta_1$ if $\theta = 0.5$.
+\item The bias is $0$ if $\theta = 0$.
+\end{enumerate}
+
+Observe that the rate of change of the bias as a function of $\theta$ is given
+by
+$$
+   \frac{\partial \bias}{\partial \theta} = \frac{1}{(1-\theta)^2}
+$$
+and thus as $\theta$ moves away from $0.5$ the bias increases without bound as
+it approaches $1$ or $0$, with the exception that when $\theta = 0$ the bias
+is $0$.

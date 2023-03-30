@@ -1,0 +1,117 @@
+---
+title: 'Discrete Multivariate Analysis - 579 - HW #7'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{multirow}
+ - \usepackage{booktabs}
+output:
+  pdf_document:
+    df_print: kable
+  html_document:
+    df_print: paged
+---
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\RR}{\operatorname{RR}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+
+# Problem 1
+Consider an experiment on chlorophyll inheritance in maize.
+A genetic theory predicts the ratio of green to yellow to be 3:1.
+In a sample of $n = 1103$ seedlings, $n_1 = 854$ were green and $n_2 = 249$ were
+yellow.
+
+## Part (a)
+\fbox{Compute the statistic $X^2$ for testing the proposed model.}
+
+The statistic is defined as
+$$
+  X^2 = \sum_{j=1}^{c} \frac{(n_j - n \pi_{j 0})^2}{n \pi_{j 0}}.
+$$
+
+Under the null model, the odds are 3:1, or $\pi_{1 0} = 0.75$ and $\pi_{1 1} = 0.25$.
+We are given $n = 1103$, $n_1 = 854$, and $n_2 = 249$.
+Under the null model, these values have expectations given respectively by
+$n \pi_{1 0} = 827.25$ and $275.75$.
+
+The observed statistic is thus given by
+$$
+  X_0^2 = \frac{(854 - 827.25)^2}{827.25} + \frac{(249 - 275.75)^2}{275.75} = 3.46.
+$$
+
+## Part (b)
+\fbox{Determine the upper 10th percentile for the reference distribution.}
+
+The reference distribution is the chi-squared distribution with $1$ degree
+of freedom, denoted by $\chi^2(1)$.
+
+The upper 10th percentile given $1$ degree of freedom, denoted by $\chi_{0.10}^2(1)$,
+is found by solving for $\chi_{0.10}^2(1)$ in the equation
+$\Pr(\chi^2(1) \geq \chi_{0.10}^2(1)) = 1-0.10 = 0.9$, which yields the result
+$$
+  \chi_{0.10}^2(1) = 2.71.
+$$
+
+
+<!-- Letting $\operatorname{F}$ denote the CDF, we may rewrite this as -->
+<!-- $1-\operatorname{F}(\chi_{0.10}^2(1)) = 0.9$, or $\operatorname{F}(\chi_{0.10}^2(1)) = 0.1$. -->
+
+<!-- The inverse of the CDF, denoted by $\operatorname{F}^{-1}$, may be used -->
+<!-- to isolate $\chi_{0.10}^2(1)$ on the LHS, resulting in -->
+<!-- $\chi_{0.10}^2(1) = \operatorname{F}^{-1}(0.1) = 2.71$, as shown by the following -->
+<!-- R code: -->
+<!-- ```{r} -->
+<!--   qchisq(.9,1,FALSE) -->
+<!-- ``` -->
+
+## Part (c)
+\fbox{Provide an interpretation of your result, stated in the context of the problem.}
+
+We see that any observed statistic $X_0^2$ with $\rm{df}=1$ greater than
+$\chi^2_{0.10}(1) = 2.71$ is not compatible with the null model at significance
+level $\alpha = 0.10$.
+
+Since the observed statistic $X_0^2 = 3.46 > 2.71$, the null model, which is
+the genetic theory where the ratio of green to yellow is 3:1, is not compatible
+with the data.
+
+## Part (d)
+\fbox{What are the shortcomings of hypothesis testing as a measure of evidence?}
+
+Hypothesis testing, as a dichotomous measure of evidence, does not provide
+as much information as a more quantitative evidence measure. For instance,
+it does not provide information about \emph{effect size}.
+
+# Problem 2
+
+## Part (a)
+\fbox{Compute a $90\%$ confidence interval for $\pi_1$.}
+
+The MLE of $\pi_1$ is given by $\hat{\pi}_1 = \frac{n_1}{n} = \frac{854}{1103} = 0.774$.
+Letting $\alpha = 0.10$ and inverting the Wald test statistic, we get the
+$90\%$ confidence interval for $\pi_1$,
+$$
+  \hat{\pi}_1 \pm z_{1-alpha/2} \sigma_{\hat\pi} = 0.744 \pm 1.645 \sqrt{\frac{0.774(1-0.774)}{1103}},
+$$
+which may be rewritten as
+$$
+  [0.754, 0.795].
+$$
+
+## Part (b)
+\fbox{Provide an interpretation of your result, stated in the context of the problem.}
+
+Based on the observed data, we estimate that the probability $\pi_1$ of a green
+strain is between  $0.754$ and $0.795$.
+
+As expected, the null model specifies a value for $\pi_1$ ($0.75$) that is
+not contained in this confidence interval.

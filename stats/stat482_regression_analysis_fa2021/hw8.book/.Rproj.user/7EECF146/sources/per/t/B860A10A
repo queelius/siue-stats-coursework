@@ -1,0 +1,30 @@
+{
+    "id": "B860A10A",
+    "path": "~/classes/stat482_regression_analysis_fa2021/hw/hw8.book/06-share.Rmd",
+    "project_path": "06-share.Rmd",
+    "type": "r_markdown",
+    "hash": "311299134",
+    "contents": "",
+    "dirty": false,
+    "created": 1635314248613.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "2,0",
+        "scrollLine": "0",
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "docOutlineVisible": "1",
+        "rmdVisualModeLocation": "21:50"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1635315040,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1635315040110,
+    "read_only": false,
+    "read_only_alternatives": []
+}

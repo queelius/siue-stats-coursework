@@ -1,0 +1,104 @@
+\documentclass[10pt]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+%\usepackage{mathpazo} % Use the Palatino font
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx} % Required for including images
+\usepackage{amsthm}
+\usepackage{commath}
+%\usemintedstyle[R]{friendly}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!red,
+}
+
+\title{Homework \#2} % Assignment title
+\author{Alex Towell (\href{mailto:atowell@siue.edu}{\bfseries{atowell@siue.edu}})}
+
+\date{02/4/2021} % Due date
+\institute{Southern Illinois University-Edwardsville}
+\class{STAT 579 - Discrete Multivariate Analysis}
+\professor{Dr. Andrew Neath}
+
+\newcommand{\odds}{\operatorname{odds}}
+\renewcommand{\Pr}{\operatorname{P}}
+\newcommand{\Eval}[3]{\left. #1 \right\vert_{#2}^{#3}}
+
+\begin{document}
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+\section*{Question 1}
+\begin{problem}
+Suppose $n_1$ is observed from a $\mathrm{BIN}(n;\pi)$ distribution.
+Derive the maximum likelihood estimate $\hat\pi$.
+\end{problem}
+
+\subsection*{Answer}
+Let $X \sim \mathrm{BIN}(n;\pi)$. Then, $\operatorname{f_X}(k|n,\pi) = {n \choose k} \pi^k (1-\pi)^{n-k}$ and the likelihood is
+\begin{equation*}
+    \ell(\pi ; n_1) = \pi^{n_1} (1-\pi)^{n - n_1}\,.
+\end{equation*}
+which has a log-likelihood
+\begin{equation}
+    \operatorname{L}(\pi ; n_1) = n_1 \log \pi + (n - n_1) \log(1-\pi)\,.
+\end{equation}
+Assuming $\pi \in (0,1)$, to find the maximum likelihood of $\pi$ given that we observe $X = n_1$, we find
+\begin{equation*}
+    \hat\pi = \argmax_{\pi} \operatorname{L}(\pi ; n_1)
+\end{equation*}
+by solving for the zeros of the derivative of $\operatorname{L}$,
+\begin{align*}
+    \eval{\od{\operatorname{L}}{\pi}}_{\hat\pi} &= 0\\
+    \frac{n_1}{\hat\pi} - \frac{n-n_1}{1-\hat\pi} &= 0\\
+    \frac{n_1 (1-\hat\pi) - (n-n_1) \hat\pi}{\hat\pi (1-\hat\pi)} &= 0\\
+    n_1 (1-\hat\pi) - (n-n_1) \hat\pi &= 0\\ 
+    n_1 - n_1 \hat\pi - n \hat\pi + n_1 \hat\pi &= 0\\
+    n_1 - n \hat\pi &= 0\\
+    n \hat\pi &= n_1\,,
+\end{align*}
+and thus the MLE of $\pi$ given an observation $X = n_1$ is
+\begin{equation}
+    \hat\pi = \frac{n_1}{n}\,.
+\end{equation}
+
+\section*{Question 2}
+\begin{problem}
+Prove that if $\Pr(A|B) > \Pr(A|B')$ then $\Pr(B|A) > \Pr(B|A')$.
+\end{problem}
+
+\begin{proof}
+Starting at the proposition $\Pr(A|B) > \Pr(A|B')$, we apply rewrite rules that preserve the relation, eventually reaching the goal state $\Pr(B|A) > \Pr(B|A')$.
+
+If $\Pr(A|B) > \Pr(A|B')$ then $\odds(A|B) > \odds(A|B')$ where $\odds(X) \coloneqq \Pr(X) / \Pr(X')$.
+Making this substitution, we have
+\begin{equation*}
+    \frac{\Pr(A|B)}{\Pr(A'|B)} > \frac{\Pr(A|B')}{\Pr(A'|B')}\,.
+\end{equation*}
+Multiplying the LHS and RHS by convenient expressions for $1$, respectively  $\Pr(B)/\Pr(B)$ and $\Pr(B')/\Pr(B')$, we rewrite the above as
+\begin{equation*}
+    \frac{\Pr(A|B)\Pr(B)}{\Pr(A'|B)\Pr(B)} > \frac{\Pr(A|B')\Pr(B')}{\Pr(A'|B')\Pr(B')}\,.
+\end{equation*}
+Both sides are now a ratio of joint distributions. We rewrite them as
+\begin{equation*}
+    \frac{\Pr(B|A)\Pr(A)}{\Pr(B|A')\Pr(A')} > \frac{\Pr(B'|A)\Pr(A)}{\Pr(B'|A')\Pr(A')}\,.
+\end{equation*}
+Discarding the common factor $\Pr(A)/\Pr(A')$ from both sides, we rewrite the above as
+\begin{equation*}
+    \frac{\Pr(B|A)}{\Pr(B|A')} > \frac{\Pr(B'|A)}{\Pr(B'|A')}\,.
+\end{equation*}
+Multiplying both sides by $\Pr(B|A')/\Pr(B'|A)$, we may rewrite the above as
+\begin{equation*}
+    \frac{\Pr(B|A)}{\Pr(B'|A)} > \frac{\Pr(B|A')}{\Pr(B'|A')}
+\end{equation*}
+which may be rewritten as $\odds(B|A) > \odds(B|A')$. Finally, observe that
+\begin{equation*}
+    \odds(B|A) > \odds(B|A') \implies \Pr(B|A) > \Pr(B|A')\,.
+\end{equation*}
+\end{proof}
+\end{document}

@@ -1,0 +1,192 @@
+---
+title: 'Discrete Multivariate Analysis - 579 - HW #10'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{multirow}
+ - \usepackage{booktabs}
+output:
+  pdf_document:
+    df_print: kable
+  html_document:
+    df_print: paged
+---
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\RR}{\operatorname{RR}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+
+# Supplemental material
+We refactored the code for independence testing as a function that returns all
+relevant calculations given a matrix of cross-sectional data.
+
+```{r}
+# csdata is cross sectional data (observed counts) entered as an IxJ matrix.
+# tests for independence P(X,Y) = P(X)P(Y) using the X^2 statistic.
+independence_test_X2 <- function(csdata)
+{
+  # define the dimensions of the table
+  I = dim(csdata)[1]
+  J = dim(csdata)[2]
+  
+  # compute the overall sample size, the row sample sizes, and the column sample sizes
+  total = sum(csdata)
+  row.sum = apply(csdata,1,sum)
+  col.sum = apply(csdata,2,sum)
+  
+  # use matrix algebra to compute the table of expected cell counts
+  expected = matrix(row.sum) %*% t(matrix(col.sum)) / total
+  dimnames(expected) = dimnames(csdata)
+  
+  # compute the X^2 statistic, degrees of freedom, and p-value
+  X2 = sum((obs-expected)^2/expected)
+  df = (I-1)*(J-1)
+  p.value.X2 = pchisq(X2,df,lower.tail = FALSE)
+  
+  # return computed values as a map
+  list(expected_counts = expected,
+       estimate = expected/sum(obs),
+       X2 = X2,
+       df = df,
+       p.value = p.value.X2)
+}
+```
+
+We also refactored the code for independence testing under the assumption of a
+monotonic association ($\gamma$ correlation).
+
+```{r}
+independence_test_gamma <- function(csdata)
+{
+  # to compute the estimate of gamma and the standard error, we need MESS
+  library("MESS")
+
+  # gkgamma takes an IxJ matrix as an input
+  gk.result = gkgamma(csdata)
+
+  # compute gamma.hat and its standard error
+  gamma.hat = gk.result$estimate
+  se = gk.result$se1
+
+  # compute the z statistic and p-value for testing gamma=0 (independence)
+  z = gamma.hat / se
+  p.value.g = 2*pnorm(abs(z),lower.tail = FALSE)
+
+  # display the results
+  g.table = list(estimate=gamma.hat,
+                 ase=se,
+                 z.stat=z,
+                 p.value=p.value.g)
+}
+```
+
+# Problem 1
+\fbox{\begin{minipage}{.8\textwidth}
+Compute the statistic $X^2$ and the $p$-value for testing the model with
+independence between husband's rating and wife's rating.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+The observed data is cross-sectional with a general model given by
+$$
+  \{n_{i j}\} \sim \operatorname{MULT}(n, \{\pi_{i j}\}).
+$$
+
+We consider a simpler model where $X$ and $Y$ are independent, i.e.,
+$\Pr(X,Y) = \Pr(X)\Pr(Y)$.
+Then, our task is to measure how compatible the observed data is to the
+null hypothesis
+$$
+  H_0 : \pi_{i j} = \pi_{i+}\pi_{+j}.
+$$
+We prefer $H_0$ to a more general model that requires more parameters to estimate
+(and thus will have greater variance) and interpret.
+
+We perform a chi-square test for independence.
+The test statistic is given by
+$$
+  X^2 = \sum_{i=1}^{4} \frac{(n_{i j} - \hat{m}_{i j})^2}{\hat{m}_{i j}}
+$$
+where $\hat{m}_{i j} = n \hat{\pi}_{i j 0}$ and $\hat{\pi}_{i j 0} = \frac{n_{i+}n_{+j}}{n^2}$.
+
+Under the null model, $X^2$ is distributed $\chi^2$ with $\rm{df} = 9$ degrees
+of freedom.
+
+We compute the $X^2$ statistic and $p$-value with the following R code:
+```{r}
+obs = matrix(c(7,7,2,3,2,8,3,7,1,5,4,9,2,8,9,14), nrow=4, byrow=TRUE)
+colnames(obs) <- c("never/occassionally", "fairly often", "very often", "almost always")
+rownames(obs) <- colnames(obs)
+
+print(obs)
+
+x2_test <- independence_test_X2(obs)
+```
+
+The observed $X_0^2$ is `r round(x2_test$X2,digits=3)` and the $p$-value is
+`r round(x2_test$p.value,digits=3)`.
+We consider this $p$-value to be moderate evidence against the null model.
+Stated differently, the observed data is moderately incompatible with the
+independence model.
+
+For completeness, the estimates of $\pi_{i j}$ under the independence model
+(with no additional assumptions) for the given cross-sectional data is given by:
+```{r}
+round(x2_test$estimate,digits=3)
+```
+
+# Problem 2
+\fbox{\begin{minipage}{.8\textwidth}
+Now compute the statistic $Z^*$  and the $p$-value for testing the independence
+model using the correlation estimate $\hat\gamma$.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+The observed data is cross-sectional with a general model given by
+$$
+  \{n_{i j}\} \sim \operatorname{MULT}(n, \{\pi_{i j}\}).
+$$
+
+We consider a simpler model using $\gamma$,
+$$
+  H_0 : \gamma = 0,
+$$
+i.e., $\gamma$ is zero if $X$ and $Y$ are independent.
+
+The test statistic is given by
+$$
+  Z^* = \frac{\hat\gamma-0}{\hat\sigma(\hat\gamma)},
+$$
+which is normally distributed $\mathcal{N}(0,1)$ under the null model.
+
+We compute $Z^*$ and $p$-value with the following R code:
+```{r}
+gamma_test <- independence_test_gamma(obs)
+```
+
+The observed $Z^*$ is `r round(gamma_test$z.stat,digits=3)` and the $p$-value is
+`r round(gamma_test$p.value,digits=3)`.
+We consider this $p$-value to be very strong evidence against the null model.
+That is, the observed data provides very strong evidence against 
+the independence model when testing for support of a monotonic association
+model.
+
+For completeness, the estimate for $\gamma$ is
+$\hat\gamma=`r round(gamma_test$estimate,digits=3)`$.
+
+# Problem 3
+\fbox{\begin{minipage}{.8\textwidth}
+Explain why a monotonic association model is better than a general association
+model in this example.
+\end{minipage}}
+
+Estimates from simpler models have smaller variances than for estimates
+from more complicated models.

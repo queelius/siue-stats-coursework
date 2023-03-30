@@ -1,0 +1,212 @@
+---
+title: 'Regression Analysis - STAT 482 - HW #3'
+author: "Alex Towell (atowell@siue.edu)"
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ - \usepackage{multirow}
+ - \usepackage{booktabs}
+ - \usepackage{minted}
+ - \usepackage{color}
+ - \usepackage{xcolor}
+ - \usepackage{tcolorbox} 
+output:
+  pdf_document:
+    toc: false
+    latex_engine: xelatex
+    df_print: kable
+  html_document:
+    df_print: paged
+---
+
+\newsavebox{\selvestebox}
+\newenvironment{colbox}[1]
+  {\newcommand\colboxcolor{#1}%
+   \begin{lrbox}{\selvestebox}%
+   \begin{minipage}{\dimexpr\columnwidth-2\fboxsep\relax}}
+  {\end{minipage}\end{lrbox}%
+   \begin{center}
+   \colorbox[HTML]{\colboxcolor}{\usebox{\selvestebox}}
+   \end{center}}
+
+\newcommand{\ssx}{\rm{SS}_x}
+\newcommand{\var}{\operatorname{V}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{ssr}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+Refer to the data from Exercise 1.20
+
+Data has been collected on $45$ calls for routine maintenance.
+The goal is to explore the relationship between the number of copiers serviced
+$(x)$ and the time in minutes spent to complete the service $(y)$.
+Let $x_h = 3$ copiers.
+
+# Part (1)
+\fbox{Compute a confidence interval for $\mu_h$.}
+
+$\mu_h$ is the mean response $\expect(Y_h|x_h=3)$.
+A confidence interval for $\mu_h$ is given by
+$$
+  \hat{Y}_h \pm t_{\alpha/2,n-2} \se(\hat{Y}_h).
+$$
+
+```{r}
+alpha = .05
+x.h = 3
+data = read.table('CH01PR20.txt')
+colnames(data)=c("time","copiers")
+mod = lm(time~copiers, data=data)
+predict(mod,level=1-alpha,data.frame(copiers=x.h),interval="confidence")
+```
+
+We see that a CI for $\mu_h$ is given by $[44.526,47.904]$.
+
+# Part (2)
+\fbox{Compute a prediction interval for $Y_{h(new)}$.}
+
+We denote $Y|X=x_h$ by $Y_h$.
+Assume
+$$
+  Y_h \sim \mathcal{N}(\beta_0 + \beta_1 x_h, \sigma^2).
+$$
+Then, if we wish to predict $Y_h$ with $(\beta_0,\beta_1,\sigma)$ known, the
+interval
+$$
+  \beta_0 + \beta_1 x \pm z_{\alpha/2} \sigma.
+$$
+includes the observed value of $Y_h$ with probability $1-\alpha$.
+For predicting a single outcome $Y_h$, the uncertainty of the prediction is
+quantified by $\var(Y_h) = \sigma^2$.
+For a given $\alpha$, the smaller the variance the smaller the interval.
+
+However, if $(\beta_0,\beta_1,\sigma^2)'$ is unknown, we have the additional
+source uncertainty due to a random sample $\{(Y_h,x_h)\}$ being used to
+estimate $(\beta_0,\beta_1,\sigma^2)'$.
+
+Let `pred` = $P_h = Y_{h(\rm{new})} - \hat{Y}_h$ denote the random \emph{prediction error}.
+Then, $\expect(P_h) = 0$ and
+\begin{align*}
+  \var(P_h) &= \var(Y_{h(\rm{new})}) + \var(\hat{Y}_h)\\
+            &= \sigma^2\left[1 + \frac{1}{n} + \frac{(x_h - \bar{x})^2}{\ssx}\right].
+\end{align*}
+
+Since we do not know $\sigma^2$, we estimate it with $\rm{MSE}$ and thus a
+prediction interval for $Y_{h(\rm{new})}$ is given by
+$$
+  \hat{Y}_h \pm t_{\alpha/2,n-2} \hat{\sd}(P_h)
+$$
+where
+$$
+  \hat{\sd}(P_h) = \sqrt{\rm{MSE}\left(1 + \frac{1}{n} + \frac{(x_h-\bar{x})^2}{\ssx}\right)}.
+$$
+
+```{r}
+predict(mod,data.frame(copiers=3),level=1-alpha,interval="predict")
+```
+
+We see that the PI for $Y_{h(\rm{new})}$ is given by $[26.235,62.816]$.
+
+# Part (3)
+\fbox{\begin{minipage}{\textwidth}
+Explain the difference between a confidence interval and a prediction interval,
+stated in the context of the problem.
+\end{minipage}}
+
+A confidence interval is for the mean service time for all service calls
+with $3$ copiers to service.
+
+A prediction interval is for the service time of a single service call
+with $3$ copiers to service.
+
+# Part (4)
+\fbox{Let $m=10$. Compute a prediction interval for $\bar{Y}_{h(\rm{new})}$.}
+
+Let `pred.mean` = $\bar{P}_h = \bar{Y}_{h(\rm{new})} - \hat{Y}_h$ denote the random \emph{prediction error}.
+Then, $\expect(\bar{P}_h) = 0$ and
+\begin{align*}
+  \var(\bar{P}_h)
+    &= \var(\bar{Y}_{h(\rm{new})}) + \var(\hat{Y}_h)\\
+    &= \sigma^2 \left[\frac{1}{m} + \frac{1}{n} + \frac{(x_h - \bar{x})^2}{\ssx}\right].
+\end{align*}
+
+Since we do not know $\sigma^2$, we estimate it with $\rm{MSE}$ and thus a
+prediction interval for $\bar{Y}_{h(\rm{new})}$ is given by
+$$
+  \hat{Y}_h \pm t_{\alpha/2,n-2} \hat{\sd}(\bar{P}_h)
+$$
+where
+$$
+  \hat{\sd}(\bar{P}_h) = \sqrt{\rm{MSE}\left(\frac{1}{m} + \frac{1}{n} + \frac{(x_h-\bar{x})^2}{\ssx}\right)}
+$$
+
+
+```{r}
+b0 = mod$coefficients[1]; names(b0) = NULL
+b1 = mod$coefficients[2]; names(b1) = NULL
+
+residual = mod$residuals
+n = length(residual)
+sse = sum(residual^2)
+mse = sse / (n-2)
+x = data$copiers
+
+x.bar = mean(x)
+ssx = sum((x-x.bar)^2)
+
+y.hat = b0 + b1*x.h 
+m = 10
+var.pred.mean = mse*(1/m + 1/n + (x.h-x.bar)^2/ssx)
+
+lower.ynew = y.hat - qt(alpha/2,n-2,lower.tail=F)*sqrt(var.pred.mean)
+upper.ynew = y.hat + qt(alpha/2,n-2,lower.tail=F)*sqrt(var.pred.mean)
+
+c(lower.ynew,upper.ynew)
+```
+
+We see that the PI for $\bar{Y}_{h(\rm{new})}$ is given by
+$$
+  [`r round(lower.ynew,digits=3)`, `r round(upper.ynew,digits=3)`].
+$$
+
+# Part (5)
+\fbox{Provide an interpretation of your result, stated in the context of the problem.}
+
+We predict that the mean service time for $10$ service calls with $3$ copiers each
+will be between $`r round(lower.ynew,digits=3)`$ and $`r round(upper.ynew,digits=3)`$.
+
+# Part (6)
+\fbox{\begin{minipage}{\textwidth}
+Show that $\var(\rm{pred.mean})$ converges to $\var(\hat{Y}_h)$ as $m \to \infty$.
+Use this limit result to interpret the confidence interval for $\mu_h$ as a prediction.
+\end{minipage}}
+
+The variance of `pred.mean` = $\bar{P}_h$ is given by
+$$
+  \var(\bar{P}_h) = \sigma^2 \left(\frac{1}{m} + \frac{1}{n} + \frac{(x_h-\bar{x})^2}{\ssx}\right)
+$$
+which we may rewrite as
+\begin{align*}
+  \var(\bar{P}_h)
+    &= \frac{\sigma^2}{m} + \sigma^2\left(\frac{1}{n} + \frac{(x_h-\bar{x})^2}{\ssx}\right)\\
+    &= \var(\bar{Y}_{h(\rm{new})}) + \var(\hat{Y}_h).
+\end{align*}
+
+As $m \to \infty$, $\var(\bar{Y}_{h(\rm{new})}) \to 0$, and thus
+$$
+  \lim_{m \to \infty} \var(\bar{P}_h) = \var(\hat{Y}_h).
+$$
+
+A CI estimate of the mean service time $\mu_h$ can be interpreted as a
+prediction of the sample mean $\bar{Y}_{h(\rm{new})}$ for a large number of
+service time responses.

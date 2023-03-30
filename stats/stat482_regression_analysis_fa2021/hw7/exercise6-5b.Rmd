@@ -1,0 +1,51 @@
+---
+title: "Studios Example"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data from Table 6.5
+
+A photography studio operates in multiple communities. Data is collected to investigate the relationship between the number of adults in a community (x1, measured in 1000s of people), the per capita disposable income in that community (x2, measured in 1000s of dollars), and sales for the studio in that community (y, measured in 1000s of dollars).
+
+:
+
+
+```{r}
+
+
+
+setwd("F:/Lexar/stat 482 data sets")
+studios.dat = read.csv('TABLE0605.csv')
+str(studios.dat)
+
+cor(studios.dat)
+
+
+both.mod = lm(sales ~ adults + income, data=studios.dat)
+
+summary(both.mod)
+
+
+anova(both.mod)
+
+null.mod = lm(sales ~ 1,data=studios.dat)
+adults.mod = lm(sales ~ adults, data=studios.dat)
+income.mod = lm(sales ~ income, data=studios.dat)
+
+anova(null.mod,both.mod)
+anova(null.mod,adults.mod)
+anova(null.mod,income.mod)
+anova(adults.mod,both.mod)
+anova(income.mod,both.mod)
+
+
+
+
+
+```
+
+

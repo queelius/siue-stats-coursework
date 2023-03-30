@@ -1,0 +1,170 @@
+\documentclass[10pt]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+%\usepackage{mathpazo} % Use the Palatino font
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx} % Required for including images
+\usepackage{amsthm}
+\usepackage{commath}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\renewcommand{\arraystretch}{1.2} 
+%\usemintedstyle[R]{friendly}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!red,
+}
+
+\title{Homework \#4} % Assignment title
+\author{Alex Towell (\href{mailto:atowell@siue.edu}{\bfseries{atowell@siue.edu}})}
+
+\date{Feb 20, 2022} % Due date
+\institute{Southern Illinois University-Edwardsville}
+\class{STAT 579 - Discrete Multivariate Analysis}
+\professor{Dr. Andrew Neath}
+
+\newcommand{\odds}{\operatorname{odds}}
+\renewcommand{\Pr}{\operatorname{P}}
+\newcommand{\Eval}[3]{\left. #1 \right\vert_{#2}^{#3}}
+
+\newcommand{\comment}[1]{}
+
+\begin{document}
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+\section*{Question 1}
+Consider data from a retrospective study on the relationship between daily alcohol consumption and the
+onset of esophagus cancer.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+                                            &           & cancer&no cancer\\
+\cmidrule{3-4}
+\multirow{2}{*}{daily alcohol consumption}  & $> 80$g  	& 71    & 82\\
+                                            & $< 80$g 	& 60    & 441\\
+                                            & total     & 131   & 523\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{enumerate}
+\item[(a)] Compute an estimate of the odds ratio.
+\item[(b)] Interpret the direction of the association, stated in the context of the problem.
+\item[(c)] What assumption is necessary for the sample odds ratio to serve as an estimate of the relative risk?
+\end{enumerate}  
+\subsection*{Answer}
+
+\begin{enumerate}
+    \item[(a)] The odds ratio is defined as
+    \begin{equation*}
+    \theta \coloneqq \frac{\Omega_1}{\Omega_2}
+    \end{equation*}
+    where $\Omega_j$ is the odds of outcome of column $1$ given row $i$, which is defined as
+    \begin{equation*}
+    \Omega_j \coloneqq \frac{\pi_{1|i}}{1-\pi_{1|i}}\,.
+    \end{equation*}
+    
+    Observe that the odds ratio has the interesting property of being invariant
+    to the type of study, whether cross-sectional, prospective, or retrospective.
+    An estimator of $\theta$ is given by
+    \begin{align*}
+    \hat\theta = \frac{n_{1 1} n_{2 2}}{n_{1 2} n_{2 1}} = \frac{71 \times 441}{ 82 \times 60} \approx 6.36\,.
+    \end{align*}
+    
+    \item[(b)] Since $\hat\theta > 1$, we estimate that those consuming $>80$g of alcohol per day are more likely
+    to have the onset of esophagus cancer than those who consume less than $80$g per day.
+    
+    \item[(c)] For the odds ratio $\theta$ to serve as a reasonable estimator of the relative risk,
+    $\pi_{1|2}$ and $\pi_{1|1}$ must be close to zero since
+    \begin{equation*}
+        \theta = \operatorname{RR}\times\left(\frac{1-\pi_{1|2}}{1-\pi_{1|1}}\right)\,.
+    \end{equation*}
+\end{enumerate}  
+
+\section{Question 2}
+The following table summarizes the responses of $n=91$ couples to the questionnaire item
+``Sex is fun for me and my partner.''
+\begin{table}[h]
+    \centering
+    \begin{tabular}{@{}rrrrr@{}}
+        \toprule
+                              & \multicolumn{4}{c}{\bf{wife's rating}} \\
+        \bf{husband's rating} & never/occassionally & farily often & very often & almost always\\
+        never/occassionally   & 7 	              & 7    	     & 2          & 3\\
+        farily often          & 2 	              & 8    	     & 3          & 7\\
+        very often            & 1 	              & 5    	     & 4          & 9\\
+        almost always         & 2 	              & 8    	     & 9          & 14\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{enumerate}
+    \item[(a)] What type of sampling was used in collecting the above data? What characteristic do the above variables
+    have that allows us the potential to describe the association with a single parameter? In general, how many
+    parameters would be needed to describe the association?
+    \item[(b)] Compute $\hat\gamma$. Provide an interpretation of your result, stated in the context of the problem.
+\end{enumerate}
+
+\subsection*{Answer}
+
+
+\begin{enumerate}
+    \item[(a)] The data is a cross-sectional. The variables are \emph{ordinal} and the expected relationship
+    is \emph{monotonic}. Ordinal variables have categories that may be placed in a natural \emph{order} and
+    therefore support relational predicates like less-than in addition
+    to equality.
+    
+    In general, $(4-1) \times (4-1) = 9$ parameters are necessary to describe all the possible
+    associations.
+    
+    \item[(b)] The characteristic of interest, $\gamma$, is defined as
+    \begin{equation*}
+        \gamma \coloneqq \frac{\pi_C - \pi_D}{\pi_C + \pi_D}\,,
+    \end{equation*}
+    which is a measure of correlation for ordinal variates analagous to 
+    Pearson's correlation coefficient.
+    
+    Modifying the R code by populating the \emph{counts} matrix with the data in the given 
+    table, when I run the R program I get the following output:
+    
+\begin{verbatim}
+                      wife's rating
+husband's rating      never/occassionally fairly often very often almost always
+  never/occassionally                   7            7          2             3
+  fairly often                          2            8          3             7
+  very often                            1            5          4             9
+  almost always                         2            8          9            14
+[1] 1508  709
+[1] 0.368254 0.173138
+[1] 0.36
+\end{verbatim}
+\end{enumerate}
+
+The number of concordances is $C = 1508$ and the number of discordances is $D = 709$.
+Estimators for $\pi_C$ and $\pi_D$ are respectively given by
+\begin{equation*}
+    \hat\pi_C = \frac{C}{\binom{n}{2}} = \frac{1508}{\binom{91}{2}} \approx .368
+\end{equation*}
+and
+\begin{equation*}
+    \hat\pi_D = \frac{D}{\binom{n}{2}} = \frac{709}{\binom{91}{2}} \approx .173\,.
+\end{equation*}
+
+An estimator for $\gamma$ is given by
+\begin{equation*}
+    \hat\gamma = \frac{\hat\pi_C - \hat\pi_D}{\hat\pi_C + \hat\pi_D} = \frac{0.368-0.173}{0.368+0.173} \approx 0.36\,.
+\end{equation*}
+
+We say that this value of gamma represents a \emph{medium effect}.
+Thus, we estimate that there is a medium size, positive association
+between the husband's and wife's rating of sex.
+\end{document}

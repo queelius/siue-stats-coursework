@@ -1,0 +1,177 @@
+---
+title: "Regression Analysis - STAT 482 - Exam 2: Due Dec 14, 2021"
+author: "Alex Towell (atowell@siue.edu)"
+geometry: margin=1cm
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{mathtools}
+- \usepackage{amsthm}
+- \usepackage{color}
+- \usepackage{xcolor}
+- \usepackage{geometry}
+- \usepackage{enumerate}
+output:
+  pdf_document:
+    toc: no
+    latex_engine: xelatex
+    df_print: kable
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+```{=tex}
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\param}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\ci}{\operatorname{CI}}
+```
+
+```{r, include=FALSE}
+options(tinytex.engine_args = '-shell-escape')
+```
+
+# Problem 1
+> A beer distributor is interested in the amount of time to service its retail
+> outlets. Two factors are thought to influence the delivery time ($y$) in
+> minutes: the number of cases delivered ($x_1$) and the distance traveled
+> ($x_2$) in miles. A random sample of delivery time data has been collected.
+> The data is available on Blackboard as a csv file.
+
+\vspace{50pt}
+
+## (a)
+> Provide an interpretation of a regression coefficient in a multiple regression
+> model.
+
+\vspace{50pt}
+
+## (b)
+> Compute $b_1,b_2$, the estimated the regression coefficients for the delivery
+> time data.
+
+\vspace{50pt}
+
+## (c)
+> Compute $t$ statistics for testing the effect of each input variable. Explain
+> what type of effect is being tested here.
+
+\vspace{50pt}
+
+## (d)
+> Compute $\sos{R}(X_1)$ and $\sos{R}(X_2|X_1)$.
+> Explain what each sum of squares represents.
+
+\vspace{50pt}
+
+## (e)
+> Test for a marginal effect of $x_2$ against a model which includes no other
+> input variables. (Compute the test statistic and $p$-value.) Provide an
+> interpretation of the result, stated in the context of the problem.
+
+\vspace{50pt}
+
+## (f)
+> Test for a partial effect of $x_2$ against a model which includes $x_1$.
+> (Compute the test statistic and $p$-value.)
+> Provide an interpretation of the result, stated in the context of the problem.
+
+\vspace{50pt}
+
+## (g)
+> Compute the correlation matrix. What feature of multidimensional modeling is
+> illustrated in this problem?
+
+\vspace{50pt}
+
+# Problem 2
+> A bakery is interested in the best formulation for a new product. A
+> small-scale experiment is conducted to investigate the relationship between
+> the product satisfaction ($y$), and the moisture content (input 1) and
+> sweetness (input 2) of the product. The input variables have been coded
+> $(x_1,x_2)$ for ease of calculation. The data is available on Blackboard as a
+> csv file.
+
+\vspace{50pt}
+
+## (a)
+> Provide a definition for an orthogonal design. Discuss an advantage to using
+> an orthogonal design.
+
+\vspace{50pt}
+
+## (b)
+> Provide a definition for an interaction effect.
+
+\vspace{50pt}
+
+## (c)
+> Fit an interaction model using the coded variables. Compute the regression
+> coefficient estimates and their standard errors.
+
+\vspace{50pt}
+
+## (d)
+> Write the estimated regression as a function of $x_1$ for $x_2 = 1,0,-1$.
+
+\vspace{50pt}
+
+## (e)
+> Create interaction plots for both the interaction model and the additive
+> effects model.
+
+\vspace{50pt}
+
+## (f)
+> Test for an interaction effect. (Compute the test statistic and $p$-value.)
+
+\vspace{50pt}
+
+# Problem 3
+> An engineer is interested in comparing three chemical processes (categorical
+> input with groups $A$,$B$,$C$) for manufacturing a compound. It is suspected
+> that the impurity (continuous input $x$) of the raw material will affect the
+> yield (response variable $y$) of the product. The data is available on
+> Blackboard as a csv file.
+
+\vspace{50pt}
+
+## (a)
+> Define indicator variables $I_1$ and $I_2$ using chemical process $C$ as the
+> baseline level.
+
+\vspace{50pt}
+
+## (b)
+> Write an additive model for response $y$ using continuous input variable $x$ and
+> indicator variables $I_1$, $I_2$.
+
+\vspace{50pt}
+
+## (c)
+> Write a regression function for each of the chemical processes.
+
+\vspace{50pt}
+
+## (d)
+> Provide an interpretation for each effect parameter, stated in the context of
+> the problem.
+
+\vspace{50pt}
+
+## (e)
+> Compute interval estimates for each of the effect parameters.
+
+\vspace{50pt}
+
+## (f)
+> Create a scatterplot of the data with the estimated regression lines.

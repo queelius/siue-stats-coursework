@@ -1,0 +1,337 @@
+---
+title: 'STAT 581 - HW #3'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  #md_document:
+  #  variant: markdown_github
+  pdf_document:
+    df_print: kable
+    latex_engine: xelatex
+    #keep_tex: true
+    highlight: tango
+    #highlight: breezedark
+    #highlight: pygments
+    #highlight: zenburn
+    #highlight: haddock
+    #highlight: kate
+    #highlight: espresso
+fontsize: 11pt
+geometry: margin=.5in
+documentclass: article
+#documentclass: paper
+#documentclass: standalone
+#classoption: twocolumn
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+ - \usepackage{fbox}
+ - \usepackage{amsmath}
+ - \usepackage{hw4}
+---
+
+```{r echo=F}
+#knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80), tidy = TRUE)
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80))
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+# Problem 1
+
+An experiment is conducted to study the effect of drilling method on drilling
+time.
+Each method (dry drilling, wet drilling) is used on $n = 12$ rocks.
+Drilling times are measured in $1/100$ minutes.
+
+## Part (a)
+\fbox{\begin{minipage}{\textwidth}
+Compute a $95\%$ confidence interval for $\delta = \mu_1 - \mu_2$.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+A confidence interval for $\delta$ includes all parameter values compatible with
+the observed data $\hat\delta$,
+$$
+  \delta \in \left[
+    \hat\delta + t_{\alpha/2,2(n-1)} s_p \sqrt{2/n},
+    \hat\delta + t_{1-\alpha/2,2(n-1)} s_p \sqrt{2/n}
+  \right].
+$$
+
+We compute this CI with:
+```{r}
+library("readxl")
+data = read_excel("./handout1data.xlsx")
+data$method = as.factor(data$method)
+dry = na.omit(data$time[data$method=='d'])
+wet = na.omit(data$time[data$method!='d'])
+alpha = .05
+
+t.test(x=dry,
+       y=wet,
+       alternative=c("two.sided"),
+       conf.level=1-alpha,
+       var.equal=T)$conf.int[1:2]
+```
+
+We estimate that the difference in drilling methods,
+$\delta = (\rm{dry} - \rm{wet})$, is between $[126.876,276.458]$.
+
+## Part (b)
+\fbox{\begin{minipage}{\textwidth}
+Explain how a confidence interval provides a complementary result to a
+hypothesis test.
+\end{minipage}}
+
+A hypothesis test looks to determine if an effect exists.
+A CI looks to determine the size of the effect.
+
+# Problem 2
+A prodcut developer is investigating the tensile strength of a new synthetic
+fiber.
+A completely randomized design with five levels of cotton content is performed,
+with $n=5$ speciments per level.
+
+## Part (a)
+\fbox{\begin{minipage}{\textwidth}
+Compute and display $95\%$ confidence intervals for all pairwise comparisons.
+\end{minipage}}
+
+We show the confidence intervals with:
+```{r}
+library("multcomp")
+data.2 = read_excel("./handout2data.xlsx")
+strength = na.omit(data.2$strength)
+percent = na.omit(as.factor(data.2$percent))
+
+m = aov(strength~percent)
+m.lsd = glht(m,linfct=mcp(percent="Tukey"))
+ci.lsd = confint(m.lsd,calpha=univariate_calpha())
+plot(ci.lsd)
+ci.lsd
+```
+
+## Part (b)
+\fbox{\begin{minipage}{\textwidth}
+Explain how a confidence interval can be used in testing $H_0 : \mu_i = \mu_j$,
+for each pair of factor levels.
+\end{minipage}}
+
+If the CI for $\mu_i - \mu_j$ contains $0$, the decision is
+to decide $H_0^{(i,j)} : \mu_i - \mu_j$.
+Otherwise, the decision is to decide $H_A^{(i,j)} : \mu_i \neq \mu_j$.
+
+## Part (c)
+\fbox{\begin{minipage}{\textwidth}
+Explain how computing multiple intervals impacts the probability of committing an error.
+\end{minipage}}
+
+Suppose the hypothesis is given by
+\begin{align*}
+  H_0 &: \mu_1 = \cdots = \mu_a\\
+  H_A &: \mu_i \neq \mu_j \, \text{for at least one pair $(i,j)$, $i\neq j$.}
+\end{align*}
+
+If we approximate this hypothesis test with $\binom{a}{2}$ pairwise tests of the
+form
+\begin{align*}
+  H_0^{(i,j)} &: \mu_j = \mu_i\\
+  H_0^{(i,j)} &: \mu_j \neq \mu_i
+\end{align*}
+for $i=1,\ldots,a-1$ and $j=i+1,\ldots,a$ where
+$$
+  \Pr\{\text{decide} \, H_A^{(i,j)} | H_0^{(i,j)} \, \text{true}\} = \alpha,
+$$
+then a type I error occurs if one or more of the tests is a false positive.
+
+We denote this false positive rate by $\alpha_g$ which satisfies
+\begin{align*}
+  \alpha_g &= \Pr\{\text{decide} \, H_A | H_0 \, \text{true}\}\\
+           &= \Pr\{\text{decide} \, H_A^{(i,j)} \, \text{for some $(i,j)$} | H_0 \, \text{true}\}\\
+           &> \alpha.
+\end{align*}
+
+\begin{proof}
+The equation for $\alpha_g$ may be rewritten as
+$$
+  \alpha_g = 1-\Pr\{\text{decide} \, H_0^{(i,j)} \, \text{for all} \, (i,j) | H_0 \, \text{true}\}.
+$$
+
+These pairwise tests are not necessarily independent, so assume $k$ independent
+tests, $1 < k \leq \binom{a}{2}$, each with false positive rate $\alpha$.
+The probability that a false positive does not occur on a pairwise test is $1-\alpha$,
+so we rewrite the above as
+$$
+  \alpha_g = 1-(1-\alpha)^k,
+$$
+which satisfies $\alpha_g > \alpha$ over its support $(0,1)$.
+\end{proof}
+
+Observe that $\alpha_g \to 1$ as $k \to \infty$ and $\alpha_g = \alpha$ at $k=1$.
+
+# Problem 3
+An experiment to compare a new drug to a standard is in the planning stages.
+The response variable of interest is the clotting time (in minutes) of blood
+drawn from a subject.
+The experimenters want to perform a two sample $t$ test at level $\alpha = .05$,
+having power $\pi = .8$ at $\delta_A = 0.25$, for standard deviation $\sigma=0.7$.
+
+## Part (a)
+\fbox{\begin{minipage}{\textwidth}
+Determine the sample size for each drug in order to achieve the stated test
+specifications.
+\end{minipage}}
+
+We compute $n$ with:
+```{r}
+sd = .7
+alpha = .05
+h = .8  # power
+v = .25 # alternative
+power.t.test(n=NULL,delta=v,sd=sd,sig.level=alpha,power=h,type="two.sample")
+```
+
+We see that $n' = 124.0381$.
+If the power $h$ is a lower-bound, then
+let $n=\lceil n' \rceil = 125$.
+If the power specification is not a lower-bound, but at approximate specification,
+it may be appropriate to round to the nearest integer, $n=[ n' ] = 124$.
+
+## Part (b)
+\fbox{\begin{minipage}{\textwidth}
+Graph the power curve for the chosen sample size.
+Explain how the power curve displays the desired properties of the test.
+\end{minipage}}
+
+```{r}
+# power.curve
+#
+# create the power curve for the chosen sample size.
+#
+# arguments:
+#   n: sample size,
+#   sd: standard deviation
+#   alpha: significance level
+#   h: power (shows as a horizontal line)
+#   v: specific alternative (shows as a vertical line)
+#
+# output:
+#   graph of power curve
+power.curve = function(n, sd, alpha, h, v)
+{
+  df = 2*(n-1)
+  delta = seq(from=0,to=5*sd/sqrt(n/2),length.out = 1000)
+  power = 1 - pt(qt(1-alpha/2,df),df,ncp = sqrt(n/2)*(delta/sd))
+  
+  plot(delta,power,type = "l",lwd=2,col="blue")
+  abline(h=h,col="red",lwd=2)  
+  abline(v=v,col="green",lwd=2)
+}
+
+power.curve(n=124,sd=sd,alpha=alpha,h=h,v=v)
+```
+
+First, we see that the power at $\delta_A = `r v`$ obtains a power of
+$\pi(\delta_A) = 0.8$, as required.
+
+Second, and this is not explicitly shown on the graph,
+whether $H_0 : \delta = 0$ is true or $H_A : \delta = \delta_A$ is true, there is a low probability of committing an error
+since the $95\%$ confidence interval under the null model, approximately
+$$
+  \pm 1.96 \sigma / \sqrt{n} = [`r round(-1.96*sd/sqrt(124),digits=3)`,`r round(1.96*sd/sqrt(124),digits=3)`],
+$$
+does not intersect with the $95\%$ confidence interval under the alternative model,
+$$
+  \delta_A \pm 1.96 \sigma / \sqrt{n} = [`r round(v - 1.96*sd/sqrt(124),digits=3)`,`r round(v + 1.96*sd/sqrt(124),digits=3)`].
+$$
+
+The small region between these confidence intervals may be classified
+as the "don't care" region.
+
+## Part (c)
+\fbox{\begin{minipage}{\textwidth}
+Provide a general explanation of how $\delta_A$ can be determined.
+\end{minipage}}
+
+The specific alternative $\delta_A$ is chosen to represent an effect size
+that is expected (e.g., from past experience or related data), important
+(difference is non-negligible), and/or practical (cost considerations).
+
+# Problem 4
+Refer back to the tensile strength exampale of problem 2.
+Use the data from this study to perform a power analysis for a main study.
+The experimenters desire a level $\alpha = .05$ test with power $\pi = .8$.
+
+## Part (a)
+\fbox{\begin{minipage}{\textwidth}
+Determine the sample size for each group based on specifying the maximum
+difference in means.
+\end{minipage}}
+
+```{r}
+pwr = .8
+alpha = .05
+a = 5
+means = by(strength,percent,mean)
+max.D = max(means) - min(means)
+#summary(aov(strength~percent))
+s2 = 8.06
+power.anova.test(
+  groups=a,
+  between.var=max.D^2/2/(a-1),
+  within.var=s2,
+  power=pwr,
+  sig.level=alpha,
+  n=NULL)
+```
+
+We see that $n' = 2.534$.
+Rounding to the nearest integer, we propose using a sample size of $n=3$ for each group.
+
+## Part (b)
+\fbox{\begin{minipage}{\textwidth}
+Use a simulation to compute power at $n=3$ using the pilot study to specify
+the model parameters.
+\end{minipage}}
+
+```{r}
+sim.size = 10
+decide.Ha = rep(NA,sim.size)
+n = 3
+
+for (k in 1:sim.size)
+{
+  y1 = rnorm(n,means[1],sqrt(s2))
+  y2 = rnorm(n,means[2],sqrt(s2))
+  y3 = rnorm(n,means[3],sqrt(s2))
+  y4 = rnorm(n,means[4],sqrt(s2))
+  y5 = rnorm(n,means[5],sqrt(s2))
+  ybar1 = mean(y1)
+  ybar2 = mean(y2)
+  ybar3 = mean(y3)
+  ybar4 = mean(y4)
+  ybar5 = mean(y5)
+  var1 = var(y1)
+  var2 = var(y2)
+  var3 = var(y3)
+  var4 = var(y4)
+  var5 = var(y5)
+  F.stat = n*var(c(ybar1,ybar2,ybar3,ybar4,ybar5)) / mean(c(var1,var2,var3,var4,var5))
+  decide.Ha[k] = (F.stat>qf(1-alpha,a-1,a*(n-1)))
+}
+power = mean(decide.Ha)
+power
+```
+
+
+## Part (c)
+\fbox{\begin{minipage}{\textwidth}
+Comment on the use of pilot study data in a power analysis.
+\end{minipage}}
+
+Specifying parameter values for a power analysis based on estimates from a pilot
+study, without accounting for estimation error, may lead to a hypothesis test
+that does not have adequate power.

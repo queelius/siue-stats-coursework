@@ -1,0 +1,82 @@
+---
+title: 'Computational Statistics - STAT 575 - HW #2 - Covariance Estimation'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  pdf_document:
+    df_print: kable
+    latex_engine: xelatex
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{booktabs}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+ - \usepackage{fbox}
+ - \usepackage{amsmath}
+ - \usepackage{minted}
+---
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}} 
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\poi}{\operatorname{POI}}
+\newcommand{\argmax}{\operatorname{arg\,max}}
+
+# Covariance estimation: bootstrap vs observed fisher information
+
+We use the functions defined by the package \emph{prob.4.2.comp.stats}.
+
+```{r message=F}
+if (!require(devtools)) { install.packages('devtools') }
+install_github("queelius/prob.4.2.comp.stats")
+library("prob.4.2.comp.stats")
+options(tinytex.engine_args = '-shell-escape')
+```
+
+We invoke the EM algorithm on the observed count data.
+```{r}
+counts <- c(379,299,222,145,109,95,73,59,45,30,24,12,4,2,0,1,1)
+
+# theta is initial guess for parameter vector,
+#   theta = (alpha, beta, mu, lambda)' = (1/3,1/3,2,3).
+# the initial value assumes each category is equally probable and mu^(0) and
+# lambda^(0) are just arbitrarily chosen to be 2 and 3, with the insight that
+# group 3 is more risky than group 2.
+theta <- c(1/3,1/3,2,3)
+sol <- em.estimator(theta,counts)
+theta.em <- sol$estimate
+```
+
+We see that $\hat{\theta}_{\rm{EM}} = (`r theta.em`)'$.
+We use the Bootstrap method to estimate the covariance matrix of
+$\hat{\theta}_{\rm{EM}}$ in the following:
+```{r}
+cov.bs <- em.cov.bs(theta.em,counts,m=10000)
+knitr::kable(cov.bs)
+```
+
+For comparison, we use the observed information matrix, the Hessian of the
+observed log-likelihood evaluated at $\hat{\theta}_{\rm{EM}}$,
+$$
+  \hat{\Sigma} = \eval{\operatorname{H}(-\ell(\theta))}{\hat{\theta}_{\rm{EM}}}.
+$$
+
+```{r}
+cov.ob <- em.cov.info(theta.em,counts)
+knitr::kable(cov.ob)
+```
+
+We see that these covariance matrices appear to be different.
+It is not clear why.
+We have separated out the relevant code in the package and put it into the
+following code block.
+Dr. Q, do you see anything wrong with this?
+
+```{r}
+em.cov.info(theta.em,counts)
+```

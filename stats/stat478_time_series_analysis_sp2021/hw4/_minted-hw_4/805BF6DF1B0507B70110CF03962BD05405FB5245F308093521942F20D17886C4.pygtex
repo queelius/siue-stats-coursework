@@ -1,0 +1,29 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} moving average}
+\PYG{n}{MA} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{n+nf}{function}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{,} \PYG{n}{span}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+   \PYG{n}{ma}\PYG{o}{=}\PYG{n+nf}{filter}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{,} \PYG{n+nf}{rep}\PYG{p}{(}\PYG{l+m}{1}\PYG{o}{/}\PYG{n}{span}\PYG{p}{,}\PYG{n}{span}\PYG{p}{),}\PYG{n}{side}\PYG{o}{=}\PYG{l+m}{1}\PYG{p}{)}
+   \PYG{n+nf}{return}\PYG{p}{(}\PYG{n}{ma}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{} exponential moving average}
+\PYG{n}{EMA} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{n+nf}{function}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{,} \PYG{n}{start}\PYG{p}{,} \PYG{n}{discount}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+   \PYG{n}{N}\PYG{o}{=}\PYG{n+nf}{length}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{)}
+   \PYG{n}{ema}\PYG{o}{=}\PYG{n+nf}{vector}\PYG{p}{(}\PYG{n}{length}\PYG{o}{=}\PYG{n}{N}\PYG{p}{)}
+   \PYG{n}{ema}\PYG{p}{[}\PYG{l+m}{1}\PYG{p}{]}\PYG{o}{=}\PYG{n}{start}
+   \PYG{n+nf}{for }\PYG{p}{(}\PYG{n}{i} \PYG{n}{in} \PYG{l+m}{2}\PYG{o}{:}\PYG{n}{N}\PYG{p}{)}
+   \PYG{p}{\PYGZob{}}
+       \PYG{n}{ema}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{=}\PYG{n}{ema}\PYG{p}{[}\PYG{n}{i}\PYG{l+m}{\PYGZhy{}1}\PYG{p}{]}\PYG{o}{*}\PYG{p}{(}\PYG{l+m}{1}\PYG{o}{\PYGZhy{}}\PYG{n}{discount}\PYG{p}{)}\PYG{o}{+}\PYG{n}{tsdata}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{*}\PYG{n}{discount}
+   \PYG{p}{\PYGZcb{}}
+   \PYG{n+nf}{return}\PYG{p}{(}\PYG{n}{ema}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{} 2nd\PYGZhy{}order exponential smoothing}
+\PYG{n}{EMA2} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{n+nf}{function}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{,} \PYG{n}{start1}\PYG{p}{,} \PYG{n}{start2}\PYG{p}{,} \PYG{n}{discount1}\PYG{p}{,}\PYG{n}{discount2}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+   \PYG{n}{ema1}\PYG{o}{=}\PYG{n+nf}{EMA}\PYG{p}{(}\PYG{n}{tsdata}\PYG{p}{,} \PYG{n}{start1}\PYG{p}{,} \PYG{n}{discount1}\PYG{p}{)}
+   \PYG{n}{ema2}\PYG{o}{=}\PYG{n+nf}{EMA}\PYG{p}{(}\PYG{n}{ema1}\PYG{p}{,} \PYG{n}{start2}\PYG{p}{,} \PYG{n}{discount2}\PYG{p}{)}
+   \PYG{n+nf}{return}\PYG{p}{(}\PYG{n+nf}{list}\PYG{p}{(}\PYG{n}{ema1}\PYG{o}{=}\PYG{n}{ema1}\PYG{p}{,}\PYG{n}{ema2}\PYG{o}{=}\PYG{n}{ema2}\PYG{p}{,}\PYG{n}{yhat}\PYG{o}{=}\PYG{l+m}{2}\PYG{o}{*}\PYG{n}{ema1}\PYG{o}{\PYGZhy{}}\PYG{n}{ema2}\PYG{p}{))}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

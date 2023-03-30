@@ -1,0 +1,492 @@
+\documentclass[10pt]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+%\usepackage{mathpazo} % Use the Palatino font
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx} % Required for including images
+\usepackage{subcaption}
+\usepackage{booktabs} % Required for better horizontal rules in tables
+\usepackage{amsthm}
+\usepackage{minted}
+%\usemintedstyle[R]{friendly}
+
+\usepackage{listings} % Required for insertion of code
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!red,
+}
+\usepackage{enumerate} % To modify the enumerate environment
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+\title{Homework \#1} % Assignment title
+\author{Alex Towell (\href{mailto:atowell@siue.edu}{\bfseries{atowell@siue.edu}})}
+
+\date{01/29/2021} % Due date
+\institute{Southern Illinois University-Edwardsville}
+\class{STAT 478 - Time Series Analysis}
+\professor{Dr. Beidi Qiang}
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+
+\newcommand{\eval}[3]{\left. #1 \right\vert_{#2}^{#3}}
+
+\begin{document}
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+\section*{Question 1}
+\begin{problem}
+Show $\var(Y) = \expect(Y^2) - \expect^2(Y)$ starting from the definition $\var(Y) \coloneqq \expect(Y-\expect(Y))^2$ by expanding and properties of expectation.
+\end{problem}scale a
+
+\subsection*{Answer}
+%By definition, the variance of $Y$ is $\var(Y) \coloneqq \expect(Y-\expect(Y))^2$.
+The computational variance is given by the following theorem.
+\begin{theorem}
+The variance of $Y$ is defined as
+\begin{equation}
+    \var(Y) \coloneqq \expect(Y-\expect(Y))^2\,.
+\end{equation}
+The variance of $Y$ has an equivalent expression known as the \emph{computational} variance and is given by
+\begin{equation}
+    \var(Y) = \expect(Y^2) - \expect^2(Y)\,.
+\end{equation}
+\end{theorem}
+\begin{proof}
+We may rewrite the definition of the variance by expanding the right-hand-side,
+\begin{equation}
+	\var(Y) = \expect(Y^2 - \expect(Y) Y - \expect(Y) Y + \expect^2(Y))\,.
+\end{equation}
+By the linearity of expectation, we may rewrite this as
+\begin{equation}
+	\var(Y) = \expect(Y^2) - 2 \expect(\expect(Y) Y) + \expect(\expect^2(Y))
+\end{equation}
+By the property that $\expect(a) = a$, $a$ is a constant, we may eliminate the outer expectations in the above, resulting in
+\begin{equation*}
+\begin{split}
+	\var(Y) &= \expect(Y^2) - 2 \expect^2(Y) + \expect^2(Y)\\
+		    &= \expect(Y^2) - \expect^2(Y)\,.
+\end{split}		    
+\end{equation*}
+\end{proof}
+
+\section*{Question 2}
+\begin{problem}
+Let $(X,Y)$ have joint density $\operatorname{f}_{X,Y}(x,y) \coloneqq (x+y)$ over $R \coloneqq \{(x,y) \colon 0 \leq x \leq 1, 0 \leq y \leq 1\}$, the unit square in the plane.
+\medskip
+\begin{enumerate}[(\itshape a\normalfont)]
+\item Find $\expect(X)$, $\var(X)$, and $\expect(X Y)$.
+\item Find $\corr(X,Y)$. Are $X$ and $Y$ independent?
+\item Find $\cov(X,X+Y)$. Are $X$ and $Y$ independent?
+\end{enumerate}
+\end{problem}
+	
+\subsection*{Answer}
+\begin{enumerate}[(\itshape a\normalfont)] % Sub-questions styled as italic letters
+	\item The expectation and variance characteristics of $X$ are given by the following theorem.
+    \begin{theorem}
+   	\label{thm:EX_VX_EXY}	
+    If $(X,Y) \sim \operatorname{f}_{X,Y}(x,y) \coloneqq (x+y)$ with a support over the unit square, then
+    \begin{align}
+        \expect(X)   &= \frac{7}{12}\,,\\
+        \var(X)      &= \frac{11}{144}\,,\\
+        \expect(X Y) &= \frac{1}{3}\,.
+    \end{align}
+    \end{theorem}
+    \begin{proof}
+    To find $\expect(X)$ and $\var(X)$, we first find the marginal distribution of $X$,	
+	\begin{equation*}
+	\begin{split}
+		\operatorname{f}_{X}(x)
+			&= \int_{0}^{1} \operatorname{f_{X,Y}}(x,y) \mathrm{d}y\\
+			&= \int_{0}^{1} (x+y) \mathrm{d}y = x+\frac{1}{2}\,.
+			%&= x \int_{0}^{1} \mathrm{d}y + \int_{0}^{1} y \mathrm{d}y\\
+			%&= x \eval{y}{y=0}{1} + \eval{\frac{y^2}{2}}{y=0}{1}\\			
+	\end{split}
+	\end{equation*}
+	The expectation of $X$ is given by
+	\begin{equation*}
+	\begin{split}
+		\expect(X) \coloneqq \int_{0}^{1} x \operatorname{f_X}(x) \mathrm{d}x\,.
+			&\coloneqq \int_{0}^{1} x \left(x+\frac{1}{2}\right) \mathrm{d}x\\
+%			&=\int_{0}^{1} x^2 \mathrm{d}x + \frac{1}{2} \int_{0}^{1} x \mathrm{d}x\\
+			&=\eval{\frac{x^3}{3}}{0}{1} + \eval{\frac{x^2}{4}}{0}{1} = \frac{7}{12}\,.
+	\end{split}
+	\end{equation*}
+	The variance of $X$ is given by
+	\begin{equation*}
+		\var(X) = \expect(X^2) - \expect^2(X)\,.
+	\end{equation*}
+	By theorem~\ref{thm:EX_VX_EXY}, $\expect(X) = 7/12$.
+    $\expect(X^2)$ is given by
+	\begin{equation}
+    \label{eq:expectX2}
+	\begin{split}
+		\expect(X^2)
+			&= \int_{0}^{1} x^2 \left(x+\frac{1}{2}\right) \mathrm{d}x\\
+%			&=\int_{0}^{1} x^3 \mathrm{d}x + \frac{1}{2} \int_{0}^{1} x^2 \mathrm{d}x\\
+			&=\eval{\frac{x^4}{4}}{0}{1} + \eval{\frac{x^3}{6}}{0}{1} = \frac{5}{12}\,.
+	\end{split}
+	\end{equation}
+	Thus,
+	\begin{equation*}
+		\var(X) = \frac{5}{12} - \left(\frac{7}{12}\right)^2 = \frac{11}{144}\,.
+	\end{equation*}
+	
+	The expectation of $X Y$ is given by
+	\begin{equation*}
+	\begin{split}
+		\expect(X Y)
+			&\coloneqq \int_{0}^{1} \int_{0}^{1} x y \operatorname{f}_{X,Y}(x,y) \mathrm{d}x \mathrm{d}y\\
+			&= \int_{0}^{1} \int_{0}^{1} x y (x+y) \mathrm{d}x \mathrm{d}y\\
+%			&= \int_{0}^{1} \int_{0}^{1} x^2 y + x y^2 \mathrm{d}x \mathrm{d}y\\
+			&= \int_{0}^{1} y \int_{0}^{1} x^2 \mathrm{d}x \mathrm{d}y + \int_{0}^{1} y^2 \int_{0}^{1} x \mathrm{d}x \mathrm{d}y = \frac{1}{3}\,.
+%			&= \int_{0}^{1} y \eval{\frac{x^3}{3}}{x=0}{1} \mathrm{d}y + \int_{0}^{1} y^2 \eval{\frac{x^2}{2}}{x=0}{1} \mathrm{d}y\\	
+%			&= \int_{0}^{1} \frac{y}{3} \mathrm{d}y + \int_{0}^{1} \frac{y^2}{2} \mathrm{d}y\\				
+%			&= \eval{\frac{y^2}{6}}{0}{1} + \eval{\frac{y^3}{6}}{0}{1} = \frac{1}{3}\,.			
+	\end{split}
+	\end{equation*}
+    \end{proof}
+	
+	\item The correlation of $Y$ and $Y$ is given by the following corollary.    
+    \begin{corollary}
+    \label{cor:corrXY}	
+    If $(X,Y) \sim \operatorname{f}_{X,Y}(x,y) \coloneqq (x+y)$ with a support over the unit square, then
+    \begin{equation}
+        \corr(X,Y) = -\frac{1}{60}\,.
+    \end{equation}
+    \end{corollary}
+    \begin{proof}
+    The correlation of $X$ and $Y$, denoted by $\corr(X,Y)$, is defined as
+	\begin{equation}
+		\corr(X,Y) \coloneqq \frac{\cov(X,Y)}{\sigma_X \sigma_Y}\
+	\end{equation}
+	where
+	\begin{equation*}
+		\cov(X,Y) = \expect(X Y) - \expect(X) \expect(Y)\,.
+	\end{equation*}
+	
+	Without proof we claim the expectation of $Y$ is the same as $X$ by applying the same proof in part (a) for $Y$ instead of $X$.
+	We also found $\expect(X Y)$ in part (a).
+	Plugging in these solutions to the above equation yields
+	\begin{equation}
+	\label{eq:covXY}
+		\cov(X,Y) = \frac{1}{3} - \frac{7}{12} \frac{7}{12} = -\frac{1}{144}
+	\end{equation}	
+	and thus the correlation is
+	\begin{equation}
+		\corr(X,Y) = \frac{-\frac{1}{144}}{\sqrt{5/12}\sqrt{5/12}} = -\frac{1}{60}\,.
+	\end{equation}
+    \end{proof}
+
+	The random variables $X$ and $Y$ are dependent since they have a non-zero correlation.\footnote{We also knew they are dependent by the fact that their joint PDF cannot be factored into a product of two terms, one involving only $x$ and the other only $y$.}
+	
+	\item The covariance of $X$ and $X+Y$ is given by the following corollary.    
+    \begin{corollary}
+    \label{cor:covX_X_plus_Y}	
+    If $(X,Y) \sim \operatorname{f}_{X,Y}(x,y) \coloneqq (x+y)$ with a support over the unit square, then
+    \begin{equation}
+        \cov(X,X+Y) = \frac{5}{72}\,.
+    \end{equation}
+    \end{corollary}
+    \begin{proof}
+    The covariance $X$ and $X+Y$ is given by
+	\begin{equation}
+	\begin{split}
+		\cov(X,X+Y)
+			&= \expect(X (X+Y)) - \expect(X)\expect(X+Y)\\
+			&= \left(\expect(X^2) - \expect^2(X)\right) + \left(\expect(X Y) - \expect(X)\expect(Y)\right)\\
+			&= \var(X) + \cov(X,Y)\,.
+	\end{split}
+	\end{equation}
+	By theorem~\ref{thm:EX_VX_EXY}, $\var(X) = 11/144$ and by eq~\ref{eq:covXY}, $\cov(X,Y) = -1/144$, and thus
+	\begin{equation}
+		\cov(X,X+Y) = 11/144 - 1/144 = \frac{5}{72}\,,
+	\end{equation}
+\end{proof}
+
+By corollary~\ref{cor:covX_X_plus_Y}, $X$ and $X+Y$ have non-zero covariance and thus they are not independent.\footnote{Note that a zero covariance does not necessarily imply independence.}
+
+\end{enumerate}
+
+
+\section*{Question 3}
+
+\begin{problem}
+The TSA library in R contains the data set \emph{co2}, which lists monthly carbon dioxide (CO2)
+levels in northern Canada from 1/1994 to 12/2004.
+\medskip
+\begin{enumerate}[(\itshape a\normalfont)]   
+\item Construct a time series plot of the data. Print the plot and describe all systematic patterns you
+see in the plot.
+\item Apply a moving average filter of span 12 to the data.
+Plot the original data and overlay (superimpose)
+the moving average, and provide this plot.
+Discuss whether the moving average filter captures the
+overall trend in the time series.
+\end{enumerate}
+\end{problem}
+
+\subsection*{Answer}
+
+\begin{listing}
+\caption{R script used to generate time series plots for problem 3.a and 3.b.}
+\label{lst:plot3ab}
+\begin{minted}
+[
+    fontsize=\footnotesize,
+    mathescape,
+    linenos,
+    breaklines,
+    frame=lines,
+    framesep=2mm
+]{R}
+# homework #1: problem 3
+# requires:
+#     - TSA library      : install.packages('TSA')
+#     - forecast library : install.package('forecast')
+library(TSA)
+library(forecast)
+
+# part (a)
+data(co2)
+pdf(file="plot3_a.pdf")
+plot.ts(co2)
+
+# part (b)
+co2.ma12=ma(co2,order=12)
+pdf(file="plot3_b.pdf")
+plot.ts(co2)
+lines(co2.ma12)
+\end{minted}
+\end{listing}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.85\linewidth]{plot3_a}
+		\caption{Time series plot of \emph{co2} data}
+		\label{fig:sub1}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.85\linewidth]{plot3_b}
+		\caption{Time series plot of \emph{co2} data with a 12th order moving average superimposed}
+		\label{fig:sub2}
+	\end{subfigure}
+	\caption{Question 3 time series plots generated by the R script in listing~\ref{lst:plot3ab}.}
+	\label{fig:p3_plots}
+\end{figure}
+
+\begin{enumerate}[(\itshape a\normalfont)]   
+\item In fig~\ref{fig:fig1}, we see the time series plot of the \emph{co2} data set.
+There are several regularities observable in the time series plot.
+\begin{enumerate}
+    \item The CO2 levels are increasing over time.
+    \item The CO2 levels have a non-linearity component. In particular, the CO2 levels, when we take out the increasing overall trend,
+    seems to be sinusoidal (with a constant amplitude) with a constant period of around one year.
+    \item The deviation from the pattern does not seem to be changing, i.e., the random deviation seems to be the result of i.i.d. noise.
+    \item The deviation from the pattern seems pretty small, i.e., the i.i.d. noise seems to have a standard deviation that is small compared to the amplitude of the sinusoidal.
+\end{enumerate}
+
+\item In fig~\ref{fig:sub2}, we see the time series plot of \emph{co2} with the 12th order moving average applied to the co2 data superimposed over it.
+This moving averate filters out the seasonal pattern but makes it more apparent that the overall trend is one of increasing CO2 levels.
+Note that since the seasonal pattern has a period of a year, it is not surprising that the 12th order moving average filters it out since it takes the average of a one year interval.
+\end{enumerate}
+
+\section*{Question 4}
+\begin{problem}
+Suppose $\{e_t\}$ is a normal white noise process with mean $0$ and variance $\sigma^2$.
+Let $\{Y_t\}$ be a
+process defined as ($Y_t$ is a moving average of white noise process):
+\begin{equation}
+Y_t \coloneqq \frac{1}{3}(e_{t} + e_{t-1} + e_{t-2})\,.
+\end{equation}
+
+\begin{enumerate}[(\itshape a\normalfont)]
+\item Find the mean and variance function of $\{Y_t\}$.
+\item Find the autocovariance function and autocorrelation function of $\{Y_t\}$.
+\item Is the time series $\{Y_t\}$ stationary? Explain your answer.
+\item Simulate and plot the process in R. Provide your R code and print out the plot.
+\end{enumerate}
+\end{problem}
+
+\subsection*{Answer}
+\begin{enumerate}[(\itshape a\normalfont)]
+\item The expectation of $Y_t$ is $0$ as proven by
+\begin{equation}
+\begin{split}
+	\expect(Y_t)
+		&= \expect\left(\frac{1}{3}(e_{t} + e_{t-1} + e_{t-2})\right)\\
+		&= (\expect(e_{t}) + \expect(e_{t-1}) + \expect(e_{t-2}))/3\\
+		&= (0+0+0)/3 = 0
+\end{split}		
+\end{equation}	
+and the variance of $Y_t$ is $\frac{\sigma^2}{3}$ as proven by
+\begin{equation}
+\begin{split}
+	\var(Y_t)
+	&= \var\left(\frac{1}{3}(e_{t} + e_{t-1} + e_{t-2})\right)\\
+	&= (\var(e_{t}) + \var(e_{t-1}) + \var(e_{t-2}))/3^2\\
+	&= (\sigma^2 + \sigma^2 + \sigma^2)/9 = \frac{\sigma^2}{3}\,.
+\end{split}
+\end{equation}
+
+The marginal distribution, $Y_t$, as a function of independent normal random variables, is normally distributed
+with mean $\expect(Y_t) = 0$ and variance $\var(Y_t) = \sigma^2/3$ for all $t \geq 2$,
+\begin{equation}
+\label{eq:marginal_Yt}
+    Y_t \sim \mathcal{N}(0,\sigma^2/3)\,.
+\end{equation}
+In time series analysis we are primarily interested in the joint distribution of $\{Y_t\}$.
+If we were to repeatedly sample from $\{Y_t\}$ we would observe that the distribution 
+of outcomes for $Y_t$ for each $t \geq 2$ follows the above normal distribution.
+However, in a time series $\{Y_t\}$, we would see that $Y_2,Y_3,\ldots$ are correlated,
+as we show next.
+
+\item The autocovariance function of $\{Y_t\}$ is given by the following theorem.
+\begin{theorem}
+The autocovariance of $Y_t$ and $Y_s$ is given by
+\begin{align}
+    r_{t,s} = \left\{
+    \begin{array}{cc}
+    \frac{3-\ell}{9}\sigma^2 & \vspace{1mm}\hspace{2mm} \ell \leq 2\\
+    0                        & \vspace{1mm}\hspace{2mm} \ell > 2\\
+    \end{array} \right.
+\end{align}
+where $\ell = |s-t|$.
+Since the autocovariance function $r_{t,s}$ is only a function of $\ell$, we may reparamterize it as $r_\ell$.
+\end{theorem}
+\begin{proof}
+The autocovariance function is defined as
+\begin{equation*}
+r_{t,s} \coloneqq \cov(Y_t,Y_s)
+\end{equation*}
+which may be rewritten as
+\begin{equation*}
+r_{t,s} = \cov(e_t + e_{t-1} + e_{t-2},e_s + e_{s-1} + e_{s-2})/9\,.
+\end{equation*}
+
+By an argument from symmetry, $r_{s,t} = r_{t,s}$, and so without loss of generality we assume $t \leq s$.
+We reparameterize the covariance in terms of a time lag $\ell$ by letting $t = s - \ell$.
+Then, we may rewrite the above as
+\begin{equation*}
+r_{s-\ell,s} = \cov(e_{s-\ell} + e_{s-\ell-1} + e_{s-\ell-2},e_s + e_{s-1} + e_{s-2})/9
+\end{equation*}
+In what follows, we perform a case analysis for the lag time $\ell$.
+\begin{enumerate}[i]
+\item If $\ell > 2$, then $Y_{s-\ell}$ and $Y_{s}$ are independent since they are functions of different subsets of $\{e_t\}$ and therefore their covariance is $0$.
+\item If $\ell=0$, then $r_{s,s} = \var(Y_s) = \frac{\sigma^2}{3}$.
+\item If $\ell=1$, then
+\begin{equation*}
+\begin{split}
+    r_{s-1,s} &= \cov(e_{s-1} + e_{s-2} + e_{s-3},e_s + e_{s-1} + e_{s-2})/9\\
+    &= \cov(e_{s-1} + e_{s-2},e_{s-1} + e_{s-2})/9\\
+    &= \var(e_{s-1} + e_{s-2})/9 = \frac{2 \sigma^2}{9}\,.
+\end{split}
+\end{equation*}
+\item If $\ell=2$, then
+\begin{equation*}
+\begin{split}
+r_{s-2,s} &= \cov(e_{s-2} + e_{s-3} + e_{s-4},e_s + e_{s-1} + e_{s-2})/9\\
+&= \cov(e_{s-2},e_{s-2})/9\\
+&= \var(e_{s-2})/9 = \frac{\sigma^2}{9}\,.
+\end{split}
+\end{equation*}
+\end{enumerate}
+These cases show that the autocovarince is strictly a function of $\ell$.
+When we summarize these cases we get the desired result.
+\end{proof}
+
+\begin{theorem}
+The autocorrelation of $\{Y_t\}$ is given by
+\begin{equation}
+    \rho_{t,s} = \left\{
+    \begin{array}{cc}
+    1-\frac{\ell}{3} & \vspace{1mm}\hspace{2mm} \ell \leq 2\\
+    0                & \vspace{1mm}\hspace{2mm} \ell > 2\\
+    \end{array} \right.
+\end{equation}
+where $\ell = |t-s|$.
+Since $\rho_{t,s}$ is only a function of $\ell$, we may reparameterize as $\rho_\ell$.
+\end{theorem}
+\begin{proof}
+The autocorrelation function of $Y_t$ and $Y_s$ is defined as
+\begin{equation*}
+    \rho_{t,s} \coloneqq \frac{r_{t,s}}{\sqrt{\var(Y_t)}\sqrt{\var(Y_s)}}\,.
+\end{equation*}
+
+We consider the two cases of the autocovariance function, when $\ell = |s-t| > 2$ and $\ell \leq 2$.
+\begin{enumerate}[i]
+    \item When $\ell$ is greater than 2, the autocovariance is $0$ and therefore the autocorrelation is $0$.
+    \item When $\ell \leq 2$, we rewrite the autocorrelation function by plugging in the autocovariance function of $Y_t$ and $Y_s$, the variance of $Y_t$, and the variance of $Y_s$,
+\begin{align*}
+    \rho_{t,s} &= \frac{(3-\ell)\sigma^2/9}{\sqrt{\sigma^2/3}\sqrt{\sigma^2/3}}\\
+               &= \frac{(3-\ell)\sigma^2/9}{\sigma^2/3} = \frac{3-\ell}{3} = 1-\frac{\ell}{3}\,.
+\end{align*}
+\end{enumerate}
+\end{proof}
+Sensibly, the greater the lag between two random variables in the time series, the less they are correlated.
+
+\item The autocovariance between $Y_{t-\ell}$ and $Y_t$ is given by $r_{t-\ell,t} = r_{\ell}$,
+which is zero if $\ell > 2$ and otherwise is $(3-\ell)\sigma^2/9$. We see that the autocovariance function only depends on the time lag $\ell$ and furthermore $\expect(Y_t) = 0$ and $\var(Y_t) = \frac{\sigma^2}{3}$ do not depend on time either.
+This is sufficient for weakly stationary. Furthermore, since $Y_t$ is normally distributed, weakly stationary implies strictly stationary.
+
+\item See fig~\ref{fig:plot4d} for the plot of the time series $\{Y_t\}$ and fig~\ref{fig:p4_code} for the generative model.
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=1\linewidth]{plot4_d}
+    \caption{Plot of $\{Y_t\}$.}
+    \label{fig:plot4d}
+\end{subfigure}%
+\begin{subfigure}{.35\textwidth}
+%    \begin{listing}
+    \begin{minted}
+    [
+    fontsize=\footnotesize,
+    mathescape,
+%    linenos,
+%    breaklines,
+    frame=lines,
+    framesep=2mm
+    ]{R}
+    # $\{e_t\}$, a white noise process
+    e <- rnorm(n=100,mean=0,sd=1)
+    
+    # $\{Y_t\}$ time series
+    Y <- vector(length=n)
+
+    # first two elements of $\{Y_t\}$ are $0$
+    Y[1]=0
+    Y[2]=0
+    
+    # $Y_t \coloneqq \frac{1}{3} \sum_{k = t-2}^{t} e_k$
+    for (t in 3:n)
+    {
+        Y[t]=(e[t]+e[t-1]+e[t-2])/3.0
+    }
+    
+    pdf(file="plot4_d.pdf")
+    plot(Y,type="l")    
+    \end{minted}
+ %   \end{listing}
+    \caption{Generatative model of $\{Y_t\}$.}
+    \label{fig:p4_code}
+\end{subfigure}
+\caption{Question 4 plots and code}
+\label{fig:p4}
+\end{figure}
+
+\end{enumerate}
+\end{document}

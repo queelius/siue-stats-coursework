@@ -1,0 +1,56 @@
+---
+title: "Bank Example, polynomial regression"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data from Table 3.5
+
+A sample of branch offices of a commercial bank is selected to study the relationship between the size of the minimum deposit necessary to receive a free gift (x) and the number of new accounts opened at that office (y)
+
+:
+
+
+```{r}
+
+deposit.size = c(75,75,100,100,125,125,150,175,175,200,200)
+new.accounts = c(28,42,112,136,160,150,152,156,124,124,104)
+bank.data = data.frame(deposit.size,new.accounts)
+
+  
+attach(bank.data)
+
+sat.mod = lm(new.accounts ~ poly(deposit.size,5))
+summary(sat.mod)
+three.mod = lm(new.accounts ~ poly(deposit.size,3))
+summary(three.mod)
+quad.mod = lm(new.accounts ~ poly(deposit.size,2))
+summary(quad.mod)
+
+newdat = data.frame(deposit.size = seq(min(deposit.size)-50, max(deposit.size)+50, length.out = 100))
+newdat$sat.pred = predict(sat.mod, newdata = newdat)
+newdat$three.pred = predict(three.mod, newdata = newdat)
+newdat$quad.pred = predict(quad.mod, newdata = newdat)
+                          
+plot(bank.data$deposit.size,bank.data$new.accounts,
+     xlim = c(min(deposit.size)-50, max(deposit.size)+50),ylim = c(0,180),
+     xlab = "deposit size",ylab = "new accounts")
+points(newdat$deposit.size,newdat$sat.pred,type="l",col="blue")
+points(newdat$deposit.size,newdat$three.pred,type="l",col="red")
+points(newdat$deposit.size,newdat$quad.pred,type="l",col="green")
+
+anova(quad.mod,sat.mod)
+
+
+accept.mod = lm(new.accounts ~ deposit.size + I(deposit.size^2) + I(deposit.size^3))
+summary(accept.mod)
+
+
+
+
+```
+
+

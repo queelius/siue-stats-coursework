@@ -1,0 +1,77 @@
+\comment{    
+\item[(a)] To prove that $\{Y_t\}$ is weakly stationary, it is sufficient to prove that it has a constant mean, a constant variance, and its ACF is strictly a function of lag.
+First, observe
+\begin{align}
+    \expect(Y_t) &= \expect(Z_1 \cos(\omega t) + Z_2 \sin(\omega t) + e_t)\\
+                 &= \cos(\omega t) \expect(Z_1) + \sin(\omega t) \expect(Z_2)  + \expect(e_t) = 0
+\end{align}
+and
+\begin{align}
+    \var(Y_t) &= \var(Z_1 \cos(\omega t) + Z_2 \sin(\omega t) + e_t)\\
+              &= \cos^2(\omega t) \var(Z_1) + \sin^2(\omega t) \var(Z_2)  + \var(e_t)\\
+              &= \cos^2(\omega t) + \sin^2(\omega t) + \sigma^2 = 1+\sigma^2\,,
+\end{align}
+so we see that the mean and variance are constant.
+
+Next, the ACF is given by
+\begin{equation}
+    \cov(Y_t,Y_{t+k}) = \expect(Y_t Y_{t+k}) - \expect(Y_t)\expect(Y_{t+k}) = \expect(Y_t Y_{t+k})\,.
+\end{equation}
+Substituting the definitions of $Y_t$ and $Y_{t+k}$, we may rewrite the above as
+\begin{equation}
+    \cov(Y_t,Y_{t+k}) = \expect\left[(Z_1 \cos \omega t + Z_2 \sin \omega t + e_t)(Z_1 \cos \omega (t+k) + Z_2 \sin \omega (t+k) + e_{t+k})\right]\,.
+\end{equation}
+We expand the product inside the expectation, which results in the expectation operator being applied to a sum.
+By the linearity of expectation, we may rewrite that as a sum of expectations, as given by
+\begin{equation}
+\begin{split}
+    \cov(Y_t,Y_{t+k}) =
+        &\cos(\omega(t+k)) \cos \omega t \expect(Z^2_1) +\\
+        &\sin(\omega(t+k)) \cos \omega t \expect(Z_1 Z_2) +\\
+        &\cos \omega t \expect(Z_1 e_{t+k}) +\\
+        &\cos(\omega(t+k)) \sin \omega t \expect(Z_1 Z_2) +\\
+        &\sin(\omega(t+k) \sin \omega t \expect(Z^2_2) + \\
+        &\sin \omega t \expect(e_{t+k} Z_2) +\\
+        &\cos(\omega(t+k)) \expect(e_t Z_1) +\\
+        &\sin(\omega(t+k)) \expect(e_t Z_2) +\\
+        &\expect(e_t e_{t+k})\,.                      
+\end{split}
+\end{equation}
+    By indepedence, most of these expectations are $0$, e.g., $\expect(Z_1 Z_2) = \expect(Z_1) \expect(Z_2) = 0 \cdot 0 = 0$.
+When we discard these zero terms, we are left with
+\begin{equation}
+\begin{split}
+    \cov(Y_t,Y_{t+k}) =
+        &\cos(\omega(t+k)) \cos \omega t \expect(Z^2_1) +\\
+        &\sin(\omega(t+k)) \sin \omega t \expect(Z^2_2) + \\
+        &\expect(e_t e_{t+k})\,.
+\end{split}
+\end{equation}
+The expectation of the square of a random variable $X$, $\expect(X^2)$, is given by $\expect^2(X) + \var(X)$, and thus we may rewrite the above as
+\begin{equation}
+    \cov(Y_t,Y_{t+k}) = \cos(\omega(t+k)) \cos \omega t + \sin(\omega(t+k)) \sin \omega t + \expect(e_t e_{t+k})\,.
+\end{equation}
+By the trigometric idenity $\cos (\alpha - \beta) = \cos \alpha \cos \beta + \sin \alpha \sin \beta$, if we let $\alpha = \omega t$ and $\beta = \omega(t+k)$,
+we may rewrite the above as
+\begin{equation}
+\begin{split}
+    \cov(Y_t,Y_{t+k}) &= \cos \left(\omega t - \omega(t+k)\right) + \expect(e_t e_{t+k})\\
+                      &= \cos (-\omega k) + \expect(e_t e_{t+k})\,.
+\end{split}
+\end{equation}
+By the identity $\cos \alpha = \cos(-\alpha)$, we may rewrite the above as
+\begin{equation}
+\cov(Y_t,Y_{t+k}) = \cos \omega k + \expect(e_t e_{t+k})\,.
+\end{equation}
+
+If $k = 0$, then 
+\begin{equation}
+    r_0 \coloneqq \cov(Y_t,Y_t) = 1 + \expect(e^2_t) = 1 + \sigma^2\,,
+\end{equation}
+which is in agreement with our earlier more direct computation of the variance,
+and otherwise
+\begin{equation}
+    r_k \coloneqq \cov(Y_t,Y_{t+k}) = \cos \omega k\,.
+\end{equation}
+By the fact that the mean is a constant $0$, the variance $\var(Y_t) = r_0$ is a constant $1 + \sigma^2$, and the ACF is strictly a function of lag,
+we may conclude that $\{Y_t\}$ satisfies the requirements of being weakly stationary.}

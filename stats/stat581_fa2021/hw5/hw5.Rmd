@@ -1,0 +1,347 @@
+---
+title: 'STAT 581 - Problem Set 5'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  #md_document:
+  #  variant: markdown_github
+  pdf_document:
+    df_print: kable
+    latex_engine: xelatex
+    #keep_tex: true
+    highlight: tango
+    #highlight: breezedark
+    #highlight: pygments
+    #highlight: zenburn
+    #highlight: haddock
+    #highlight: kate
+    #highlight: espresso
+fontsize: 11pt
+geometry: margin=.5in
+documentclass: article
+#documentclass: paper
+#documentclass: standalone
+#classoption: twocolumn
+header-includes:
+ - \usepackage{amsmath}
+ - \usepackage{mathtools}
+ - \usepackage{amsthm}
+ # - \usepackage{amsbsy}
+ - \usepackage{bm}
+ - \usepackage{xcolor}
+ - \usepackage{fbox}
+ - \usepackage{amsmath}
+ - \usepackage{hw4}
+---
+
+
+```{r echo=F}
+#knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80), tidy = TRUE)
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80))
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+# Problem 1
+
+A factorial experiment is used to develop a nitride etch process on a single wafer plasma etching tool.
+The design factors are the gap between the electrodes and the RF power applied to the cathode. The response
+variable is the etch rate for silicon nitride. The data is available on Blackboard as an Excel File.
+
+## (a)
+\fbox{\begin{minipage}{\textwidth}
+Provide a general definition of an interaction effect.
+\end{minipage}}
+
+An interaction effect occurs when the effect of one factor depends on the
+level of the other factors.
+
+## (b)
+\fbox{\begin{minipage}{\textwidth}
+State the two factor with interaction ANOVA model.
+Compute the estimates of the model parameters.
+\end{minipage}}
+
+### Two-factor with interaction ANOVA model
+We consider a two-factor factorial experiment with $a=2$ levels of the \emph{gap}
+factor, denoted by $A$, and $b=2$ levels of the \emph{RP power} factor, denoted
+by $B$, for a total of $a b = 4$ treatment combinations.
+Each treatment combination has $n=4$ replicates for a total of $N = n a b = 16$
+observations.
+
+We describe the observations in this two-factor factorial experiment
+by the effects model where treatments are defined to be deviations from the
+overall mean,
+$$
+  Y_{i j k} = \mu + \tau_i + \beta_j + (\tau\!\beta)_{i j} + \epsilon_{i j k}
+  \begin{cases}
+    i=1,\ldots,a\\
+    j=1,\ldots,b\\
+    k=1,\ldots,n
+  \end{cases}
+$$
+where $\mu$ is the overall main effect, $\tau_i$ is the effect of the $i$-th
+level of factor $A$, $\beta_j$ is effect of the $j$-th level of factor $B$,
+$(\tau\!\beta)_{i j}$ is the interaction effect of the $i$-th level of factor
+$A$ and the $j$-th level of factor $B$, and $\epsilon_{i j k}$ is the random
+error component.
+
+### Compute the estimates of the model parameters
+A set of estimators for these model parameters are given by
+\begin{align*}
+  \hat{\mu} &= \bar{y}_{\cdots}\\
+  \hat{\tau}_i &= \bar{y}_{i \cdot \cdot} - \hat{\mu}\\
+  \hat{\beta}_j &= \bar{y}_{\cdot j \cdot}  - \hat{\mu}\\
+  \widehat{(\tau\!\beta)}_{i j} &= \bar{y}_{i j \cdot} - \hat{\mu} - \hat{\tau}_i - \hat{\beta}_j,
+\end{align*}
+and thus an estimator of the $k$-th observation given factor $A$ at level $i$
+and factor $B$ at level $j$ is given by
+$$
+  \hat{y}_{i j k} = \hat{\mu} + \hat{\tau}_i + \hat{\beta}_j + \widehat{(\tau\!\beta)}_{i j},
+$$
+which simplifies to
+$$
+  \hat{y}_{i j k} = \bar{y}_{i j \cdot}.
+$$
+
+We perform these computations using R:
+```{r}
+library("readxl")
+data = read_excel("handout5data.xlsx")
+gap = as.factor(na.omit(data$gap))
+rfp = as.factor(na.omit(data$rfp))
+rate = na.omit(data$rate)
+
+# use contrasts to define parameter restrictions for the two way ANOVA model
+contrasts(gap) = contr.sum
+contrasts(rfp) = contr.sum
+
+# we are still using aov to perform ANOVA computations.
+# for two way ANOVA, we include two factors plus an interaction in the model statement
+two.way.mod = aov(rate ~ gap+rfp+gap:rfp)
+
+# the command below is used to print the model parameter estimates
+dummy.coef(two.way.mod)
+```
+
+We see that $\hat{\tau}_1 = 50.8125$.
+By the constraint that $\tau_1 + \tau_2 = 0$, $\hat{\tau}_2 = -50.8125$.
+The remaining parameter estimates can be observed directly on the R output,
+e.g., $\widehat{(\tau\!\beta)}_{2 1} = 76.8125$.
+
+### Remark
+Assuming the model is appropriate, would it be reasonable to say that an
+estimator of the mean response given factor $A$ at level $i$ and factor $B$ at
+level $j$ is given by
+$$
+  \hat{E}(Y_{i j} | A=i,B=j) = \bar{y}_{i j \cdot}?
+$$
+
+Since we may be primarily just be looking for evidence of effects, coming up
+with a more sophisticated, explanatory model may not be warranted at this stage
+of the analysis.
+
+If we find some evidence that there are some factors or interactions thereof
+that effect the response, we may then, if deemed useful, try to use a
+more restrictive model. For instance, a general linear regression model may not
+only provide a more accurate and precise estimator of the conditional response,
+but also more explanatory power (e.g., the coefficients in a linear regression
+model have an obvious interpretation).
+
+## (c)
+\fbox{\begin{minipage}{\textwidth}
+Test for an interaction effect.
+Compute the test statistic $F_{A B}$ and the $p$-value.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+We test for an interaction effect with:
+```{r}
+summary(two.way.mod)
+```
+
+We see that $F_{A B} = 54.31$ which has a $p$-value of $.000$.
+Thus, the experiment finds an interaction effect between the gap between the
+electrodes and the RF power applied to the cathode on the etch rate for silicon
+nitride.
+
+## (d)
+\fbox{\begin{minipage}{\textwidth}
+Graph an interaction plot.
+\end{minipage}}
+
+```{r}
+# the command below is used to create an interaction plot
+# the x.factor will be plotted on the horizontal axis.
+# the trace.factor will be plotted as separate curves
+interaction.plot(x.factor=gap,trace.factor=rfp,response=rate)
+```
+
+This interaction effect demonstrates an interaction effect, since the effect
+of one factor depends on the level of the other factor.
+
+## (e)
+\fbox{\begin{minipage}{\textwidth}
+Perform pairwise comparisons using the Fisher LSD method to investigate
+differences between the treatment combinations.
+Provide the grouping information.
+\end{minipage}}
+
+### Fisher LSD
+```{r}
+library("multcomp")
+
+# because of the interaction effect, we will need to perform comparisons on
+# treatment combinations.
+# comparisons on factor effects may be misleading since a factor effect depends
+# on the level of the other factor.
+
+# create one factor with a*b=4 levels
+combined = interaction(gap,rfp)
+
+# compute Fisher comparisons between treatment (4 choose 2)=6 combinations.
+comb.mod = aov(rate~combined)
+comparisons = glht(comb.mod,linfct=mcp(combined="Tukey"))
+summary(comparisons,test=univariate())
+```
+
+### Grouping information
+```{r}
+cld(summary(comparisons,test=univariate()))
+```
+
+## (f)
+\fbox{\begin{minipage}{\textwidth}
+Provide an overall interpretation to the analysis, stated in the context of the problem.
+\end{minipage}}
+
+The experiment finds that the gap has no effect on etch rate when RF power is
+set at $275$, but that an RF power of $325$ leads to greater overall etch rates.
+
+Note that the optimal treatment combination in this experiment is a gap of $0.8
+and an RF power of $325$.
+
+# Problem 2
+The factors that affect the breaking strength of a synthetic fiber are being
+studied.
+A factorial experiment is run using the four production machines and the three
+operators.
+The data is available on Blackboard as an Excel File.
+
+## (a)
+\fbox{\begin{minipage}{\textwidth}
+Fit the interaction model.
+Test for an interaction effect and for main effects.
+Compute the test statistics $F_A$, $F_B$, $F_{A B}$, and the $p$-values.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+Let
+\begin{align*}
+  A               &\coloneqq \text{mach}\\
+  B               &\coloneqq \text{op}\\
+  \text{response} &\coloneqq \text{str}.
+\end{align*}
+
+We fit the interaction model
+$$
+  y_{i j k} = \mu + \tau_i + \beta_j + (\tau\!\beta)_{i j} + \epsilon_{i j k}
+$$
+with the following R code:
+```{r}
+mach = as.factor(na.omit(data$machine))
+op = as.factor(na.omit(data$operator))
+str = na.omit(data$strength)
+
+# fit the interaction model, where mach*op denotes mach + op + mach:op
+x.mod = aov(str~mach*op)
+summary(x.mod)
+```
+
+We see that
+\begin{align*}
+  F_A     &= 1.095\\
+  F_B     &= 21.143\\
+  F_{A B} &= 7.44
+\end{align*}
+and
+\begin{align*}
+  p_A     &= .388753\\
+  p_B     &= .000117\\
+  p_{A B} &= .150681.
+\end{align*}
+
+### Interpretation
+The experiment finds that the operator has an effect on strength and the machine
+has no effect on strength.
+In addition, the experiment finds there is no interaction effect.
+
+## (b)
+\fbox{\begin{minipage}{\textwidth}
+Fit the additive model.
+Perform pairwise comparisons using the Fisher LSD method to investigate
+differences between operators.
+Provide the grouping information.
+\end{minipage}}
+
+### Fitting the additive model
+Having seen some evidence that interaction effects are unimportant, we fit the
+additive model
+$$
+  y_{i j k} = \mu + \tau_i + \beta_j + \epsilon_{i j k}
+$$
+with the following R code:
+```{r}
+a.mod = aov(str~mach+op)
+summary(a.mod)
+```
+
+### Fisher LSD comparisons for operator
+```{r}
+compare.op = glht(a.mod, linfct=mcp(op="Tukey"))
+summary(compare.op,test=univariate())
+```
+
+### Grouping information
+```{r}
+cld(summary(compare.op,test=univariate()))
+plot(cld(summary(compare.op,test=univariate())))
+```
+
+## (c)
+\fbox{\begin{minipage}{\textwidth}
+Compute confidence intervals for the between operator differences.
+\end{minipage}}
+
+```{r}
+confint(compare.op,calpha=univariate_calpha())
+```
+
+From the grouping information and the confidence intervals, we say that
+$$
+  \mu_3 < \mu_1 < \mu_2
+$$
+and
+$$
+  \mu_3 < \mu_2 < \mu_1
+$$
+are compatible with the data.
+
+## (d)
+\fbox{\begin{minipage}{\textwidth}
+Graph an interaction plot for both the interaction model and the additive model.
+Explain how the analysis is providing a simplification to the observed data.
+\end{minipage}}
+
+```{r}
+par(mfrow=c(1,2))
+
+# interaction model
+interaction.plot(mach,op,str)
+
+# additive model
+# compute estimated means under the additive model
+a.means = predict(a.mod)
+interaction.plot(mach,op,a.means)
+```
+
+### Explanation
+The model smooths over the randomness in the data, simplifying the analysis.

@@ -1,0 +1,207 @@
+\documentclass[10pt]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+%\usepackage{mathpazo} % Use the Palatino font
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx} % Required for including images
+\usepackage{amsthm}
+\usepackage{commath}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\renewcommand{\arraystretch}{1.2} 
+%\usemintedstyle[R]{friendly}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!red,
+}
+
+\title{Homework \#3} % Assignment title
+\author{Alex Towell (\href{mailto:atowell@siue.edu}{\bfseries{atowell@siue.edu}})}
+
+\date{02/11/2021} % Due date
+\institute{Southern Illinois University-Edwardsville}
+\class{STAT 579 - Discrete Multivariate Analysis}
+\professor{Dr. Andrew Neath}
+
+\newcommand{\odds}{\operatorname{odds}}
+\renewcommand{\Pr}{\operatorname{P}}
+\newcommand{\Eval}[3]{\left. #1 \right\vert_{#2}^{#3}}
+
+\newcommand{\comment}[1]{}
+
+\begin{document}
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+\section*{Question 1}
+\begin{problem}
+A diagnostic test is used to detect Covid antibodies in test subjects. Consider a $2\times2$ table in which
+the row variable is the true status (row $1$ = antibodies, row $2$ = no antibodies) and the column variable is the
+test result ($1$ = positive, $2$ = negative). Then $\pi_{1|1}$ is the sensitivity and $\pi_{2|2}$ is the specificity.
+Let $\rho$ be the prevalence of the disease in the testing population.
+
+The standard test for antibodies is estimated to have sensitivity $\pi_{1|1} = .850$ and specificity $\pi_{2|2} = .995$.
+Consider the test applied to a population with prevalence $\rho = .10$.
+
+\begin{enumerate}
+\item[(a)] Compute the joint probabilities for the $2 \times 2$ table.
+\item[(b)] Compute $\operatorname{PVP} \coloneqq P(A|+)$, the predictive value positive.
+\item[(c)] Provide an interpretation of the result in (b), stated in the context of the problem.
+\end{enumerate}  
+\end{problem}
+
+\subsection*{Answer}
+Let $X$ denote the explanatory variate (input) with a support $\{A,N\!A\}$ respectively for \emph{antibodies} and \emph{no antibodies}.
+Let $Y$ denote the response variate with a support $\{+,-\}$ respectively for a positive and negative test result.
+
+\begin{enumerate}
+    \item[(a)] The \emph{original} contingency table is given in the form of conditional probabilities for positive or negative, e.g., $\pi_{1|1} \coloneqq P(+|A)$.
+    The \emph{conditional} probability table is given by table~\ref{tbl:t0}.    
+    \begin{table}[h]
+    \centering
+    \begin{tabular}{@{}rrrr@{}}
+        \toprule
+                                 & 		    & \multicolumn{2}{ c }{diagnostic}\\
+                                 & 			& $+$ 							 & $-$\\
+        \cmidrule{3-4}
+        \multirow{2}{*}{antigen} & $A$  	& $\delta = \pi_{1|1} = .850$    & $1-\delta = \pi_{2|1} = .150$\\
+                                 & $N\!A$ 	& $1-\gamma = \pi_{1|2} = .005$  & $\gamma = \pi_{2|2} = .995$\\
+        \bottomrule
+    \end{tabular}
+    \caption{Antigen-diagnostic conditional probability table}
+    \label{tbl:t0}     
+    \end{table}    
+    
+    It is given that the prevalance $P(A) = \rho = .1$.
+    Therefore, by the laws of probability, the joint probability $\pi_{1 1} = P(A,+) = P(+|A)P(A)$.
+    (Note that when you see something like $P(A,+)$, this is shorthand for $P(X\!=\!A \cap Y\!=\!+)$.)
+    Since $P(N\!A) = 1-P(A) = 1-\rho = .9$, the remaining cells in the joint probability contingency table can be derived in a similiar way,
+    \begin{align*}
+        \pi_{1 1} &= \pi_{1|1} \rho = .850 \times .10 = .085\,,\\
+        \pi_{1 2} &= \pi_{2|1} \rho = (1-.850) \times .10 = .015\,,\\
+        \pi_{2 1} &= \pi_{1|2}(1-\rho) = (1-.995) \times (1- .10) = .0045\,,\\
+        \pi_{2 2} &= \pi_{2|2}(1-\rho) = .995 \times (1- .10) = .8955\,.
+    \end{align*}
+%    Since the response variable is \emph{binary} we can denote $\pi_{1|i}$ by $\pi_i$ and $\pi{2|i}$ by $1-\pi_i$ for $i \in \{1,2\}$
+%    without ambiguity, but we chose to go with the original notation $\pi_{j|i}$.
+
+    The joint probability table is given by table~\ref{tbl:t1}.
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{@{}rrcc@{}}
+            \toprule
+            & & \multicolumn{2}{ c }{diagnostic}\\
+            & & $+$ & $-$\\
+            \cmidrule{3-4}
+            \multirow{2}{*}{antigen} & $A$    & $\pi_{1 1} = .0850$    & $\pi_{1 2} = .0150$\\
+            & $N\!A$ & $\pi_{2 1} = .0045$    & $\pi_{2 2} = .8955$\\
+            \bottomrule
+        \end{tabular}
+        \caption{antigen-diagnostic joint probability table}
+        \label{tbl:t1}     
+    \end{table}    
+    
+    \item[(b)] We are interested in $\operatorname{PVP} \coloneqq P(A|+)$. This is trivial to construct from table~\ref{tbl:t1}.
+    By Bayes theorem, $P(A|+) = P(A,+) / P(+)$, where $P(+)$ is the marginal $\pi_{+1} = P(A,+) + P(N\!A,+) = \pi_{1 1} + \pi_{2 1}$.
+    Thus,
+    \begin{align*}
+        \operatorname{PVP}
+               &= \pi_{1 1} / (\pi_{1 1} + \pi_{2 1})\\
+               &= .085 / (.085 + .0045) \approx .95\,,
+    \end{align*}
+    which may be rewritten in terms of sensitivity and specificity,
+    \begin{equation*}
+        \operatorname{PVP} = \frac{\delta \rho}{\delta \rho + (1-\gamma)(1-\rho)} = \frac{.850 \times .1}{.850 \times .1 + .005 \times .9} \approx .95\,.
+    \end{equation*}
+    
+    \item[(c)] We estimate that there around a $95\%$ chance that a person who tests positive for antibodies using this diagnostic test has the Covid antibodies.
+    
+    On the assumption that if people who have antibodies have or at some point had Covid, then we may rephrase this as there is a $95\%$ chance that
+    a person who tests positive has or had Covid.
+    %Additional remarks: It is important to note that having the antibodies does not necessarily mean you are immune from future infection. So, there are two
+    %sources of uncertainty with respect to future immunity, where the $\operatorname{PVP}$ is the probability you have the antibodies given a positive test
+    %and let $P(I|A)$ be the probability that you have future immunity given the antibodies where $I$ denotes immunity, and thus
+    %\begin{equation*}
+    %    P(I | +) = \operatorname{PVP} \times P(I | A)\,.
+    %\end{equation*}
+    %We do not have the data to estimate $P(I|A)$. There is a non-zero chance that it will provide some immunity and a zero chance it is certain to provide
+    %immunity, so an interval estimate for $P(I|A)$ is $\hat{P}(I|A) \in (0,1)$. This is not very informative, but it may be reasonable
+    %to assume, without evidence, that $P(I|A) \geq P(I) \geq P(I|N\!A)$. Bottom line? We need more data.
+    %
+    %On a personal note, I was disappointed that our government had not taken the virus more seriously (the precautionary principle by itself
+    %seemed to warrant a more aggressive response, but we also had persuasive evidence that it was going to be bad). It was even more depressing
+    %to see that mask wearing, which seems like a bare minimum, had been \emph{politicized}.
+    %        
+    %We are fortunate that the virus was not more transmissible or more fatal, which is saying a lot since nearly a half a million people have already died due to
+    %complications from Covid (and the excess mortality will likely provide evidence for a far higher death toll). To paraphrase Dr. Chomsky, it seems like many
+    %people are trying to accelerate to the end of organized human life.
+\end{enumerate}
+
+\section*{Question 2}
+\begin{problem}
+Table~\ref{tbl:q2} is cross sectional data based on the records of traffic accidents.
+\begin{enumerate}
+\item [(a)] Compute an estimate of the relative risk.
+\item [(b)] Provide an interpretation of your result, stated in the context of the problem.
+\end{enumerate}
+\end{problem}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{@{}rrrr@{}}
+        \toprule
+        & \multicolumn{2}{ c }{injury}\\
+        safety equipment     & \bfseries{fatal} & \bfseries{non-fatal}\\
+        \midrule
+        \bfseries{none}      & 1,601         & 162,527\\
+        \bfseries{seatbelt}  & 510           & 412,368\\
+        \bottomrule
+    \end{tabular}
+    \caption{Cross-sectional data of traffic accidents}
+    \label{tbl:q2}
+\end{table}
+
+\subsection*{Answer}
+\begin{enumerate}
+    \item[(a)] The relative risk (with respect to a fatality occuring given that a seat belt is either used or not used) is defined as
+    \begin{equation}
+        \operatorname{RR} \coloneqq \frac{\pi_{1|1}}{\pi_{1|2}}\,.
+    \end{equation}
+    We are given cross-sectional count data in the above table, in which the safety equipment use $X$ and the injury $Y$ are simultaneously observed.
+    We can use cross-sectional data to estimate the joint probability distribution of $X$ and $Y$, $\{\pi_{i j}\}$.
+    From the joint probability distribution, we can estimate the conditional distributions $\{\pi_{j|i}\}$.
+    A point estimator of $\{\pi_{j|i}\}$ is given by $\{\hat{\pi}_{j|i} = n_{i j} / n_{i+}\}$, and therefore
+    \begin{equation*}
+        \operatorname{\hat{RR}} = \frac{\hat{\pi}_{1|1}}{\hat{\pi}_{1|2}} = \frac{n_{1 1} / n_{1+}}{n_{2 1} / n_{2+}} = \frac{1601/(1601+162527)}{510/(510+412368)} \approx 7.9\,.
+    \end{equation*}
+    
+    \item[(b)] We estimate that if a person is involved in a traffic accident, those who do not wear a seatbelt are $8$ times more likely
+    to experience a fatality than those who do wear a seat belt.
+\end{enumerate}
+
+\section*{Question 3}
+\begin{problem}
+Explain the difference between a prospective study and a retrospective study.
+What parameters can be estimated from a prospective study? What parameters can be estimated from a retrospective study?
+\end{problem}
+
+\subsection*{Answer}
+In a prospective study, the input variable (sometimes denoted the explanatory variable) is fixed by the sampling design,
+so only the response variable is observed from experimentation. For instance, let $X$ denote the input variable
+and $Y$ denote the response variable. Then, we observe the conditional relation $Y = j$ given $X = i$, whose probability
+we denote by $\pi_{j|i}$. We cannot estimate other kinds of probabilities, like the joint probability or the marginal
+probabilities, but the conditional probability $\pi_{j|i}$ is the probabilistic relation of primary interest in such a study.
+Naturally, we can also estimate any characteristic that is a function of $\pi_{j|i}$, like relative risk,
+difference of proportions, and odds ratio.
+
+In a retrospective study, the response variable is fixed by the sampling design, so only the input variable is observed
+from experimentation and thus we may estimate the conditional probabilities
+$\pi_{i|j}$ but not the conditional probability of primary interest, $\pi_{j|i}$. We may also estimate the odds ratio since
+by definition it is determined by the conditional probabilities in either direction, i.e., it is invariant to rows and columns.
+(Additionally, when $\pi_{1|i}$ is small, the odds ratio is also a reasonable estimator of the relative risk.)
+\end{document}
