@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Alex Towell (atowell@siue.edu)" />
+  <title>Discrete Multivariate Analysis - 579 - HW #8</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Discrete Multivariate Analysis - 579 - HW #8</h1>
+<p class="author">Alex Towell (<a
+href="mailto:atowell@siue.edu"><code>atowell@siue.edu</code></a>)</p>
+</header>
+<h1 id="problem-1">Problem 1</h1>
+<p>Consider an experiment on chlorophyll inheritance in maize. A genetic
+theory predicts the ratio of green to yellow to be 3:1. In a sample of
+<span class="math inline">\(n = 1103\)</span> seedlings, <span
+class="math inline">\(n_1 = 854\)</span> were green and <span
+class="math inline">\(n_2 = 249\)</span> were yellow.</p>
+<h2 id="part-a">Part (a)</h2>
+<p>The likelihood ratio statistic is defined as <span
+class="math display">\[G^2 = - 2 \log \Lambda = 2 \sum_{j=1}^{c}
+\log\left(\frac{n_j}{n \pi_{j 0}}\right).\]</span></p>
+<p>We use the following R code to compute the observed statistic <span
+class="math inline">\(G_0^2\)</span>.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.56,0.35,0.01"><em># below is code for testing a
+specified multinomial</em></span> <span
+style="color: 0.56,0.35,0.01"><em># data is entered as a vector of
+counts</em></span> obs <span style="color: 0.56,0.35,0.01">=</span>
+<span style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">854</span>,<span
+style="color: 0.00,0.00,0.81">249</span>) n <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>sum</strong></span>(obs)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># the null model is entered
+as a vector of hypothesized probabilities</em></span> <span
+style="color: 0.56,0.35,0.01"><em># expected counts under the null model
+are computed as n*prob</em></span> pi<span
+style="color: 0.00,0.00,0.81">.0</span> <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(.<span
+style="color: 0.00,0.00,0.81">75</span>,.<span
+style="color: 0.00,0.00,0.81">25</span>) m <span
+style="color: 0.56,0.35,0.01">=</span> n<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>pi<span
+style="color: 0.00,0.00,0.81">.0</span></p>
+<p><span style="color: 0.56,0.35,0.01"><em># log<span>-</span>likelihood
+ratio test</em></span> G2 <span style="color: 0.56,0.35,0.01">=</span>
+<span style="color: 0.00,0.00,0.81">2</span><span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>sum</strong></span>(obs<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>log</strong></span>(obs<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span>m)) <span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(G2)</p>
+</div>
+</div>
+<pre><code>## [1] 3.539017</code></pre>
+<p>We see that the observed statistic is given by <span
+class="math inline">\(G_0^2 = 3.54\)</span>.</p>
+<h2 id="part-b">Part (b)</h2>
+<p>The reference distribution is the chi-squared distribution with <span
+class="math inline">\(c-1 = 1\)</span> degrees of freedom.</p>
+<p>The <span class="math inline">\(p\)</span>-value with <span
+class="math inline">\(k\)</span> degrees of freedom is defined as <span
+class="math display">\[\text{$p$-value} = \operatorname{P}(\chi^2(k)
+&gt; G^2),\]</span> or in this case <span
+class="math display">\[\text{$p$-value} = \operatorname{P}(\chi^2(1)
+&gt; 3.54) = 0.06.\]</span> The following R code computes the <span
+class="math inline">\(p\)</span>-value.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.56,0.35,0.01"><em># the p<span>-</span>value, a
+calculation based on tail probabilities</em></span> c <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>length</strong></span>(obs)
+pvalue.G2 <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>pchisq</strong></span>(G2,c<span
+style="color: 0.00,0.00,0.81"><span>-</span>1</span>,<span
+style="color: 0.13,0.29,0.53">lower.tail=</span><span
+style="color: 0.56,0.35,0.01">FALSE</span>) <span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(pvalue.G2)</p>
+</div>
+</div>
+<pre><code>## [1] 0.05994099</code></pre>
+<h2 id="part-c">Part (c)</h2>
+<p>According to the Fisher scale for interpreting <span
+class="math inline">\(p\)</span>-values, <span
+class="math inline">\(p\)</span>-values of <span
+class="math inline">\(0.05\)</span> and <span
+class="math inline">\(0.1\)</span> denote respectively <em>moderate</em>
+and <em>boderline</em> evidence against the null model.</p>
+<p>Since we obtained a <span class="math inline">\(p\)</span>-value of
+<span class="math inline">\(0.06\)</span>, the data provides
+<em>moderate</em> evidence against the genetic theory positing that the
+ratio of green to yellow seedlings is 3:1.</p>
+<h2 id="part-d">Part (d)</h2>
+<p>The <span class="math inline">\(p\)</span>-value overstates evidence
+against the null model by comparing the null model to the alternative
+model that is best supported by the data.</p>
+<h2 id="part-e">Part (e)</h2>
+<p>Below is code for computing Bayes Factors in a test for a specified
+probability.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>library</strong></span>(BayesFactor)
+<span style="color: 0.56,0.35,0.01"><em># g denotes number of green
+seedlings</em></span> <span style="color: 0.56,0.35,0.01"><em># y
+denotes number of yellow seedlings</em></span> <span
+style="color: 0.56,0.35,0.01"><em># n = g+y denotes total number of
+seedlings</em></span> g <span style="color: 0.56,0.35,0.01">=</span>
+<span style="color: 0.00,0.00,0.81">854</span> y <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">249</span> n <span
+style="color: 0.56,0.35,0.01">=</span> g<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>y p0 <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">3</span><span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.00,0.00,0.81">4</span></p>
+<p>bf.medium <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>proportionBF</strong></span>(<span
+style="color: 0.13,0.29,0.53">y=</span>g,<span
+style="color: 0.13,0.29,0.53">N=</span>n,<span
+style="color: 0.13,0.29,0.53">p=</span>p0,<span
+style="color: 0.13,0.29,0.53">rscale=</span><span
+style="color: 0.31,0.60,0.02">"medium"</span>) bf.wide <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>proportionBF</strong></span>(<span
+style="color: 0.13,0.29,0.53">y=</span>g,<span
+style="color: 0.13,0.29,0.53">N=</span>n,<span
+style="color: 0.13,0.29,0.53">p=</span>p0,<span
+style="color: 0.13,0.29,0.53">rscale=</span><span
+style="color: 0.31,0.60,0.02">"wide"</span>) bf.ultra <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>proportionBF</strong></span>(<span
+style="color: 0.13,0.29,0.53">y=</span>g,<span
+style="color: 0.13,0.29,0.53">N=</span>n,<span
+style="color: 0.13,0.29,0.53">p=</span>p0,<span
+style="color: 0.13,0.29,0.53">rscale=</span><span
+style="color: 0.31,0.60,0.02">"ultrawide"</span>)</p>
+<p>bf.medium</p>
+</div>
+</div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Null, p=0.75 : 1.931436 ±0%
+## 
+## Against denominator:
+##   Alternative, p0 = 0.75, r = 0.5, p =/= p0 
+## ---
+## Bayes factor type: BFproportion, logistic</code></pre>
+<div class="snugshade">
+<div class="Highlighting">
+<p>bf.wide</p>
+</div>
+</div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Null, p=0.75 : 2.700316 ±0%
+## 
+## Against denominator:
+##   Alternative, p0 = 0.75, r = 0.707106781186548, p =/= p0 
+## ---
+## Bayes factor type: BFproportion, logistic</code></pre>
+<div class="snugshade">
+<div class="Highlighting">
+<p>bf.ultra</p>
+</div>
+</div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Null, p=0.75 : 3.796726 ±0.01%
+## 
+## Against denominator:
+##   Alternative, p0 = 0.75, r = 1, p =/= p0 
+## ---
+## Bayes factor type: BFproportion, logistic</code></pre>
+<p>If <span class="math inline">\(\rm{BF}_{0 1} &gt; 1\)</span>, then
+the data supports the null model over the alternative model.</p>
+<p>According to the Bayes Factors, the results for <em>medium</em>,
+<em>wide</em> and <em>ultrawide</em> are given respectively by <span
+class="math inline">\(1.9\)</span>, <span
+class="math inline">\(2.7\)</span>, and <span
+class="math inline">\(3.8\)</span>. Thus, the null model is supported by
+the data in each case.</p>
+</body>
+</html>

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Alex Towell (atowell@siue.edu)" />
+  <title>Discrete Multivariate Analysis - 579 - Exam 2</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Discrete Multivariate Analysis - 579 - Exam 2</h1>
+<p class="author">Alex Towell (<a
+href="mailto:atowell@siue.edu"><code>atowell@siue.edu</code></a>)</p>
+</header>
+<h1 id="problem-1">Problem 1</h1>
+<p>A genetic model predicts the ratio of green seedlings to yellow
+seedlings to be <span class="math inline">\(3:1\)</span>. Consider data
+from a sample of <span class="math inline">\(n=1100\)</span> seedlings,
+where <span class="math inline">\(n_1 = 860\)</span> is the number of
+green and <span class="math inline">\(n_2 = 240\)</span> is the number
+of yellow.</p>
+<h2 id="part-a">Part (a)</h2>
+<p>The observed data models the binomial distribution <span
+class="math display">\[n_g \sim \operatorname{BIN}(n, \pi_g)\]</span>
+where <span class="math inline">\(n_g\)</span> and <span
+class="math inline">\(n_y = n - n_g\)</span> are respectively the number
+of green and yellow seedlings and <span
+class="math inline">\(\pi_g\)</span> and <span
+class="math inline">\(\pi_y=1-\pi_g\)</span> are respectively the
+probability of a green and yellow seedling.</p>
+<p>Under the null model, the odds of green seedlings to yellow seedlings
+is <span class="math inline">\(3:1\)</span>, thus <span
+class="math display">\[H_0 : \pi_{g 0} = 0.75 \;\; (\pi_{y 0} =
+0.25).\]</span></p>
+<p>We perform a chi-squared test for goodness of fit whose test
+statistic is given by <span class="math display">\[X^2 = \frac{(n_g -
+\hat{m}_g}{\hat{m}_g} + \frac{(n_y - \hat{m}_y)^2}{\hat{m}_y}\]</span>
+where <span class="math inline">\(\hat{m}_g = n \pi_{g 0}\)</span> and
+<span class="math inline">\(\hat{m}_y = \pi_{y 0}\)</span>.</p>
+<p>The parameter space of the unconstrained binomial model is given by
+<span class="math display">\[\vec{\pi}(\pi_g) = (\pi_g,
+1-\pi_g)&#39;,\]</span> which has a dimension of <span
+class="math inline">\(\dim \vec{\pi} = 1\)</span>.</p>
+<p>The <em>null model</em>, which is the specified binomial <span
+class="math inline">\(\pi_{g 0} = 0.75\)</span>, has the parameter space
+<span class="math inline">\(\vec{\pi}_0 = (0.75,0.25)&#39;\)</span>,
+which is just a <em>point</em> with a dimension of <span
+class="math inline">\(\dim \vec{\pi}_0 = 0\)</span>.</p>
+<p>Thus, under the null model, <span class="math inline">\(X^2\)</span>
+is distributed <span class="math inline">\(\chi^2\)</span> with <span
+class="math display">\[\operatorname{df} = \dim \vec{\pi} - \dim
+\vec{\pi}_0 = 1 - 0 = 1\]</span> degrees of freedom, denoted by <span
+class="math inline">\(\chi^2(1)\)</span>.</p>
+<h3 id="answer">ANSWER</h3>
+<p>We compute the observed <span class="math inline">\(X^2\)</span>
+statistic with:</p>
+<div class="snugshade">
+
+</div>
+<pre><code>## $stat
+## [1] 5.939394
+## 
+## $p
+## [1] 0.01480611
+## 
+## $df
+## [1] 1</code></pre>
+<p>We see that <span class="math inline">\(X^2\)</span> realizes the
+value <span class="math inline">\(X_0^2 = 5.939\)</span>.</p>
+<h2 id="part-b">Part (b)</h2>
+<p>Assuming <span class="math inline">\(X^2 \sim \chi^2(1)\)</span>, the
+<span class="math inline">\((1-\alpha) \times 100 \%\)</span>
+percentile, denoted by <span
+class="math inline">\(\chi_{\alpha}^2(1)\)</span>, is given by solving
+the equation <span class="math display">\[\Pr[X^2 \geq
+\chi_{\alpha}^2(1)] = \alpha\]</span> for <span
+class="math inline">\(\chi_{\alpha}^2\)</span>.</p>
+<p>We compute the <span class="math inline">\(10\)</span>-th percentile
+with the following R code:</p>
+<div class="snugshade">
+
+</div>
+<h3 id="answer-1">ANSWER</h3>
+<p>We see that the <span class="math inline">\(10\)</span>-th percentile
+is <span class="math inline">\(\chi^2_{0.1}(1) = 2.706\)</span>.</p>
+<h2 id="part-c">Part (c)</h2>
+<h3 id="answer-2">ANSWER</h3>
+<p>We say that any observed statistic <span
+class="math inline">\(X_0^2\)</span> with <span
+class="math inline">\(\operatorname{df}=1\)</span> greater than <span
+class="math inline">\(\chi^2_{0.1}(1) = 2.706\)</span> is not compatible
+with the null model at significance level <span
+class="math inline">\(\alpha = 0.1\)</span>.</p>
+<p>Since the observed statistic <span class="math inline">\(X_0^2 =
+5.939 &gt; 2.706\)</span>, the null model, which is the genetic theory
+where the ratio of green to yellow is <span
+class="math inline">\(3:1\)</span>, is not compatible with the data.</p>
+<h2 id="part-d">Part (d)</h2>
+<h3 id="answer-3">ANSWER</h3>
+<p>Hypothesis testing, as a dichotomous measure of evidence, does not
+provide as much information as a more quantitative evidence measure. For
+instance, it does not provide information about effect size.</p>
+<h2 id="part-e">Part (e)</h2>
+<p>The MLE of <span class="math inline">\(\pi_g\)</span> is given by
+<span class="math inline">\(\hat{\pi}_g = \frac{n_g}{n}\)</span>. A
+<span class="math inline">\((1-\alpha) \times 100 \%\)</span> confidence
+interval for <span class="math inline">\(\pi_g\)</span> is given by
+<span class="math display">\[\hat{\pi}_g \pm z_{\alpha/2}
+\hat\sigma_{\hat\pi_g}.\]</span> where <span
+class="math inline">\(\hat\sigma_{\hat\pi_g} = \sqrt{\frac{\hat{\pi}_g
+(1-\hat{\pi}_g)}{n}}\)</span>.</p>
+<h3 id="answer-4">ANSWER</h3>
+<p>Letting <span class="math inline">\(\alpha = 0.10\)</span>, the MLE
+and <span class="math inline">\(90\%\)</span> confidence interval for
+<span class="math inline">\(\pi_g\)</span> is computed with the
+following R code:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>n <span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>sum</strong></span>(obs) mle <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> obs[<span
+style="color: 0.00,0.00,0.81">1</span>]<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span>n</p>
+<p>alpha <span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span>
+<span style="color: 0.00,0.00,0.81">0.1</span> s2 <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> mle<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>mle)<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span>n q <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>qnorm</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>alpha<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.00,0.00,0.81">2</span>) <span
+style="color: 0.56,0.35,0.01"><em># should be around 1.645</em></span>
+conf <span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(mle <span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span> q <span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span> <span
+style="color: 0.13,0.29,0.53"><strong>sqrt</strong></span>(s2), mle
+<span style="color: 0.81,0.36,0.00"><strong>+</strong></span> q <span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span> <span
+style="color: 0.13,0.29,0.53"><strong>sqrt</strong></span>(s2))</p>
+</div>
+</div>
+<p>We see that <span class="math inline">\(\hat{\pi}_g = 0.782\)</span>
+and a <span class="math inline">\(90\%\)</span> confidence interval is
+<span class="math inline">\((0.761, 0.802)\)</span>.</p>
+<h2 id="part-f">Part (f)</h2>
+<h3 id="answer-5">ANSWER</h3>
+<p>Based on the observed data, we estimate that the probability <span
+class="math inline">\(\pi_g\)</span> of a green strain is between 0.761
+and 0.802.</p>
+<p>As expected, the null model specifies a value for <span
+class="math inline">\(\pi_g\)</span> (<span
+class="math inline">\(0.75\)</span>) that is not contained in the
+computed confidence interval.</p>
+<h2 id="part-g">Part (g)</h2>
+<p>The same reasoning as in part (a), except we use a different
+statistic called the likelihood ratio statistic, <span
+class="math display">\[G^2 = - 2 \log \Lambda\]</span> where <span
+class="math display">\[\Lambda = \frac{l(\pi_{g
+0})}{l(\hat{\pi}_g)}.\]</span> where <span
+class="math inline">\(\hat{\pi}_g\)</span> is the maximum likelihood
+estimate <span class="math inline">\(n_g / n\)</span>.</p>
+<p>This may be rewritten as <span class="math display">\[G^2 = 2
+\sum_{j=1}^{c} \log\left(\frac{n_j}{n \pi_{j 0}}\right).\]</span></p>
+<p>Under the null model, <span class="math inline">\(G^2\)</span> is
+distributed <span class="math inline">\(\chi^2\)</span> with <span
+class="math inline">\(1\)</span> degree of freedom.</p>
+<h3 id="answer-6">ANSWER</h3>
+<p>We compute the observed <span class="math inline">\(G_2\)</span>
+statistic with the following R code:</p>
+<div class="snugshade">
+
+</div>
+<pre><code>## $stat
+## [1] 6.120841
+## 
+## $p
+## [1] 0.01335972
+## 
+## $df
+## [1] 1</code></pre>
+<p>We see that <span class="math inline">\(G^2\)</span> realizes the
+value 6.121.</p>
+<h2 id="part-h">Part (h)</h2>
+<h3 id="answer-7">ANSWER</h3>
+<p>The reference distribution is the chi-squared distribution with <span
+class="math inline">\(1\)</span> degrees of freedom.</p>
+<p>The <span class="math inline">\(p\)</span>-value given <span
+class="math inline">\(1\)</span> degree of freedom is defined as <span
+class="math display">\[\text{$p$-value} = \operatorname{P}(G^2 &gt;
+\chi^2(1)),\]</span> which was computed to be <span
+class="math inline">\(0.013\)</span>. (For comparison, the <span
+class="math inline">\(p\)</span>-value for the <span
+class="math inline">\(X^2\)</span> test was <span
+class="math inline">\(0.015\)</span>.)</p>
+<h2 id="part-i">Part (i)</h2>
+<h3 id="answer-8">ANSWER</h3>
+<p>According to the Fisher scale for interpreting <span
+class="math inline">\(p\)</span>-values, a <span
+class="math inline">\(p\)</span>-value of <span
+class="math inline">\(0.01\)</span> is considered <em>strong</em>
+evidence against the null model.</p>
+<p>Since we obtained a <span class="math inline">\(p\)</span>-value of
+slightly larger, the data provides <em>strong</em> evidence against the
+genetic theory positing that the ratio of green to yellow seedlings is
+<span class="math inline">\(3:1\)</span>.</p>
+<h2 id="part-j">Part (j)</h2>
+<h3 id="answer-9">ANSWER</h3>
+<p>The <span class="math inline">\(p\)</span>-value overstates evidence
+against the null model by comparing the null model to the alternative
+model that is best supported by the data.</p>
+<h1 id="problem-2">Problem 2</h1>
+<p>Consider the results from a study on the relationship between dose
+level and the severity of side effects. (Larger y values correspond to a
+more severe response.)</p>
+<p>Data:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><span class="math inline">\(y =
+0\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(y =
+1\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(y =
+2\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(y =
+3\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(y =
+4\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">low dose</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">medium dose</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">high dose</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preliminary-analysis">Preliminary analysis</h2>
+<p>We model the cross-sectional data as being an observation of a <span
+class="math inline">\(3 \times 5\)</span> random matrix where the row
+levels, denoted by <span class="math inline">\(X\)</span>, correspond to
+dosage level and the column levels, denoted by <span
+class="math inline">\(Y\)</span>, correspond to severity of side
+effects. The elements (cells) of the random matrix are jointly sampled
+from the multinomial distribution <span class="math display">\[\{n_{i
+j}\} \sim \operatorname{MULT}(n, \{\pi_{i j}\}).\]</span> where <span
+class="math inline">\(n_{i j}\)</span> denotes the <span
+class="math inline">\((i,j)\)</span>-th element of the random matrix,
+<span class="math inline">\(\pi_{i j}\)</span> denotes the parameter
+that specifies the joint probability <span
+class="math inline">\(\Pr(X=i,Y=j)\)</span>, and <span
+class="math inline">\(n\)</span> denotes the number of trials.</p>
+<p>The full model has a parameter space of dimension <span
+class="math inline">\(3 \times 5 - 1 = 14\)</span>.</p>
+<h2 id="part-a-1">Part (a)</h2>
+<p>We consider a simpler model than the full model where <span
+class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span> are independent, i.e., <span
+class="math inline">\(\pi_{i j\,0} = \Pr(X=i)\Pr(Y=j) =
+\pi_{i+}\pi_{+j}\)</span>. Since we are only free to specify <span
+class="math inline">\(\pi_{i+}\)</span> and <span
+class="math inline">\(\pi_{+j}\)</span>, the parameter space of the
+independence model is of dimension <span class="math inline">\((3-1) +
+(5-1) = 6\)</span>.</p>
+<p>To decide whether the observed data is compatible with <span
+class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span> being independent, we perform the
+hypothesis test <span class="math display">\[H_0 : \{\pi_{i j}\} =
+\{\pi_{i j\,0}\}.\]</span></p>
+<p>An estimator of <span class="math inline">\(\pi_{i+}\)</span> is
+<span class="math inline">\(\hat{\pi}_{i+} = n_{i+}/n\)</span> and an
+estimator of <span class="math inline">\(\hat{\pi}_{+j}\)</span> is
+<span class="math inline">\(n_{+j}/n\)</span>, therefore an estimator of
+<span class="math inline">\(\pi_{i j\,0}\)</span> is given by <span
+class="math display">\[\hat{\pi}_{i j\,0} = \hat{\pi}_{i+}
+\hat{\pi}_{+j} = \frac{n_{i+}n_{+j}}{n^2}.\]</span> We perform a
+chi-square test for independence. The test statistic is given by <span
+class="math display">\[X^2 = \sum_{i=1}^{4} \frac{(n_{i j} - \hat{m}_{i
+j})^2}{\hat{m}_{i j}}\]</span> where <span
+class="math inline">\(\hat{m}_{i j} = n \hat{\pi}_{i j\,0}\)</span>.
+Asymptotically, <span class="math inline">\(X^2\)</span> is distributed
+<span class="math inline">\(\chi^2\)</span> with <span
+class="math inline">\(14 - 6 = 8\)</span> degrees of freedom.</p>
+<h3 id="answer-10">ANSWER</h3>
+<p>We compute the observed value of <span
+class="math inline">\(X^2\)</span> and its <span
+class="math inline">\(p\)</span>-value with the following R code:</p>
+<div class="snugshade">
+
+</div>
+<pre><code>## $stat
+## [1] 14.35678
+## 
+## $p
+## [1] 0.07292708
+## 
+## $df
+## [1] 8</code></pre>
+<p>The test statistic <span class="math inline">\(X^2\)</span> realizes
+the value <span class="math inline">\(14.357\)</span> whose <span
+class="math inline">\(p\)</span>-value is 0.073. We consider this <span
+class="math inline">\(p\)</span>-value to be moderate evidence against
+the null model. Stated differently, the observed data is moderately
+incompatible with the independence model.</p>
+<h2 id="part-b-1">Part (b)</h2>
+<p>Under the assumption of a monotonic association between <span
+class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span>, if <span
+class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span> are independent then their <span
+class="math inline">\(\gamma\)</span> correlation is zero. To decide
+whether the observed data is compatible with <span
+class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span> being independent, we perform the
+hypothesis test <span class="math display">\[H_0 : \gamma =
+0.\]</span></p>
+<p>The test statistic is given by <span class="math display">\[Z^* =
+\frac{\hat\gamma-0}{\hat\sigma(\hat\gamma)},\]</span> which is normally
+distributed <span class="math inline">\(\mathcal{N}(0,1)\)</span> under
+the null model.</p>
+<h3 id="answer-11">ANSWER</h3>
+<p>We compute <span class="math inline">\(Z^*\)</span> and <span
+class="math inline">\(p\)</span>-value with the following R code:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>gamma_test <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>independence_test_monotonic_association</strong></span>(obs)</p>
+</div>
+</div>
+<p>The observed <span class="math inline">\(Z^*\)</span> is 4.402 and
+its <span class="math inline">\(p\)</span>-value is less than <span
+class="math inline">\(0.001\)</span>, which we consider to be very
+strong evidence against the independence model.</p>
+<p>That is, the observed data provides very strong evidence against the
+independence model under the assumption of a monotonic association.</p>
+<h2 id="part-c-1">Part (c)</h2>
+<h3 id="answer-12">ANSWER</h3>
+<p>Estimates for simpler models have smaller variances than for
+estimates from more complicated models.</p>
+<h1 id="problem-3">Problem 3</h1>
+<p>Consider the results from a prospective study on the relationship
+between sex and hair color.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>obs <span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span>
+<span style="color: 0.13,0.29,0.53"><strong>matrix</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">75</span>,<span
+style="color: 0.00,0.00,0.81">16</span>,<span
+style="color: 0.00,0.00,0.81">9</span>,<span
+style="color: 0.00,0.00,0.81">120</span>,<span
+style="color: 0.00,0.00,0.81">64</span>,<span
+style="color: 0.00,0.00,0.81">16</span>),<span
+style="color: 0.13,0.29,0.53">nrow=</span><span
+style="color: 0.00,0.00,0.81">2</span>,<span
+style="color: 0.13,0.29,0.53">byrow=</span><span
+style="color: 0.56,0.35,0.01">TRUE</span>) <span
+style="color: 0.13,0.29,0.53"><strong>dimnames</strong></span>(obs)
+<span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>list</strong></span>(<span
+style="color: 0.13,0.29,0.53">sex=</span><span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.31,0.60,0.02">"male"</span>,<span
+style="color: 0.31,0.60,0.02">"female"</span>), <span
+style="color: 0.13,0.29,0.53">hc.level=</span><span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.31,0.60,0.02">"dark"</span>,<span
+style="color: 0.31,0.60,0.02">"blonde"</span>,<span
+style="color: 0.31,0.60,0.02">"red"</span>)) <span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(obs)</p>
+</div>
+</div>
+<pre><code>##         hc.level
+## sex      dark blonde red
+##   male     75     16   9
+##   female  120     64  16</code></pre>
+<h2 id="part-a-2">Part (a)</h2>
+<h3 id="answer-13">ANSWER</h3>
+<p>In a prospective study, each row of the table represents an
+independent multinomial. Thus, the data model is given by <span
+class="math display">\[\{n_{i j}\} \sim
+\operatorname{PROD\_MULT}(\{n_{i+}\},\{\pi_{j|i}\}).\]</span></p>
+<p>We are given a table of <span class="math inline">\(I=2\)</span> rows
+and <span class="math inline">\(J=3\)</span> columns, and thus we have
+<span class="math inline">\(I\)</span> independent multinomials.
+Therefore, the likelihood function is given by <span
+class="math display">\[l(\{\pi_{j|i}\}) = \prod_{i=1}^{I}
+\frac{n_{i+}!}{\prod_{j=1}^{J} n_{i j}!}
+    \prod_{j=1}^{J} \pi_{j|i}^{n_{i j}}.\]</span> Observe that <span
+class="math display">\[l(\{\pi_{j|i}\}) \propto \prod_{i=1}^{I}
+\prod_{j=1}^{J} \pi_{j|i}^{n_{i j}}.\]</span></p>
+<p>Under the full model, the maximum likelihood of <span
+class="math inline">\(\pi_{j|i}\)</span> is given by <span
+class="math display">\[\hat{\pi}_{j | i}^{(F)} = \frac{n_{i
+j}}{n_{i+}}\]</span> and under the independence model it is given by
+<span class="math display">\[\hat{\pi}_{j | i}^{(I)} =
+\frac{n_{+j}}{n}\]</span> for <span class="math inline">\(i \in
+\{1,2\}\)</span> and <span class="math inline">\(j \in
+\{1,2,3\}\)</span>.</p>
+<h2 id="part-b-2">Part (b)</h2>
+<p>The expected count <span class="math inline">\(\hat{m}_{i j}\)</span>
+under the independence model is given by <span
+class="math display">\[\hat{m}_{i j} = \frac{n_{i+}n_{+j}}{n} = n_{i+}
+\hat{\pi}_{j|i}^{(I)}.\]</span></p>
+<h3 id="answer-14">ANSWER</h3>
+<p>We use the R function <span
+class="math inline">\(\operatorname{chisq.test}\)</span> to compute the
+expected cell counts <span class="math inline">\(\{\hat{m}_{i
+j}\}\)</span>:</p>
+<div class="snugshade">
+
+</div>
+<pre><code>##         hc.level
+## sex      dark blonde    red
+##   male     65 26.667  8.333
+##   female  130 53.333 16.667</code></pre>
+<h2 id="part-c-2">Part (c)</h2>
+<p>In the full model, the paramter space is given by <span
+class="math display">\[\vec{\pi}^{(F)}(\theta_1,\theta_2, \theta_3,
+\theta_4) =
+  \begin{pmatrix}
+    \pi_{1|1} = \theta_1  &amp;  \pi_{2|1} = \theta_2 &amp;   \pi_{3|1}
+= 1-\theta_1-\theta_2\\
+    \pi_{1|2} = \theta_3  &amp;  \pi_{2|2} = \theta_4 &amp;   \pi_{3|2}
+= 1-\theta_3-\theta_4
+  \end{pmatrix}\]</span> which is of dimension <span
+class="math inline">\(I(J-1) = 4\)</span> and under the independence
+model, the parameter space is <span
+class="math display">\[\vec{\pi}^{(I)}(\theta_1,\theta_2) =
+  \begin{pmatrix}
+    \pi_{1|1} = \theta_1  &amp;  \pi_{2|1} = \theta_2 &amp;   \pi_{3|1}
+= 1-\theta_1-\theta_2\\
+    \pi_{1|2} = \theta_1  &amp;  \pi_{2|2} = \theta_2 &amp;   \pi_{3|2}
+= 1-\theta_1-\theta_2
+  \end{pmatrix}\]</span> which is of dimension <span
+class="math inline">\(J-1=2\)</span>. Thus, under the independence
+model, <span class="math inline">\(G^2\)</span> is distributed <span
+class="math inline">\(\chi^2\)</span> with <span
+class="math inline">\(\operatorname{df} = I(J-1) - (J-1) = (J-1)(I-1) =
+2\)</span></p>
+<h3 id="answer-15">ANSWER</h3>
+<p>We compute <span class="math inline">\(G^2\)</span> from the observed
+counts <span class="math inline">\(\{n_{i j}\}\)</span> and the expected
+counts <span class="math inline">\(\{\hat{m}_{i j}\}\)</span>:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>I <span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>dim</strong></span>(obs)[<span
+style="color: 0.00,0.00,0.81">1</span>] J <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>dim</strong></span>(obs)[<span
+style="color: 0.00,0.00,0.81">2</span>] G2 <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.00,0.00,0.81">2</span><span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>sum</strong></span>(obs<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>log</strong></span>(obs<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span>m.hat)) df <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> (I<span
+style="color: 0.00,0.00,0.81"><span>-</span>1</span>)<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>(J<span
+style="color: 0.00,0.00,0.81"><span>-</span>1</span>) p.value <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>pchisq</strong></span>(G2,df,<span
+style="color: 0.13,0.29,0.53">lower.tail =</span> <span
+style="color: 0.56,0.35,0.01">FALSE</span>)</p>
+<p><span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>round</strong></span>(G2,<span
+style="color: 0.00,0.00,0.81">3</span>))</p>
+</div>
+</div>
+<pre><code>## [1] 9.325</code></pre>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>round</strong></span>(p.value,<span
+style="color: 0.00,0.00,0.81">3</span>))</p>
+</div>
+</div>
+<pre><code>## [1] 0.009</code></pre>
+<p>We obtain a <span class="math inline">\(p\)</span>-value around <span
+class="math inline">\(0.01\)</span>, which we consider to be strong
+evidence against the independence model (the data supports the general
+association model). That is to say, the conditional distribution <span
+class="math display">\[\Pr(\text{hair color} \,|\, \text{sex} =
+\text{male})\]</span> and <span class="math display">\[\Pr(\text{hair
+color} \,|\, \text{sex} = \text{female}).\]</span> are different.</p>
+<h2 id="part-d-1">Part (d)</h2>
+<h3 id="answer-16">ANSWER</h3>
+<p>We display a table comparing expected and observed such that if the
+observed is less than the expected, display <span
+class="math inline">\(-1\)</span>, and if observed is greater than
+expected, display a <span class="math inline">\(1\)</span>:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>sign</strong></span>(obs<span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>m.hat))</p>
+</div>
+</div>
+<pre><code>##         hc.level
+## sex      dark blonde red
+##   male      1     -1   1
+##   female   -1      1  -1</code></pre>
+<p>The observed data is compatible with a model where males are more
+likely to have dark or red hair (and less likely to have blonde hair)
+and females are more likely to have blonde hair (and less likely to have
+dark or red hair).</p>
+<h1 id="problem-4">Problem 4</h1>
+<p>According to the Hardy-Weinberg model, the number of flies resulting
+from a crossing of genetic traits are in categories <span
+class="math inline">\(1\)</span>, <span
+class="math inline">\(2\)</span>, <span class="math inline">\(3\)</span>
+with probabilities <span class="math display">\[\begin{aligned}
+  \pi_{1 o}(\theta) &amp;= (1-\theta)^2\\
+  \pi_{2 o}(\theta) &amp;= 2\theta(1-\theta)\\
+  \pi_{3 o}(\theta) &amp;= \theta^2
+\end{aligned}\]</span></p>
+<h2 id="part-a-3">Part (a)</h2>
+<p>We assume the data model is given by <span
+class="math display">\[(n_1,n_2,n_3) \sim \operatorname{MULT}(n, \pi_1,
+\pi_2, \pi_3)\]</span> where <span class="math inline">\(n_j\)</span>
+denotes the number of flies in category <span
+class="math inline">\(j\)</span> and <span
+class="math inline">\(\pi_j\)</span> denotes the probability a fly is in
+category <span class="math inline">\(j\)</span>.</p>
+<p>Under the specified model, the likelihood function is given by <span
+class="math display">\[\operatorname{L}(\theta) \propto \prod_{j=1}^{3}
+\pi_{j o}(\theta)^{n_j}\]</span> and the kernel of the log-likelihood
+function is given by <span class="math display">\[\begin{aligned}
+  l(\theta)
+    &amp;= \sum_{j=1}^{3} n_j \log \pi_{j o}(\theta)\\
+    &amp;= n_1 \log \pi_{1 o}(\theta) +
+       n_2 \log \pi_{2 o}(\theta) +
+       n_3 \log \pi_{3 o}(\theta)\\
+    &amp;= n_1 \log (1-\theta)^2 +
+       n_2 \log 2 \theta(1-\theta) +
+       n_3 \log \theta^2\\
+    &amp;= 2 n_1 \log (1-\theta) + n_2 \log \theta + n_2 \log(1-\theta)
+      + 2 n_3 \log \theta + \rm{const}\\
+    &amp;= (2 n_1 + n_2) \log (1-\theta) + ( n_2 + 2 n_3)\log \theta +
+\rm{const}.
+\end{aligned}\]</span></p>
+<p>The derivative of the log-likelihood is thus given by <span
+class="math display">\[\frac{d l}{d \theta} =
+    -\frac{2 n_1 + n_2}{1-\theta} +
+    \frac{n_2 + 2 n_3}{\theta}.\]</span></p>
+<p>The ML estimate of <span class="math inline">\(\theta\)</span> is
+given by <span class="math display">\[\left. \frac{d l}{d \theta}
+\right\vert_{\hat\theta} = 0.\]</span> Solving for <span
+class="math inline">\(\hat\theta\)</span>, we see that <span
+class="math display">\[\frac{2 n_1 + n_2}{1-\hat\theta} = \frac{n_2 + 2
+n_3}{\hat\theta}.\]</span> Next, we take the reciprocal of both sides,
+<span class="math display">\[\frac{1-\hat\theta}{2 n_1 + n_2} =
+\frac{\hat\theta}{n_2 + 2 n_3}.\]</span> Expanding the LHS, we get <span
+class="math display">\[\frac{1}{2 n_1 + n_2} - \frac{\hat\theta}{2 n_1 +
+n_2} = \frac{\hat\theta}{n_2 + 2 n_3}\]</span> which may be rewritten as
+<span class="math display">\[\hat\theta \left(\frac{1}{2 n_1 + n_2} +
+\frac{1}{n_2 + 2 n_3}\right) = \frac{1}{2 n_1 + n_2}.\]</span> Dividing
+both sides by the part in parentheses, we get <span
+class="math display">\[\hat\theta = \frac{1}{(2 n_1 + n_2)
+\left(\frac{1}{2 n_1 + n_2} + \frac{1}{n_2 + 2 n_3}\right)},\]</span>
+which simplifies to <span class="math display">\[\hat\theta = \frac{1}{1
++ \frac{2 n_1 + n_2}{n_2 + 2 n_3}} = \frac{1}{\frac{2 n_3 + 2 n_1 + 2
+n_2}{n_2 + 2 n_3}}.\]</span> Performing the division, we get the
+simplification <span class="math display">\[\hat\theta = \frac{n_2 + 2
+n_3}{2(n_3 + n_1 + n_2)}.\]</span></p>
+<h3 id="answer-17">ANSWER</h3>
+<p>Observe that <span class="math inline">\(n_1 + n_2 + n_3\)</span> is
+<span class="math inline">\(n\)</span>, thus <span
+class="math display">\[\hat\theta = \frac{n_2 + 2 n_3}{2
+n}.\]</span></p>
+<h2 id="part-b-3">Part (b)</h2>
+<p>Using the MLE equation, we compute the result using R:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>n <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">40</span>,<span
+style="color: 0.00,0.00,0.81">50</span>,<span
+style="color: 0.00,0.00,0.81">10</span>) mle <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> (n[<span
+style="color: 0.00,0.00,0.81">2</span>] <span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span> <span
+style="color: 0.00,0.00,0.81">2</span><span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>n[<span
+style="color: 0.00,0.00,0.81">3</span>])<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>sum</strong></span>(n)</p>
+</div>
+</div>
+<h3 id="answer-18">ANSWER</h3>
+<p>We see that <span class="math display">\[\hat\theta = 0.7.\]</span>
+Plugging in this result, <span
+class="math display">\[\vec{\pi}_{o}(\hat\theta) = (
+    (1-\hat\theta)^2,
+    2\hat\theta(1-\hat\theta),
+    \hat\theta^2)&#39;\]</span> which we compute with R:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>pi0.hats <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>((<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>mle)<span
+style="color: 0.81,0.36,0.00"><strong>^</strong></span><span
+style="color: 0.00,0.00,0.81">2</span>, <span
+style="color: 0.00,0.00,0.81">2</span><span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>mle<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>mle), mle<span
+style="color: 0.81,0.36,0.00"><strong>^</strong></span><span
+style="color: 0.00,0.00,0.81">2</span>)</p>
+</div>
+</div>
+<p>We see that <span class="math inline">\(\vec{\pi}_{o}(\hat\theta) =
+(0.09, 0.42, 0.49)&#39;\)</span>.</p>
+<h2 id="part-c-3">Part (c)</h2>
+<h3 id="answer-19">ANSWER</h3>
+<p>The parameter space of the Hardy-Weinberg model is a function of a
+single parameter <span class="math inline">\(\theta\)</span> and thus
+has a dimension of <span class="math inline">\(1\)</span>. The parameter
+space of the full model is <span class="math inline">\(2\)</span>. Thus,
+the reference distribution is <span
+class="math inline">\(\chi^2\)</span> with <span
+class="math inline">\(\operatorname{df} = 2 - 1 = 1\)</span> degrees of
+freedom.</p>
+<p>The following R code computes the realization of <span
+class="math inline">\(G^2\)</span>, denoted by <span
+class="math inline">\(G_0^2\)</span>, and its <span
+class="math inline">\(p\)</span>-value:</p>
+<div class="snugshade">
+
+</div>
+<pre><code>## $stat
+## [1] 104.983
+## 
+## $p
+## [1] 1.231867e-24
+## 
+## $df
+## [1] 1</code></pre>
+<p>We see that <span class="math inline">\(G_0^2 = 104.983\)</span> with
+a <span class="math inline">\(p\)</span>-value less than <span
+class="math inline">\(0.001\)</span>, which we consider to be very
+strong evidence against the Hardy-Weinberg.</p>
+<h1 id="library-of-test-functions">Library of test functions</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function for performing a multinomial goodness of fit hypothesis test</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># with a specified null model pi.0 in which pi.0 is the result of t parameters.</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># input:</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     obs: vector of counts</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     pi.0: vector of hypothesized probabilites,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     t: dimension of the parameter space under the null hypothesis.</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># outputs: two lists, one for X2 and one for G2. each list has:</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     X2: list relevant results for X^2 test</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     G2: list of relevant results for G^2 test, e.g.:</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       list(stat,p,df,reject) where</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#         p: p-value of the obs under the null model</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#         df: degrees of freedom of the reference distribution (chi-square)</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>multinomial_goodness_of_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(obs, pi<span class="fl">.0</span>, <span class="at">t=</span><span class="dv">0</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">sum</span>(obs)                 <span class="co"># number of observations</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  t.full <span class="ot">&lt;-</span> <span class="fu">length</span>(obs)<span class="sc">-</span><span class="dv">1</span>       <span class="co"># dim of parameter space for the full model.</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> t.full<span class="sc">-</span>t                <span class="co"># degrees of freedom for the ref distribution</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  m<span class="fl">.0</span> <span class="ot">&lt;-</span> n<span class="sc">*</span>pi<span class="fl">.0</span>                 <span class="co"># expected observations (for given n)</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  G2 <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">sum</span>(obs<span class="sc">*</span><span class="fu">log</span>(obs<span class="sc">/</span>m<span class="fl">.0</span>)) <span class="co"># log-likelihood ratio test statistic</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  G2.p <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(<span class="at">q=</span>G2,<span class="at">df=</span>df,<span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  X2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((obs<span class="sc">-</span>m<span class="fl">.0</span>)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>m<span class="fl">.0</span>)   <span class="co"># test statistic</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  X2.p <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(<span class="at">q=</span>X2,<span class="at">df=</span>df,<span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return relevant test statistics</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">m.0=</span>m<span class="fl">.0</span>,<span class="at">pi.0=</span>pi<span class="fl">.0</span>,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">X2=</span><span class="fu">list</span>(<span class="at">stat=</span>X2,<span class="at">p=</span>X2.p,<span class="at">df=</span>df),</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">G2=</span><span class="fu">list</span>(<span class="at">stat=</span>G2,<span class="at">p=</span>G2.p,<span class="at">df=</span>df))</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co"># obs is an IxJ matrix representing cross-sectional data (observed counts).</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="co"># tests for independence P(X,Y) = P(X)P(Y).</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>multinomial_goodness_of_fit_independence_test <span class="ot">&lt;-</span> <span class="cf">function</span>(obs)</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  I <span class="ot">&lt;-</span> <span class="fu">dim</span>(obs)[<span class="dv">1</span>]</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  J <span class="ot">&lt;-</span> <span class="fu">dim</span>(obs)[<span class="dv">2</span>]</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> (I<span class="dv">-1</span>)<span class="sc">+</span>(J<span class="dv">-1</span>)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">sum</span>(obs)  </span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  row.sum <span class="ot">&lt;-</span> <span class="fu">apply</span>(obs,<span class="dv">1</span>,sum)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>  col.sum <span class="ot">&lt;-</span> <span class="fu">apply</span>(obs,<span class="dv">2</span>,sum)</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  m<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">matrix</span>(row.sum) <span class="sc">%*%</span> <span class="fu">t</span>(<span class="fu">matrix</span>(col.sum))<span class="sc">/</span>n</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multinomial_goodness_of_fit</span>(<span class="at">obs=</span>obs,<span class="at">pi.0=</span>m<span class="fl">.0</span><span class="sc">/</span>n,<span class="at">t=</span>t)</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>independence_test_monotonic_association <span class="ot">&lt;-</span> <span class="cf">function</span>(obs)</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to compute the estimate of gamma and the standard error, we need MESS</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;MESS&quot;</span>)</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>  <span class="co"># gkgamma takes an IxJ matrix as an input</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>  gk.result <span class="ot">&lt;-</span> <span class="fu">gkgamma</span>(obs)</span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute gamma.hat and its standard error</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>  gamma.hat <span class="ot">&lt;-</span> gk.result<span class="sc">$</span>estimate</span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>  se <span class="ot">&lt;-</span> gk.result<span class="sc">$</span>se1</span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute the z statistic and p-value for testing gamma=0 (independence)</span></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> gamma.hat <span class="sc">/</span> se</span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>  p.value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pnorm</span>(<span class="fu">abs</span>(z),<span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">gamma=</span>gamma.hat,<span class="at">ase=</span>se,<span class="at">stat=</span>z,<span class="at">p=</span>p.value)</span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</body>
+</html>

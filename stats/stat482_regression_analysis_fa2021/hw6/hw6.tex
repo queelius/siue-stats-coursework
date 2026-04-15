@@ -1,0 +1,531 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{minted}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumerate}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Regression Analysis - STAT 482 - HW \#6},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Regression Analysis - STAT 482 - HW \#6}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+Consider the simple linear regression model with inputs centered so that
+\(\sum x_i = 0\): \[
+  y_i = \beta_0 + \beta_1 x_i + \epsilon_i, i=1,\ldots,n,
+\] where \[
+  \epsilon_1,\ldots,\epsilon_n \overset{\text{iid}} \sim \mathcal{N}(0,\sigma^2).
+\]
+
+\begin{tcolorbox}[split=\f]
+Part (a)
+\tcblower
+Write the model using matrix notation.
+\end{tcolorbox}
+
+See page \pageref{sec:notation} for remarks on notation.
+
+The model may be written as \[
+  Y = X \beta + \epsilon,
+\] where \[
+  Y =
+  \begin{bmatrix}
+    Y_1\\
+    \vdots\\
+    Y_n
+  \end{bmatrix}
+\] is a \(n \times 1\) response vector, \[
+  X =
+  \begin{bmatrix}
+    1 & x_1\\
+    \vdots & \vdots\\
+    1 & x_n
+   \end{bmatrix}
+\] is a \(2 \times n\) input (design) matrix, \[
+  \beta =
+  \begin{bmatrix}
+     \beta_0\\
+     \beta_1
+  \end{bmatrix}
+\] is a \(2 \times 1\) parameter vector, and \[
+  \epsilon =
+  \begin{bmatrix}
+    \epsilon_1\\
+    \vdots\\
+    \epsilon_n
+  \end{bmatrix}
+\] is a \(n \times 1\) multivariate normal vector such that
+\(\epsilon \sim \mathcal{N}_n(0,\sigma^2 I)\).
+
+\begin{tcolorbox}[split=\f]
+Part (b)
+\tcblower
+Use matrix multiplication to derive a simplified expression for each of the
+following:
+\begin{enumerate}[(i)]
+\item $b_0$,$b_1$
+\item $\operatorname{var}(b_0)$, $\operatorname{var}(b_1)$, $\operatorname{cov}(b_0,b_1)$
+\item $\operatorname{var}(\hat{y}_h)$.
+\end{enumerate}
+\end{tcolorbox}
+
+\hypertarget{i-b_0-and-b_1}{%
+\subsection{\texorpdfstring{(i) \(b_0\) and
+\(b_1\)}{(i) b\_0 and b\_1}}\label{i-b_0-and-b_1}}
+
+The least squares estimator for simpler linear regression is given by \[
+  (b_0\;b_1)' = (X'X)^{-1} X' Y.
+\]
+
+To simplify the RHS, first we compute \[
+  X'X
+  =
+  \begin{bmatrix}
+    1   & \cdots & 1\\
+    x_1 & \cdots & x_n
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & x_1\\
+    \vdots & \vdots\\
+    1 & x_n
+   \end{bmatrix}\\
+  =
+  \begin{bmatrix}
+    n        & \sum x_i\\
+    \sum x_i & \sum x_i^2
+  \end{bmatrix}.
+\] By the constraint \(\sum x_i = 0\), this simplifies to \[
+  X'X =
+  \begin{bmatrix}
+    n & 0\\
+    0 & \sum x_i^2
+  \end{bmatrix},
+\] which has the inverse \[
+  (X'X)^{-1} =
+  \begin{bmatrix}
+    \frac{1}{n} & 0\\
+    0           & \frac{1}{\sum x_i^2}
+  \end{bmatrix}.
+\]
+
+Next, we compute \[
+  X'Y
+  =
+  \begin{bmatrix}
+    1   & \cdots & 1\\
+    x_1 & \cdots & x_n
+  \end{bmatrix}
+  \begin{bmatrix}
+    y_1\\
+    \vdots\\
+    y_n
+   \end{bmatrix}\\
+  =
+  \begin{bmatrix}
+    \sum y_i\\
+    \sum x_i y_i
+  \end{bmatrix}.
+\]
+
+Finally, we compute the product of \((X'X)^{-1}\) and \(X'Y\),
+\begin{align*}
+  (b_0\;b_1)' = (X'X)^{-1} X'Y
+  &=
+  \begin{bmatrix}
+    \frac{1}{n} & 0\\
+    0           & \frac{1}{\sum x_i^2}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \sum y_i\\
+    \sum x_i y_i
+  \end{bmatrix}\\
+  &=
+  \begin{bmatrix}
+    \bar{y}\\
+    \frac{\sum x_i y_i}{\sum x_i^2}
+  \end{bmatrix}.
+\end{align*}
+
+\hypertarget{ii-operatornamevarb_0-operatornamevarb_1-operatornamecovb_0b_1}{%
+\subsection{\texorpdfstring{(ii) \(\operatorname{var}(b_0)\),
+\(\operatorname{var}(b_1)\),
+\(\operatorname{cov}(b_0,b_1)\)}{(ii) \textbackslash operatorname\{var\}(b\_0), \textbackslash operatorname\{var\}(b\_1), \textbackslash operatorname\{cov\}(b\_0,b\_1)}}\label{ii-operatornamevarb_0-operatornamevarb_1-operatornamecovb_0b_1}}
+
+Let \(A\) be a constant matrix and \(B\) be a random vector. By the
+property that \(\operatorname{cov}(A B) = A \operatorname{cov}(B) A'\),
+\begin{align*}
+  \operatorname{cov}(b) &= \operatorname{cov}((X'X)^{-1} X' Y)\\
+          &= (X'X)^{-1} X' \operatorname{var}(Y) ((X'X)^{-1} X')'\\
+          &= \sigma^2 (X'X)^{-1} X'((X'X)^{-1} X')'.
+\end{align*} By the properties that \((A B)' = B'A'\), \(C' = C\) if
+\(C\) is symmetric, and \(D^{-1} D = D D^{-1} = I\) if \(D\) is
+non-singular, \begin{align*}
+  \operatorname{cov}(b) &= \sigma^2 (X'X)^{-1} X'X (X'X)^{-1}\\
+          &= \sigma^2 (X'X)^{-1}\\
+          &= \sigma^2
+            \begin{bmatrix}
+              \frac{1}{n} & 0\\
+              0           & \frac{1}{\sum x_i^2}
+            \end{bmatrix}.
+\end{align*}
+
+By definition, \[
+  \operatorname{var}(b_0) = \operatorname{cov}(b)_{1 1} = \frac{\sigma^2}{n},
+\] \[
+  \operatorname{var}(b_1) = \operatorname{cov}(b)_{2 2} = \frac{\sigma^2}{\sum x_i^2},
+\] and \[
+  \operatorname{cov}(b_0,b_1) = \operatorname{cov}(b)_{1 2} = 0.
+\]
+
+\hypertarget{iii-operatornamevarhaty_h}{%
+\subsection{\texorpdfstring{(iii)
+\(\operatorname{var}(\hat{Y}_h)\)}{(iii) \textbackslash operatorname\{var\}(\textbackslash hat\{Y\}\_h)}}\label{iii-operatornamevarhaty_h}}
+
+Given that \(\hat{Y}_h = b_0 + b_1 x_h\), we may rewrite this as
+\(\hat{Y}_h = \symbf{x_h'} b\) where \(\symbf{x_h} = [1 \; x_h]'\) and
+\(b = [b_0 \; b_1]'\). Thus, \begin{align*}
+  \operatorname{var}(\hat{Y}_h)
+    &= \operatorname{cov}(\symbf{x_h'} b)\\
+    &= \symbf{x_h'} \operatorname{cov}(b) \symbf{x_h}\\
+    &=
+    \begin{bmatrix}
+      1 & x_h
+    \end{bmatrix}
+    \sigma^2
+    \begin{bmatrix}
+      \frac{1}{n} & 0\\
+      0           & \frac{1}{\sum x_i^2}
+    \end{bmatrix}
+    \begin{bmatrix}
+      1\\
+      x_h
+    \end{bmatrix}\\
+    &=
+    \sigma^2
+    \begin{bmatrix}
+      1 & x_h
+    \end{bmatrix}
+    \begin{bmatrix}
+      \frac{1}{n}\\
+      \frac{x_h}{\sum x_i^2}
+    \end{bmatrix}\\
+    &=
+    \sigma^2
+    \left[
+      \frac{1}{n} + \frac{x_h^2}{\sum x_i^2}
+    \right].
+\end{align*}
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+Refer to data from Exercise 6.15
+
+The goal is to study the relationship between patient satisfaction
+(\(y\)) and patient's age (\(x_1\)), severity of illness (\(x_2\)), and
+anxiety level (\(x_3\)).
+
+\begin{tcolorbox}[split=\f]
+Part (a)
+\tcblower
+Provide an interpretation of a regression coefficient in a multiple regression
+model.
+\end{tcolorbox}
+
+Let \[
+  E(Y|x) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3.
+\]
+
+Then, \[
+  \frac{\partial  E(Y|x_1,\ldots,x_3)}{\partial x_i} = \beta_i,
+\] which means we may interpret the beta coefficients as representing
+partial effects.
+
+In particular, it represents the difference in the mean response
+(satisfaction level) from a one unit increase in \(x_i\), with all other
+input levels held fixed.
+
+\begin{tcolorbox}[split=\f]
+Part (b)
+\tcblower
+Compute $b$, the estimated regression coefficients for the patient satisfaction
+data.
+\end{tcolorbox}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{=} \FunctionTok{read.table}\NormalTok{(}\StringTok{\textquotesingle{}CH06PR15.txt\textquotesingle{}}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(data) }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"age"}\NormalTok{,}\StringTok{"severity"}\NormalTok{,}\StringTok{"anxiety"}\NormalTok{,}\StringTok{"satisfaction"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   age severity anxiety satisfaction
+## 1  48       50      51          2.3
+## 2  57       36      46          2.3
+## 3  66       40      48          2.2
+## 4  70       41      44          1.8
+## 5  89       28      43          1.8
+## 6  36       49      54          2.9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(satisfaction }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ severity }\SpecialCharTok{+}\NormalTok{ anxiety, }\AttributeTok{data=}\NormalTok{data)}
+\FunctionTok{summary}\NormalTok{(mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = satisfaction ~ age + severity + anxiety, data = data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.33589 -0.13333 -0.03347  0.12599  0.52022 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)  1.053245   0.613791   1.716  0.09354 . 
+## age         -0.005861   0.003089  -1.897  0.06468 . 
+## severity     0.001928   0.005787   0.333  0.74065   
+## anxiety      0.030148   0.009257   3.257  0.00223 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2098 on 42 degrees of freedom
+## Multiple R-squared:  0.5415, Adjusted R-squared:  0.5088 
+## F-statistic: 16.54 on 3 and 42 DF,  p-value: 3.043e-07
+\end{verbatim}
+
+We see that \(b = (1.053, -0.006, 0.002, 0.03)'\). Our fitted model is
+thus given by \[
+  \hat{E}(Y|x) = x'b = 1.053 - .006 x_1 + .002 x_2 + .03 x_3
+\] where \(x = [1\;x_1\;x_2\;x_3]'\).
+
+\begin{tcolorbox}[split=\f]
+Part (c)
+\tcblower
+Provide a comment on the direction of the input effects, stated in the context
+of the problem.
+\end{tcolorbox}
+
+Analyzing \(b\), we see that age has a negative effect on satisfaction
+and severity of illness and anxiety have a positive effect on
+satisfaction.
+
+\begin{tcolorbox}[split=\f]
+Part (d)
+\tcblower
+Compute $\widehat{\operatorname{cov}}(b)$, the estimated covariance matrix for the regression
+coefficients.
+\end{tcolorbox}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\FunctionTok{vcov}\NormalTok{(mod), }\AttributeTok{digits=}\DecValTok{5}\NormalTok{, }\AttributeTok{caption=}\StringTok{\textquotesingle{}Covariance matrix\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\caption{Covariance matrix}\tabularnewline
+\toprule\noalign{}
+& (Intercept) & age & severity & anxiety \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& (Intercept) & age & severity & anxiety \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 0.37674 & -0.00149 & -0.00152 & -0.00447 \\
+age & -0.00149 & 0.00001 & 0.00001 & 0.00001 \\
+severity & -0.00152 & 0.00001 & 0.00003 & -0.00001 \\
+anxiety & -0.00447 & 0.00001 & -0.00001 & 0.00009 \\
+\end{longtable}
+
+For instance, we see that \(\operatorname{var}(b_0) = 0.37674\) and
+\(\operatorname{cov}(b_0,b_1) = -0.00149\).
+
+\hypertarget{notation}{%
+\section{Notation}\label{notation}}
+
+\label{sec:notation} To denote the \((i,j)\)-th element of a matrix
+\(A\), we may use the notation \(A_{i j}\). To denote the \(i\)-th row,
+we may use \(A_{i:}\). To denote the \(j\)-th column of a matrix, we may
+use \(A_{:j}\). If \(A\) is a column vector, then
+\(A_i \coloneqq A_{i 1}\).
+
+If we explicitly denote the elements of a matrix with, say,
+\(A \coloneqq [a_{i j}]\), then \(a_{1 2}\) denotes the \((1,2)\)-th
+element of \(A\).
+
+The transpose of an object \(A\) is denoted by \(A'\). The inverse of
+\(A\) is denoted by \(A^{-1}\). If \(*\) is a binary operator, then
+\(*\) applied to the ordered pair \((A,B)\) may be denoted by \(A*B\),
+e.g., \(+(A,B) \coloneqq A+B\). The product of \(A\) and \(B\) is
+denoted by \(A B\).
+
+I do not distinguish the type of a mathematical object by typography,
+except when there is already an established convention, like using
+\(\mathbb{R}\) to denote the set of real numbers. Otherwise, instead of
+using \(\textbf{A}\) of type \(\mathbb{R}^{n \times p}\) to denote a
+matrix, I may just use \(A\). I also do not hold to the convention of
+only using uppercase letters to denote matrices, e.g., \(a\),
+\(\theta\), or \(\Theta\) may denote any kind of object, matrix, vector,
+set, number, tuple, and so on.
+
+The pay-off comes by not having to think about how to consistently
+convey type, and instead depend on the context to determine the type of
+an object. When we introduce random variations of each of these types,
+combined with their corresponding estimators, using a consistent
+notation that allows one to infer the type of the object with just the
+typography becomes a losing proposition.
+
+In many ways, I prefer the way type information is provided by
+programming languages, where recursive types may be easily specified
+using descriptive terms. In a mathematical paper, often my
+``programming'' language of choice is English.
+
+\end{document}

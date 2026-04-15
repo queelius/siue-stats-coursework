@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Alex Towell (atowell@siue.edu)" />
+  <title>STAT 581 - Problem Set 8</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">STAT 581 - Problem Set 8</h1>
+<p class="author">Alex Towell (<a
+href="mailto:atowell@siue.edu"><code>atowell@siue.edu</code></a>)</p>
+</header>
+<h1 id="problem-1">Problem 1</h1>
+<blockquote>
+<p>An experiment is designed to test for systematic differences in the
+hardness measurements provided by two devices (fixed effect, factor
+<span class="math inline">\(A\)</span>). Ten specimens are randomly
+selected (random effect, factor <span class="math inline">\(B\)</span>).
+Each device is used to make <span class="math inline">\(n=3\)</span>
+hardness measurements on each specimen. The data is available on
+Blackboard as an Excel File.</p>
+</blockquote>
+<h2 id="part-a">Part (a)</h2>
+<blockquote>
+<p>Write the model for this mixed effects design, defining the fixed
+effect parameters, and the random effect parameters.</p>
+</blockquote>
+<p>The mixed-effects model is given by <span class="math display">\[Y_{i
+j k} = \mu + \tau_i + \beta_j + (\tau\!\beta)_{i j} + \epsilon_{i j k}
+  \;
+  \begin{cases}
+    i = 1,\ldots,a=2\\
+    j = 1,\ldots,b=10\\
+    k = 1,\ldots,n=3
+  \end{cases}\]</span> where the fixed effect parameters are <span
+class="math display">\[\tau_1,\ldots,\tau_a \qquad \left(\sum \tau_i =
+0\right)\]</span> and the random effect parameters are <span
+class="math display">\[\sigma_\beta^2, \sigma_{\tau\!\beta}^2,
+\sigma^2.\]</span></p>
+<h2 id="part-b">Part (b)</h2>
+<blockquote>
+<p>Create an interaction plot to display the device effect on hardness
+measurement.</p>
+</blockquote>
+<p>First, we load the data:</p>
+<div class="snugshade">
+
+</div>
+<pre><code>##     a     b     n     N  df.A  df.B df.AB 
+##     2    10     3    60     1     9     9</code></pre>
+<p>The interaction plot is given by:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.56,0.35,0.01"><em># remember that we are
+testing whether operator differences are</em></span> <span
+style="color: 0.56,0.35,0.01"><em># generalizable to a larger population
+of parts.</em></span> <span
+style="color: 0.13,0.29,0.53"><strong>interaction.plot</strong></span>(B,A,y)</p>
+</div>
+</div>
+<p><embed src="hw8_files/figure-latex/unnamed-chunk-3-1.pdf" /></p>
+<h2 id="part-c">Part (c)</h2>
+<blockquote>
+<p>Use a mixed model likelihood approach to test for a systematic
+difference in the measurements of the two devices. Compute the <span
+class="math inline">\(F_0\)</span> statistic, and the <span
+class="math inline">\(p\)</span>-value. Provide an interpretation,
+stated in the context of the problem.</p>
+</blockquote>
+<p>We compute the statistic with:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>library</strong></span>(<span
+style="color: 0.31,0.60,0.02">"lme4"</span>)</p>
+</div>
+</div>
+<pre><code>## Loading required package: Matrix</code></pre>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>contrasts</strong></span>(A)<span
+style="color: 0.56,0.35,0.01">=</span>contr.sum mixed.mod <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>lmer</strong></span>(y <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> A <span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span> (<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>|</strong></span>B) <span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span> (<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>|</strong></span>A<span
+style="color: 0.81,0.36,0.00"><strong>:</strong></span>B))</p>
+</div>
+</div>
+<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>anova</strong></span>(mixed.mod)</p>
+</div>
+</div>
+<pre><code>## Analysis of Variance Table
+##   npar  Sum Sq Mean Sq F value
+## A    1 0.41667 0.41667  0.3121</code></pre>
+<p>We see that <span class="math inline">\(F_0 = .312\)</span> (<span
+class="math inline">\(p = .579\)</span>).</p>
+<h3 id="interpretation">Interpretation</h3>
+<p>Based on these observed test statistics, the experiment finds that
+factor <span class="math inline">\(A\)</span> (device) has no effect on
+response <span class="math inline">\(y\)</span> (hardness measurement of
+specimen).</p>
+<h2 id="part-d">Part (d)</h2>
+<blockquote>
+<p>Compute estimates of the fixed effect parameters.</p>
+</blockquote>
+<p>The formula for the estimates of the fixed effect parameters <span
+class="math inline">\(\{\tau_i\}\)</span> are given by <span
+class="math display">\[\hat{\tau}_i = \bar{y}_{i \cdot\cdot} -
+\bar{y}_{\cdot\cdot\cdot}\]</span> for <span
+class="math inline">\(i=1,\ldots,a=2\)</span>. We use the following R
+code to compute <span class="math inline">\(\hat{\tau}_1\)</span>:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>coef</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>summary</strong></span>(mixed.mod))</p>
+</div>
+</div>
+<pre><code>##                Estimate Std. Error     t value
+## (Intercept) 49.95000000  0.4282105 116.6482481
+## A1           0.08333333  0.1491662   0.5586608</code></pre>
+<p>Since <span class="math inline">\(\tau_1 + \tau_2 = 0\)</span>, this
+means <span class="math inline">\(\hat{\tau}_1 = .083\)</span> and <span
+class="math inline">\(\hat{\tau}_2 = -\hat{\tau}_1 = -.083\)</span>.</p>
+<h2 id="part-e">Part (e)</h2>
+<blockquote>
+<p>Now write an <span class="math inline">\(F_A\)</span> statistic as a
+ratio of mean squares.</p>
+</blockquote>
+<p>We use Dr. Neath’s custom function <span
+class="math display">\[\operatorname{mixed.test} : [\text{fixed
+factors}] \times
+    [\text{random factors}] \times [\text{responses}] \mapsto
+    [\text{statistics}]\]</span> to compute the <span
+class="math inline">\(F_A\)</span> statistic:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>mixed.test</strong></span>(A,B,y)</p>
+</div>
+</div>
+<pre><code>##                         SS df         MS
+## Fixed Effect A   0.4166667  1  0.4166667
+## Random Effect B 99.0166667  9 11.0018519
+## Interaction AB   5.4166667  9  0.6018519
+## Error           60.0000000 40  1.5000000
+##  F-test for fixed effect   p-value
+##                0.6923077 0.4269057
+##  error.var interaction.var block.var
+##        1.5      -0.2993827  1.733333</code></pre>
+<p>The <span class="math inline">\(F\)</span>-test statistic for the
+factor <span class="math inline">\(A\)</span> effect is given by <span
+class="math display">\[F_A =
+\frac{\operatorname{MS_{A}}}{\operatorname{MS_{A B}}} = .692,\]</span>
+which has the reference distribution <span
+class="math display">\[F(\rm{df}_A=a-1,\rm{df}_{A B} = (a-1)(b-1)) =
+F(1,9).\]</span> Thus, the <span class="math inline">\(p\)</span>-value
+is given by <span class="math inline">\(\Pr\{F(1,9) &gt; F_A\} =
+.427\)</span>.</p>
+<h2 id="part-f">Part (f)</h2>
+<blockquote>
+<p>Write the algebraic formula for the <span
+class="math inline">\(F_0\)</span> statistic from a block design on the
+sample means.</p>
+</blockquote>
+<p><span class="math display">\[F_0 = \frac
+    {b \sum_{i=1}^{a}(\bar{Y}_{i\cdot\cdot} -
+\bar{Y}_{\cdot\cdot\cdot})^2/(a-1)}
+    {\sum_{i=1}^{a}\sum_{j=1}^{b}(
+      \bar{Y}_{i j\cdot}-
+      \bar{Y_{i \cdot\cdot}}-
+      \bar{Y}_{\cdot j \cdot}+
+      \bar{Y}_{\cdot\cdot\cdot}
+      )^2 / (a-1)(b-1)}.\]</span></p>
+<h2 id="part-g">Part (g)</h2>
+<blockquote>
+<p>Show computationally that (e) and (f) lead to the same test
+statistic.</p>
+</blockquote>
+<p>We must use the means of the response over repeated measurements of
+the block (specimen) at a given factor level <span
+class="math inline">\(A\)</span>. These values have already been
+computed for us <code>handout8data.xlsx</code>:</p>
+<div class="snugshade">
+
+</div>
+<p>Now, we do the calculations:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.56,0.35,0.01"><em># below we run a randomized
+block design with the sample means as the</em></span> <span
+style="color: 0.56,0.35,0.01"><em># response variables.</em></span>
+<span style="color: 0.56,0.35,0.01"><em># note that the test for a fixed
+factor effect is equivalent to that</em></span> <span
+style="color: 0.56,0.35,0.01"><em># from the mixed.test
+function.</em></span> rcbd.mod <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>lmer</strong></span>(h.means <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> d <span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span> (<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>|</strong></span>s)) <span
+style="color: 0.13,0.29,0.53"><strong>anova</strong></span>(rcbd.mod)</p>
+</div>
+</div>
+<pre><code>## Analysis of Variance Table
+##   npar  Sum Sq Mean Sq F value
+## d    1 0.13945 0.13945  0.6954</code></pre>
+<p>We see that this result matches the result in (e), i.e.,
+<code>mix.test(A,B,y)</code> produced the same result.</p>
+<h2 id="part-h">Part (h)</h2>
+<blockquote>
+<p>Use the result from (g) to argue why interaction mean squares is the
+appropriate error term.</p>
+</blockquote>
+<p>Repeat measurements are summarized by a sample mean. The test
+statistic for a block design then leads to the interaction mean squares
+under a mixed model as the error term.</p>
+<h1 id="problem-2">Problem 2</h1>
+<blockquote>
+<p>A mixed effects design is used to investigate the effects of operator
+(fixed effect, factor A) and machine (random effect, factor B) on the
+breaking strength of a synthetic fiber. There are <span
+class="math inline">\(a=3\)</span> operators under investigation. A
+random sample of <span class="math inline">\(b=4\)</span> machines is
+selected, and each operator produces <span
+class="math inline">\(n=2\)</span> samples on each of the selected
+machines. The data is available on Blackboard as an Excel File.</p>
+</blockquote>
+<h2 id="part-a-1">Part (a)</h2>
+<blockquote>
+<p>State the expected value for each of the mean squares.</p>
+</blockquote>
+<p><span class="math display">\[\begin{aligned}
+  E(\operatorname{MS_{A}}) &amp;= \sigma^2 + n \sigma_{\tau \! \beta}^2
++
+    \frac{b n \sum_{i=1}^{a}\tau_i^2}{a-1},\\
+  E(\operatorname{MS_{B}}) &amp;= \sigma^2 + n \sigma_{\tau \! \beta}^2
++ a n \sigma_{\beta}^2,\\
+  E(\operatorname{MS_{A B}}) &amp;= \sigma^2 + n \sigma_{\tau \!
+\beta}^2,\\
+  E(\operatorname{MS_{E}}) &amp;= \sigma^2.
+\end{aligned}\]</span></p>
+<h2 id="part-b-1">Part (b)</h2>
+<blockquote>
+<p>Compute unbiased estimates for the random effect parameters.</p>
+</blockquote>
+<div class="snugshade">
+
+</div>
+<pre><code>##                        SS df        MS
+## Fixed Effect A  160.33333  2 80.166667
+## Random Effect B  12.45833  3  4.152778
+## Interaction AB   44.66667  6  7.444444
+## Error            45.50000 12  3.791667
+##  F-test for fixed effect    p-value
+##                 10.76866 0.01034401
+##  error.var interaction.var  block.var
+##   3.791667        1.826389 -0.5486111</code></pre>
+<p>The random effect parameters are given by <span
+class="math inline">\(\sigma^2\)</span>, <span
+class="math inline">\(\sigma_\beta^2\)</span>, and <span
+class="math inline">\(\sigma_{\tau\beta}^2\)</span>. Estimators for
+these parameters are given by <span
+class="math display">\[\begin{aligned}
+  \hat\sigma^2               &amp;= \operatorname{MS_{E}}     = 3.792,\\
+  \hat\sigma_{\beta}^2       &amp;=
+\frac{\operatorname{MS_{B}}-\operatorname{MS_{A B}}}{a n} = -0.549,\\
+  \hat\sigma_{\tau\!\beta}^2 &amp;= \frac{\operatorname{MS_{A
+B}}-\operatorname{MS_{E}}}{n} = 1.826.
+\end{aligned}\]</span></p>
+<h2 id="part-c-1">Part (c)</h2>
+<blockquote>
+<p>Use the result from (a) to argue why interaction mean squares is the
+appropriate error term.</p>
+</blockquote>
+<p>Under the null hypothesis <span class="math display">\[H_0 : \tau_1 =
+\cdots = \tau_a = 0,\]</span> <span
+class="math inline">\(E(\operatorname{MS_{A}}) = \sigma^2 + n
+\sigma_{\tau \! \beta}^2 +  \frac{b n \sum_{i=1}^{a}\tau_i^2}{a-1} =
+\sigma^2 + n \sigma_{\tau\!\beta}^2\)</span>. The scaling requires a
+denominator with the same expected value. Thus, <span
+class="math inline">\(\operatorname{MS_{A B}}\)</span> is the
+appropriate error term.</p>
+<h2 id="part-d-1">Part (d)</h2>
+<blockquote>
+<p>Perform a test for operator effects. Compute the <span
+class="math inline">\(F_A\)</span> statistic, and the <span
+class="math inline">\(p\)</span>-value. Provide an interpretation,
+stated in the context of the problem.</p>
+</blockquote>
+<p>From part (b), <span class="math inline">\(F_A =
+\frac{\operatorname{MS_{A}}}{\operatorname{MS_{A B}}} = 10.769\)</span>,
+which has a <span class="math inline">\(p\)</span>-value of <span
+class="math inline">\(.010\)</span>.</p>
+<h3 id="interpretation-1">Interpretation</h3>
+<p>The experiment finds that factor <span
+class="math inline">\(A\)</span> (operator) does have an effect on the
+fiber strength.</p>
+<h2 id="part-e-1">Part (e)</h2>
+<blockquote>
+<p>Now, use the idea of random factors as an experimental unit to
+explain why interaction mean squares is the appropriate error term. In
+particular, comment on how taking repeat measurements on a selected
+level of a random factor does not increase the pertinent sample
+size.</p>
+</blockquote>
+<p>Taking repeat measurements at each randomly selected level may serve
+to increase the measurement accuracy, but does not increase the
+pertinent sample size. (However, taking repeat measurements does allow
+us to learn more about the treatment effect <em>at those</em> selected
+levels, e.g., a therapy may work well for you but is not effective on
+average.)</p>
+<h1 id="appendix-code">Appendix: code</h1>
+<div class="snugshade">
+
+</div>
+</body>
+</html>

@@ -1,0 +1,544 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  11pt,
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage[]{mathpazo}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{alex}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Discrete Multivariate Analysis - 579 - Final Exam - Part 2},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Discrete Multivariate Analysis - 579 - Final Exam - Part 2}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+Applicants for graduate school are classified according to department,
+sex, and admission status. A goal of the study is to determine the role
+an applicant's sex plays in the determination of admission status.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# department and sex are defined through indicator variables}
+\NormalTok{grad.data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{dep=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+                        \AttributeTok{sex=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+                        \AttributeTok{yes=}\FunctionTok{c}\NormalTok{(}\DecValTok{235}\NormalTok{,}\DecValTok{38}\NormalTok{,}\DecValTok{122}\NormalTok{,}\DecValTok{103}\NormalTok{),}
+                        \AttributeTok{no=}\FunctionTok{c}\NormalTok{(}\DecValTok{35}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{93}\NormalTok{,}\DecValTok{69}\NormalTok{))}
+
+\CommentTok{\# define row sample sizes}
+\NormalTok{grad.data}\SpecialCharTok{$}\NormalTok{n }\OtherTok{=}\NormalTok{ grad.data}\SpecialCharTok{$}\NormalTok{yes }\SpecialCharTok{+}\NormalTok{ grad.data}\SpecialCharTok{$}\NormalTok{no}
+\CommentTok{\# define the interaction variable}
+\NormalTok{grad.data}\SpecialCharTok{$}\NormalTok{dep.sex }\OtherTok{=}\NormalTok{ grad.data}\SpecialCharTok{$}\NormalTok{dep }\SpecialCharTok{*}\NormalTok{ grad.data}\SpecialCharTok{$}\NormalTok{sex}
+
+\FunctionTok{print}\NormalTok{(grad.data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   dep sex yes no   n dep.sex
+## 1   0   0 235 35 270       0
+## 2   0   1  38  7  45       0
+## 3   1   0 122 93 215       0
+## 4   1   1 103 69 172       1
+\end{verbatim}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+Define a main effects logistic regression model $M$ having two binary input
+variables.
+Include notation for the design matrix $X$, and the parameter vector $\beta$.
+Provide an interpretation for each of the effect parameters in $\beta$, stated
+in the context of the problem.
+\end{minipage}}
+
+The data is cross-sectional data given by \[
+    (\v{x_1},y_1),(\v{x_2},y_2),\ldots,(\v{x_n},y_n)
+\] where \(\v{x_i} = (1,x_{i 1},x_{i 2})'\).
+
+The response variables \(\{y_1,\ldots,y_n\}\) are given by \[
+  y =
+  \begin{cases}
+    1 & \text{if admit=yes}\\
+    0 & \text{if admit=no}
+  \end{cases}
+\]
+
+The explanatory indicator variables \(x_1\) and \(x_2\) are respectively
+given by \[
+  x_1 =
+  \begin{cases}
+    1 & \text{if department=non-science}\\
+    0 & \text{if department=science}
+  \end{cases}
+\] and \[
+  x_2 =
+  \begin{cases}
+    1 & \text{if sex=female}\\
+    0 & \text{if sex=male}
+  \end{cases}
+\]
+
+Then, \(\pi\) denotes the probability of being admitted, \[
+  \pi(\v{x}) = \Pr(y = \text{yes} \;|\; \v{x}).
+\] That is, \(\pi\) models probability as a function of \(\v{x}\).
+
+The probability model is given by \[
+  y_i \sim \operatorname{BIN}(1,\pi(\v{x_i}))
+\]
+
+The main effects model \(M\) is given by \[
+  \operatorname{logit}(\pi(\v{x})) = \v{x}' \v{\beta},
+\] where the parameter vector \(\v{\beta}\) of dimension \(3 \times 1\)
+is given by \[
+\v{\beta} =
+\begin{pmatrix}
+  \beta_0\\
+  \beta_1\\
+  \beta_2
+\end{pmatrix}
+\].
+
+The parameter \(\beta_1\) is the partial effect of department
+(non-science - science) on admission and the parameter \(\beta_2\) is
+the partial effect of sex (female - male) on admission.
+
+In the main effects model \(M\), we assume the effect of \(x_1\) is the
+same at both levels of \(x_2\) and vice versa, i.e., \[
+  \theta(\text{science}:\text{non-science} \;|\; \text{male}) = \theta(\text{science}:\text{non-science} \; | \;\text{female}) = \exp(\beta_1)
+\] and \[
+  \theta(\text{male}:\text{female} \;|\; \text{science}) = \theta(\text{male}:\text{female} \; | \; \text{non-science}) = \exp(\beta_2).
+\]
+
+The logistic regression model for \(M\) is given by \[
+  \operatorname{logit}(\pi(\v{x})) = \v{x_i}' \v{\beta} = \beta_0 + \beta_1 x_{i 1} + \beta_2 x_{i 2},
+\] such that if we solve for \(\pi(\v{x_i})\) we get the result \[
+  \pi(\v{x_i}) = \frac{\exp(\v{x_i}' \v{\beta})}{1+\exp(\v{x_i}' \v{\beta})}.
+\]
+
+The design matrix is given by \[
+\mat{X}
+=
+\begin{pmatrix}
+  1 & 0 & 0\\
+  1 & 0 & 1\\
+  1 & 1 & 0\\
+  1 & 1 & 1
+\end{pmatrix}.
+\]
+
+Since we are dealing with Boolean input variables
+\(\v{x} = (1,x_1,x_2)\), we only need to count the number of times each
+discrete input in the design matrix occurs, say \(n_j\) for the \(j\)-th
+row, denoted by \(\v{x_j}\), and let the corresponding \(y_j\) denote
+the number of times the response was \emph{yes} for \(\v{x_j}\).
+
+Then, the probabilistic model for \(y_j\) is the binomial distribution,
+\[
+  y_j \sim \operatorname{BIN}(n_j, \pi(\v{x_j}))
+\] and we estimate \(\v{\beta}\) by maximizing \[
+  \hat{\v{\beta}} = \argmax_{\v{\beta}} \prod_{i=1}^4 \pi_i(\v{\beta})^{y_i}(1-\pi_i(\v{\beta}))^{n_i - y_i}.
+\]
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+Provide notation for the design matrix $X_S$ and parameter vector $\beta_S$
+for the saturated model $M_S$.
+Provide a brief description of an interaction effect.
+\end{minipage}}
+
+For the saturated model \(M_S\) (interaction model), we must include all
+possible effects and interactions, which means relative to the main
+effects model \(M\) we add account for interaction effects between
+\(x_1\) and \(x_2\), i.e., \[
+  \operatorname{logit}(\pi(\v{x})) = \v{x}' \v{\beta_S} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2
+\] where the parameter vector \(\v{\beta_S}\) of dimension
+\(4 \times 1\) is given by \[
+\v{\beta_S} =
+\begin{pmatrix}
+  \beta_0\\
+  \beta_1\\
+  \beta_2\\
+  \beta_3
+\end{pmatrix}
+\].
+
+The interaction effect between department and sex (\(x_1\) and \(x_2\))
+occurs when the effect of an input depends on the level of the input of
+the other input. In the main effects model \(M\), we assume the effect
+of \(x_1\) is the same at both levels of \(x_2\) and vice versa, i.e.,
+\begin{align*}
+  \theta(\text{science}:\text{non-science} \;|\; \text{male})    &= e^{\beta_1},\\
+  \theta(\text{science}:\text{non-science} \; | \;\text{female}) &= e^{\beta_1+\beta_3},\\
+  \theta(\text{male}:\text{female} \;|\; \text{science})         &= e^{\beta_2},\\
+  \theta(\text{male}:\text{female} \; | \; \text{non-science})   &= e^{\beta_2+\beta_3}.
+\end{align*}
+
+The design matrix for \(M_S\) is given by \[
+\mat{X_S} = 
+\begin{pmatrix}
+  1 & 0 & 0 & 0\\
+  1 & 0 & 1 & 0\\
+  1 & 1 & 0 & 0\\
+  1 & 1 & 1 & 1
+\end{pmatrix}.
+\]
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+For each of the models $M_O$, $M_1$, $M_2$, provide notation for the design
+matrix and a brief description of the model effects, stated in the context of
+the problem.
+\end{minipage}}
+
+The design matrix for \(M_O\), the independence model, is given by \[
+\mat{X_O} = 
+\begin{pmatrix}
+  1\\
+  1\\
+  1\\
+  1
+\end{pmatrix}.
+\] This model assumes that neither department nor sex has an effect on
+admission, i.e., \(\operatorname{logit}(\pi) = \beta_0\).
+
+The design matrix for \(M_1\) is given by \[
+\mat{X_1} = 
+\begin{pmatrix}
+  1 & 0\\
+  1 & 0\\
+  1 & 1\\
+  1 & 1
+\end{pmatrix}.
+\] This model considers only the marginal effect of department on
+admission, i.e.,
+\(\operatorname{logit}(\pi(x_1)) = \beta_0 + \beta_1 x_1\).
+
+The design matrix for \(M_2\) is given by \[
+\mat{X_2} = 
+\begin{pmatrix}
+  1 & 0\\
+  1 & 1\\
+  1 & 0\\
+  1 & 1
+\end{pmatrix}.
+\] This model considers only the marginal effect of sex on admission,
+i.e., \(\operatorname{logit}(\pi(x_1)) = \beta_0 + \beta_2 x_2\).
+
+\hypertarget{problem-4}{%
+\section{Problem 4}\label{problem-4}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+Compute the deviance statistic $D$, and give degrees of freedom $\Delta df$, for
+each of the models $M_O,M_1,M_2,M,M_S$ from the grad school data.
+Provide a general form for the statistic $G^2$, and the degrees of freedom for
+the reference chi-square distribution, for testing a reduced model $M_R$ against
+a full model $M_F$.
+\end{minipage}}
+
+\(G^2(M\,|\,M_S) = D(M)\) is called the deviance for testing model \(M\)
+goodness-of-fit.
+
+The likelihood ratio statistic \(G^2\) for testing a reduced model
+\(M_R\) against a full model \(M_F\) is given by \begin{align*}
+  G^2(M_R\,|\,M_S)
+    &= [-2 L_R]-[-2 L_F]\\
+    &= \left([-2 L_R]-[-2 L_S]\right)-\left([-2 L_F]-[-2 L_S] \right)\\
+    &= G^2(M_R\,|\,M_S)-G^2(M_F\,|\,M_S)\\
+    &= D(M_R) - D(M_F).
+\end{align*}
+
+The degree of freedom is given by \[
+  df = P_F - P_R = (P_S - P_R) - (P_S - P_F) = \Delta df_R - \Delta df_F,
+\] and so the reference distribution is \(\chi^2\) with
+\(df = \Delta df_R - \Delta df_F\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# fit each of the candidate models}
+\NormalTok{m.s }\OtherTok{=} \FunctionTok{glm}\NormalTok{(yes}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{\textasciitilde{}}\NormalTok{ dep}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{*}\NormalTok{dep,}\AttributeTok{weights=}\NormalTok{n,}\AttributeTok{family=}\NormalTok{binomial,}\AttributeTok{data=}\NormalTok{grad.data)}
+\NormalTok{m}\FloatTok{.12} \OtherTok{=} \FunctionTok{glm}\NormalTok{(yes}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{\textasciitilde{}}\NormalTok{ dep}\SpecialCharTok{+}\NormalTok{sex,}\AttributeTok{weights=}\NormalTok{n,}\AttributeTok{family=}\NormalTok{binomial,}\AttributeTok{data=}\NormalTok{grad.data)}
+\NormalTok{m}\FloatTok{.1} \OtherTok{=} \FunctionTok{glm}\NormalTok{(yes}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{\textasciitilde{}}\NormalTok{ dep,}\AttributeTok{weights=}\NormalTok{n,}\AttributeTok{family=}\NormalTok{binomial,}\AttributeTok{data=}\NormalTok{grad.data)}
+\NormalTok{m}\FloatTok{.2} \OtherTok{=} \FunctionTok{glm}\NormalTok{(yes}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sex,}\AttributeTok{weights=}\NormalTok{n,}\AttributeTok{family=}\NormalTok{binomial,}\AttributeTok{data=}\NormalTok{grad.data)}
+\NormalTok{m}\FloatTok{.0} \OtherTok{=} \FunctionTok{glm}\NormalTok{(yes}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{,}\AttributeTok{weights=}\NormalTok{n,}\AttributeTok{family=}\NormalTok{binomial,}\AttributeTok{data=}\NormalTok{grad.data)}
+
+\CommentTok{\# create a table for candidate model deviances}
+\CommentTok{\# the rows represent the model, the deviance, and the degrees of freedom}
+\NormalTok{deviance.table}\OtherTok{=}\FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}
+  \DecValTok{0}\NormalTok{,m}\FloatTok{.12}\SpecialCharTok{$}\NormalTok{deviance,m}\FloatTok{.1}\SpecialCharTok{$}\NormalTok{deviance,m}\FloatTok{.2}\SpecialCharTok{$}\NormalTok{deviance,m}\FloatTok{.0}\SpecialCharTok{$}\NormalTok{deviance,}
+  \DecValTok{0}\NormalTok{,m}\FloatTok{.12}\SpecialCharTok{$}\NormalTok{df.residual,m}\FloatTok{.1}\SpecialCharTok{$}\NormalTok{df.residual,m}\FloatTok{.2}\SpecialCharTok{$}\NormalTok{df.residual,m}\FloatTok{.0}\SpecialCharTok{$}\NormalTok{df.residual),}
+  \AttributeTok{nrow=}\DecValTok{5}\NormalTok{)}
+\FunctionTok{dimnames}\NormalTok{(deviance.table) }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"MS"}\NormalTok{,}\StringTok{"M"}\NormalTok{,}\StringTok{"M1"}\NormalTok{,}\StringTok{"M2"}\NormalTok{,}\StringTok{"MO"}\NormalTok{),}\FunctionTok{c}\NormalTok{(}\StringTok{"deviance"}\NormalTok{,}\StringTok{"delta.df"}\NormalTok{))}
+\FunctionTok{print}\NormalTok{(deviance.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      deviance delta.df
+## MS  0.0000000        0
+## M   0.4589638        1
+## M1  0.6036551        2
+## M2 67.8794451        2
+## MO 73.1962870        3
+\end{verbatim}
+
+\hypertarget{problem-5}{%
+\section{Problem 5}\label{problem-5}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+Compute the likelihood statistic $G^2$ for testing reduced model $M$ against
+full model $M_S$ from the grad school data, and provide an interpretation in the
+context of the problem.
+\end{minipage}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# test the main effects model against the interaction (saturated) model}
+\FunctionTok{anova}\NormalTok{(m}\FloatTok{.12}\NormalTok{,m.s,}\AttributeTok{test=}\StringTok{"LRT"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model 1: yes/n ~ dep + sex
+## Model 2: yes/n ~ dep + sex + sex * dep
+##   Resid. Df Resid. Dev Df Deviance Pr(>Chi)
+## 1         1    0.45896                     
+## 2         0    0.00000  1  0.45896   0.4981
+\end{verbatim}
+
+The statistic \(G^2(M\,|\,M_S) = D(M) = 0.459\), which has a \(p\)-value
+of \(0.498\). Thus, we conlcude the main effects model (no interaction
+on inputs) is compatible with the observed data.
+
+\hypertarget{problem-6}{%
+\section{Problem 6}\label{problem-6}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+Compute the likelihood statistic $G^2$ for testing reduced model $M_O$ against
+full model $M_2$ from the grad school data, and provide an interpretation in the
+context of the problem.
+\end{minipage}}
+
+We are testing for a marginal effect of \(x_2\) (sex), ignoring the
+effects of \(x_1\) (department).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# test for the input 2 effect using a marginal effect test}
+\FunctionTok{anova}\NormalTok{(m}\FloatTok{.0}\NormalTok{,m}\FloatTok{.2}\NormalTok{,}\AttributeTok{test=}\StringTok{"LRT"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model 1: yes/n ~ 1
+## Model 2: yes/n ~ sex
+##   Resid. Df Resid. Dev Df Deviance Pr(>Chi)  
+## 1         3     73.196                       
+## 2         2     67.879  1   5.3168  0.02112 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+The statistic \(G^2(M_0\,|\,M_2) = 5.317\) with \(df=1\) has a
+\(p\)-value around \(0.021\). Thus, we conlcude that the data supports
+the model where sex has a marginal effect on admission.
+
+\hypertarget{problem-7}{%
+\section{Problem 7}\label{problem-7}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+Compute the likelihood statistic $G^2$ for testing reduced model $M_1$ against
+full model $M$ from the grad school data, and provide an interpretation in the
+context of the problem.
+Include an explanation of how this test differs from that of the previous
+problem.
+\end{minipage}}
+
+We are testing for a partial effect of \(x_2\) (sex), adjusting for the
+effect of \(x_1\) (department).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(m}\FloatTok{.1}\NormalTok{,m}\FloatTok{.12}\NormalTok{,}\AttributeTok{test=}\StringTok{"LRT"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model 1: yes/n ~ dep
+## Model 2: yes/n ~ dep + sex
+##   Resid. Df Resid. Dev Df Deviance Pr(>Chi)
+## 1         2    0.60366                     
+## 2         1    0.45896  1  0.14469   0.7037
+\end{verbatim}
+
+The statistic \(G^2(M_1\,|\,M) = 67.420\) with \(df=1\) has
+\(p\text{-value} = 0.704\), thus we conclude that when we adjust for
+\(x_1\) (department), the data supports the model where \(x_2\) (sex)
+does not have a significant effect.
+
+How are we to interpret the results? We have shown that sex has a
+marginal effect on admission, but its effect when adjusting for
+department is neglibible.
+
+We make the following observation. Males are more likely to choose
+science, and science department is more likely to accept. Females are
+more likely to choose non-science, and non-science department is less
+likely to accept. Thus, we see that overall, females are less likely to
+be admitted, thus showing that sex has a marginal effect on admission.
+However, the probability of admission is the same for both sexes when we
+adjust for department.
+
+Thus, model \(M_1\) (department) is the major effect.
+
+\hypertarget{problem-8}{%
+\section{Problem 8}\label{problem-8}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+Compute estimates of the response probabilities based on model $M_1$ from the
+grad school data, and provide an interpretation in the context of the problem.
+\end{minipage}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# compute probability estimates under model M1}
+\NormalTok{pred}\FloatTok{.1} \OtherTok{=} \FunctionTok{predict}\NormalTok{(m}\FloatTok{.1}\NormalTok{,}\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+
+\NormalTok{prob.table }\OtherTok{=} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(pred}\FloatTok{.1}\NormalTok{),}\AttributeTok{nrow =} \DecValTok{4}\NormalTok{)}
+\FunctionTok{dimnames}\NormalTok{(prob.table) }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"science male"}\NormalTok{,}\StringTok{"science female"}\NormalTok{,}
+                              \StringTok{"non{-}science male"}\NormalTok{,}\StringTok{"non{-}science female"}\NormalTok{),}
+                            \FunctionTok{c}\NormalTok{(}\StringTok{"prob.1"}\NormalTok{))}
+\FunctionTok{print}\NormalTok{(prob.table,}\AttributeTok{digits =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    prob.1
+## science male       0.8667
+## science female     0.8667
+## non-science male   0.5814
+## non-science female 0.5814
+\end{verbatim}
+
+Under model \(M_1\), we estimate the probability of admission into the
+science department is \(0.8667\) and we estimate probability of
+admission into the non-science department is \(0.5814\).
+
+Note that under this model, sex has no effect on the probability of
+admission. This model is justified on the basis of the data and the
+previous tests we conducted.
+
+\end{document}

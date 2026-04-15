@@ -1,0 +1,886 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1cm]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{enumerate}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Regression Analysis - STAT 482 - Exam 2: Due Dec 14, 2021},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Regression Analysis - STAT 482 - Exam 2: Due Dec 14, 2021}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\param}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\ci}{\operatorname{CI}}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\begin{quote}
+A beer distributor is interested in the amount of time to service its
+retail outlets. Two factors are thought to influence the delivery time
+(\(y\)) in minutes: the number of cases delivered (\(x_1\)) and the
+distance traveled (\(x_2\)) in miles. A random sample of delivery time
+data has been collected. The data is available on Blackboard as a csv
+file.
+\end{quote}
+
+\hypertarget{preliminary-analysis}{%
+\subsection{Preliminary analysis}\label{preliminary-analysis}}
+
+\begin{align*}
+  x_1 &= \text{number of cases delivered}\\
+  x_2 &= \text{distance traveled (miles)}\\
+  y   &= \text{delivery times (minutes)}
+\end{align*} where \[
+  \corr(x_1,x_2) < 0.
+\]
+
+\hypertarget{a}{%
+\subsection{(a)}\label{a}}
+
+\begin{quote}
+Provide an interpretation of a regression coefficient in a multiple
+regression model.
+\end{quote}
+
+\hypertarget{reproduce}{%
+\subsubsection{Reproduce}\label{reproduce}}
+
+\(\beta_\ell\) is the difference in mean response from a \(1\) unit
+increase in \(x_\ell\), with all other input levels held fixed.
+
+\hypertarget{b}{%
+\subsection{(b)}\label{b}}
+
+\begin{quote}
+Compute \(b_1,b_2\), the estimated the regression coefficients for the
+delivery time data.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data1 }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}exam2{-}1.csv\textquotesingle{}}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(data1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   cases distance time
+## 1    10       30   24
+## 2    15       25   27
+## 3    10       40   28
+## 4    20       18   33
+## 5    25       22   35
+## 6    18       31   32
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data1.m12 }\OtherTok{=} \FunctionTok{lm}\NormalTok{(time }\SpecialCharTok{\textasciitilde{}}\NormalTok{ cases }\SpecialCharTok{+}\NormalTok{ distance, }\AttributeTok{data=}\NormalTok{data1)}
+\NormalTok{data1.m12}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = time ~ cases + distance, data = data1)
+## 
+## Coefficients:
+## (Intercept)        cases     distance  
+##      5.8933       0.9206       0.3286
+\end{verbatim}
+
+\hypertarget{reproduce-1}{%
+\subsubsection{Reproduce}\label{reproduce-1}}
+
+\(b_1 = .921\) \(b_2 = .329\).
+
+\hypertarget{c}{%
+\subsection{(c)}\label{c}}
+
+\begin{quote}
+Compute \(t\) statistics for testing the effect of each input variable.
+Explain what type of effect is being tested here.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{coef}\NormalTok{(}\FunctionTok{summary}\NormalTok{(data1.m12))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept) 5.8932559 2.62973524  2.241007 4.471588e-02
+## cases       0.9206362 0.06870747 13.399360 1.402168e-08
+## distance    0.3286414 0.06589144  4.987620 3.157935e-04
+\end{verbatim}
+
+\hypertarget{reproduce-2}{%
+\subsubsection{Reproduce}\label{reproduce-2}}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+parameter & \(t\)-statistic & \(p\)-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+cases & \(t_1^*=13.399\) & \(p_1=.000\) \\
+distance & \(t_2^*=4.988\) & \(p_2=.000\) \\
+\end{longtable}
+
+The \(t_\ell\)-statistic is testing the \emph{partial} effect of input
+\(x_\ell\), accounting for the effects of all other inputs.
+
+\hypertarget{d}{%
+\subsection{(d)}\label{d}}
+
+\begin{quote}
+Compute \(\sos{R}(X_1)\) and \(\sos{R}(X_2|X_1)\). Explain what each sum
+of squares represents.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(data1.m12)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: time
+##           Df  Sum Sq Mean Sq F value    Pr(>F)    
+## cases      1 308.008 308.008 154.901 3.217e-08 ***
+## distance   1  49.464  49.464  24.876 0.0003158 ***
+## Residuals 12  23.861   1.988                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{reproduce-3}{%
+\subsubsection{Reproduce}\label{reproduce-3}}
+
+\(\sos{R}(x_1) = 308.008\) and \(\sos{R}(x_2|x_1) = 49.464\).
+
+\(\sos{R}(x_1)\) measures the variation in delivery time \((y)\)
+explained by number of cases (\(x_1\)). \(\sos{R}(x_2|x1)\) measures the
+variation in delivery time \((y)\) explained by distance (\(x_2\)),
+beyond that explained by number of cases (\(x_1\)).
+
+\hypertarget{e}{%
+\subsection{(e)}\label{e}}
+
+\begin{quote}
+Test for a marginal effect of \(x_2\) against a model which includes no
+other input variables. (Compute the test statistic and \(p\)-value.)
+Provide an interpretation of the result, stated in the context of the
+problem.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data1.m0 }\OtherTok{=} \FunctionTok{lm}\NormalTok{(time }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, }\AttributeTok{data=}\NormalTok{data1)}
+\NormalTok{data1.m2 }\OtherTok{=} \FunctionTok{lm}\NormalTok{(time }\SpecialCharTok{\textasciitilde{}}\NormalTok{ distance, }\AttributeTok{data=}\NormalTok{data1)}
+\FunctionTok{anova}\NormalTok{(data1.m2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: time
+##           Df Sum Sq Mean Sq F value Pr(>F)
+## distance   1   0.47  0.4672  0.0159 0.9014
+## Residuals 13 380.87 29.2974
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(data1.m0,data1.m2)  }\CommentTok{\# equivalent to anova(data1.m2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: time ~ 1
+## Model 2: time ~ distance
+##   Res.Df    RSS Df Sum of Sq      F Pr(>F)
+## 1     14 381.33                           
+## 2     13 380.87  1   0.46715 0.0159 0.9014
+\end{verbatim}
+
+\hypertarget{reproduce-4}{%
+\subsubsection{Reproduce}\label{reproduce-4}}
+
+\(F_2^* = .016\) (\(p\)-value \(= .901\)).
+
+The observed data is compatible with the no effects (reduced) model. It
+is not necessary to add distance (\(x_2\)) to the no effects model for
+predicting delivery time (\(y\)).
+
+\hypertarget{f}{%
+\subsection{(f)}\label{f}}
+
+\begin{quote}
+Test for a partial effect of \(x_2\) against a model which includes
+\(x_1\). (Compute the test statistic and \(p\)-value.) Provide an
+interpretation of the result, stated in the context of the problem.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data1.m1 }\OtherTok{=} \FunctionTok{lm}\NormalTok{(time }\SpecialCharTok{\textasciitilde{}}\NormalTok{ cases, }\AttributeTok{data=}\NormalTok{data1)}
+\FunctionTok{anova}\NormalTok{(data1.m1,data1.m12)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: time ~ cases
+## Model 2: time ~ cases + distance
+##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
+## 1     13 73.325                                  
+## 2     12 23.861  1    49.464 24.876 0.0003158 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{reproduce-5}{%
+\subsubsection{Reproduce}\label{reproduce-5}}
+
+\(F_{2|1} = 24.876\) (\(p\)-value \(= .000\)).
+
+The observed data is \emph{not} compatible with the reduced model. We
+accept the addition of distance (\(x_2\)) to a model which already
+includes number of cases (\(x_1\)).
+
+\hypertarget{g}{%
+\subsection{(g)}\label{g}}
+
+\begin{quote}
+Compute the correlation matrix. What feature of multidimensional
+modeling is illustrated in this problem?
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cor}\NormalTok{(data1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               cases    distance        time
+## cases     1.0000000 -0.40529762  0.89872861
+## distance -0.4052976  1.00000000 -0.03500075
+## time      0.8987286 -0.03500075  1.00000000
+\end{verbatim}
+
+\hypertarget{reproduce-6}{%
+\subsubsection{Reproduce}\label{reproduce-6}}
+
+Multicollinearity. We see that \(r_{1 2} = -.405\), thus the inputs are
+highly (negative) correlated.
+
+Investigating relationships in higher dimensions requires higher-level
+statistical methods, such as regression analysis. Two-dimensional
+methods and graphs are insufficient.
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\begin{quote}
+A bakery is interested in the best formulation for a new product. A
+small-scale experiment is conducted to investigate the relationship
+between the product satisfaction (\(y\)), and the moisture content
+(input 1) and sweetness (input 2) of the product. The input variables
+have been coded \((x_1,x_2)\) for ease of calculation. The data is
+available on Blackboard as a csv file.
+\end{quote}
+
+\hypertarget{a-1}{%
+\subsection{(a)}\label{a-1}}
+
+\begin{quote}
+Provide a definition for an orthogonal design. Discuss an advantage to
+using an orthogonal design.
+\end{quote}
+
+\hypertarget{reproduce-7}{%
+\subsubsection{Reproduce}\label{reproduce-7}}
+
+A design is orthogonal if \(X'X\) is diagonal, where \(X\) is the design
+matrix. For orthogonal designs, regression coefficient estimates and
+variance explained by the inputs do not depend on which other inputs are
+included in the model.
+
+\hypertarget{b-1}{%
+\subsection{(b)}\label{b-1}}
+
+\begin{quote}
+Provide a definition for an interaction effect.
+\end{quote}
+
+\hypertarget{reproduce-8}{%
+\subsubsection{Reproduce}\label{reproduce-8}}
+
+An interaction effect occurs when the effect of an input effect depends
+on the levels of the other inputs.
+
+\hypertarget{c-1}{%
+\subsection{(c)}\label{c-1}}
+
+\begin{quote}
+Fit an interaction model using the coded variables. Compute the
+regression coefficient estimates and their standard errors.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data2 }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}exam2{-}2.csv\textquotesingle{}}\NormalTok{)}
+\NormalTok{data2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    moisture x1 sweetness x2 satisfaction
+## 1         4 -3         2 -1           65
+## 2         4 -3         4  1           75
+## 3         4 -3         2 -1           61
+## 4         4 -3         4  1           76
+## 5         6 -1         2 -1           75
+## 6         6 -1         4  1           86
+## 7         6 -1         2 -1           72
+## 8         6 -1         4  1           85
+## 9         8  1         2 -1           87
+## 10        8  1         4  1           87
+## 11        8  1         2 -1           80
+## 12        8  1         4  1           88
+## 13       10  3         2 -1           91
+## 14       10  3         4  1           96
+## 15       10  3         2 -1           89
+## 16       10  3         4  1           99
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data2.xmod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(satisfaction }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x1}\SpecialCharTok{*}\NormalTok{x2, }\AttributeTok{data=}\NormalTok{data2)}
+\FunctionTok{summary}\NormalTok{(data2.xmod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = satisfaction ~ x1 * x2, data = data2)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -2.900 -1.938 -0.500  1.938  4.950 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  82.0000     0.6435 127.433  < 2e-16 ***
+## x1            3.9750     0.2878  13.813 9.94e-09 ***
+## x2            4.5000     0.6435   6.993 1.45e-05 ***
+## x1:x2        -0.5750     0.2878  -1.998   0.0689 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.574 on 12 degrees of freedom
+## Multiple R-squared:  0.9531, Adjusted R-squared:  0.9413 
+## F-statistic: 81.23 on 3 and 12 DF,  p-value: 3.069e-08
+\end{verbatim}
+
+\hypertarget{reproduce-9}{%
+\subsubsection{Reproduce}\label{reproduce-9}}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+coefficient & estimate & std. error \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\beta_0\) & \(b_0=82.000\) & \(\se(b_0) = .644\) \\
+\(\beta_1\) & \(b_1=3.975\) & \(\se(b_1) = .288\) \\
+\(\beta_2\) & \(b_2=4.500\), & \(\se(b_2) = .644\) \\
+\(\beta_{1 2}\) & \(b_{12}=0.575\) & \(\se(b_{12} = .288\) \\
+\end{longtable}
+
+\hypertarget{d-1}{%
+\subsection{(d)}\label{d-1}}
+
+\begin{quote}
+Write the estimated regression as a function of \(x_1\) for
+\(x_2 = 1,0,-1\).
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b0 }\OtherTok{=} \FunctionTok{coef}\NormalTok{(data2.xmod)[}\DecValTok{1}\NormalTok{]}
+\NormalTok{b1 }\OtherTok{=} \FunctionTok{coef}\NormalTok{(data2.xmod)[}\DecValTok{2}\NormalTok{]}
+\NormalTok{b2 }\OtherTok{=} \FunctionTok{coef}\NormalTok{(data2.xmod)[}\DecValTok{3}\NormalTok{]}
+\NormalTok{b12 }\OtherTok{=} \FunctionTok{coef}\NormalTok{(data2.xmod)[}\DecValTok{4}\NormalTok{]}
+\NormalTok{reg.est.x1 }\OtherTok{=} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(b0}\SpecialCharTok{+}\NormalTok{b2,b1}\SpecialCharTok{+}\NormalTok{b12,  }\CommentTok{\# x2=+1}
+\NormalTok{                      b0,b1,         }\CommentTok{\# x2=0}
+\NormalTok{                      b0}\SpecialCharTok{{-}}\NormalTok{b2,b1}\SpecialCharTok{{-}}\NormalTok{b12), }\CommentTok{\# x2={-}1}
+                    \AttributeTok{nrow=}\DecValTok{3}\NormalTok{,}\AttributeTok{byrow=}\NormalTok{T)}
+
+\FunctionTok{dimnames}\NormalTok{(reg.est.x1) }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"x2=+1"}\NormalTok{,}\StringTok{"x2=0"}\NormalTok{,}\StringTok{"x2={-}1"}\NormalTok{),}\FunctionTok{c}\NormalTok{(}\StringTok{"intercept"}\NormalTok{,}\StringTok{"slope"}\NormalTok{))}
+\NormalTok{reg.est.x1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       intercept slope
+## x2=+1      86.5 3.400
+## x2=0       82.0 3.975
+## x2=-1      77.5 4.550
+\end{verbatim}
+
+\hypertarget{reproduce-10}{%
+\subsubsection{Reproduce}\label{reproduce-10}}
+
+We have the regression function
+\(\hat{E}(Y|x) = b_0 + b_1 x_1 + b_2 x_2 + b_{1 2} x_1 x_2\). The
+regression function for \(x_2 = 1,0,-1\) is thus:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\hat{E}(Y|x_2=+1) = (b_0 + b_2) + (b_1 + b_{1 2}) x_1 = 86.500 + 3.400 x_1\)
+\item
+  \(\hat{E}(Y|x_2=0) = b_0 + b_1 x_1 = 82.000 + 3.975 x_1\)
+\item
+  \(\hat{E}(Y|x_2=-1) = (b_0 -b_2) + (b_1 - b_{1 2}) x_1 = 77.500 + 4.550 x_1\)
+\end{itemize}
+
+\hypertarget{e-1}{%
+\subsection{(e)}\label{e-1}}
+
+\begin{quote}
+Create interaction plots for both the interaction model and the additive
+effects model.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# interaction model:}
+\NormalTok{data2.xmod.fits }\OtherTok{=} \FunctionTok{predict}\NormalTok{(data2.xmod)}
+\FunctionTok{interaction.plot}\NormalTok{(data2}\SpecialCharTok{$}\NormalTok{x1,data2}\SpecialCharTok{$}\NormalTok{x2,data2.xmod.fits,}
+            \AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{),}
+            \AttributeTok{trace.label=}\StringTok{"x2"}\NormalTok{,}
+            \AttributeTok{xlab=}\StringTok{"x1"}\NormalTok{,}
+            \AttributeTok{ylab=}\StringTok{"y"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam2_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# additive model}
+\NormalTok{data2.amod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(satisfaction }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x1}\SpecialCharTok{+}\NormalTok{x2,}\AttributeTok{data=}\NormalTok{data2)}
+\NormalTok{data2.amod.fits }\OtherTok{=} \FunctionTok{predict}\NormalTok{(data2.amod)}
+\FunctionTok{interaction.plot}\NormalTok{(data2}\SpecialCharTok{$}\NormalTok{x1,data2}\SpecialCharTok{$}\NormalTok{x2,data2.amod.fits,}
+            \AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{),}
+            \AttributeTok{trace.label=}\StringTok{"x2"}\NormalTok{,}
+            \AttributeTok{xlab=}\StringTok{"x1"}\NormalTok{,}
+            \AttributeTok{ylab=}\StringTok{"y"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam2_files/figure-latex/unnamed-chunk-10-2.pdf}
+
+\hypertarget{f-1}{%
+\subsection{(f)}\label{f-1}}
+
+\begin{quote}
+Test for an interaction effect. (Compute the test statistic and
+\(p\)-value.)
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(data2.amod, data2.xmod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: satisfaction ~ x1 + x2
+## Model 2: satisfaction ~ x1 * x2
+##   Res.Df    RSS Df Sum of Sq      F  Pr(>F)  
+## 1     13 105.95                              
+## 2     12  79.50  1     26.45 3.9925 0.06888 .
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{reproduce-11}{%
+\subsubsection{Reproduce}\label{reproduce-11}}
+
+\(F^* = 3.99\) (\(p\)-value \(= .07\)).
+
+Since the \(p\)-value is so close to \(.05\), the experimental result is
+hard to interpret. However, we can see from the interaction plots that
+they are pretty similiar, so it would seem like we do not lose much
+information with the additive model.
+
+If we wish to stick to the hard cut-off of \(\alpha = .05\), then we
+would say that the experiment finds the data to be compatible with the
+additive (reduced) model.
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+\begin{quote}
+An engineer is interested in comparing three chemical processes
+(categorical input with groups \(A\),\(B\),\(C\)) for manufacturing a
+compound. It is suspected that the impurity (continuous input \(x\)) of
+the raw material will affect the yield (response variable \(y\)) of the
+product. The data is available on Blackboard as a csv file.
+\end{quote}
+
+\hypertarget{preliminary}{%
+\subsection{Preliminary}\label{preliminary}}
+
+\begin{align*}
+  \text{categorical process} &= \{A,B,C\}\\
+  x &= \text{impurity}\\
+  y &= yield.
+\end{align*}
+
+\hypertarget{a-2}{%
+\subsection{(a)}\label{a-2}}
+
+\begin{quote}
+Define indicator variables \(I_1\) and \(I_2\) using chemical process
+\(C\) as the baseline level.
+\end{quote}
+
+\hypertarget{reproduce-12}{%
+\subsubsection{Reproduce}\label{reproduce-12}}
+
+\[
+  I_1
+  \begin{cases}
+    1, & \text{if} \;\param{process} = A,\\
+    0, & \text{otherwise}
+  \end{cases}
+\]
+
+\[
+  I_2
+  \begin{cases}
+    1, & \text{if} \;\param{process} = B,\\
+    0, & \text{otherwise}.
+  \end{cases}
+\]
+
+\hypertarget{b-2}{%
+\subsection{(b)}\label{b-2}}
+
+\begin{quote}
+Write an additive model for response y using continuous input variable
+\(x\) and indicator variables \(I_1\), \(I_2\).
+\end{quote}
+
+\hypertarget{reproduce-13}{%
+\subsubsection{Reproduce}\label{reproduce-13}}
+
+\[
+  E(Y|\cdot) = \beta_0 + \beta_1 x + \beta_2 I_1 + \beta_3 I_2.
+\]
+
+\hypertarget{c-2}{%
+\subsection{(c)}\label{c-2}}
+
+\begin{quote}
+Write a regression function for each of the chemical processes.
+\end{quote}
+
+\hypertarget{reproduce-14}{%
+\subsubsection{Reproduce}\label{reproduce-14}}
+
+\[
+  E(Y|\cdot) = 
+  \begin{cases}
+    (\beta_0 + \beta_2) + \beta_1 x & \text{if} \;\param{process} = A,\\
+    (\beta_0 + \beta_3) + \beta_1 x & \text{if} \;\param{process} = B,\\
+    \beta_0 + \beta_1 x             & \text{if} \;\param{process} = C.
+  \end{cases}
+\]
+
+\hypertarget{d-2}{%
+\subsection{(d)}\label{d-2}}
+
+\begin{quote}
+Provide an interpretation for each effect parameter, stated in the
+context of the problem.
+\end{quote}
+
+\hypertarget{reproduce-15}{%
+\subsubsection{Reproduce}\label{reproduce-15}}
+
+\(\beta_1\) is the difference in mean \param{yield} from a \(1\) unit
+increase in \param{impurity} (\(x\)), with the \param{process} held
+constant.
+
+\(\beta_2\) is the difference in mean \param{yield} between
+\param{process} \(A\) and \param{process} \(C\), with \param{impurity}
+(\(x\)) held constant.
+
+\(\beta_3\) is the difference in mean \param{yield} between
+\param{process} \(B\) and \param{process} \(C\), with \param{impurity}
+(\(x\)) held constant.
+
+\(\beta_2-\beta_3\) is the difference in mean \param{yield} between
+\param{process} \(A\) and \param{process} \(B\), with \param{impurity}
+(\(x\)) held constant.
+
+\hypertarget{e-2}{%
+\subsection{(e)}\label{e-2}}
+
+\begin{quote}
+Compute interval estimates for each of the effect parameters.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(matlib)}
+\NormalTok{data3 }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}exam2{-}3.csv\textquotesingle{}}\NormalTok{)}
+\NormalTok{data3}\SpecialCharTok{$}\NormalTok{process }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(data3}\SpecialCharTok{$}\NormalTok{process)}
+
+\FunctionTok{contrasts}\NormalTok{(data3}\SpecialCharTok{$}\NormalTok{process) }\OtherTok{=} \FunctionTok{contr.treatment}\NormalTok{(}\DecValTok{3}\NormalTok{,}\AttributeTok{base=}\DecValTok{3}\NormalTok{)}
+\NormalTok{data3.amod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(yield }\SpecialCharTok{\textasciitilde{}}\NormalTok{ impurity}\SpecialCharTok{+}\NormalTok{process,}\AttributeTok{data=}\NormalTok{data3)}
+
+\NormalTok{b.hat }\OtherTok{=} \FunctionTok{coef}\NormalTok{(data3.amod)}
+\NormalTok{dfe }\OtherTok{=} \FunctionTok{nrow}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(data3.amod)) }\SpecialCharTok{{-}} \FunctionTok{ncol}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(data3.amod))}
+\NormalTok{V }\OtherTok{=} \FunctionTok{vcov}\NormalTok{(data3.amod)}
+\NormalTok{a }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{b.hat}\FloatTok{.12} \OtherTok{=}\NormalTok{ a }\SpecialCharTok{\%*\%}\NormalTok{ b.hat}
+\NormalTok{se}\FloatTok{.12} \OtherTok{=} \FunctionTok{sqrt}\NormalTok{(a }\SpecialCharTok{\%*\%}\NormalTok{ V }\SpecialCharTok{\%*\%}\NormalTok{ a)}
+
+\NormalTok{b.hat.}\FloatTok{12.}\NormalTok{lower }\OtherTok{=}\NormalTok{ b.hat}\FloatTok{.12} \SpecialCharTok{{-}} \FunctionTok{qt}\NormalTok{(.}\DecValTok{975}\NormalTok{,dfe) }\SpecialCharTok{*}\NormalTok{ se}\FloatTok{.12}
+\NormalTok{b.hat.}\FloatTok{12.}\NormalTok{upper }\OtherTok{=}\NormalTok{ b.hat}\FloatTok{.12} \SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(.}\DecValTok{975}\NormalTok{,dfe) }\SpecialCharTok{*}\NormalTok{ se}\FloatTok{.12}
+
+\FunctionTok{confint}\NormalTok{(data3.amod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 2.5 %    97.5 %
+## (Intercept) 1.5446801 5.7006292
+## impurity    0.1806097 0.9967766
+## process1    4.3264225 7.3832047
+## process2    2.2017852 5.0353307
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"beta2{-}beta1"}\NormalTok{,}\FunctionTok{c}\NormalTok{(b.hat.}\FloatTok{12.}\NormalTok{lower,b.hat.}\FloatTok{12.}\NormalTok{upper))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## beta2-beta1 0.5974664 3.875045
+\end{verbatim}
+
+\hypertarget{reproduce-16}{%
+\subsubsection{Reproduce}\label{reproduce-16}}
+
+\begin{align*}
+  \ci(\beta_1) = [.181,.997],\\
+  \ci(\beta_2) = [4.326,7.383],\\
+  \ci(\beta_3) = [2.202,5.035],\\
+  \ci(\beta_2-\beta_3) = [.597,3.875].
+\end{align*}
+
+\hypertarget{f-2}{%
+\subsection{(f)}\label{f-2}}
+
+\begin{quote}
+Create a scatterplot of the data with the estimated regression lines.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{intercept}\FloatTok{.3} \OtherTok{=}\NormalTok{ b.hat[}\DecValTok{1}\NormalTok{]}
+\NormalTok{intercept}\FloatTok{.1} \OtherTok{=}\NormalTok{ b.hat[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{b.hat[}\DecValTok{3}\NormalTok{]}
+\NormalTok{intercept}\FloatTok{.2} \OtherTok{=}\NormalTok{ b.hat[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{b.hat[}\DecValTok{4}\NormalTok{]}
+\NormalTok{slope }\OtherTok{=}\NormalTok{ b.hat[}\DecValTok{2}\NormalTok{]}
+
+\FunctionTok{cat}\NormalTok{(slope, intercept}\FloatTok{.1}\NormalTok{, intercept}\FloatTok{.2}\NormalTok{, intercept}\FloatTok{.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0.5886932 9.477468 7.241213 3.622655
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{attach}\NormalTok{(data3)}
+
+\FunctionTok{plot}\NormalTok{(impurity[process }\SpecialCharTok{==} \StringTok{"A"}\NormalTok{],}
+\NormalTok{     yield[process }\SpecialCharTok{==} \StringTok{"A"}\NormalTok{],}
+     \AttributeTok{xlab=}\StringTok{\textquotesingle{}impurity\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{ylab=}\StringTok{\textquotesingle{}yield\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{pch=}\DecValTok{1}\NormalTok{,}
+     \AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(impurity)}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\FunctionTok{max}\NormalTok{(impurity)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{),}
+     \AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(yield)}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\FunctionTok{max}\NormalTok{(yield)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))}
+
+\FunctionTok{points}\NormalTok{(impurity[process}\SpecialCharTok{==}\StringTok{"B"}\NormalTok{], yield[process}\SpecialCharTok{==}\StringTok{"B"}\NormalTok{], }\AttributeTok{pch=}\DecValTok{2}\NormalTok{, }\AttributeTok{col=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(impurity[process}\SpecialCharTok{==}\StringTok{"C"}\NormalTok{], yield[process}\SpecialCharTok{==}\StringTok{"C"}\NormalTok{], }\AttributeTok{pch=}\DecValTok{15}\NormalTok{, }\AttributeTok{col=}\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{)}
+
+\FunctionTok{abline}\NormalTok{(intercept}\FloatTok{.1}\NormalTok{,slope,}\AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(intercept}\FloatTok{.2}\NormalTok{,slope,}\AttributeTok{col=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(intercept}\FloatTok{.3}\NormalTok{,slope,}\AttributeTok{col=}\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam2_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\end{document}

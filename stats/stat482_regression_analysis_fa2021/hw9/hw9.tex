@@ -5,16 +5,19 @@
 \documentclass[
 ]{article}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -33,14 +36,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Regression Analysis - STAT 482 - Probem Set 9},
-  pdfauthor={Alex Towell (atowell@siue.edu)},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -53,13 +48,13 @@
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
 \newcommand{\BuiltInTok}[1]{#1}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
@@ -67,7 +62,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\ExtensionTok}[1]{#1}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\ImportTok}[1]{#1}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
@@ -76,22 +71,12 @@
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
 \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -122,6 +107,14 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Regression Analysis - STAT 482 - Probem Set 9},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Regression Analysis - STAT 482 - Probem Set 9}
 \author{Alex Towell
@@ -190,19 +183,15 @@ estimates and the standard error.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{longtable}[]{@{}rrrrrr@{}}
-\toprule
-bit.size & cutting.speed & vibration & x1 & x2 & y \\
-\midrule
-\endhead
-0.0625 & 40 & 18.2 & -1 & -1 & 18.2 \\
-0.1250 & 40 & 27.2 & 1 & -1 & 27.2 \\
-0.0625 & 90 & 15.9 & -1 & 1 & 15.9 \\
-0.1250 & 90 & 41.0 & 1 & 1 & 41.0 \\
-0.0625 & 40 & 18.9 & -1 & -1 & 18.9 \\
-0.1250 & 40 & 24.0 & 1 & -1 & 24.0 \\
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+##   bit.size cutting.speed vibration x1 x2    y
+## 1   0.0625            40      18.2 -1 -1 18.2
+## 2   0.1250            40      27.2  1 -1 27.2
+## 3   0.0625            90      15.9 -1  1 15.9
+## 4   0.1250            90      41.0  1  1 41.0
+## 5   0.0625            40      18.9 -1 -1 18.9
+## 6   0.1250            40      24.0  1 -1 24.0
+\end{verbatim}
 
 \hypertarget{estimates}{%
 \section{Estimates}\label{estimates}}
@@ -225,10 +214,10 @@ bit.size & cutting.speed & vibration & x1 & x2 & y \\
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  23.8313     0.6112  38.991 5.22e-14 ***
+## (Intercept)  23.8312     0.6112  38.991 5.22e-14 ***
 ## x1            8.3188     0.6112  13.611 1.17e-08 ***
 ## x2            3.7687     0.6112   6.166 4.83e-05 ***
-## x1:x2         4.3563     0.6112   7.127 1.20e-05 ***
+## x1:x2         4.3562     0.6112   7.127 1.20e-05 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -348,15 +337,17 @@ problem.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{longtable}[]{@{}rrrrrr@{}}
-\toprule
-Res.Df & RSS & Df & Sum of Sq & F & Pr(\textgreater F) \\
-\midrule
-\endhead
-13 & 375.3531 & NA & NA & NA & NA \\
-12 & 71.7225 & 1 & 303.6306 & 50.8009 & 1.2e-05 \\
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: y ~ x1 + x2
+## Model 2: y ~ x1 * x2
+##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
+## 1     13 375.35                                  
+## 2     12  71.72  1    303.63 50.801 1.201e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
 
 \(F^* \approx 50\) is quite large (\(p = .000\)). We find the data to be
 incompatible with the additive model.
@@ -386,19 +377,15 @@ quadratic model.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{longtable}[]{@{}rr@{}}
-\toprule
-y & x \\
-\midrule
-\endhead
-27.1 & 23 \\
-22.1 & 19 \\
-21.9 & 25 \\
-10.7 & 12 \\
-1.4 & 8 \\
-18.8 & 12 \\
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+##      y  x
+## 1 27.1 23
+## 2 22.1 19
+## 3 21.9 25
+## 4 10.7 12
+## 5  1.4  8
+## 6 18.8 12
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]

@@ -1,0 +1,300 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Bank Example, polynomial regression},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Bank Example, polynomial regression}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\hypertarget{data-from-table-3.5}{%
+\subsection{Data from Table 3.5}\label{data-from-table-3.5}}
+
+A sample of branch offices of a commercial bank is selected to study the
+relationship between the size of the minimum deposit necessary to
+receive a free gift (x) and the number of new accounts opened at that
+office (y)
+
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deposit.size }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{75}\NormalTok{,}\DecValTok{75}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{125}\NormalTok{,}\DecValTok{125}\NormalTok{,}\DecValTok{150}\NormalTok{,}\DecValTok{175}\NormalTok{,}\DecValTok{175}\NormalTok{,}\DecValTok{200}\NormalTok{,}\DecValTok{200}\NormalTok{)}
+\NormalTok{new.accounts }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{28}\NormalTok{,}\DecValTok{42}\NormalTok{,}\DecValTok{112}\NormalTok{,}\DecValTok{136}\NormalTok{,}\DecValTok{160}\NormalTok{,}\DecValTok{150}\NormalTok{,}\DecValTok{152}\NormalTok{,}\DecValTok{156}\NormalTok{,}\DecValTok{124}\NormalTok{,}\DecValTok{124}\NormalTok{,}\DecValTok{104}\NormalTok{)}
+\NormalTok{bank.data }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(deposit.size,new.accounts)}
+
+  
+\FunctionTok{attach}\NormalTok{(bank.data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked _by_ .GlobalEnv:
+## 
+##     deposit.size, new.accounts
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sat.mod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(new.accounts }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(deposit.size,}\DecValTok{5}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(sat.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = new.accounts ~ poly(deposit.size, 5))
+## 
+## Residuals:
+##         1         2         3         4         5         6         7         8 
+## -7.00e+00  7.00e+00 -1.20e+01  1.20e+01  5.00e+00 -5.00e+00  3.22e-14  1.60e+01 
+##         9        10        11 
+## -1.60e+01  1.00e+01 -1.00e+01 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)             117.091      4.569  25.629 1.69e-06 ***
+## poly(deposit.size, 5)1   71.703     15.153   4.732 0.005186 ** 
+## poly(deposit.size, 5)2 -112.598     15.153  -7.431 0.000696 ***
+## poly(deposit.size, 5)3   29.356     15.153   1.937 0.110442    
+## poly(deposit.size, 5)4   -6.934     15.153  -0.458 0.666434    
+## poly(deposit.size, 5)5   -2.337     15.153  -0.154 0.883474    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 15.15 on 5 degrees of freedom
+## Multiple R-squared:  0.9423, Adjusted R-squared:  0.8845 
+## F-statistic: 16.32 on 5 and 5 DF,  p-value: 0.004085
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{three.mod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(new.accounts }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(deposit.size,}\DecValTok{3}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(three.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = new.accounts ~ poly(deposit.size, 3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -13.163  -8.693  -4.289   7.617  18.837 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)              117.09       3.95  29.641 1.28e-08 ***
+## poly(deposit.size, 3)1    71.70      13.10   5.473 0.000933 ***
+## poly(deposit.size, 3)2  -112.60      13.10  -8.594 5.75e-05 ***
+## poly(deposit.size, 3)3    29.36      13.10   2.241 0.060018 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 13.1 on 7 degrees of freedom
+## Multiple R-squared:  0.9396, Adjusted R-squared:  0.9137 
+## F-statistic: 36.28 on 3 and 7 DF,  p-value: 0.0001233
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{quad.mod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(new.accounts }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(deposit.size,}\DecValTok{2}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(quad.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = new.accounts ~ poly(deposit.size, 2))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -25.306  -7.535  -1.242   7.666  24.927 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)             117.091      4.842  24.181 9.12e-09 ***
+## poly(deposit.size, 2)1   71.703     16.060   4.465 0.002098 ** 
+## poly(deposit.size, 2)2 -112.598     16.060  -7.011 0.000111 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 16.06 on 8 degrees of freedom
+## Multiple R-squared:  0.8962, Adjusted R-squared:  0.8703 
+## F-statistic: 34.55 on 2 and 8 DF,  p-value: 0.000116
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{newdat }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{deposit.size =} \FunctionTok{seq}\NormalTok{(}\FunctionTok{min}\NormalTok{(deposit.size)}\SpecialCharTok{{-}}\DecValTok{50}\NormalTok{, }\FunctionTok{max}\NormalTok{(deposit.size)}\SpecialCharTok{+}\DecValTok{50}\NormalTok{, }\AttributeTok{length.out =} \DecValTok{100}\NormalTok{))}
+\NormalTok{newdat}\SpecialCharTok{$}\NormalTok{sat.pred }\OtherTok{=} \FunctionTok{predict}\NormalTok{(sat.mod, }\AttributeTok{newdata =}\NormalTok{ newdat)}
+\NormalTok{newdat}\SpecialCharTok{$}\NormalTok{three.pred }\OtherTok{=} \FunctionTok{predict}\NormalTok{(three.mod, }\AttributeTok{newdata =}\NormalTok{ newdat)}
+\NormalTok{newdat}\SpecialCharTok{$}\NormalTok{quad.pred }\OtherTok{=} \FunctionTok{predict}\NormalTok{(quad.mod, }\AttributeTok{newdata =}\NormalTok{ newdat)}
+                          
+\FunctionTok{plot}\NormalTok{(bank.data}\SpecialCharTok{$}\NormalTok{deposit.size,bank.data}\SpecialCharTok{$}\NormalTok{new.accounts,}
+     \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(deposit.size)}\SpecialCharTok{{-}}\DecValTok{50}\NormalTok{, }\FunctionTok{max}\NormalTok{(deposit.size)}\SpecialCharTok{+}\DecValTok{50}\NormalTok{),}\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{180}\NormalTok{),}
+     \AttributeTok{xlab =} \StringTok{"deposit size"}\NormalTok{,}\AttributeTok{ylab =} \StringTok{"new accounts"}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(newdat}\SpecialCharTok{$}\NormalTok{deposit.size,newdat}\SpecialCharTok{$}\NormalTok{sat.pred,}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(newdat}\SpecialCharTok{$}\NormalTok{deposit.size,newdat}\SpecialCharTok{$}\NormalTok{three.pred,}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(newdat}\SpecialCharTok{$}\NormalTok{deposit.size,newdat}\SpecialCharTok{$}\NormalTok{quad.pred,}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{col=}\StringTok{"green"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exercise3-5b_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(quad.mod,sat.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: new.accounts ~ poly(deposit.size, 2)
+## Model 2: new.accounts ~ poly(deposit.size, 5)
+##   Res.Df    RSS Df Sum of Sq      F Pr(>F)
+## 1      8 2063.3                           
+## 2      5 1148.0  3    915.32 1.3289 0.3635
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{accept.mod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(new.accounts }\SpecialCharTok{\textasciitilde{}}\NormalTok{ deposit.size }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(deposit.size}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(deposit.size}\SpecialCharTok{\^{}}\DecValTok{3}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(accept.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = new.accounts ~ deposit.size + I(deposit.size^2) + 
+##     I(deposit.size^3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -13.163  -8.693  -4.289   7.617  18.837 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)       -6.855e+02  1.670e+02  -4.105  0.00455 **
+## deposit.size       1.553e+01  4.064e+00   3.822  0.00652 **
+## I(deposit.size^2) -9.160e-02  3.115e-02  -2.940  0.02170 * 
+## I(deposit.size^3)  1.697e-04  7.575e-05   2.241  0.06002 . 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 13.1 on 7 degrees of freedom
+## Multiple R-squared:  0.9396, Adjusted R-squared:  0.9137 
+## F-statistic: 36.28 on 3 and 7 DF,  p-value: 0.0001233
+\end{verbatim}
+
+\end{document}

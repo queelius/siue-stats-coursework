@@ -1,0 +1,182 @@
+---
+title: 'STAT 581 - Exam 1: Due Dec 2, 2021'
+author: "Alex Towell (atowell@siue.edu)"
+output:
+  pdf_document:
+    df_print: kable
+    latex_engine: xelatex
+    #keep_tex: true
+    highlight: tango
+header-includes:
+ - \usepackage{custom}
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+# Problem 1
+> An experiment is conducted to study the effect of fitness level on ego
+> strength. Random samples of college faculty members are selected from each
+> fitness level, and an ego score is observed for each member in the sample.
+> Higher values indicate greater ego. The data is provided as an attachment.
+
+\vspace{50pt}
+
+## (a)
+> State the hypotheses of interest. Provide an interpretation, stated in the
+> context of the problem.
+
+\vspace{50pt}
+
+## (b)
+> Compute the $t_0$ statistic and the $p$-value.
+> Provide an interpretation, statedin the context of the problem.
+
+\vspace{50pt}
+
+## (c)
+> Create a Boxplot as a graphical display of the data. Is it true that all high
+> fitness faculty members have greater egos than low fitness faculty members?
+
+\vspace{50pt}
+
+## (d)
+> Compute a 95\% confidence interval for $\delta = \mu_1 - \mu_2$.
+> Provide an interpretation, stated in the context of the problem.
+
+\vspace{50pt}
+
+## (e)
+> Explain how a confidence interval provides a complementary result to a
+> hypothesis test.
+
+\vspace{50pt}
+
+## (f)
+> Explain how a confidence interval can be used in testing
+> $H_0 : \mu_1 = \mu_2$.
+
+\vspace{50pt}
+
+# Problem 2
+> A completely randomized design is used to investigate the effect of drug dosage on the activity level of
+lab rats. Each dose level is applied to $n=4$ rats, and an activity score is observed for each rat in the sample.
+Higher values indicate greater activity. The data is provided as an attachment.
+
+\vspace{50pt}
+
+## (a)
+> State the statistical hypotheses of interest. Briefly explain how the form of the alternative hypothesis
+requires a need for further investigation.
+
+\vspace{50pt}
+
+## (b)
+> Compute the $F_0$ statistic and the p-value. Provide an interpretation, stated in the context of the
+problem. Create a Boxplot as a graphical display of the data.
+
+\vspace{50pt}
+
+## (c)
+> Compute and display 95% confidence intervals for all pairwise comparisons. Explain how computing
+multiple intervals impacts the probability of committing an error.
+
+\vspace{50pt}
+
+## (d)
+> Perform pairwise comparisons using the Fisher LSD method, and the Tukey method. Provide grouping
+information for each method. Comment on the seemingly contradictory nature of a pairwise comparisons
+analysis.
+
+\vspace{50pt}
+
+## (e)
+> Describe the defining characteristics for each of the above pairwise comparison methods.
+
+\vspace{50pt}
+
+## (f)
+> Compute the margin of error and comparison-wise error rate for the Tukey method in this problem.
+
+\vspace{50pt}
+
+## (g)
+> Compute the margin of error and family-wise error rate for the Fisher LSD method in this problem.
+
+\vspace{50pt}
+
+# Problem 3
+> A factorial experiment is used to investigate the effect of pressure, temperature, and time on the yield
+from a chemical reaction. Two levels (`low`, `high`) of each factor are set and $n=2$ runs of a $2^3$ design are
+completed. The data is provided as an attachment.
+
+\vspace{50pt}
+
+## (a)
+> Perform tests for all main effects and for all interaction effects. State the $F$-statistic and $p$-value for
+each test of an effect deemed to be important. Fit a reduced model with the main effects and the statistically
+significant interaction effect.
+
+\vspace{50pt}
+
+## (b)
+> Provide a general definition of an interaction effect. Explain how an interaction plot is used in studying
+an interaction effect.
+
+\vspace{50pt}
+
+## (c)
+> Create a plot for the interaction effect deemed important. Provide an interpretation, stated in the
+context of the problem.
+
+\vspace{50pt}
+
+## (d)
+> Create a Boxplot showing the main effect for the remaining factor. Provide an interpretation, stated in
+the context of the problem.
+
+\vspace{50pt}
+
+## (e)
+> Create a plot of the fitted values for the reduced model. Which setting of the factors should be used if
+the goal is to maximize yield?
+
+\vspace{50pt}
+
+## (f)
+> Explain how the analysis is providing a simplification to the observed data.
+
+\vspace{50pt}
+
+# Problem 4
+> An experiment to compare a new drug to a standard is in the planning stages. The response variable of
+interest is the clotting time (in minutes) of blood drawn from the subject. The experimenters want to perform
+a two sample $t$ test at level $\alpha = .05$ with power $\pi = .90$ at $\delta_A = 0.5$, for standard deviation $\sigma = .7$.
+
+\vspace{50pt}
+
+## (a)
+> Determine the sample size for each drug in order to achieve the stated test specifications.
+
+\vspace{50pt}
+
+## (b)
+> Graph the power curve for the chosen sample size. Explain how the power curve displays the desired
+properties of the test.
+
+\vspace{50pt}
+
+## (c)
+> Provide a general explanation of how A can be determined.
+
+\vspace{50pt}
+
+## (d)
+> Briefly discuss some other issues that may provide additional insight to an experimental result beyond
+a finding of statistical significance.
+
+\vspace{50pt}
+
+## (e)
+> Briefly comment on the additional information provided by the p-value, beyond a determination of
+statistical significance alone.

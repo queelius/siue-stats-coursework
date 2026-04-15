@@ -1,0 +1,557 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{paper}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{fbox}
+\usepackage{amsmath}
+\usepackage{hw3}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Computational Statistics - STAT 575 - HW \#3},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Computational Statistics - STAT 575 - HW \#3}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+Consider the following integration \[
+  \int_{-\infty}^{\infty} e^{-x^2} dx.
+\]
+
+\hypertarget{part-a}{%
+\subsection{Part (a)}\label{part-a}}
+
+\fbox{
+\begin{minipage}{.75\columnwidth}
+Evaluate the integral in closed form using $\pi$.
+\end{minipage}}
+
+The integrand is the kernel of a normal density, and so we evaluate the
+integral by transforming it into a problem recognizable as an
+expectation \(\expect_X\!\left[k(\pi)\right]\) where
+\(X \sim N(0,\sigma^2)\), i.e., \[
+  \sqrt{2 \pi \sigma^2} \int_{-\infty}^{\infty} \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2 \sigma^2}x^2} dx.
+\]
+
+By basic pattern matching, we see that integrand \(\exp(-x^2)\) is the
+kernel of \(N(0, \sigma^2 = 0.5)\). Substituting \(\sigma^2\) with
+\(0.5\), we obtain \[
+  \sqrt{\pi} \int_{-\infty}^{\infty} \frac{1}{\sqrt{\pi}} e^{-x^2} dx
+\] which is equivalent to \(\sqrt{\pi} \expect_X(1) = \sqrt{\pi}\).
+
+\hypertarget{part-b}{%
+\subsection{Part (b)}\label{part-b}}
+
+\fbox{%
+\begin{minipage}{.75\columnwidth}
+Estimate the above integral using Riemman’s Rule. Give a estimate of $\pi$.
+Does it at least provide a couple digits worth of accuracy?
+\end{minipage}}
+
+The right-handed Riemann sum is given by \[
+  h \sum_{i=1}^{n} f(a + h i) \approx \int_{a}^{b} f(x) dx
+\] where \(h = (b-a)/n\), which we straightforwardly implement with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{right\_riemann\_sum }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(f, a, b, n) \{}
+\NormalTok{    h }\OtherTok{\textless{}{-}}\NormalTok{ (b }\SpecialCharTok{{-}}\NormalTok{ a)}\SpecialCharTok{/}\NormalTok{n}
+\NormalTok{    h }\SpecialCharTok{*} \FunctionTok{sum}\NormalTok{(}\FunctionTok{f}\NormalTok{(a }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n) }\SpecialCharTok{*}\NormalTok{ h))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We use this numerical integrator to approximate the integration problem
+whose solution is \(\sqrt{\pi}\) and then take its square to estimate
+\(\pi\), i.e., \[
+  \hat{\pi}_{\rm{riemann}} = \operatorname{right\_riemann\_sum}(g,-r,r,n)^2.
+\] where \(g(x) = e^{-x^2}\), \((-r,r)\), \(r > 0\), is the domain to
+numerically integrate over, and \(n\) is the number of blocks in the
+partition. We implement this estimator with the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{riemann\_pi }\OtherTok{\textless{}{-}} \FunctionTok{Vectorize}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(n, r) \{}
+    \FunctionTok{right\_riemann\_sum}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x) \{}
+        \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{x}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{    \}, }\SpecialCharTok{{-}}\NormalTok{r, r, n)}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+We provide an estimate of \(\pi\) with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{riemann\_pi}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.141595
+\end{verbatim}
+
+The estimator provides \(5\) decimals of accuracy based on Riemman's
+rule with \(n = 10\) over \((-4,4)\). This provides unusually good
+accuracy for the right-handed Riemann rule due to the fact that the
+integrand is symmetric about the origin and thus the overestimate of the
+integral over \((-4,0)\) is canceled by the underestimate over
+\((0,4)\).
+
+There are more efficient and more accurate ways to estimate \(\pi\), but
+in theory, if we ignore numerical errors on the computer, \[
+  \lim_{n\to\infty,r \to \infty} \operatorname{riemann\_pi}(n,r) = \pi.
+\]
+
+One may have the insight that, since \(e^{-x^2}\) is symmetric about the
+origin, we can just sum over \([0,r]\) instead, which would obtain
+\(\sqrt{\pi}/2\). Let us try:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{4} \SpecialCharTok{*} \FunctionTok{right\_riemann\_sum}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x) \{}
+    \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{x}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{\}, }\DecValTok{0}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{10}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.88363
+\end{verbatim}
+
+This is a very poor estimate of \(\pi\). Let us try with \(n=100000\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{4} \SpecialCharTok{*} \FunctionTok{right\_riemann\_sum}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x) \{}
+    \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{x}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{\}, }\DecValTok{0}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{1e+05}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.141451
+\end{verbatim}
+
+Remarkably, it still performs relatively poorly compared to
+\(\hat{\pi}_{\rm{riemann}}\).
+
+\hypertarget{part-c}{%
+\subsection{Part (c)}\label{part-c}}
+
+\fbox{
+\begin{minipage}{.75\columnwidth}
+Redo part (b) to estimate $\pi$ using Gauss-Hermite quadrature. You may use the
+$\operatorname{fastGHQuad}$ function in R.
+\end{minipage}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(fastGHQuad)}
+\NormalTok{hermite\_pi }\OtherTok{\textless{}{-}} \FunctionTok{Vectorize}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(n) \{}
+    \FunctionTok{aghQuad}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x) \{}
+        \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{x}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{    \}, }\DecValTok{0}\NormalTok{, }\FloatTok{1.1}\NormalTok{, }\FunctionTok{gaussHermiteData}\NormalTok{(n))}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{\})}
+\NormalTok{pi.hat.herm }\OtherTok{\textless{}{-}} \FunctionTok{hermite\_pi}\NormalTok{(}\DecValTok{10}\NormalTok{)}
+\NormalTok{pi.hat.herm}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.14025
+\end{verbatim}
+
+We see that the estimator \(\hat{\pi}_{\rm{hermite}} = 3.14025\) with
+\(n=10\) is a relatively poor estimator compared to
+\(\hat{\pi}_{\rm{riemann}}\). Let us find \[
+  \epsilon^*_{\rm{riemann}} = \min_{n,r}(\operatorname{riemann\_pi}(n,r))
+\] and \[
+  \epsilon^*_{\rm{hermite}} = \min_{n}(\operatorname{hermite\_pi}(n)).
+\]
+
+Here is the code that finds the argument that minimizes these
+estimators, along with their respective errors:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{arg.min }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(xs, f) \{}
+\NormalTok{    y.min }\OtherTok{\textless{}{-}} \ConstantTok{Inf}
+\NormalTok{    x.min }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+    \ControlFlowTok{for}\NormalTok{ (x }\ControlFlowTok{in}\NormalTok{ xs) \{}
+\NormalTok{        y }\OtherTok{\textless{}{-}} \FunctionTok{f}\NormalTok{(x)}
+        \ControlFlowTok{if}\NormalTok{ (y }\SpecialCharTok{\textless{}}\NormalTok{ y.min) \{}
+\NormalTok{            x.min }\OtherTok{\textless{}{-}}\NormalTok{ x}
+\NormalTok{            y.min }\OtherTok{\textless{}{-}}\NormalTok{ y}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \FunctionTok{list}\NormalTok{(}\AttributeTok{x.min =}\NormalTok{ x.min, }\AttributeTok{y.min =}\NormalTok{ y.min)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Now, we try it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hermite.min }\OtherTok{\textless{}{-}} \FunctionTok{arg.min}\NormalTok{(}\DecValTok{10}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(n) \{}
+    \FunctionTok{abs}\NormalTok{(}\FunctionTok{hermite\_pi}\NormalTok{(n) }\SpecialCharTok{{-}}\NormalTok{ pi)}
+\NormalTok{\})}
+\NormalTok{riemann4.min }\OtherTok{\textless{}{-}} \FunctionTok{arg.min}\NormalTok{(}\DecValTok{10}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(n) \{}
+    \FunctionTok{abs}\NormalTok{(}\FunctionTok{riemann\_pi}\NormalTok{(n, }\DecValTok{4}\NormalTok{) }\SpecialCharTok{{-}}\NormalTok{ pi)}
+\NormalTok{\})}
+\NormalTok{riemann5.min }\OtherTok{\textless{}{-}} \FunctionTok{arg.min}\NormalTok{(}\DecValTok{10}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(n) \{}
+    \FunctionTok{abs}\NormalTok{(}\FunctionTok{riemann\_pi}\NormalTok{(n, }\DecValTok{5}\NormalTok{) }\SpecialCharTok{{-}}\NormalTok{ pi)}
+\NormalTok{\})}
+\NormalTok{riemann6.min }\OtherTok{\textless{}{-}} \FunctionTok{arg.min}\NormalTok{(}\DecValTok{10}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(n) \{}
+    \FunctionTok{abs}\NormalTok{(}\FunctionTok{riemann\_pi}\NormalTok{(n, }\DecValTok{6}\NormalTok{) }\SpecialCharTok{{-}}\NormalTok{ pi)}
+\NormalTok{\})}
+\FunctionTok{print}\NormalTok{(hermite.min)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $x.min
+## [1] 45
+## 
+## $y.min
+## [1] 4.440892e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(riemann4.min)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $x.min
+## [1] 100
+## 
+## $y.min
+## [1] 1.002528e-07
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(riemann5.min)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $x.min
+## [1] 100
+## 
+## $y.min
+## [1] 1.046851e-11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(riemann6.min)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $x.min
+## [1] 24
+## 
+## $y.min
+## [1] 4.440892e-16
+\end{verbatim}
+
+We see that, likely due to numerical errors in the default
+implementation of numbers in R, \(\hat{\pi}_{\rm{hermite}}\) obtains its
+best estimate at \(n=45\) and \(\hat{\pi}_{\rm{riemann}}\) obtains its
+best estimate at \(n=24\) and \(r=6\). Moreover, \[
+  \epsilon^*_{\rm{hermite}} = \epsilon^*_{\rm{riemann}} = 4.440892 \times 10^{-16}.
+\] Interesting.
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\fbox{%
+\begin{minipage}{.75\columnwidth}
+Use Monte Carlo simulation to evaluate the confidence (coverage) level of $95\%$
+CI for regression slope in the model
+$$
+  y_i = 3 x_i + \epsilon_i, \epsilon_i \sim N(0,1).
+$$
+In each Monte Carlo sample, first generate a vector of $x$ (you may pick $x$
+from any distribution, say a normal or a uniform). Then generate $\epsilon$ from
+$N(0, 1)$ and then $y$ according to the regression formula.
+
+Use $\operatorname{lm}()$ to fit the regression model, and
+$\operatorname{confint}()$ to get the $95\%$ confidence interval for the slope
+parameter. Run the MC iterations for $10000$ times and get the proportion of CI
+that covers the true slope $β_1 = 3$. Verify the proportion is close to $0.95$.
+\end{minipage}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{N }\OtherTok{\textless{}{-}} \DecValTok{10000}
+\NormalTok{covers }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{1000}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{N) \{}
+\NormalTok{    x }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(n, }\SpecialCharTok{{-}}\DecValTok{100}\NormalTok{, }\DecValTok{100}\NormalTok{)}
+\NormalTok{    e }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(n)}
+\NormalTok{    y }\OtherTok{\textless{}{-}} \DecValTok{3} \SpecialCharTok{*}\NormalTok{ x }\SpecialCharTok{+}\NormalTok{ e}
+\NormalTok{    fit }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x)}
+\NormalTok{    ci }\OtherTok{\textless{}{-}} \FunctionTok{confint}\NormalTok{(fit)}
+    \ControlFlowTok{if}\NormalTok{ (ci[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{\textless{}=} \DecValTok{3} \SpecialCharTok{\&\&} \DecValTok{3} \SpecialCharTok{\textless{}=}\NormalTok{ ci[}\DecValTok{4}\NormalTok{])}
+\NormalTok{        covers }\OtherTok{\textless{}{-}}\NormalTok{ covers }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{\}}
+
+\NormalTok{prop }\OtherTok{\textless{}{-}}\NormalTok{ covers}\SpecialCharTok{/}\NormalTok{N}
+\NormalTok{prop}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9493
+\end{verbatim}
+
+As we can see, the proportion of confidence intervals that cover the
+true parameter value is approximately \(95\%\).
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+\fbox{%
+\begin{minipage}{.75\columnwidth}
+Let $Y \sim \rm{Bernoulli}(0.7)$ and the conditional distribution of $X$ given $Y$ is
+$X | Y \sim N(\mu_Y,1)$, where $\mu_0 = −2$ and $\mu_1 = 2$.
+\end{minipage}}
+
+\hypertarget{part-a-1}{%
+\subsection{Part (a)}\label{part-a-1}}
+
+\fbox{
+\begin{minipage}{.75\columnwidth}
+Derive the marginal pdf of $X$.
+\end{minipage}}
+
+First, we compute the joint pdf of \(X\) and \(Y\), which is just \[
+  f_{X,Y}(x,y) = f_Y(y) f_{X|Y}(x|y)
+\] which is \[
+  f_{X,Y}(x,y) = (.7)^y(.3)^{1-y} \left(I(y=0) \phi(x+2) + I(y=1) \phi(x-2)\right).
+\] The marginal pdf \(f_X\) is computed by summing over \(Y\), \[
+  f_X(x) = f_{X,Y}(x,0) + f_{X,Y}(x,1)
+\] which is just \[
+  f_X(x) = 0.3 \phi(x+2) + 0.7 \phi(x-2).
+\]
+
+Clearly, this is a simple Gaussian mixture model.
+
+\hypertarget{part-b-1}{%
+\subsection{Part (b)}\label{part-b-1}}
+
+\fbox{
+\begin{minipage}{.75\columnwidth}
+Use iterated expectation and variance to find $\expect(X)$ and $\var(X)$ exactly.
+\end{minipage}}
+
+Using iterated expectation, we obtain \begin{align}
+  \expect(X) &= \expect_Y(\expect(X|Y))\\
+             &= \expect(X|y=0)f_Y(0) + \expect(X|y=1)f_Y(1)\\
+             &= (-2)(0.3) + (2)0.7\\
+             &= 0.8.
+\end{align}
+
+Using iterated variance, we obtain \begin{align}
+  \var(X) &= \expect_Y(\var(X|Y)) + \var_Y(\expect(X|Y))\\
+          &= \expect_Y(1) + \var(\mu_Y)\\
+          &= 1 + \expect_Y(\mu_Y^2) - \expect_Y^2(\mu_Y)\\
+          &= 1 + \mu_0^2(1-p) + \mu_1^2 p - \mu^2\\
+          &= 1 + 4(0.3) + 4(0.7) - 0.8^2\\
+          &= 4.36\\
+\end{align}
+
+\hypertarget{part-c-1}{%
+\subsection{Part (c)}\label{part-c-1}}
+
+\fbox{%
+\begin{minipage}{.75\columnwidth}
+Obtain a Monte Carlo sample of size $m = 10000$.
+Use this sample to compute (i) $\expect(X)$, (ii) $\var(X)$, (iii) $90$-th percentile of $X$.
+\end{minipage}}
+
+First, we perform a MC simulation to obtain a sample from \(\{X_m\}\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m }\OtherTok{\textless{}{-}} \DecValTok{10000}
+\NormalTok{p }\OtherTok{\textless{}{-}} \FloatTok{0.7}
+\NormalTok{mu\_0 }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\DecValTok{2}
+\NormalTok{mu\_1 }\OtherTok{\textless{}{-}} \DecValTok{2}
+\NormalTok{xs }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\AttributeTok{length =}\NormalTok{ m)}
+\NormalTok{ys }\OtherTok{\textless{}{-}} \FunctionTok{rbinom}\NormalTok{(m, }\DecValTok{1}\NormalTok{, p)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{m) \{}
+    \ControlFlowTok{if}\NormalTok{ (ys[i] }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)}
+\NormalTok{        xs[i] }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{1}\NormalTok{, mu\_0) }\ControlFlowTok{else}\NormalTok{ xs[i] }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{1}\NormalTok{, mu\_1)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Now, we just apply the necessary statistics to the sample to estimate
+the parameters.
+
+\hypertarget{part-ibb}{%
+\subsubsection{Part (i)bb}\label{part-ibb}}
+
+The parameter \(\mu\) is estimated to be:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(xs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7861497
+\end{verbatim}
+
+\hypertarget{part-ii}{%
+\subsubsection{Part (ii)}\label{part-ii}}
+
+The parameter \(\sigma^2\) is estimated to be:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{var}\NormalTok{(xs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.369716
+\end{verbatim}
+
+\hypertarget{part-iii}{%
+\subsubsection{Part (iii)}\label{part-iii}}
+
+The \(90\%\) percentile is estimated to be:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{quantile}\NormalTok{(xs, }\FunctionTok{c}\NormalTok{(}\FloatTok{0.9}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      90% 
+## 3.041287
+\end{verbatim}
+
+\end{document}

@@ -1,0 +1,151 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{alex}
+\usepackage{xfrac}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Time Series Analysis - STAT 478 - Final Exam - Part 1 Q4},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Time Series Analysis - STAT 478 - Final Exam - Part 1 Q4}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\hypertarget{part-1-problem-4}{%
+\section{Part 1: Problem 4}\label{part-1-problem-4}}
+
+Consider the following models where \(\{e_t\}\) is a \(0\) mean white
+noise process with variance \(σ^2\).
+
+\begin{enumerate}
+\item [i] $Y_t = 1.9 Y_{t−1} − 0.9 Y_{t−2} + e_t − 0.5e_{t−1}$
+\item [ii] $Y_t = 0.5 Y_{t−1} + e_t − 0.2e_{t−1} − 0.15e_{t−2}$
+\end{enumerate}
+
+\hypertarget{part-a}{%
+\subsection{Part (a)}\label{part-a}}
+
+\fbox{Write each model above using backshift notation.}
+
+\begin{enumerate}
+\item [(i)] $(1 - 1.9 \backshift + 0.9 \backshift^2) Y_t = (1 - 0.5 \backshift) e_t$.
+
+Working on both sides of the equation simultaneously, we use the following
+sequence of transformations to arrive at a canonical form.
+\begin{align*}
+  (1 - 1.9 \backshift + 0.9 \backshift^2) Y_t &= (1 - \sfrac{1}{2} \backshift) e_t\\
+  %%%%%%%%%%%\sfrac{10}{10}(1 - 1.9 \backshift + 0.9 \backshift^2) Y_t &= (1 - \sfrac{1}{2} \backshift) e_t\\
+  \sfrac{1}{10}(10 - 19 \backshift + 9 \backshift^2) Y_t &= (1 - \sfrac{1}{2} \backshift) e_t\\
+  \sfrac{1}{10}(1-\backshift)(10-9\backshift) Y_t  &=  (1 - \sfrac{1}{2} \backshift) e_t\\
+  \sfrac{1}{100}(1-\backshift)(1-\sfrac{9}{10}\backshift) Y_t  &=  (1 - \sfrac{1}{2} \backshift) e_t\\
+  (1-\backshift)(1-\sfrac{9}{10}\backshift) Y_t  &=  (1 - \sfrac{1}{2} \backshift) 100 e_t
+\end{align*}
+We let $\eta_t = 10^2 e_t$, which is white noise with a mean $0$ and variance
+$10^4 \sigma^2$, thus
+$$
+  (1-\backshift)(1-\sfrac{9}{10}\backshift) Y_t = (1 - \sfrac{1}{2} \backshift) \eta_t.
+$$
+
+\item [(ii)] $(1 - 0.5 \backshift) Y_t = (1 - 0.2 \backshift - 0.15 \backshift^2) e_t$.
+Working on both sides of the equation simultaneously, we use the following
+sequence of transformations to arrive at a canonical form.
+\begin{align*}
+  (1 - 0.5 \backshift) Y_t          &= (1 - 0.2 \backshift - 0.15 \backshift^2) e_t\\
+  (1 - \sfrac{1}{2} \backshift) Y_t &= (1 - \sfrac{1}{5} \backshift - \sfrac{3}{20} \backshift^2) e_t\\
+  (1 - \sfrac{1}{2} \backshift) Y_t &= (1 - \sfrac{1}{2}\backshift)(1 + \sfrac{3}{10}) e_t\\
+                                Y_t &= (1 + \sfrac{3}{10}) e_t
+\end{align*}
+\end{enumerate}
+
+\hypertarget{part-b}{%
+\subsection{Part (b)}\label{part-b}}
+
+\fbox{\begin{minipage}{.9\textwidth}
+Characterize these models as models in the $\arima(p,d,q)$ family, that is,
+identify $p$, $d$ and $q$.
+\end{minipage}}
+
+\begin{enumerate}
+\item[(i)] By the form, $\{Y_t\}$ is an $\arima(1,1,1)$ process, or equivalently,
+$\{\nabla Y_t\}$ is an $\arma(1,1)$ process.
+\item[(ii)] By the form, $\{Y_t\}$ is an $\arima(0,0,1)$ process, or equivalently, $\ma(1)$ process.
+\end{enumerate}
+
+\hypertarget{part-c}{%
+\subsection{Part (c)}\label{part-c}}
+
+\fbox{Determine if each model corresponds to a stationary process or not.}
+
+\begin{enumerate}
+\item[(i)] $\{Y_t\}$ is an $\arima(1,1,1)$ process, which means that its characteristic function has a unit root.
+Recall that $\arima(1,1,1)$ denotes a 
+$\{Y_t\}$ is therefore a non-stationary process.\footnote{$\nabla \{Y_t\}$ is a stationary $\arma(1,1)$ process since it does not have a unit root.}
+\item[(ii)] $\{Y_t\}$ is an $\ma(1)$ process, which are necessarily stationary.
+\end{enumerate}
+
+\end{document}

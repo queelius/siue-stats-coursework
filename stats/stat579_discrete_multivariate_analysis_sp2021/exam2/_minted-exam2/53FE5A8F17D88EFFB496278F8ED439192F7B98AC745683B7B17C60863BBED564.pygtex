@@ -1,0 +1,69 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} function for performing a multinomial goodness of fit hypothesis test}
+\PYG{c+c1}{\PYGZsh{} with a specified null model pi.0 in which pi.0 is the result of t parameters.}
+\PYG{c+c1}{\PYGZsh{}}
+\PYG{c+c1}{\PYGZsh{} input:}
+\PYG{c+c1}{\PYGZsh{}     obs: vector of counts}
+\PYG{c+c1}{\PYGZsh{}     pi.0: vector of hypothesized probabilites,}
+\PYG{c+c1}{\PYGZsh{}     t: dimension of the parameter space under the null hypothesis.}
+\PYG{c+c1}{\PYGZsh{} }
+\PYG{c+c1}{\PYGZsh{} outputs: two lists, one for X2 and one for G2. each list has:}
+\PYG{c+c1}{\PYGZsh{}     X2: list relevant results for X\PYGZca{}2 test}
+\PYG{c+c1}{\PYGZsh{}     G2: list of relevant results for G\PYGZca{}2 test, e.g.:}
+\PYG{c+c1}{\PYGZsh{}       list(stat,p,df,reject) where}
+\PYG{c+c1}{\PYGZsh{}         p: p\PYGZhy{}value of the obs under the null model}
+\PYG{c+c1}{\PYGZsh{}         df: degrees of freedom of the reference distribution (chi\PYGZhy{}square)}
+\PYG{n}{multinomial\PYGZus{}goodness\PYGZus{}of\PYGZus{}fit}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{k+kr}{function}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pi.0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t}\PYG{o}{=}\PYG{l+m}{0}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{sum}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{)}\PYG{+w}{                 }\PYG{c+c1}{\PYGZsh{} number of observations}
+\PYG{+w}{  }\PYG{n}{t.full}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{length}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{)}\PYG{l+m}{\PYGZhy{}1}\PYG{+w}{       }\PYG{c+c1}{\PYGZsh{} dim of parameter space for the full model.}
+\PYG{+w}{  }\PYG{n}{df}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n}{t.full}\PYG{o}{\PYGZhy{}}\PYG{n}{t}\PYG{+w}{                }\PYG{c+c1}{\PYGZsh{} degrees of freedom for the ref distribution}
+\PYG{+w}{  }\PYG{n}{m.0}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n}{n}\PYG{o}{*}\PYG{n}{pi.0}\PYG{+w}{                 }\PYG{c+c1}{\PYGZsh{} expected observations (for given n)}
+\PYG{+w}{  }
+\PYG{+w}{  }\PYG{n}{G2}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{l+m}{2}\PYG{o}{*}\PYG{n+nf}{sum}\PYG{p}{(}\PYG{n}{obs}\PYG{o}{*}\PYG{n+nf}{log}\PYG{p}{(}\PYG{n}{obs}\PYG{o}{/}\PYG{n}{m.0}\PYG{p}{))}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} log\PYGZhy{}likelihood ratio test statistic}
+\PYG{+w}{  }\PYG{n}{G2.p}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{pchisq}\PYG{p}{(}\PYG{n}{q}\PYG{o}{=}\PYG{n}{G2}\PYG{p}{,}\PYG{n}{df}\PYG{o}{=}\PYG{n}{df}\PYG{p}{,}\PYG{n}{lower.tail}\PYG{o}{=}\PYG{k+kc}{FALSE}\PYG{p}{)}
+
+\PYG{+w}{  }\PYG{n}{X2}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{sum}\PYG{p}{((}\PYG{n}{obs}\PYG{o}{\PYGZhy{}}\PYG{n}{m.0}\PYG{p}{)}\PYG{o}{\PYGZca{}}\PYG{l+m}{2}\PYG{o}{/}\PYG{n}{m.0}\PYG{p}{)}\PYG{+w}{   }\PYG{c+c1}{\PYGZsh{} test statistic}
+\PYG{+w}{  }\PYG{n}{X2.p}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{pchisq}\PYG{p}{(}\PYG{n}{q}\PYG{o}{=}\PYG{n}{X2}\PYG{p}{,}\PYG{n}{df}\PYG{o}{=}\PYG{n}{df}\PYG{p}{,}\PYG{n}{lower.tail}\PYG{o}{=}\PYG{k+kc}{FALSE}\PYG{p}{)}
+
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} return relevant test statistics}
+\PYG{+w}{  }\PYG{n+nf}{list}\PYG{p}{(}\PYG{n}{m.0}\PYG{o}{=}\PYG{n}{m.0}\PYG{p}{,}\PYG{n}{pi.0}\PYG{o}{=}\PYG{n}{pi.0}\PYG{p}{,}
+\PYG{+w}{       }\PYG{n}{X2}\PYG{o}{=}\PYG{n+nf}{list}\PYG{p}{(}\PYG{n}{stat}\PYG{o}{=}\PYG{n}{X2}\PYG{p}{,}\PYG{n}{p}\PYG{o}{=}\PYG{n}{X2.p}\PYG{p}{,}\PYG{n}{df}\PYG{o}{=}\PYG{n}{df}\PYG{p}{),}
+\PYG{+w}{       }\PYG{n}{G2}\PYG{o}{=}\PYG{n+nf}{list}\PYG{p}{(}\PYG{n}{stat}\PYG{o}{=}\PYG{n}{G2}\PYG{p}{,}\PYG{n}{p}\PYG{o}{=}\PYG{n}{G2.p}\PYG{p}{,}\PYG{n}{df}\PYG{o}{=}\PYG{n}{df}\PYG{p}{))}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{} obs is an IxJ matrix representing cross\PYGZhy{}sectional data (observed counts).}
+\PYG{c+c1}{\PYGZsh{} tests for independence P(X,Y) = P(X)P(Y).}
+\PYG{n}{multinomial\PYGZus{}goodness\PYGZus{}of\PYGZus{}fit\PYGZus{}independence\PYGZus{}test}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{k+kr}{function}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n}{I}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{dim}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{)[}\PYG{l+m}{1}\PYG{p}{]}
+\PYG{+w}{  }\PYG{n}{J}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{dim}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{)[}\PYG{l+m}{2}\PYG{p}{]}
+\PYG{+w}{  }\PYG{n}{t}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{I}\PYG{l+m}{\PYGZhy{}1}\PYG{p}{)}\PYG{o}{+}\PYG{p}{(}\PYG{n}{J}\PYG{l+m}{\PYGZhy{}1}\PYG{p}{)}
+\PYG{+w}{  }
+\PYG{+w}{  }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{sum}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{)}\PYG{+w}{  }
+\PYG{+w}{  }\PYG{n}{row.sum}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{apply}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{,}\PYG{n}{sum}\PYG{p}{)}
+\PYG{+w}{  }\PYG{n}{col.sum}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{apply}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{,}\PYG{l+m}{2}\PYG{p}{,}\PYG{n}{sum}\PYG{p}{)}
+\PYG{+w}{  }\PYG{n}{m.0}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{matrix}\PYG{p}{(}\PYG{n}{row.sum}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}*\PYGZpc{}}\PYG{+w}{ }\PYG{n+nf}{t}\PYG{p}{(}\PYG{n+nf}{matrix}\PYG{p}{(}\PYG{n}{col.sum}\PYG{p}{))}\PYG{o}{/}\PYG{n}{n}
+\PYG{+w}{  }
+\PYG{+w}{  }\PYG{n+nf}{multinomial\PYGZus{}goodness\PYGZus{}of\PYGZus{}fit}\PYG{p}{(}\PYG{n}{obs}\PYG{o}{=}\PYG{n}{obs}\PYG{p}{,}\PYG{n}{pi.0}\PYG{o}{=}\PYG{n}{m.0}\PYG{o}{/}\PYG{n}{n}\PYG{p}{,}\PYG{n}{t}\PYG{o}{=}\PYG{n}{t}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{independence\PYGZus{}test\PYGZus{}monotonic\PYGZus{}association}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{k+kr}{function}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} to compute the estimate of gamma and the standard error, we need MESS}
+\PYG{+w}{  }\PYG{n+nf}{library}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}MESS\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{  }
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} gkgamma takes an IxJ matrix as an input}
+\PYG{+w}{  }\PYG{n}{gk.result}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{gkgamma}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{)}
+\PYG{+w}{  }
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} compute gamma.hat and its standard error}
+\PYG{+w}{  }\PYG{n}{gamma.hat}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n}{gk.result}\PYG{o}{\PYGZdl{}}\PYG{n}{estimate}
+\PYG{+w}{  }\PYG{n}{se}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n}{gk.result}\PYG{o}{\PYGZdl{}}\PYG{n}{se1}
+\PYG{+w}{  }
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} compute the z statistic and p\PYGZhy{}value for testing gamma=0 (independence)}
+\PYG{+w}{  }\PYG{n}{z}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n}{gamma.hat}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{se}
+\PYG{+w}{  }\PYG{n}{p.value}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{l+m}{2}\PYG{o}{*}\PYG{n+nf}{pnorm}\PYG{p}{(}\PYG{n+nf}{abs}\PYG{p}{(}\PYG{n}{z}\PYG{p}{),}\PYG{n}{lower.tail}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{FALSE}\PYG{p}{)}
+\PYG{+w}{  }
+\PYG{+w}{  }\PYG{n+nf}{list}\PYG{p}{(}\PYG{n}{gamma}\PYG{o}{=}\PYG{n}{gamma.hat}\PYG{p}{,}\PYG{n}{ase}\PYG{o}{=}\PYG{n}{se}\PYG{p}{,}\PYG{n}{stat}\PYG{o}{=}\PYG{n}{z}\PYG{p}{,}\PYG{n}{p}\PYG{o}{=}\PYG{n}{p.value}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,412 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{minted}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumerate}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Regression Analysis - STAT 482 - Probem Set 10},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Regression Analysis - STAT 482 - Probem Set 10}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\param}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\ci}{\operatorname{CI}}
+
+\begin{quote}
+A company wishes to study the effects of three different types of
+promotions on sales of its crackers. For each store in the sample, the
+sales for the promotion period (\(y\)) and the sales for the preceeding
+period (\(x\)) are observed. The data is available from Table 22.1 on
+the course website. Response variable \(y\) is listed in the first
+column, continuous input \(x\) is listed in the second column,
+categorical input promotion type (1,2,3) is listed in the third column.
+The fourth column, the observation number, can be ignored.
+\end{quote}
+
+\hypertarget{preliminary}{%
+\subsection{Preliminary}\label{preliminary}}
+
+We load the data in R with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{=} \FunctionTok{read.table}\NormalTok{(}\StringTok{\textquotesingle{}CH22TA01.txt\textquotesingle{}}\NormalTok{)[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{]}
+\FunctionTok{colnames}\NormalTok{(data) }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"sales"}\NormalTok{,}\StringTok{"pre.sales"}\NormalTok{,}\StringTok{"type"}\NormalTok{)}
+\NormalTok{data}\SpecialCharTok{$}\NormalTok{type }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{type)}
+\FunctionTok{head}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   sales pre.sales type
+## 1    38        21    1
+## 2    39        26    1
+## 3    36        22    1
+## 4    45        28    1
+## 5    33        19    1
+## 6    43        34    2
+\end{verbatim}
+
+\hypertarget{problem-1}{%
+\subsection{Problem 1}\label{problem-1}}
+
+\begin{quote}
+Define indicator variables \(I_1\) and \(I_2\) using promotion type 3 as
+the baseline level.
+\end{quote}
+
+We let \[
+  I_1 =
+  \begin{cases}
+    1, & \text{if} \;\param{type} = 1,\\
+    0, & \text{otherwise}
+  \end{cases}
+\] and \[
+  I_2 =
+  \begin{cases}
+    1, & \text{if} \;\param{type} = 2,\\
+    0, & \text{otherwise}.
+  \end{cases}
+\]
+
+We do this transformation in R with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{contrasts}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{type) }\OtherTok{=} \FunctionTok{contr.treatment}\NormalTok{(}\DecValTok{3}\NormalTok{,}\AttributeTok{base=}\DecValTok{3}\NormalTok{)}
+\FunctionTok{contrasts}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{type)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   1 2
+## 1 1 0
+## 2 0 1
+## 3 0 0
+\end{verbatim}
+
+\hypertarget{problem-2}{%
+\subsection{Problem 2}\label{problem-2}}
+
+\begin{quote}
+Write an additive model for response \(y\) using continuous input
+variable \(x\) and indicator variables \(I_1\), \(I_2\).
+\end{quote}
+
+The model of the mean \(\param{sales}\) given \(\param{pre-sales}\) and
+\(\param{type}\) is given by \[
+  E(\param{sales}) = \beta_0 + \beta_1 \param{pre-sales} + \beta_2 I_1 + \beta_3 I_2.
+\]
+
+\hypertarget{comments}{%
+\subsubsection{Comments}\label{comments}}
+
+The model of the data generating process given the predictors is given
+by \[
+  \param{sales}_i = \beta_0 + \beta_1 \param{pre-sales} + \beta_2 I_1 + \beta_3 I_2 + \epsilon_i,
+\] where \(\epsilon_i\) is zero mean i.i.d. normal.
+
+\hypertarget{problem-3}{%
+\subsection{Problem 3}\label{problem-3}}
+
+\begin{quote}
+Write a regression function for each of the promotion types.
+\end{quote}
+
+\[
+  E(\param{sales}) = 
+  \begin{cases}
+    (\beta_0 + \beta_2) + \beta_1 \param{pre-sales} & \text{if} \;\param{type} = 1,\\
+    (\beta_0 + \beta_3) + \beta_1 \param{pre-sales} & \text{if} \;\param{type} = 2,\\
+    \beta_0 + \beta_1 \param{pre-sales}         & \text{if} \;\param{type} = 3.
+  \end{cases}
+\]
+
+\hypertarget{problem-4}{%
+\subsection{Problem 4}\label{problem-4}}
+
+\begin{quote}
+Define predictor effect parameters as partial differences in means.
+\end{quote}
+
+Letting \(y\) denote \(\param{sales}\), \(x\) denote the continuous
+predictor \(\param{pre-sales}\), and \(t_j\) denote \(\param{type}=j\).
+
+Then, \begin{align*}
+  \beta_1 &= \frac{\partial E(y)}{\partial x}\\
+  \beta_2 &= E(y|x,t_1) - E(y|x,t_3)\\
+  \beta_3 &= E(y|x,t_2) - E(y|x,t_3)\\
+  \beta_2-\beta_3 &= E(y|x,t_1) - E(y|x,t_2).
+\end{align*}
+
+\hypertarget{problem-5}{%
+\subsection{Problem 5}\label{problem-5}}
+
+\begin{quote}
+Provide an interpretation for each effect parameter, stated in the
+context of the problem.
+\end{quote}
+
+\(\beta_1\) is the difference in mean \param{sales} from a \(1\) unit
+increase in \param{pre-sales}, with the \param{type} held constant.
+
+\(\beta_2\) is the difference in mean \param{sales} between \param{type}
+\(1\) and \param{type} \(3\), with \param{pre-sales} held constant.
+
+\(\beta_3\) is the difference in mean \param{sales} between \param{type}
+\(2\) and \param{type} \(3\), with \param{pre-sales} held constant.
+
+\(\beta_2-\beta_3\) is the difference in mean \param{sales} between
+\param{type} \(1\) and \param{type} \(2\), with \param{pre-sales} held
+constant.
+
+\hypertarget{problem-6}{%
+\subsection{Problem 6}\label{problem-6}}
+
+\begin{quote}
+Compute interval estimates for each of the effect parameters.
+\end{quote}
+
+To derive \(\ci(\beta_2 - \beta_3)\), we replicate a bit of distribution
+theory. Let \(a = (0\;0\;1\;-1)'\) and \(b = (b_0\;b_1\;b_2\;b_3)\),
+then \[
+  a' b = b_2 - b_3,
+\] for which \[
+  E(a' b) = a' E(b) = (0\;0\;1\;-1) (\beta_0\;\beta_1\;\beta_2\;\beta_3)' = \beta_2 - \beta_3
+\] and \[
+  \var(a' b) = a' \cov(b) a = \sigma^2 a' (X'X)^{-1} a
+\] where \[
+  X =
+  \begin{Bmatrix}
+    1 & x_1 & I_{1 1} & I_{1 2}\\
+    1 & x_2 & I_{2 1} & I_{2 2}\\
+    \vdots & \vdots & \vdots\\
+    1 & x_n & I_{n 1} & I_{n 2}.
+  \end{Bmatrix}
+\]
+
+Note that we do not know \(\sigma^2\), so we estimate it with
+\(\ms{E}\).
+
+We compute the estimates of the coefficients in the additive model with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(matlib)}
+\NormalTok{add.mod }\OtherTok{=} \FunctionTok{lm}\NormalTok{(sales }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pre.sales}\SpecialCharTok{+}\NormalTok{type,}\AttributeTok{data=}\NormalTok{data)}
+
+\NormalTok{b.hat }\OtherTok{=} \FunctionTok{coef}\NormalTok{(add.mod)}
+\NormalTok{dfe }\OtherTok{=} \FunctionTok{nrow}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(add.mod)) }\SpecialCharTok{{-}} \FunctionTok{ncol}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(add.mod))}
+\NormalTok{V }\OtherTok{=} \FunctionTok{vcov}\NormalTok{(add.mod)}
+\NormalTok{a }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{b.hat}\FloatTok{.12} \OtherTok{=}\NormalTok{ a }\SpecialCharTok{\%*\%}\NormalTok{ b.hat}
+\NormalTok{se}\FloatTok{.12} \OtherTok{=} \FunctionTok{sqrt}\NormalTok{(a }\SpecialCharTok{\%*\%}\NormalTok{ V }\SpecialCharTok{\%*\%}\NormalTok{ a)}
+
+\CommentTok{\#t.stat.12 = b.hat.12 / se.12}
+\CommentTok{\#p.value.12 = 2*(1{-}pt(abs(t.stat.12),dfe))}
+\CommentTok{\#print(c(t.stat.12,p.value.12))}
+
+\NormalTok{b.hat.}\FloatTok{12.}\NormalTok{lower }\OtherTok{=}\NormalTok{ b.hat}\FloatTok{.12} \SpecialCharTok{{-}} \FunctionTok{qt}\NormalTok{(.}\DecValTok{975}\NormalTok{,dfe) }\SpecialCharTok{*}\NormalTok{ se}\FloatTok{.12}
+\NormalTok{b.hat.}\FloatTok{12.}\NormalTok{upper }\OtherTok{=}\NormalTok{ b.hat}\FloatTok{.12} \SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(.}\DecValTok{975}\NormalTok{,dfe) }\SpecialCharTok{*}\NormalTok{ se}\FloatTok{.12}
+
+\FunctionTok{print}\NormalTok{(}\FunctionTok{c}\NormalTok{(b.hat.}\FloatTok{12.}\NormalTok{lower,b.hat.}\FloatTok{12.}\NormalTok{upper))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.370456 7.780324
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confint}\NormalTok{(add.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  2.5 %    97.5 %
+## (Intercept) -1.6473329 10.400514
+## pre.sales    0.6727716  1.124347
+## type1       10.3232717 15.630390
+## type2        5.2850286 10.517853
+\end{verbatim}
+
+We see that \begin{align*}
+  \ci(\beta_1) = [.673,1.124],\\
+  \ci(\beta_2) = [10.323,15.630],\\
+  \ci(\beta_3) = [5.285,10.518],\\
+  \ci(\beta_2-\beta_3) = [2.370, 7.780].
+\end{align*}
+
+\hypertarget{problem-7}{%
+\subsection{Problem 7}\label{problem-7}}
+
+\begin{quote}
+Create a scatterplot of the data with the estimated regression lines.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{intercept}\FloatTok{.3} \OtherTok{=}\NormalTok{ b.hat[}\DecValTok{1}\NormalTok{]}
+\NormalTok{intercept}\FloatTok{.1} \OtherTok{=}\NormalTok{ b.hat[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{b.hat[}\DecValTok{3}\NormalTok{]}
+\NormalTok{intercept}\FloatTok{.2} \OtherTok{=}\NormalTok{ b.hat[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{b.hat[}\DecValTok{4}\NormalTok{]}
+\NormalTok{slope }\OtherTok{=}\NormalTok{ b.hat[}\DecValTok{2}\NormalTok{]}
+
+\FunctionTok{cat}\NormalTok{(slope, intercept}\FloatTok{.1}\NormalTok{, intercept}\FloatTok{.2}\NormalTok{, intercept}\FloatTok{.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0.8985594 17.35342 12.27803 4.376591
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{attach}\NormalTok{(data)}
+\FunctionTok{plot}\NormalTok{(pre.sales[type }\SpecialCharTok{==} \DecValTok{1}\NormalTok{],}
+\NormalTok{     sales[type }\SpecialCharTok{==} \DecValTok{1}\NormalTok{],}
+     \AttributeTok{xlab=}\StringTok{\textquotesingle{}pre{-}sales\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{ylab=}\StringTok{\textquotesingle{}sales\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{pch=}\DecValTok{1}\NormalTok{,}
+     \AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(pre.sales),}\FunctionTok{max}\NormalTok{(pre.sales)),}
+     \AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(sales),}\FunctionTok{max}\NormalTok{(sales)))}
+\FunctionTok{points}\NormalTok{(pre.sales[type }\SpecialCharTok{==} \DecValTok{2}\NormalTok{], sales[type }\SpecialCharTok{==} \DecValTok{2}\NormalTok{], }\AttributeTok{pch=}\DecValTok{2}\NormalTok{, }\AttributeTok{col=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(pre.sales[type }\SpecialCharTok{==} \DecValTok{3}\NormalTok{], sales[type }\SpecialCharTok{==} \DecValTok{3}\NormalTok{], }\AttributeTok{pch=}\DecValTok{15}\NormalTok{, }\AttributeTok{col=}\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{)}
+
+\FunctionTok{abline}\NormalTok{(intercept}\FloatTok{.1}\NormalTok{,slope,}\AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(intercept}\FloatTok{.2}\NormalTok{,slope,}\AttributeTok{col=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(intercept}\FloatTok{.3}\NormalTok{,slope,}\AttributeTok{col=}\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hw10_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\end{document}

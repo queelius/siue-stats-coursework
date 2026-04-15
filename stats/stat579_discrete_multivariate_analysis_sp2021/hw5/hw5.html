@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Alex Towell (atowell@siue.edu)" />
+  <title>Discrete Multivariate Analysis - 579 - HW #5</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Discrete Multivariate Analysis - 579 - HW #5</h1>
+<p class="author">Alex Towell (<a
+href="mailto:atowell@siue.edu"><code>atowell@siue.edu</code></a>)</p>
+</header>
+<h1 id="problem-1">Problem 1</h1>
+<p>Consider data from a prospective study on the relationship between
+daily aspirin use and the onset of heart disease.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Disease</th>
+<th style="text-align: left;">No Disease</th>
+<th style="text-align: left;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Placebo</td>
+<td style="text-align: left;">28</td>
+<td style="text-align: left;">656</td>
+<td style="text-align: left;">684</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Aspirin</td>
+<td style="text-align: left;">18</td>
+<td style="text-align: left;">658</td>
+<td style="text-align: left;">676</td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-a">Part (a)</h2>
+<p><span class="math display">\[\begin{aligned}
+  \sigma^2\!\left(\log \hat{\operatorname{RR}}\right)
+    &amp;= \frac{1}{n_{1 1}} - \frac{1}{n_{1+}} + \frac{1}{n_{2 1}} -
+\frac{1}{n_{2+}}\\
+    &amp;= \frac{1}{28} - \frac{1}{684} + \frac{1}{18} - \frac{1}{658}\\
+    &amp;\approx 0.883\,.
+\end{aligned}\]</span></p>
+<h2 id="part-b">Part (b)</h2>
+<p><span class="math display">\[\sigma\!\left(\log
+\hat{\operatorname{RR}}\right) = \sqrt{\sigma^2(\log
+\hat{\operatorname{RR}})} \approx 0.297\,.\]</span></p>
+<h2 id="part-c">Part (c)</h2>
+<p>The relative risk <span
+class="math inline">\(\operatorname{RR}\)</span> is defined as <span
+class="math display">\[\operatorname{RR}\coloneqq
+\frac{\pi_1}{\pi_2}\]</span> The MLE of <span class="math inline">\(\log
+\operatorname{RR}\)</span> is given by <span
+class="math display">\[\hat{\operatorname{RR}} =
+\frac{\hat\pi_1}{\hat\pi_2} = \frac{n_{1 1}}{n_{1+}} \frac{n_{2+}}{n_{2
+1}} = \frac{28}{676} \times \frac{684}{18} \approx 1.574\,.\]</span> By
+the invariance property of the MLE, if <span
+class="math inline">\(\hat\theta\)</span> is an MLE of <span
+class="math inline">\(\theta\)</span> then <span
+class="math inline">\(\operatorname{g}(\theta)\)</span> is an MLE of
+<span class="math inline">\(\operatorname{g}(\hat\theta)\)</span>. Thus,
+<span class="math display">\[\log \hat{\operatorname{RR}} = \log
+\hat{\operatorname{RR}} \approx 0.454\,.\]</span> A confidence interval
+for <span class="math inline">\(\log \operatorname{RR}\)</span> is thus
+<span class="math display">\[\operatorname{CI}(\log\operatorname{RR}) =
+\log \hat{\operatorname{RR}} \pm z_{\alpha/2} \sigma(\log
+\hat{\operatorname{RR}})\,.\]</span> Letting <span
+class="math inline">\(\alpha = 0.05\)</span> and substituting in the
+values for <span class="math inline">\(\log
+\hat{\operatorname{RR}}\)</span> and <span
+class="math inline">\(\sigma(\log \hat{\operatorname{RR}})\)</span>, we
+get the result <span
+class="math display">\[\operatorname{CI}(\log\hat{\operatorname{RR}}) =
+0.454 \pm  1.96 \times 0.297= [-0.128,1.036]\,.\]</span></p>
+<h2 id="part-d">Part (d)</h2>
+<p>We take the inverse of the logarithm and obtain the result <span
+class="math display">\[\operatorname{CI}(\operatorname{RR}) =
+[e^{-0.128},e^{1.036}] = [0.880,2.818]\,.\]</span></p>
+<h1 id="problem-2">Problem 2</h1>
+<p>A diagnostic test for Covid antibodies is being studied. For a sample
+of <span class="math inline">\(n = 122\)</span> specimens with
+antibodies known to be present, the test returned <span
+class="math inline">\(y = 103\)</span> positive results. For a sample of
+<span class="math inline">\(n = 401\)</span> specimens absent any
+antibodies, the test returned <span class="math inline">\(y =
+399\)</span> negative results.</p>
+<h2
+id="function-used-to-compute-interval-estimates-for-this-problem.">Function
+used to compute interval estimates for this problem.</h2>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.56,0.35,0.01"><em># this program performs
+Bayesian inference for a binomial probability</em></span> <span
+style="color: 0.56,0.35,0.01"><em># <span>-</span> y is the number of
+successes</em></span> <span style="color: 0.56,0.35,0.01"><em>#
+<span>-</span> n is the number of trials</em></span> <span
+style="color: 0.56,0.35,0.01"><em># <span>-</span> alpha is the sum of
+the tail probabilities</em></span> <span
+style="color: 0.56,0.35,0.01"><em>#</em></span> <span
+style="color: 0.56,0.35,0.01"><em># we also compute a classical interval
+using normality assumptions of the mle.</em></span> binomial_bayesian
+<span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>function</strong></span>(y,n,<span
+style="color: 0.13,0.29,0.53">alpha=</span>.<span
+style="color: 0.00,0.00,0.81">05</span>) { <span
+style="color: 0.56,0.35,0.01"><em># compute the maximum likelihood
+estimator</em></span> mle <span style="color: 0.56,0.35,0.01">=</span>
+y<span style="color: 0.81,0.36,0.00"><strong>/</strong></span>n mle_var
+<span style="color: 0.56,0.35,0.01">=</span> mle<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>mle)<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span>n mle_sd <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>sqrt</strong></span>(mle_var)</p>
+<p>t0 <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>qt</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>alpha<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.00,0.00,0.81">2</span>, n<span
+style="color: 0.00,0.00,0.81"><span>-</span>1</span>) L <span
+style="color: 0.56,0.35,0.01">=</span> mle <span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span> mle_sd<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>t0 U <span
+style="color: 0.56,0.35,0.01">=</span> mle <span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span> mle_sd<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>t0</p>
+<p><span style="color: 0.56,0.35,0.01"><em># define the beta
+distribution parameters</em></span> a<span
+style="color: 0.56,0.35,0.01">=</span>y<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span><span
+style="color: 0.00,0.00,0.81">1</span> b<span
+style="color: 0.56,0.35,0.01">=</span>n<span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>y<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span><span
+style="color: 0.00,0.00,0.81">1</span></p>
+<p><span style="color: 0.56,0.35,0.01"><em># computing a confidence
+interval by taking the upper and lower percentiles of</em></span> <span
+style="color: 0.56,0.35,0.01"><em># the beta distribution computing the
+median to represent the center of the</em></span> <span
+style="color: 0.56,0.35,0.01"><em># distribution</em></span> lower <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>qbeta</strong></span>(alpha<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.00,0.00,0.81">2</span>,a,b) median <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>qbeta</strong></span>(.<span
+style="color: 0.00,0.00,0.81">5</span>,a,b) upper <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>qbeta</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>alpha<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.00,0.00,0.81">2</span>,a,b) <span
+style="color: 0.13,0.29,0.53"><strong>cat</strong></span>(<span
+style="color: 0.31,0.60,0.02">"bayesian estimate: "</span>, <span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(lower,median,upper),<span
+style="color: 0.31,0.60,0.02">"</span><span
+style="color: 0.81,0.36,0.00"><strong>\n</strong></span><span
+style="color: 0.31,0.60,0.02">"</span>) <span
+style="color: 0.13,0.29,0.53"><strong>cat</strong></span>(<span
+style="color: 0.31,0.60,0.02">"mle confidence interval estimate:
+"</span>, <span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(L,mle,U),<span
+style="color: 0.31,0.60,0.02">"</span><span
+style="color: 0.81,0.36,0.00"><strong>\n</strong></span><span
+style="color: 0.31,0.60,0.02">"</span>)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># create a grid of p for
+plotting. you may change to a smaller range than from</em></span> <span
+style="color: 0.56,0.35,0.01"><em># 0 to 1 to see the distribution
+better</em></span> p <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>seq</strong></span>(<span
+style="color: 0.13,0.29,0.53">from=</span><span
+style="color: 0.13,0.29,0.53"><strong>max</strong></span>(<span
+style="color: 0.00,0.00,0.81">0</span>,lower<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>.<span
+style="color: 0.00,0.00,0.81">965</span>),<span
+style="color: 0.13,0.29,0.53">to=</span><span
+style="color: 0.13,0.29,0.53"><strong>min</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span>,<span
+style="color: 0.00,0.00,0.81">1.035</span><span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>upper),<span
+style="color: 0.13,0.29,0.53">length.out=</span><span
+style="color: 0.00,0.00,0.81">100</span>) <span
+style="color: 0.56,0.35,0.01"><em># we are computing the beta density at
+each point in the grid</em></span> posterior <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>dbeta</strong></span>(p,a,b)</p>
+<p>ps <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>rnorm</strong></span>(<span
+style="color: 0.13,0.29,0.53">n=</span><span
+style="color: 0.00,0.00,0.81">1000000</span>,<span
+style="color: 0.13,0.29,0.53">mean=</span>mle,<span
+style="color: 0.13,0.29,0.53">sd=</span>mle_sd)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># plotting the beta density,
+higher values of the curve represent stronger data</em></span> <span
+style="color: 0.56,0.35,0.01"><em># evidence</em></span> <span
+style="color: 0.13,0.29,0.53"><strong>plot</strong></span>(p,posterior,<span
+style="color: 0.13,0.29,0.53">type =</span> <span
+style="color: 0.31,0.60,0.02">"l"</span>,<span
+style="color: 0.13,0.29,0.53">col=</span><span
+style="color: 0.31,0.60,0.02">"blue"</span>)</p>
+<p><span
+style="color: 0.13,0.29,0.53"><strong>lines</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>density</strong></span>(ps),<span
+style="color: 0.13,0.29,0.53">col=</span><span
+style="color: 0.31,0.60,0.02">"orange"</span>)</p>
+<p><span
+style="color: 0.13,0.29,0.53"><strong>points</strong></span>(median,<span
+style="color: 0.00,0.00,0.81">0</span>,<span
+style="color: 0.13,0.29,0.53">col=</span><span
+style="color: 0.31,0.60,0.02">"blue"</span>,<span
+style="color: 0.13,0.29,0.53">pch=</span><span
+style="color: 0.31,0.60,0.02">"*"</span>) <span
+style="color: 0.13,0.29,0.53"><strong>points</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(lower,upper),<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">0</span>,<span
+style="color: 0.00,0.00,0.81">0</span>),,<span
+style="color: 0.13,0.29,0.53">col=</span><span
+style="color: 0.31,0.60,0.02">"blue"</span>,<span
+style="color: 0.13,0.29,0.53">pch=</span><span
+style="color: 0.31,0.60,0.02">"|"</span>)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># lets plot the mle and
+confidence interval using t<span>-</span>score</em></span> <span
+style="color: 0.13,0.29,0.53"><strong>points</strong></span>(mle,<span
+style="color: 0.00,0.00,0.81">0</span>,<span
+style="color: 0.13,0.29,0.53">col=</span><span
+style="color: 0.31,0.60,0.02">"orange"</span>,<span
+style="color: 0.13,0.29,0.53">pch=</span><span
+style="color: 0.31,0.60,0.02">"*"</span>) <span
+style="color: 0.13,0.29,0.53"><strong>points</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(L,U),<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">0</span>,<span
+style="color: 0.00,0.00,0.81">0</span>),,<span
+style="color: 0.13,0.29,0.53">col=</span><span
+style="color: 0.31,0.60,0.02">"orange"</span>,<span
+style="color: 0.13,0.29,0.53">pch=</span><span
+style="color: 0.31,0.60,0.02">"|"</span>) }</p>
+</div>
+</div>
+<h2 id="part-a-1">Part (a)</h2>
+<p>Given that antibodies are present, the probability that a positive
+test result is observed is given by the sensitivity <span
+class="math inline">\(\delta\)</span>.</p>
+<p>In classical statistics, while the probability <span
+class="math inline">\(\delta\)</span> is not known, the MLE estimator is
+<span class="math inline">\(\hat\delta = \frac{y}{n}\)</span> which is
+asymptotically normal under regularity conditions.</p>
+<p>We compare it with the Bayesian approach, which does not assume
+normality. The following R function call computes the Bayesian interval
+estimate for a binomial probability. For comparison, we also compute the
+confidence interval for the MLE using classical techniques that rely
+upon the normality assumption of the MLE.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>binomial_bayesian</strong></span>(<span
+style="color: 0.13,0.29,0.53">y=</span><span
+style="color: 0.00,0.00,0.81">103</span>,<span
+style="color: 0.13,0.29,0.53">n=</span><span
+style="color: 0.00,0.00,0.81">122</span>,<span
+style="color: 0.13,0.29,0.53">alpha=</span>.<span
+style="color: 0.00,0.00,0.81">05</span>)</p>
+</div>
+</div>
+<pre><code>## bayesian estimate:  0.7693298 0.8405335 0.8977577 
+## mle confidence interval estimate:  0.7792689 0.8442623 0.9092557</code></pre>
+<p><embed src="hw5_files/figure-latex/unnamed-chunk-2-1.pdf" /></p>
+<p>The maximum likelihood estimator <span
+class="math inline">\(\hat\delta\)</span> is <span
+class="math inline">\(0.844\)</span> with an <span
+class="math inline">\(\alpha=0.05\)</span> confidence interval <span
+class="math inline">\([0.779,0.909]\)</span>.</p>
+<p>The point estimator of <span class="math inline">\(\delta\)</span>
+using the Bayesian approach, the <span
+class="math inline">\(50\%\)</span>-percentile, is <span
+class="math inline">\(0.841\)</span> with an interval estimate <span
+class="math inline">\([0.769,0.898]\)</span>.</p>
+<p>The maximum likelihood estimator and its corresponding density plot
+and confidence interval is plotted in <em>orange</em> and the Bayesian
+estimator is plotted in <em>blue</em>.</p>
+<h2 id="part-b-1">Part (b)</h2>
+<p>We do the same thing as in part (A).</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>binomial_bayesian</strong></span>(<span
+style="color: 0.13,0.29,0.53">y=</span><span
+style="color: 0.00,0.00,0.81">399</span>,<span
+style="color: 0.13,0.29,0.53">n=</span><span
+style="color: 0.00,0.00,0.81">401</span>,<span
+style="color: 0.13,0.29,0.53">alpha=</span>.<span
+style="color: 0.00,0.00,0.81">05</span>)</p>
+</div>
+</div>
+<pre><code>## bayesian estimate:  0.9821445 0.9933537 0.9984584 
+## mle confidence interval estimate:  0.9880966 0.9950125 1.001928</code></pre>
+<p><embed src="hw5_files/figure-latex/unnamed-chunk-3-1.pdf" /></p>
+<p>The maximum likelihood estimator <span
+class="math inline">\(\hat\delta\)</span> is <span
+class="math inline">\(0.844\)</span> with an <span
+class="math inline">\(\alpha=0.05\)</span> confidence interval <span
+class="math inline">\([0.982,1.002]\)</span></p>
+<p>The point estimator of <span class="math inline">\(\delta\)</span>
+using the Bayesian approach, the <span
+class="math inline">\(50\%\)</span>-percentile, is <span
+class="math inline">\(0.993\)</span> with a <span
+class="math inline">\(\alpha=0.05\)</span> interval estimate <span
+class="math inline">\([0.982,0.998]\)</span>.</p>
+<p>The maximum likelihood estimator and its corresponding density plot
+and confidence interval is plotted in <em>orange</em> and the Bayesian
+estimator is plotted <em>blue</em>.</p>
+<h1 id="problem-3">Problem 3</h1>
+<p>The interval estimate is computed by the following R code.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.56,0.35,0.01"><em># this program performs a
+Bayesian inference for vaccine efficacy</em></span> <span
+style="color: 0.56,0.35,0.01"><em># enter the number of infections in
+the vaccine group</em></span> <span style="color: 0.56,0.35,0.01"><em>#
+and the number of infections in the control group</em></span> v <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">11</span> c <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">185</span></p>
+<p><span style="color: 0.56,0.35,0.01"><em># define the beta
+distribution parameters</em></span> a <span
+style="color: 0.56,0.35,0.01">=</span> v<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span><span
+style="color: 0.00,0.00,0.81">1</span> b <span
+style="color: 0.56,0.35,0.01">=</span> c<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span><span
+style="color: 0.00,0.00,0.81">1</span></p>
+<p><span style="color: 0.56,0.35,0.01"><em># simulate a very large
+number of draws from the posterior distribution on p=P(V|I)</em></span>
+<span style="color: 0.56,0.35,0.01"><em># for each simulated p, compute
+the value for vaccine efficacy VE</em></span> p <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>rbeta</strong></span>(<span
+style="color: 0.00,0.00,0.81">1000000</span>,a,b) efficacy <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>p<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>p)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># create a plot of the
+posterior distribution on VE</em></span> <span
+style="color: 0.13,0.29,0.53"><strong>hist</strong></span>(efficacy,<span
+style="color: 0.13,0.29,0.53">xlab=</span><span
+style="color: 0.31,0.60,0.02">"Efficacy"</span>,<span
+style="color: 0.13,0.29,0.53">probability =</span> <span
+style="color: 0.56,0.35,0.01">TRUE</span>) <span
+style="color: 0.13,0.29,0.53"><strong>points</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>density</strong></span>(efficacy),<span
+style="color: 0.13,0.29,0.53">type =</span> <span
+style="color: 0.31,0.60,0.02">l</span>)</p>
+<p>pt_est <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>quantile</strong></span>(efficacy,<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(.<span
+style="color: 0.00,0.00,0.81">5</span>)) <span
+style="color: 0.13,0.29,0.53"><strong>points</strong></span>(pt_est,<span
+style="color: 0.00,0.00,0.81">0</span>,<span
+style="color: 0.13,0.29,0.53">col=</span><span
+style="color: 0.31,0.60,0.02">"blue"</span>,<span
+style="color: 0.13,0.29,0.53">pch=</span><span
+style="color: 0.00,0.00,0.81">8</span>)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># compute percentiles for a
+95% interval estimate</em></span> interval_est <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>quantile</strong></span>(efficacy,<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(.<span
+style="color: 0.00,0.00,0.81">025</span>,.<span
+style="color: 0.00,0.00,0.81">975</span>)) <span
+style="color: 0.13,0.29,0.53"><strong>points</strong></span>(interval_est,<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">0</span>,<span
+style="color: 0.00,0.00,0.81">0</span>),<span
+style="color: 0.13,0.29,0.53">col=</span><span
+style="color: 0.31,0.60,0.02">"red"</span>,<span
+style="color: 0.13,0.29,0.53">pch=</span><span
+style="color: 0.31,0.60,0.02">"|"</span>)</p>
+</div>
+</div>
+<p><embed src="hw5_files/figure-latex/unnamed-chunk-4-1.pdf" /></p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(pt_est)</p>
+</div>
+</div>
+<pre><code>##       50% 
+## 0.9371837</code></pre>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(interval_est)</p>
+</div>
+</div>
+<pre><code>##      2.5%     97.5% 
+## 0.8916741 0.9670500</code></pre>
+<p>We see that the density plot is not quite normal (e.g.,
+non-symmetric). On the plot, we plotted the <span
+class="math inline">\(50\%\)</span> in blue and the <span
+class="math inline">\(95\%\)</span> interval estimate in red.</p>
+</body>
+</html>
