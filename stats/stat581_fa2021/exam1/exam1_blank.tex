@@ -1,0 +1,374 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{custom}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={STAT 581 - Exam 1: Due Dec 2, 2021},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{STAT 581 - Exam 1: Due Dec 2, 2021}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\begin{quote}
+An experiment is conducted to study the effect of fitness level on ego
+strength. Random samples of college faculty members are selected from
+each fitness level, and an ego score is observed for each member in the
+sample. Higher values indicate greater ego. The data is provided as an
+attachment.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a}{%
+\subsection{(a)}\label{a}}
+
+\begin{quote}
+State the hypotheses of interest. Provide an interpretation, stated in
+the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b}{%
+\subsection{(b)}\label{b}}
+
+\begin{quote}
+Compute the \(t_0\) statistic and the \(p\)-value. Provide an
+interpretation, statedin the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c}{%
+\subsection{(c)}\label{c}}
+
+\begin{quote}
+Create a Boxplot as a graphical display of the data. Is it true that all
+high fitness faculty members have greater egos than low fitness faculty
+members?
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{d}{%
+\subsection{(d)}\label{d}}
+
+\begin{quote}
+Compute a 95\% confidence interval for \(\delta = \mu_1 - \mu_2\).
+Provide an interpretation, stated in the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{e}{%
+\subsection{(e)}\label{e}}
+
+\begin{quote}
+Explain how a confidence interval provides a complementary result to a
+hypothesis test.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{f}{%
+\subsection{(f)}\label{f}}
+
+\begin{quote}
+Explain how a confidence interval can be used in testing
+\(H_0 : \mu_1 = \mu_2\).
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\begin{quote}
+A completely randomized design is used to investigate the effect of drug
+dosage on the activity level of lab rats. Each dose level is applied to
+\(n=4\) rats, and an activity score is observed for each rat in the
+sample. Higher values indicate greater activity. The data is provided as
+an attachment.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a-1}{%
+\subsection{(a)}\label{a-1}}
+
+\begin{quote}
+State the statistical hypotheses of interest. Briefly explain how the
+form of the alternative hypothesis requires a need for further
+investigation.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b-1}{%
+\subsection{(b)}\label{b-1}}
+
+\begin{quote}
+Compute the \(F_0\) statistic and the p-value. Provide an
+interpretation, stated in the context of the problem. Create a Boxplot
+as a graphical display of the data.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c-1}{%
+\subsection{(c)}\label{c-1}}
+
+\begin{quote}
+Compute and display 95\% confidence intervals for all pairwise
+comparisons. Explain how computing multiple intervals impacts the
+probability of committing an error.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{d-1}{%
+\subsection{(d)}\label{d-1}}
+
+\begin{quote}
+Perform pairwise comparisons using the Fisher LSD method, and the Tukey
+method. Provide grouping information for each method. Comment on the
+seemingly contradictory nature of a pairwise comparisons analysis.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{e-1}{%
+\subsection{(e)}\label{e-1}}
+
+\begin{quote}
+Describe the defining characteristics for each of the above pairwise
+comparison methods.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{f-1}{%
+\subsection{(f)}\label{f-1}}
+
+\begin{quote}
+Compute the margin of error and comparison-wise error rate for the Tukey
+method in this problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{g}{%
+\subsection{(g)}\label{g}}
+
+\begin{quote}
+Compute the margin of error and family-wise error rate for the Fisher
+LSD method in this problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+\begin{quote}
+A factorial experiment is used to investigate the effect of pressure,
+temperature, and time on the yield from a chemical reaction. Two levels
+(\texttt{low}, \texttt{high}) of each factor are set and \(n=2\) runs of
+a \(2^3\) design are completed. The data is provided as an attachment.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a-2}{%
+\subsection{(a)}\label{a-2}}
+
+\begin{quote}
+Perform tests for all main effects and for all interaction effects.
+State the \(F\)-statistic and \(p\)-value for each test of an effect
+deemed to be important. Fit a reduced model with the main effects and
+the statistically significant interaction effect.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b-2}{%
+\subsection{(b)}\label{b-2}}
+
+\begin{quote}
+Provide a general definition of an interaction effect. Explain how an
+interaction plot is used in studying an interaction effect.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c-2}{%
+\subsection{(c)}\label{c-2}}
+
+\begin{quote}
+Create a plot for the interaction effect deemed important. Provide an
+interpretation, stated in the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{d-2}{%
+\subsection{(d)}\label{d-2}}
+
+\begin{quote}
+Create a Boxplot showing the main effect for the remaining factor.
+Provide an interpretation, stated in the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{e-2}{%
+\subsection{(e)}\label{e-2}}
+
+\begin{quote}
+Create a plot of the fitted values for the reduced model. Which setting
+of the factors should be used if the goal is to maximize yield?
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{f-2}{%
+\subsection{(f)}\label{f-2}}
+
+\begin{quote}
+Explain how the analysis is providing a simplification to the observed
+data.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{problem-4}{%
+\section{Problem 4}\label{problem-4}}
+
+\begin{quote}
+An experiment to compare a new drug to a standard is in the planning
+stages. The response variable of interest is the clotting time (in
+minutes) of blood drawn from the subject. The experimenters want to
+perform a two sample \(t\) test at level \(\alpha = .05\) with power
+\(\pi = .90\) at \(\delta_A = 0.5\), for standard deviation
+\(\sigma = .7\).
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a-3}{%
+\subsection{(a)}\label{a-3}}
+
+\begin{quote}
+Determine the sample size for each drug in order to achieve the stated
+test specifications.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b-3}{%
+\subsection{(b)}\label{b-3}}
+
+\begin{quote}
+Graph the power curve for the chosen sample size. Explain how the power
+curve displays the desired properties of the test.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c-3}{%
+\subsection{(c)}\label{c-3}}
+
+\begin{quote}
+Provide a general explanation of how A can be determined.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{d-3}{%
+\subsection{(d)}\label{d-3}}
+
+\begin{quote}
+Briefly discuss some other issues that may provide additional insight to
+an experimental result beyond a finding of statistical significance.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{e-3}{%
+\subsection{(e)}\label{e-3}}
+
+\begin{quote}
+Briefly comment on the additional information provided by the p-value,
+beyond a determination of statistical significance alone.
+\end{quote}
+
+\end{document}

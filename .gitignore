@@ -1,0 +1,20 @@
+# Generated conversion files
+*.aux
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+
+# Generated outputs (optional - uncomment if you don't want to track these)
+# *.pdf
+# *.html
+# *-converted.tex

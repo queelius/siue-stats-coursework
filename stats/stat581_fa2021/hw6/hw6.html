@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Alex Towell (atowell@siue.edu)" />
+  <title>STAT 581 - Problem Set 6</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">STAT 581 - Problem Set 6</h1>
+<p class="author">Alex Towell (<a
+href="mailto:atowell@siue.edu"><code>atowell@siue.edu</code></a>)</p>
+</header>
+<h1 id="problem-1">Problem 1</h1>
+<p>A soft drink bottler is interested in studying the effects on a
+filling process. A factorial experiment is run using three factors:
+percent carbonation (in %), operating pressure (in psi), and line speed
+(in bpm). The response variable is deviation from the target fill
+height. The experiment consists of <span
+class="math inline">\(n=2\)</span> runs for each of the <span
+class="math inline">\(a b c = 12\)</span> treatment combinations. The
+data is available on Blackboard as an Excel File.</p>
+<h2 id="preliminary-analysis">Preliminary analysis</h2>
+<p>The three-factor factorial experiment with <span
+class="math inline">\(a=3\)</span> levels of the <em>carbonation</em>
+factor (in %), denoted by <span class="math inline">\(A\)</span>, <span
+class="math inline">\(b=2\)</span> levels of the operating
+<em>pressure</em> (in psi), denoted by <span
+class="math inline">\(B\)</span>, and <span
+class="math inline">\(c=2\)</span> levels of the line <em>speed</em> (in
+bpm), denoted by <span class="math inline">\(C\)</span>. Each treatment
+combination has <span class="math inline">\(n=2\)</span> replicates for
+a total of <span class="math inline">\(N=a b c n=24\)</span>
+observations. The response variable <span
+class="math inline">\(y\)</span> is deviation from the target fill
+height.</p>
+<p>We describe the observations in the three-factor factorial experiment
+by the fixed-effects interaction model where treatments are defined to
+be deviations from the overall mean, <span class="math display">\[Y_{i j
+k \ell} = \mu + \tau_i + \beta_j + \gamma_k +
+                   (\tau\!\beta)_{i j} + (\tau\!\gamma)_{i k} +
+                   (\beta\!\gamma)_{j k} + (\tau\!\beta\gamma)_{i j k} +
+                   \epsilon_{i j k \ell}
+  \begin{cases}
+    i = 1,\ldots,a=3\\
+    j = 1,\ldots,b=2\\
+    k = 1,\ldots,c=2\\
+    \ell = 1,\ldots,n=2\\
+  \end{cases}\]</span> where <span class="math inline">\(\mu\)</span> is
+the overall main effect, <span class="math inline">\(\tau_i\)</span> is
+the effect of the <span class="math inline">\(i\)</span>-th level of
+factor <span class="math inline">\(A\)</span>, <span
+class="math inline">\(\beta_j\)</span> is the effect of the <span
+class="math inline">\(j\)</span>-th level of factor <span
+class="math inline">\(B\)</span>, and <span
+class="math inline">\(\gamma_k\)</span> is the effect of the <span
+class="math inline">\(k\)</span>-th level of factor <span
+class="math inline">\(C\)</span>. The interaction effects may also be
+observed using the same labeling, e.g., <span
+class="math inline">\((\tau\!\gamma)_{i k}\)</span> is the interaction
+effect of the <span class="math inline">\(i\)</span>-th level of factor
+<span class="math inline">\(A\)</span> and the <span
+class="math inline">\(k\)</span>-th level of factor <span
+class="math inline">\(C\)</span>.</p>
+<h2 id="a">(a)</h2>
+<div class="snugshade">
+
+</div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## A            2 252.75  126.38 178.412 1.19e-09 ***
+## B            1  45.37   45.37  64.059 3.74e-06 ***
+## C            1  22.04   22.04  31.118  0.00012 ***
+## A:B          2   5.25    2.63   3.706  0.05581 .  
+## A:C          2   0.58    0.29   0.412  0.67149    
+## B:C          1   1.04    1.04   1.471  0.24859    
+## A:B:C        2   1.08    0.54   0.765  0.48687    
+## Residuals   12   8.50    0.71                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The tests for each of the main effects and a test of an interaction
+between carbon <span class="math inline">\((A\)</span>) and pressure
+<span class="math inline">\((B\)</span>) is given by the following
+table:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">effects</th>
+<th style="text-align: left;"><span
+class="math inline">\(F^*\)</span></th>
+<th style="text-align: left;"><span
+class="math inline">\(p\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span
+class="math inline">\(A\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(178.4\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.000\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+class="math inline">\(B\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(64.1\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.000\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+class="math inline">\(C\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(31.1\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.000\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(A \times
+B\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(3.7\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.056\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="b">(b)</h2>
+<p>If an interaction plot is parallel, or nearly so, then there is no
+need to include the interaction term.</p>
+<p>In the <span class="math inline">\(3\)</span>-factor ANOVA model, a
+<span class="math inline">\(3\)</span>-factor interaction occurs when a
+<span class="math inline">\(2\)</span>-factor interaction depends on the
+level of the <span class="math inline">\(3\)</span>rd factor.</p>
+<h2 id="c">(c)</h2>
+<p>From the earlier results, we saw that factors <span
+class="math inline">\(A\)</span> (carbon), <span
+class="math inline">\(B\)</span> (pressure), and <span
+class="math inline">\(C\)</span> (speed) were statistically significant,
+but only the interaction between factor <span
+class="math inline">\(A\)</span> and <span
+class="math inline">\(B\)</span> (carbon and pressure) had any
+significance.</p>
+<h3 id="additive-model">Additive model</h3>
+<p>The additive model is given by <span class="math display">\[Y_{i j k
+\ell}^{(R)} = \mu + \tau_i + \beta_j + \gamma_k + \epsilon_{i j k
+\ell}.\]</span> Thus, <span class="math display">\[E(Y_{i j k}^{(R)}) =
+\mu + \tau_i + \beta_j + \gamma_k.\]</span></p>
+<p>We fit the additive model with:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>mod.R <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>aov</strong></span>(y <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> A<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>B<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>C)</p>
+</div>
+</div>
+<p>We define the estimated means for the models with:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>fits.R <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>predict</strong></span>(mod.R)</p>
+</div>
+</div>
+<p>The interaction plots for the additive where the left and right plots
+are respectively for factor <span class="math inline">\(C\)</span> at
+levels <span class="math inline">\(1\)</span> and <span
+class="math inline">\(2\)</span>.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.13,0.29,0.53"><strong>par</strong></span>(<span
+style="color: 0.13,0.29,0.53">mfrow=</span><span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span>,<span
+style="color: 0.00,0.00,0.81">2</span>)) <span
+style="color: 0.13,0.29,0.53"><strong>for</strong></span> (i <span
+style="color: 0.13,0.29,0.53"><strong>in</strong></span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>:</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>nlevels</strong></span>(C)) {
+<span
+style="color: 0.13,0.29,0.53"><strong>interaction.plot</strong></span>(A[C<span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>levels</strong></span>(C)[i]],B[C<span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>levels</strong></span>(C)[i]],
+fits.R[C<span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>levels</strong></span>(C)[i]],
+<span style="color: 0.13,0.29,0.53">xlab=</span><span
+style="color: 0.31,0.60,0.02">"A"</span>, <span
+style="color: 0.13,0.29,0.53">ylab=</span><span
+style="color: 0.31,0.60,0.02">"mean response"</span>, <span
+style="color: 0.13,0.29,0.53">trace.label=</span><span
+style="color: 0.31,0.60,0.02">"B"</span>) }</p>
+</div>
+</div>
+<p><embed src="hw6_files/figure-latex/unnamed-chunk-5-1.pdf" /></p>
+<h3 id="interaction-model">Interaction model</h3>
+<p>The model that includes interactions between factors <span
+class="math inline">\(A\)</span> (carbon) and <span
+class="math inline">\(B\)</span> (pressure) is given by <span
+class="math display">\[Y_{i j k \ell}^{(F)} = \mu + \tau_i + \beta_j +
+\gamma_k +
+                   (\tau\!\beta)_{i j} + \epsilon_{i j k \ell}.\]</span>
+Thus, <span class="math display">\[E(Y_{i j k}^{(F)}) = \mu + \tau_i +
+\beta_j + \gamma_k + (\tau\!\beta)_{i j}.\]</span></p>
+<p>We fit the interaction model with:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>mod.F <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>aov</strong></span>(y <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> A<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>B<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>C<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>A<span
+style="color: 0.81,0.36,0.00"><strong>:</strong></span>B)</p>
+</div>
+</div>
+<p>We define the estimated means for the models with:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>fits.F <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>predict</strong></span>(mod.F)</p>
+</div>
+</div>
+<p>The interaction plots for the interaction model where the left and
+right plots are respectively for factor <span
+class="math inline">\(C\)</span> at levels <span
+class="math inline">\(1\)</span> and <span
+class="math inline">\(2\)</span>.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.13,0.29,0.53"><strong>par</strong></span>(<span
+style="color: 0.13,0.29,0.53">mfrow=</span><span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span>,<span
+style="color: 0.00,0.00,0.81">2</span>)) <span
+style="color: 0.13,0.29,0.53"><strong>for</strong></span> (i <span
+style="color: 0.13,0.29,0.53"><strong>in</strong></span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>:</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>nlevels</strong></span>(C)) {
+<span
+style="color: 0.13,0.29,0.53"><strong>interaction.plot</strong></span>(A[C<span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>levels</strong></span>(C)[i]],B[C<span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>levels</strong></span>(C)[i]],
+fits.F[C<span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>levels</strong></span>(C)[i]],
+<span style="color: 0.13,0.29,0.53">xlab=</span><span
+style="color: 0.31,0.60,0.02">"A"</span>, <span
+style="color: 0.13,0.29,0.53">ylab=</span><span
+style="color: 0.31,0.60,0.02">"mean response"</span>, <span
+style="color: 0.13,0.29,0.53">trace.label=</span><span
+style="color: 0.31,0.60,0.02">"B"</span>) }</p>
+</div>
+</div>
+<p><embed src="hw6_files/figure-latex/unnamed-chunk-8-1.pdf" /></p>
+<h3 id="decision">Decision</h3>
+<p>The interaction model fits show only a slight difference difference
+from the additive model. As a general rule, we prefer simpler models to
+complex models, and so we decide to leave out the interaction term.</p>
+<h2 id="d">(d)</h2>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.13,0.29,0.53"><strong>par</strong></span>(<span
+style="color: 0.13,0.29,0.53">mfrow=</span><span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span>,<span
+style="color: 0.00,0.00,0.81">3</span>)) <span
+style="color: 0.13,0.29,0.53"><strong>plot</strong></span>(fits.R <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> A) <span
+style="color: 0.13,0.29,0.53"><strong>plot</strong></span>(fits.R <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> B) <span
+style="color: 0.13,0.29,0.53"><strong>plot</strong></span>(fits.R <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> C)</p>
+</div>
+</div>
+<p><embed src="hw6_files/figure-latex/unnamed-chunk-9-1.pdf" /></p>
+<p>We see that each factor has a positive effect on fill height. The
+factor with the biggest marginal effect on fill height is the percent of
+carbonation (factor <span class="math inline">\(A\)</span>).</p>
+<h1 id="problem-2">Problem 2</h1>
+<p>An engineer is interested in the effects of cutting speed, tool
+geometry, and cutting angle on the life (in hours) of a machine tool.
+Two levels of each factor are set, and <span
+class="math inline">\(n=3\)</span> runs of a <span
+class="math inline">\(2^3\)</span> design are completed. The data is
+available on Blackboard as an Excel File.</p>
+<h2 id="a-1">(a)</h2>
+<div class="snugshade">
+
+</div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## A            1    0.7     0.7   0.022 0.883680    
+## B            1  770.7   770.7  25.547 0.000117 ***
+## C            1  280.2   280.2   9.287 0.007679 ** 
+## A:B          1   16.7    16.7   0.552 0.468078    
+## A:C          1  468.2   468.2  15.519 0.001172 ** 
+## B:C          1   48.2    48.2   1.597 0.224475    
+## A:B:C        1   28.2    28.2   0.934 0.348282    
+## Residuals   16  482.7    30.2                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Factors <span class="math inline">\(B\)</span> and <span
+class="math inline">\(C\)</span> are important effects and the the
+interaction between <span class="math inline">\(A\)</span> and <span
+class="math inline">\(C\)</span> is also important. Thus, <span
+class="math inline">\(A\)</span>, <span
+class="math inline">\(B\)</span>, <span
+class="math inline">\(C\)</span>, and <span
+class="math inline">\(A:C\)</span> should be included in the model (we
+include <span class="math inline">\(A\)</span> because of the importance
+of <span class="math inline">\(A:C\)</span>).</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">effects</th>
+<th style="text-align: left;"><span
+class="math inline">\(F^*\)</span></th>
+<th style="text-align: left;"><span
+class="math inline">\(p\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span
+class="math inline">\(A\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.022\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.884\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+class="math inline">\(B\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(25.547\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.000\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+class="math inline">\(C\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(9.287\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.008\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+class="math inline">\(A:C\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(15.519\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(.001\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="b-1">(b)</h2>
+<div class="snugshade">
+<div class="Highlighting">
+<p>reduced.mod <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>aov</strong></span>(y <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> A<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>B<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>C<span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span>A<span
+style="color: 0.81,0.36,0.00"><strong>:</strong></span>C) <span
+style="color: 0.13,0.29,0.53"><strong>summary</strong></span>(reduced.mod)</p>
+</div>
+</div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## A            1    0.7     0.7   0.022 0.883641    
+## B            1  770.7   770.7  25.436 7.22e-05 ***
+## C            1  280.2   280.2   9.247 0.006724 ** 
+## A:C          1  468.2   468.2  15.452 0.000897 ***
+## Residuals   19  575.7    30.3                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<h3 id="i">(i)</h3>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.56,0.35,0.01"><em># define the estimated means
+for the reduced model for plotting (randomness has</em></span> <span
+style="color: 0.56,0.35,0.01"><em># been smoothed)</em></span> fits.r
+<span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>predict</strong></span>(reduced.mod)
+<span
+style="color: 0.13,0.29,0.53"><strong>interaction.plot</strong></span>(A,C,fits.r,<span
+style="color: 0.13,0.29,0.53">ylab=</span><span
+style="color: 0.31,0.60,0.02">"y"</span>)</p>
+</div>
+</div>
+<p><embed src="hw6_files/figure-latex/unnamed-chunk-12-1.pdf" /></p>
+<h4 id="interpretation">Interpretation</h4>
+<p>The experiment finds that when cutting speed (factor <span
+class="math inline">\(A\)</span>) is low, cutting angle has a positive
+effect on the life of a machine tool (response).</p>
+<h3 id="ii">(ii)</h3>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>plot</strong></span>(fits.r <span
+style="color: 0.81,0.36,0.00"><strong>~</strong></span> B)</p>
+</div>
+</div>
+<p><embed src="hw6_files/figure-latex/unnamed-chunk-13-1.pdf" /></p>
+<h4 id="interpetation">Interpetation</h4>
+<p>Tool geometry (factor <span class="math inline">\(B\)</span>) has a
+positive effect on the life of a machine tool.</p>
+<h3 id="iii">(iii)</h3>
+<div class="snugshade">
+<div class="Highlighting">
+<p>A.C <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>interaction</strong></span>(A,C)
+<span
+style="color: 0.13,0.29,0.53"><strong>interaction.plot</strong></span>(B,A.C,
+fits.r)</p>
+</div>
+</div>
+<p><embed src="hw6_files/figure-latex/unnamed-chunk-14-1.pdf" /></p>
+<h4 id="maximum-setting">Maximum setting</h4>
+<p>In this characterization experiment, we find that the best
+combination of factor levels is given by a low cutting speed (<span
+class="math inline">\(A^-\)</span>), a high tool geometry (<span
+class="math inline">\(B^+\)</span>), and a high cutting angle (<span
+class="math inline">\(C^+\)</span>).</p>
+<h4 id="explanation">Explanation</h4>
+<p>First, we observe that <span class="math inline">\(A^-\)</span> and
+<span class="math inline">\(C^+\)</span> has the best interaction effect
+(its corresponding line is above all of the others). Second, we see that
+<span class="math inline">\(B\)</span> has a positive effect, i.e., as
+we go from <span class="math inline">\(B^-\)</span> to <span
+class="math inline">\(B^+\)</span>, the response increases, and thus
+<span class="math inline">\(B^+\)</span> is better. Taking these two
+facts together, we see that the best combination in this experiment is
+<span class="math inline">\((A^-,B^+,C^+)\)</span>.</p>
+<p>We may also just look at the highest point on the graph and see that
+<span class="math inline">\((A^-,B^+,C^+)\)</span> has the highest mean
+response. However, the interaction plot reveals more, particularly if in
+follow-up experiments where we use what we learned in this experiment to
+narrow down our search for an optimal combination (where optimality may
+be with respect to, say, mean response or minimal variability in the
+response).</p>
+<h1 id="appendix">Appendix</h1>
+<h2 id="problem-1-additional-analysis-of-the-additive-model">Problem 1:
+additional analysis of the additive model</h2>
+<p>The model parameter estimates are given by:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span
+style="color: 0.13,0.29,0.53"><strong>dummy.coef</strong></span>(mod.R)</p>
+</div>
+</div>
+<pre><code>## Full coefficients are 
+##                                             
+## (Intercept):         3.125                  
+## A:                      10         12     14
+##                     -3.625     -0.625  4.250
+## B:                      25         30       
+##                     -1.375      1.375       
+## C:                     200        250       
+##                 -0.9583333  0.9583333</code></pre>
+<p>Thus, the estimated mean response <span
+class="math inline">\(\hat{Y}_{i j k}^{(R)}\)</span> is given by <span
+class="math display">\[\begin{aligned}
+  \hat{Y}_{i j k}^{(R)} = 3.125
+    - &amp;I(i=1) 3.625 - I(i=2) 6.25 + I(i=3) 4.250\\
+    - &amp;I(j=1) 1.375 + I(j=2) 1.375\\
+    - &amp;I(k=1) 9.58\bar{3} + I(k=2) 9.58\bar{3}.
+\end{aligned}\]</span></p>
+<p>In R code, this may be brute-force implemented as:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>yhat.R <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>function</strong></span>(i,j,k) {
+y <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.00,0.00,0.81">3.125</span> <span
+style="color: 0.13,0.29,0.53"><strong>if</strong></span> (i <span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span> <span
+style="color: 0.00,0.00,0.81">1</span>) y <span
+style="color: 0.56,0.35,0.01">=</span> y <span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span> <span
+style="color: 0.00,0.00,0.81">3.625</span>; <span
+style="color: 0.13,0.29,0.53"><strong>if</strong></span> (i <span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span> <span
+style="color: 0.00,0.00,0.81">2</span>) y <span
+style="color: 0.56,0.35,0.01">=</span> y <span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span> .<span
+style="color: 0.00,0.00,0.81">625</span>; <span
+style="color: 0.13,0.29,0.53"><strong>if</strong></span> (i <span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span> <span
+style="color: 0.00,0.00,0.81">3</span>) y <span
+style="color: 0.56,0.35,0.01">=</span> y <span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span> <span
+style="color: 0.00,0.00,0.81">4.25</span> <span
+style="color: 0.13,0.29,0.53"><strong>if</strong></span> (j <span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span> <span
+style="color: 0.00,0.00,0.81">1</span>) y <span
+style="color: 0.56,0.35,0.01">=</span> y <span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span> <span
+style="color: 0.00,0.00,0.81">1.375</span>; <span
+style="color: 0.13,0.29,0.53"><strong>if</strong></span> (j <span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span> <span
+style="color: 0.00,0.00,0.81">2</span>) y <span
+style="color: 0.56,0.35,0.01">=</span> y <span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span> <span
+style="color: 0.00,0.00,0.81">1.375</span> <span
+style="color: 0.13,0.29,0.53"><strong>if</strong></span> (k <span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span> <span
+style="color: 0.00,0.00,0.81">1</span>) y <span
+style="color: 0.56,0.35,0.01">=</span> y <span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span> .<span
+style="color: 0.00,0.00,0.81">95833333</span>; <span
+style="color: 0.13,0.29,0.53"><strong>if</strong></span> (k <span
+style="color: 0.81,0.36,0.00"><strong>==</strong></span> <span
+style="color: 0.00,0.00,0.81">2</span>) y <span
+style="color: 0.56,0.35,0.01">=</span> y <span
+style="color: 0.81,0.36,0.00"><strong>+</strong></span> .<span
+style="color: 0.00,0.00,0.81">95833333</span> y }</p>
+</div>
+</div>
+<p>We print out all of the estimates of the mean response with:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.13,0.29,0.53"><strong>for</strong></span> (i
+<span style="color: 0.13,0.29,0.53"><strong>in</strong></span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>:</strong></span><span
+style="color: 0.00,0.00,0.81">3</span>) <span
+style="color: 0.13,0.29,0.53"><strong>for</strong></span> (j <span
+style="color: 0.13,0.29,0.53"><strong>in</strong></span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>:</strong></span><span
+style="color: 0.00,0.00,0.81">2</span>) <span
+style="color: 0.13,0.29,0.53"><strong>for</strong></span> (k <span
+style="color: 0.13,0.29,0.53"><strong>in</strong></span> <span
+style="color: 0.00,0.00,0.81">1</span><span
+style="color: 0.81,0.36,0.00"><strong>:</strong></span><span
+style="color: 0.00,0.00,0.81">2</span>) <span
+style="color: 0.13,0.29,0.53"><strong>cat</strong></span>(<span
+style="color: 0.31,0.60,0.02">"Y("</span>,<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(i,j,k),<span
+style="color: 0.31,0.60,0.02">") = "</span>,<span
+style="color: 0.13,0.29,0.53"><strong>yhat.R</strong></span>(i,j,k),<span
+style="color: 0.31,0.60,0.02">"</span><span
+style="color: 0.81,0.36,0.00"><strong>\n</strong></span><span
+style="color: 0.31,0.60,0.02">"</span>)</p>
+</div>
+</div>
+<pre><code>## Y( 1 1 1 ) =  -2.833333 
+## Y( 1 1 2 ) =  -0.9166667 
+## Y( 1 2 1 ) =  -0.08333333 
+## Y( 1 2 2 ) =  1.833333 
+## Y( 2 1 1 ) =  0.1666667 
+## Y( 2 1 2 ) =  2.083333 
+## Y( 2 2 1 ) =  2.916667 
+## Y( 2 2 2 ) =  4.833333 
+## Y( 3 1 1 ) =  5.041667 
+## Y( 3 1 2 ) =  6.958333 
+## Y( 3 2 1 ) =  7.791667 
+## Y( 3 2 2 ) =  9.708333</code></pre>
+<h2
+id="problem-1-plots-of-interactions-that-were-deemed-insignificant">Problem
+1: plots of interactions that were deemed insignificant</h2>
+<p>The data showed no statistically significant interaction effects
+between factors <span class="math inline">\(A\)</span> and <span
+class="math inline">\(B\)</span> and between factors <span
+class="math inline">\(B\)</span> and <span
+class="math inline">\(C\)</span>. Thus, their interaction plots are, as
+expected, parallel:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.13,0.29,0.53"><strong>par</strong></span>(<span
+style="color: 0.13,0.29,0.53">mfrow=</span><span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">1</span>,<span
+style="color: 0.00,0.00,0.81">2</span>)) <span
+style="color: 0.13,0.29,0.53"><strong>interaction.plot</strong></span>(A,B,fits.r,<span
+style="color: 0.13,0.29,0.53">ylab=</span><span
+style="color: 0.31,0.60,0.02">"y"</span>) <span
+style="color: 0.13,0.29,0.53"><strong>interaction.plot</strong></span>(B,C,fits.r,<span
+style="color: 0.13,0.29,0.53">ylab=</span><span
+style="color: 0.31,0.60,0.02">"y"</span>)</p>
+</div>
+</div>
+<p><embed src="hw6_files/figure-latex/unnamed-chunk-18-1.pdf" /></p>
+</body>
+</html>

@@ -1,0 +1,739 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{fbox}
+\usepackage{amsmath}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Computational Statistics - STAT 575 - Exam \#1},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Computational Statistics - STAT 575 - Exam \#1}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}} 
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\poi}{\operatorname{POI}}
+\newcommand{\argmax}{\operatorname{arg\,max}}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\hypertarget{part-1-10-points}{%
+\subsection{Part (1) (10 points)}\label{part-1-10-points}}
+
+Use accept-reject algorithm to generate a truncate standard Normal
+distribution, with density \[
+  f(x) ∝ e^{-x^2/2}I(x > 2).
+\] Consider the proposed distribution \(g(x) = 2 e^{−2(x−2)}I(x > 2)\).
+
+\hypertarget{part-a}{%
+\subsection{Part (a)}\label{part-a}}
+
+\fbox{Sample from $g$ using inverse-transform method.}
+
+First, we must find the cdf \(G\) of \(g\). One way to derive \(G\) is
+to notice that \(g\) is the density of the shifted exponential, i.e., if
+\(S \sim \exp(\lambda=-2)\), then \(X = 2 + S\) has a cdf \begin{align}
+  G(x) &= P(X \leq x)\\
+       &= P(2+S \leq x)\\
+       &= P(S \leq x-2)\\
+       &= F_S(x-2)\\
+       &= &= I(x > 2)(1 - \exp(-2(x-2))).
+\end{align} As a quick proof that \(G\) is the cdf of \(g\), note that
+\(dG/dx = g\).
+
+Alternatively, the cdf \(G\) is defined as \begin{align}
+  G(x) &= \int_{-\infty}^{x} g(s) ds\\
+       &= I(x > 2) \int_{2}^{x} 2 e^{−2(s−2)} ds\\
+       &= I(x > 2) e^4 \int_{2}^{x} 2 e^{−2 s} ds\\
+       &= -I(x > 2) e^4 \int_{2}^{x} (-2) e^{−2 s} ds\\
+       &= -I(x > 2) e^4 \left(\left. e^{-2 s} \right\vert_{2}^{x}\right)\\
+       &= -I(x > 2) e^4 \left(e^{-2 x}-e^{-4}\right)\\
+       &= I(x > 2) (1 - e^4 e^{-2 x})\\
+       &= I(x > 2) (1 - e^{-2(x-2)}),
+\end{align} which obtains the same result. Either way, we solve for
+\(x\) in \begin{align*}
+  u           &= G(x)\\
+  u           &= 1 - e^{-2(x-2)}\\
+  1-u         &= e^{-2(x-2)}\\
+  \log(1-u)   &= -2(x-2)\\
+  -\frac{1}{2}\log(1-u) &= x-2,
+\end{align*} and thus \[
+  x = -\frac{1}{2}\log(1-u) + 2
+\] where \(u\) is drawn from \(\rm{UNIF}(0,1)\). That is, if
+\(U \sim \rm{UNIF}(0,1)\) then \[
+  X = -\frac{1}{2}\log(1-U) + 2
+\] is a random variable whose density is \(g\).
+
+\hypertarget{part-b}{%
+\subsection{Part (b)}\label{part-b}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Use accept-reject algorithm to generate a sample of $10000$ from f. Choose a $c$
+so that $f(y)/[c g(y)] ≤ 1$. Verify the generated sample via a plot of the true
+normalized density, and a histogram of the generated values.
+\end{minipage}}
+
+We wish to find a \(c\) such that \(f(y)/[c g(y)] ≤ 1\).
+
+However, we do not need \(f\), we only need the kernel of \(f\), which
+has already been given.
+
+So, ideally, we find the smallest \(c\) that satisifes the inequality \[
+  \frac{k(y)}{g(y)} \leq 1
+\] where \(k\) is the kernel of \(f\), which is given by
+\(c = \max\{k(y)/g(y)\}\). We may solve this analytically by finding \[
+  y^* = \operatorname{arg\,max}_y k(y)/g(y)
+\] and then let \(c = k(y^*)/g(y^*)\).
+
+First, we let \[
+  h(y) = k(y)/g(y) = \frac{e^{-y^2/2}}{2e^{-2(y-2)}}.
+\] We can find the value that maximizes \(h\) by finding the value that
+maximizes \(\log h\), which is given by \[
+  \log h(y) = \log \frac{e^{-y^2/2}}{2e^{-2(y-2)}} = -\frac{1}{2}y^2 + 2(y-2).
+\] The value \(y^*\) that maximizes \(\log h\) satisfies \[
+  \left. \frac{d \log h}{d y} \right\vert_{y=y^*} = -y^* + 2 = 0,
+\] which means \(y^*=2\) maximizes \(\log h\) and thus \begin{align}
+  c = h(2) &= \frac{k(2)}{g(2)}\\
+           &= \frac{1}{2e^2}.
+\end{align}
+
+Thus, we sample \(y\) from \(g\) and \(u\) from \(\rm{UNIF}(0,1)\) and
+accept the sample as being drawn from \(f\) if \[
+  u \leq \frac{k(y)}{g(y)} = e^{-(y-2)^2/2}.
+\]
+
+Here is the code that implements our sampling method for \(f\) using
+acceptance-rejection sampling:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# the proposed density we can easily sample from}
+\NormalTok{g }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y)}
+\NormalTok{\{}
+  \DecValTok{2}\SpecialCharTok{*}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(y}\DecValTok{{-}2}\NormalTok{))}
+\NormalTok{\}}
+
+\CommentTok{\# inverse transform method for sampling from g}
+\NormalTok{rg }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n)}
+\NormalTok{\{}
+  \SpecialCharTok{{-}}\FloatTok{0.5}\SpecialCharTok{*}\FunctionTok{log}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{runif}\NormalTok{(n))}\SpecialCharTok{+}\DecValTok{2}
+\NormalTok{\}}
+
+\NormalTok{rf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n)}
+\NormalTok{\{}
+\NormalTok{  data }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\AttributeTok{length=}\NormalTok{n)}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}
+\NormalTok{  \{}
+    \ControlFlowTok{repeat}
+\NormalTok{    \{}
+\NormalTok{      y }\OtherTok{\textless{}{-}} \FunctionTok{rg}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{      u }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+      \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\textless{}=} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{(y}\DecValTok{{-}2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+\NormalTok{      \{}
+\NormalTok{        data[i] }\OtherTok{\textless{}{-}}\NormalTok{ y}
+        \ControlFlowTok{break}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{  data}
+\NormalTok{\}}
+
+\NormalTok{k }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y)}
+\NormalTok{\{}
+  \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{y}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{\}}
+
+\NormalTok{f }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y)}
+\NormalTok{\{}
+  \CommentTok{\# normalizing constant}
+\NormalTok{  Z }\OtherTok{\textless{}{-}} \FloatTok{17.5358}
+\NormalTok{  Z}\SpecialCharTok{*}\FunctionTok{k}\NormalTok{(y)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+To verify the sampling method, we drawn \(n=10000\) samples from \(f\)
+and plot its histogram along with a plot of its density function \(f\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{rf}\NormalTok{(}\DecValTok{10000}\NormalTok{)}
+\NormalTok{ys }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{by=}\NormalTok{.}\DecValTok{1}\NormalTok{)}
+\FunctionTok{hist}\NormalTok{(data,}\AttributeTok{freq=}\NormalTok{F,}\AttributeTok{breaks=}\DecValTok{50}\NormalTok{,}\AttributeTok{main=}\StringTok{"f"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\AttributeTok{x=}\NormalTok{ys,}\FunctionTok{f}\NormalTok{(ys),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam1_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+The histogram seems compatible with the pdf \(f\).
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+NOTE TO Dr. Q: On the in-class portion, I forgot to plug the value that I found
+that maximizes $h$ back into $h$ to find $c$. Maybe my brain is just getting too old!
+\end{minipage}}
+
+\hypertarget{problem-2-5-points}{%
+\section{Problem 2 (5 points)}\label{problem-2-5-points}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Implement your accept-reject algorithm to get a sample of 10000 from $\rm{Gamma}(2.5, 1)$.
+Verify that your method works via a plot of the true normalized density, and a histogram of the
+generated values.
+\end{minipage}}
+
+This is not the approach you were looking for, but on the test I did
+poorly on this section.
+
+Be that as it may, here is essentially my answer on the test, except
+that the solution is so slow that I decreased \(c\) so that, at the
+extreme tail of the distribution, \(f(y) / c g(y) > 1\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alpha }\OtherTok{\textless{}{-}} \FloatTok{2.5}
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{10000}
+\NormalTok{c }\OtherTok{\textless{}{-}} \DecValTok{10}
+\NormalTok{a }\OtherTok{\textless{}{-}} \FunctionTok{floor}\NormalTok{(alpha)}
+\NormalTok{b }\OtherTok{\textless{}{-}}\NormalTok{ a }\SpecialCharTok{/}\NormalTok{ alpha}
+
+\NormalTok{ys }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\AttributeTok{length=}\NormalTok{n)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}
+\NormalTok{\{}
+  \ControlFlowTok{repeat}
+\NormalTok{  \{}
+\NormalTok{    y }\OtherTok{\textless{}{-}} \FunctionTok{rgamma}\NormalTok{(}\AttributeTok{n=}\DecValTok{1}\NormalTok{,}\AttributeTok{shape=}\NormalTok{a,}\AttributeTok{scale=}\NormalTok{b)}
+\NormalTok{    u }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{    P }\OtherTok{\textless{}{-}} \FunctionTok{dgamma}\NormalTok{(y,}\AttributeTok{shape=}\NormalTok{alpha,}\AttributeTok{scale=}\DecValTok{1}\NormalTok{) }\SpecialCharTok{/}\NormalTok{ (c}\SpecialCharTok{*}\FunctionTok{dgamma}\NormalTok{(y,}\AttributeTok{shape=}\NormalTok{a,}\AttributeTok{scale=}\NormalTok{b))}
+    \ControlFlowTok{if}\NormalTok{ (u }\SpecialCharTok{\textless{}}\NormalTok{ P)}
+\NormalTok{    \{}
+\NormalTok{      ys[i] }\OtherTok{\textless{}{-}}\NormalTok{ y}
+      \ControlFlowTok{break}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\FunctionTok{hist}\NormalTok{(ys,}\AttributeTok{freq=}\NormalTok{F,}\AttributeTok{breaks=}\DecValTok{50}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\AttributeTok{x=}\FunctionTok{seq}\NormalTok{(.}\DecValTok{01}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{by=}\NormalTok{.}\DecValTok{05}\NormalTok{),}\AttributeTok{y=}\FunctionTok{dgamma}\NormalTok{(}\FunctionTok{seq}\NormalTok{(.}\DecValTok{01}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{by=}\NormalTok{.}\DecValTok{05}\NormalTok{),}\AttributeTok{shape=}\NormalTok{alpha,}\AttributeTok{scale=}\DecValTok{1}\NormalTok{),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam1_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\hypertarget{problem-3-30-points}{%
+\section{Problem 3 (30 points)}\label{problem-3-30-points}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Considers $197$ animals randomly divided into four categories (four phenotypes)
+as follows:
+$X = (x1, x2, x3, x4)^T$ with cell probabilities $(1/2 + θ/4,(1 − θ)/4,(1 − θ)/4, θ/4)^T$.
+We observe $X = (125, 18, 20, 34)^T$.
+\end{minipage}}
+
+\hypertarget{part-a-1}{%
+\subsection{Part (a)}\label{part-a-1}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Hand code your algorithm using Newton-Ralphson to find the maximum likelihood
+estimator of $θ$ directly from the observed likelihood. Compare your result with
+what you get using the built-in $\operatorname{optim}()$ function in R.
+\end{minipage}}
+
+In part 1 of the exam, the log-likelihood given the data was determined
+to be \[
+  \ell(\theta | \vec{x}) = x_1 \log\left(\frac{1}{2}+\frac{\theta}{4}\right) + x_2 \log\left(\frac{1-\theta}{4}\right) + x_3 \log\left(\frac{1-\theta}{4}\right) + x_4 \log\left(\frac{\theta}{4}\right).
+\]
+
+We derived the updating equation for the MLE of \(\theta\) to be \[
+  \theta^{(t+1)} = \theta^{(t)} - \frac{d \ell / d \theta}{d^2 \ell / d \theta^2}
+\] where \[
+  \frac{d \ell}{d \theta} = \frac{x_1}{\theta+2} + \frac{x_2}{\theta-1} + \frac{x_3}{\theta-1} + \frac{x_4}{\theta}
+\] and \[
+  \frac{d^2 \ell}{d \theta^2} = -\frac{x_1}{(\theta+2)^2} - \frac{x_2}{(\theta-1)^2} - \frac{x_3}{(\theta-1)^2} - \frac{x_4}{\theta^2}.
+\]
+
+Instead of taking the time to simplify this expression, we will just
+substitute these derivations into the updating equation in the following
+R code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta,x)}
+\NormalTok{\{}
+\NormalTok{  x[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{(theta}\SpecialCharTok{+}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ (x[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{+}\NormalTok{x[}\DecValTok{3}\NormalTok{])}\SpecialCharTok{/}\NormalTok{(theta}\DecValTok{{-}1}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ x[}\DecValTok{4}\NormalTok{]}\SpecialCharTok{/}\NormalTok{theta}
+\NormalTok{\}}
+
+\NormalTok{l2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta,x)}
+\NormalTok{\{}
+  \SpecialCharTok{{-}}\NormalTok{x[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{(theta}\SpecialCharTok{+}\DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{{-}}\NormalTok{ (x[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{+}\NormalTok{x[}\DecValTok{3}\NormalTok{])}\SpecialCharTok{/}\NormalTok{(theta}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{{-}}\NormalTok{ x[}\DecValTok{4}\NormalTok{]}\SpecialCharTok{/}\NormalTok{theta}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{\}}
+
+\NormalTok{theta\_mle }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, }\AttributeTok{start =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{eps =} \FloatTok{1e{-}6}\NormalTok{)}
+\NormalTok{\{}
+\NormalTok{  i }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{  theta0 }\OtherTok{\textless{}{-}}\NormalTok{ start}
+\NormalTok{  theta1 }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+  \ControlFlowTok{repeat}
+\NormalTok{  \{}
+\NormalTok{    theta1 }\OtherTok{\textless{}{-}}\NormalTok{ theta0 }\SpecialCharTok{{-}} \FunctionTok{l1}\NormalTok{(theta0,x) }\SpecialCharTok{/} \FunctionTok{l2}\NormalTok{(theta0,x)}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(theta1}\SpecialCharTok{{-}}\NormalTok{theta0) }\SpecialCharTok{\textless{}}\NormalTok{ eps) \{ }\ControlFlowTok{break}\NormalTok{ \}}
+\NormalTok{    theta0 }\OtherTok{\textless{}{-}}\NormalTok{ theta1}
+\NormalTok{    i }\OtherTok{\textless{}{-}}\NormalTok{ i }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{  \}}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{mle=}\NormalTok{theta1,}\AttributeTok{iterations=}\NormalTok{i)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We invoke the updating equations on the given data to estimate
+\(\theta\) with the following R code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# observed data}
+\NormalTok{x }\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{125}\NormalTok{, }\DecValTok{18}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{34}\NormalTok{)}
+\NormalTok{sol }\OtherTok{\textless{}{-}} \FunctionTok{theta\_mle}\NormalTok{(}\AttributeTok{x=}\NormalTok{x, }\AttributeTok{start=}\FloatTok{0.5}\NormalTok{, }\AttributeTok{eps=}\FloatTok{1e{-}6}\NormalTok{)}
+\NormalTok{mle }\OtherTok{\textless{}{-}}\NormalTok{ sol}\SpecialCharTok{$}\NormalTok{mle}
+\NormalTok{mle\_iterations }\OtherTok{\textless{}{-}}\NormalTok{ sol}\SpecialCharTok{$}\NormalTok{iterations}
+\end{Highlighting}
+\end{Shaded}
+
+We see that the MLE converges to a solution around \(0.6268215\) after
+\(3\). We compare this result with the built-in procedure,
+\(\rm{optim}\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# the function to maximize, the log{-}likelihood function}
+\NormalTok{loglike }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta)}
+\NormalTok{\{}
+\NormalTok{  x[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{*}\FunctionTok{log}\NormalTok{(}\FloatTok{0.5}\SpecialCharTok{+}\NormalTok{theta}\SpecialCharTok{/}\DecValTok{4}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ x[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\FunctionTok{log}\NormalTok{(}\FloatTok{0.25}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{theta)) }\SpecialCharTok{+}\NormalTok{ x[}\DecValTok{3}\NormalTok{]}\SpecialCharTok{*}\FunctionTok{log}\NormalTok{(}\FloatTok{0.25}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{theta)) }\SpecialCharTok{+}\NormalTok{ x[}\DecValTok{4}\NormalTok{]}\SpecialCharTok{*}\FunctionTok{log}\NormalTok{(}\FloatTok{0.25}\SpecialCharTok{*}\NormalTok{theta)}
+\NormalTok{\}}
+
+\CommentTok{\# since optim finds the value that minimizes the function, we provide it with}
+\CommentTok{\# the negative of the log{-}likelihood.}
+\FunctionTok{optim}\NormalTok{(}\FloatTok{0.5}\NormalTok{,}\ControlFlowTok{function}\NormalTok{(theta) \{ }\SpecialCharTok{{-}}\FunctionTok{loglike}\NormalTok{(theta) \},}\AttributeTok{lower=}\FloatTok{0.1}\NormalTok{,}\AttributeTok{upper=}\FloatTok{0.9}\NormalTok{,}\AttributeTok{method=}\StringTok{"L{-}BFGS{-}B"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{par}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.626821
+\end{verbatim}
+
+The value \(\rm{optim}\) found is approximately the same. It was fussy
+with explicitly providing upper and lower bounds. This warrants further
+investigation, but for another time.
+
+\hypertarget{part-b-1}{%
+\subsection{Part (b)}\label{part-b-1}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Implement the E-M algorithm to find the the maximum likelihood estimator of $θ$
+with the ``augmented'' data with missing information $Z = y_2$. Compare your
+result with part (a).
+\end{minipage}}
+
+We split the first category into two, \[
+  \vec{y} = (y_1, y_2, y_3, y_4, y_5)^T
+\] with cell probabilities \((1/2, θ/4,(1 − θ)/4,(1 − θ)/4, θ/4)^T\).
+
+So, \(y_1\) and \(y_2\) are \emph{unobserved}. The pdf is given by \[
+  f(\vec{y}|\theta) \propto \prod_{i=1}^{5} \pi_i(\theta)^{y_i}
+\] where \[
+  \vec{\pi}(\theta) = (1/2, θ/4,(1 − θ)/4,(1 − θ)/4, θ/4)^T.
+\]
+
+Thus, the complete log-likelihood is given by \[
+  \log f(\vec{y} | \theta) = \sum_{i=1}^{5} y_i \log \pi_i(\theta)
+\] which may be written as \[
+  \log f(\vec{y} | \theta) = k(\vec{y}) + y_2 \log(\theta) + y_3 \log(1-\theta) + y_4 \log(1-\theta) + y_5 \log \theta.
+\]
+
+\hypertarget{e-step}{%
+\subsubsection{E-step}\label{e-step}}
+
+The function we seek to maximize \(Q\) is thus given by \[
+  Q(\theta|\theta^{(t)}) = E_{Z|\vec{x},\theta^{(t)}}(\log f(\vec{y}|\theta)),
+\] which is given by \[
+  Q(\theta|\theta^{(t)})= E_{Z|\vec{x},|\theta^{(t)}}\left(y_2 \log(\theta) + y_3 \log(1-\theta) + y_4 \log(1-\theta) + y_5 \log \theta\right)
+\] which by the property of linearity of expectations is equivalent to
+\begin{equation}
+\begin{split}
+Q(\theta|\theta^{(t)})
+  = E_{Z|\vec{x},|\theta^{(t)}}(y_2) & \log(\theta) + E_{Z|\vec{x},|\theta^{(t)}}(y_3) \log(1-\theta) +\\
+    & E_{Z|\vec{x},|\theta^{(t)}}(y_4) \log(1-\theta) + E_{Z|\vec{x},|\theta^{(t)}}(y_5) \log \theta.
+\end{split}
+\end{equation}
+
+Note that \(y_3\), \(y_4\), and \(y_5\) are respectively observed to be
+\(x_2\),\(x_3\),\(x_4\) and thus, for instance, \[
+  E_{Z|\vec{x}}(y_3) = x_2.
+\]
+
+The missing data \(Z = y_2\) is distributed \[
+  Z | (\vec{x},\theta^{(t)}) \sim \rm{BIN}(x_1, \frac{\theta^{(t)}}{2+\theta^{(t)}}).
+\] and thus \[
+  E_{Z|\vec{x},|\theta^{(t)}}(y_2) = \frac{x_1 \theta^{(t)}}{2+\theta^{(t)}}.
+\]
+
+Putting it all together, we may rewrite \(Q\) as \[
+  Q(\theta|\theta^{(t)}) = \frac{x_1 \theta^{(t)}}{2+\theta^{(t)}} \log(\theta) + x_2 \log(1-\theta) + x_3 \log(1-\theta) + x_4 \log \theta.
+\]
+
+\hypertarget{m-step}{%
+\subsubsection{M-step}\label{m-step}}
+
+In the M-step, we seek \[
+ \theta^{(t+1)} = \operatorname{arg\,max}_{\theta} Q(\theta|\theta^{(t)}),
+\] which can be found by solving \[
+  \left. \frac{d Q(\theta|\theta^{(t)})}{d \theta} \right\vert_{\theta = \theta^{(t+1)}} = 0.
+\]
+
+Since the final solution is a little noisy when we leave \(\vec{x}\)
+symbolic, we are going to finish the solution with the observed values
+of \(\vec{x}\). So, \[
+  \frac{d Q}{d \theta} = \frac{125 \theta^{(t)}}{2+\theta^{(t)}} - \frac{38}{1-\theta}
+    - \frac{34}{\theta} = 0
+\] has the solution, when we replace \(\theta\) with \(\theta^{(t+1)}\),
+\[
+  \theta^{(t+1)} = \frac{159 \theta^{(t)} + 68}{197 \theta^{(t)} + 144}.
+\]
+
+Iterating update equation until some stopping condition that signifies
+convergence may then be done. We denote the converged solution of the EM
+algorithm by \[
+  \hat\theta_{\rm{EM}} = \lim_n \theta^{(t)}.
+\]
+
+We implement the EM algorithm in the following R code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{theta0 }\OtherTok{\textless{}{-}}\NormalTok{ .}\DecValTok{5}
+\NormalTok{theta1 }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{i }\OtherTok{\textless{}{-}} \DecValTok{1}
+\ControlFlowTok{repeat}
+\NormalTok{\{}
+\NormalTok{  theta1 }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{159}\SpecialCharTok{*}\NormalTok{theta0 }\SpecialCharTok{+} \DecValTok{68}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{197}\SpecialCharTok{*}\NormalTok{theta0 }\SpecialCharTok{+} \DecValTok{144}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"theta["}\NormalTok{,i,}\StringTok{"] = "}\NormalTok{, theta1,}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(theta1}\SpecialCharTok{{-}}\NormalTok{theta0) }\SpecialCharTok{\textless{}} \FloatTok{1e{-}6}\NormalTok{) \{ }\ControlFlowTok{break}\NormalTok{ \}}
+\NormalTok{  theta0 }\OtherTok{\textless{}{-}}\NormalTok{ theta1}
+\NormalTok{  i }\OtherTok{\textless{}{-}}\NormalTok{ i }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## theta[ 1 ] =  0.6082474 
+## theta[ 2 ] =  0.6243211 
+## theta[ 3 ] =  0.6264889 
+## theta[ 4 ] =  0.6267773 
+## theta[ 5 ] =  0.6268156 
+## theta[ 6 ] =  0.6268207 
+## theta[ 7 ] =  0.6268214
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(theta1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.6268214
+\end{verbatim}
+
+We see the standard MLE \(\hat\theta_{\rm{mle}}\) and
+\(\hat\theta_{\rm{EM}}\) both obtain the same solution up to \(6\)
+decimal places when using the same starting value and stopping
+condition. However, \(\hat\theta_{\rm{EM}}\) required more iterations
+before convergence, which was expected given that the EM algorithm is of
+linear order while the MLE using Newton-raphson is of quadratic order.
+However, the EM algorithm does have the benefit of a less complex
+updating equation.
+
+\hypertarget{part-c}{%
+\subsection{Part (c)}\label{part-c}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Find the standard error of the MLE using either a numerical calculation of the inverse of the
+observed fisher’s information, i.e $[−l”(ˆθ)]^{−1}$, or using Louis’ Method.
+\end{minipage}}
+
+We already have the second derivative of the log-likelihood, so we
+choose to use the observed Fisher information evaluated at
+\(\theta = \theta_{\rm{mle}}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{obs\_fisher }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\FunctionTok{l2}\NormalTok{(mle,x)}
+\NormalTok{var\_mle }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{/}\NormalTok{ obs\_fisher}
+\FunctionTok{sqrt}\NormalTok{(var\_mle)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.05146735
+\end{verbatim}
+
+We see that an estimate of standard error of the MLE is
+\(\operatorname{sd}(\hat{\theta}_{\rm{mle}}) = 0.0514673\).
+
+\hypertarget{problem-4-10-points}{%
+\section{Problem 4 (10 points )}\label{problem-4-10-points}}
+
+\fbox{Consider the density $f(x) ∝ 3e^{−0.5(x+2)^2} + 7e^{−0.5(x−2)^2}$ (problems 6, Homework 1).}
+
+\hypertarget{part-a-2}{%
+\subsection{Part (a)}\label{part-a-2}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Compute the exact normalizing constant, both in closed form using $\pi$ (pencil and paper), and
+also to 5 decimal places (by evaluating the exact version in R).
+\end{minipage}}
+
+It is given that \[
+  f(x) \propto \ker(x)
+\] i.e., \(f(x) = C \ker(x)\), where \[
+  \rm{ker}(x) = 3 e^{-0.5(x+2)^2} + 7 e^{-0.5(x-2)^2}
+\] and \(C\) is the normalizing constant that satisfies the equation \[
+  \int_{-\infty}^{\infty} \frac{1}{C} \ker(x) dx = 1.
+\]
+
+Solving for \(C\) yields the result \[
+  C = \int_{-\infty}^{\infty} 3 e^{-0.5(x+2)^2} dx + \int_{-\infty}^{\infty} 7 e^{-0.5(x-2)^2} dx.
+\]
+
+Each mode of the bimodal distribution resembles a normal distribution
+with \(\sigma = 1\). We may rewrite the above to \[
+  C = 3 \sqrt{2 \pi} \int_{-\infty}^{\infty} \frac{e^{-0.5(x+2)^2}}{\sqrt{2 \pi}} dx + 7 \sqrt{2 \pi} \int_{-\infty}^{\infty} \frac{e^{-0.5(x-2)^2}}{\sqrt{2 \pi}} dx
+\] which is equivalent to \[
+  C = 3 \sqrt{2 \pi} \int_{-\infty}^{\infty} \phi(x+2) dx + 7 \sqrt{2 \pi} \int_{-\infty}^{\infty} \phi(x-2) dx.
+\] Since \(\phi\) is a pdf, each integral evaluates to \(1\), and thus
+\[
+  C = 3 \sqrt{2 \pi} + 7 \sqrt{2 \pi} = 10 \sqrt{2 \pi}
+\] is the normalizing constant, which is 25.06628 to \(5\) decimal
+places.
+
+Using R's numerical integrator, we get the result:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{C }\OtherTok{\textless{}{-}} \DecValTok{10}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{pi)}
+\NormalTok{ker }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ }\DecValTok{3}\SpecialCharTok{*}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{0.5}\SpecialCharTok{*}\NormalTok{(x}\SpecialCharTok{+}\DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+} \DecValTok{7}\SpecialCharTok{*}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{0.5}\SpecialCharTok{*}\NormalTok{(x}\DecValTok{{-}2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) \}}
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{integrate}\NormalTok{(ker,}\AttributeTok{lower =} \SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\AttributeTok{upper =} \ConstantTok{Inf}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 25.06628 with absolute error < 4e-05
+\end{verbatim}
+
+\hypertarget{part-b-2}{%
+\subsection{Part (b)}\label{part-b-2}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Approximate this integral with a Simpson’s rule to three decimal places.
+What is the effective range and number of subintervals required?
+\end{minipage}}
+
+Simpson's rule is implemented by the following R code. Note that we did
+not bother to optimize it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# simpson : numerical integrator applying simpson\textquotesingle{}s rule to n subintervals}
+\CommentTok{\# over the range (a,b).}
+\CommentTok{\#}
+\CommentTok{\# arguments;}
+\CommentTok{\#   f : the function to integrate}
+\CommentTok{\#   a : the lower{-}bound}
+\CommentTok{\#   b : the upper{-}bound. (a,b) together discrete the range.}
+\CommentTok{\#   n : the number of subintervals to partition the range}
+\CommentTok{\#}
+\CommentTok{\# we evenly partition the range into n subintervals of size (b{-}a)/n}
+\CommentTok{\# and apply simson\textquotesingle{}s rule to each subinterval. then, we accumulate these}
+\CommentTok{\# values and return the result.}
+\NormalTok{simpson }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(f, a, b, n)}
+\NormalTok{  \{}
+\NormalTok{    h }\OtherTok{\textless{}{-}}\NormalTok{ (b}\SpecialCharTok{{-}}\NormalTok{a)}\SpecialCharTok{/}\NormalTok{n}
+\NormalTok{    s }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{    x }\OtherTok{\textless{}{-}}\NormalTok{ a}
+    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(n}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+\NormalTok{    \{}
+\NormalTok{      s }\OtherTok{\textless{}{-}}\NormalTok{ s }\SpecialCharTok{+} \FunctionTok{f}\NormalTok{(x) }\SpecialCharTok{+} \DecValTok{4} \SpecialCharTok{*} \FunctionTok{f}\NormalTok{(x}\SpecialCharTok{+}\NormalTok{h) }\SpecialCharTok{+} \FunctionTok{f}\NormalTok{(x}\SpecialCharTok{+}\DecValTok{2}\SpecialCharTok{*}\NormalTok{h)}
+\NormalTok{      x }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{+} \DecValTok{2}\SpecialCharTok{*}\NormalTok{h}
+\NormalTok{    \}}
+\NormalTok{    s}\SpecialCharTok{*}\NormalTok{h}\SpecialCharTok{/}\DecValTok{3}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+To test effective range and subintervals, we decided to make a program
+that exhaustively searches for the minimum range and number of
+subintervals over a discrete set of points. In particular, we search for
+a range of the form \((-r,r)\) that is symmetric and an even \(n\). It
+is not perfect, but it seems like a reasonable way to estimate these
+requirements.
+
+Here is the R code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{R }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{N }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{found }\OtherTok{\textless{}{-}}\NormalTok{ F}
+\ControlFlowTok{for}\NormalTok{ (r }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{200}\NormalTok{)}
+\NormalTok{\{}
+  \ControlFlowTok{for}\NormalTok{ (n }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{)}
+\NormalTok{  \{}
+\NormalTok{    res }\OtherTok{\textless{}{-}} \FunctionTok{simpson}\NormalTok{(ker,}\SpecialCharTok{{-}}\NormalTok{r}\SpecialCharTok{/}\DecValTok{10}\NormalTok{,r}\SpecialCharTok{/}\DecValTok{10}\NormalTok{,}\DecValTok{2}\SpecialCharTok{*}\NormalTok{n)}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(res }\SpecialCharTok{{-}}\NormalTok{ C) }\SpecialCharTok{\textless{}} \FloatTok{0.001}\NormalTok{)}
+\NormalTok{    \{}
+\NormalTok{      R }\OtherTok{\textless{}{-}}\NormalTok{ r}\SpecialCharTok{/}\DecValTok{10}
+\NormalTok{      N }\OtherTok{\textless{}{-}} \DecValTok{2}\SpecialCharTok{*}\NormalTok{n}
+      \FunctionTok{cat}\NormalTok{(}\StringTok{"r = +{-}"}\NormalTok{, R, }\StringTok{", n = "}\NormalTok{, N, }\StringTok{", C = "}\NormalTok{, res, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{      found }\OtherTok{\textless{}{-}}\NormalTok{ T}
+      \ControlFlowTok{break}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \ControlFlowTok{if}\NormalTok{ (found) \{ }\ControlFlowTok{break}\NormalTok{ \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## r = +- 5.9 , n =  16 , C =  25.06603
+\end{verbatim}
+
+The minimum range \((-r,r)\), \(r > 0\), when divided into \(n\)
+subintervals, that is the same as the true value \(10 \sqrt{2\pi}\) to
+\(3\) decimal places is given by \(r = 5.9\) and \(n = 16\).
+
+\end{document}

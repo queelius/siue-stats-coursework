@@ -4,18 +4,20 @@
 %
 \documentclass[
 ]{article}
-\usepackage{lmodern}
-\usepackage{amsmath}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
-  \usepackage{amssymb}
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -34,14 +36,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Regression Analysis - STAT 482 - Probem Set 8},
-  pdfauthor={Alex Towell (atowell@siue.edu)},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -54,13 +48,13 @@
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
 \newcommand{\BuiltInTok}[1]{#1}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
@@ -68,7 +62,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\ExtensionTok}[1]{#1}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\ImportTok}[1]{#1}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
@@ -77,13 +71,13 @@
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
 \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{longtable,booktabs}
+\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -120,9 +114,17 @@
 \usepackage{xcolor}
 \usepackage{tcolorbox}
 \usepackage{enumerate}
-\ifluatex
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Regression Analysis - STAT 482 - Probem Set 8},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Regression Analysis - STAT 482 - Probem Set 8}
 \author{Alex Towell
@@ -176,19 +178,15 @@ are strictly looking at the relations between \(w\) (midarm), \(x_1\)
 \end{Highlighting}
 \end{Shaded}
 
-\begin{longtable}[]{@{}rrr@{}}
-\toprule
-triceps & thigh & midarm\tabularnewline
-\midrule
-\endhead
-19.5 & 43.1 & 29.1\tabularnewline
-24.7 & 49.8 & 28.2\tabularnewline
-30.7 & 51.9 & 37.0\tabularnewline
-29.8 & 54.3 & 31.1\tabularnewline
-19.1 & 42.2 & 30.9\tabularnewline
-25.6 & 53.9 & 23.7\tabularnewline
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+##   triceps thigh midarm
+## 1    19.5  43.1   29.1
+## 2    24.7  49.8   28.2
+## 3    30.7  51.9   37.0
+## 4    29.8  54.3   31.1
+## 5    19.1  42.2   30.9
+## 6    25.6  53.9   23.7
+\end{verbatim}
 
 Here is the correlation matrix:
 
@@ -200,14 +198,15 @@ Here is the correlation matrix:
 \end{Shaded}
 
 \begin{longtable}[]{@{}lrrr@{}}
-\toprule
-& triceps & thigh & midarm\tabularnewline
-\midrule
+\toprule\noalign{}
+& triceps & thigh & midarm \\
+\midrule\noalign{}
 \endhead
-triceps & 1.000 & 0.924 & 0.458\tabularnewline
-thigh & 0.924 & 1.000 & 0.085\tabularnewline
-midarm & 0.458 & 0.085 & 1.000\tabularnewline
-\bottomrule
+\bottomrule\noalign{}
+\endlastfoot
+triceps & 1.000 & 0.924 & 0.458 \\
+thigh & 0.924 & 1.000 & 0.085 \\
+midarm & 0.458 & 0.085 & 1.000 \\
 \end{longtable}
 
 \hypertarget{part-b}{%
@@ -290,15 +289,17 @@ We compute the statistics with:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{longtable}[]{@{}rrrrrr@{}}
-\toprule
-Res.Df & RSS & Df & Sum of Sq & F & Pr(\textgreater F)\tabularnewline
-\midrule
-\endhead
-18 & 199.769500 & NA & NA & NA & NA\tabularnewline
-17 & 2.416037 & 1 & 197.3535 & 1388.641 & 0\tabularnewline
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: w ~ x1
+## Model 2: w ~ x1 + x2
+##   Res.Df     RSS Df Sum of Sq      F    Pr(>F)    
+## 1     18 199.769                                  
+## 2     17   2.416  1    197.35 1388.6 < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
 
 We see that \(F^*_{2|1} = 1388.641\) with a \(p\)-value \(.000\).
 

@@ -1,0 +1,424 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{hhline}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Discrete Multivariate Analysis - 579 - HW \#5},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Discrete Multivariate Analysis - 579 - HW \#5}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\RR}{\operatorname{RR}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+Consider data from a prospective study on the relationship between daily
+aspirin use and the onset of heart disease.
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+& Disease & No Disease & Total \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Placebo & 28 & 656 & 684 \\
+Aspirin & 18 & 658 & 676 \\
+\end{longtable}
+
+\hypertarget{part-a}{%
+\subsection{Part (a)}\label{part-a}}
+
+\fbox{Provide an equation for $\sigma^2\!\left(\log \hat{\operatorname{RR}}\right)$.}
+
+\begin{align*}
+  \sigma^2\!\left(\log \hat{\operatorname{RR}}\right)
+    &= \frac{1}{n_{1 1}} - \frac{1}{n_{1+}} + \frac{1}{n_{2 1}} - \frac{1}{n_{2+}}\\
+    &= \frac{1}{28} - \frac{1}{684} + \frac{1}{18} - \frac{1}{658}\\
+    &\approx 0.883\,.
+\end{align*}
+
+\hypertarget{part-b}{%
+\subsection{Part (b)}\label{part-b}}
+
+\fbox{Provide an equation for $\sigma\!\left(\log \hat{\operatorname{RR}}\right)$.}
+
+\[
+   \sigma\!\left(\log \hat{\operatorname{RR}}\right) = \sqrt{\sigma^2(\log \hat{\operatorname{RR}})} \approx 0.297\,.
+\]
+
+\hypertarget{part-c}{%
+\subsection{Part (c)}\label{part-c}}
+
+\fbox{Compute a $95\%$ confidence interval for $\log \operatorname{RR}$.}
+
+The relative risk \(\operatorname{RR}\) is defined as \[
+  \operatorname{RR}\coloneqq \frac{\pi_1}{\pi_2}
+\] The MLE of \(\log \operatorname{RR}\) is given by \[
+  \hat{\operatorname{RR}} = \frac{\hat\pi_1}{\hat\pi_2} = \frac{n_{1 1}}{n_{1+}} \frac{n_{2+}}{n_{2 1}} = \frac{28}{676} \times \frac{684}{18} \approx 1.574\,.
+\] By the invariance property of the MLE, if \(\hat\theta\) is an MLE of
+\(\theta\) then \(\operatorname{g}(\theta)\) is an MLE of
+\(\operatorname{g}(\hat\theta)\). Thus, \[
+  \log \hat{\operatorname{RR}} = \log \hat{\operatorname{RR}} \approx 0.454\,.
+\] A confidence interval for \(\log \operatorname{RR}\) is thus \[
+  \operatorname{CI}(\log\operatorname{RR}) = \log \hat{\operatorname{RR}} \pm z_{\alpha/2} \sigma(\log \hat{\operatorname{RR}})\,.
+\] Letting \(\alpha = 0.05\) and substituting in the values for
+\(\log \hat{\operatorname{RR}}\) and
+\(\sigma(\log \hat{\operatorname{RR}})\), we get the result \[
+  \operatorname{CI}(\log\hat{\operatorname{RR}}) = 0.454 \pm  1.96 \times 0.297= [-0.128,1.036]\,.
+\]
+
+\hypertarget{part-d}{%
+\subsection{Part (d)}\label{part-d}}
+
+\fbox{Compute a $95\%$ confidence interval for $\operatorname{RR}$.}
+
+We take the inverse of the logarithm and obtain the result \[
+  \operatorname{CI}(\operatorname{RR}) = [e^{-0.128},e^{1.036}] = [0.880,2.818]\,.
+\]
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+A diagnostic test for Covid antibodies is being studied. For a sample of
+\(n = 122\) specimens with antibodies known to be present, the test
+returned \(y = 103\) positive results. For a sample of \(n = 401\)
+specimens absent any antibodies, the test returned \(y = 399\) negative
+results.
+
+\hypertarget{function-used-to-compute-interval-estimates-for-this-problem.}{%
+\subsection{Function used to compute interval estimates for this
+problem.}\label{function-used-to-compute-interval-estimates-for-this-problem.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# this program performs Bayesian inference for a binomial probability}
+\CommentTok{\#   {-} y is the number of successes}
+\CommentTok{\#   {-} n is the number of trials}
+\CommentTok{\#   {-} alpha is the sum of the tail probabilities}
+\CommentTok{\#}
+\CommentTok{\# we also compute a classical interval using normality assumptions of the mle.}
+\NormalTok{binomial\_bayesian }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y,n,}\AttributeTok{alpha=}\NormalTok{.}\DecValTok{05}\NormalTok{) \{}
+  \CommentTok{\# compute the maximum likelihood estimator}
+\NormalTok{  mle }\OtherTok{=}\NormalTok{ y}\SpecialCharTok{/}\NormalTok{n}
+\NormalTok{  mle\_var }\OtherTok{=}\NormalTok{ mle}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{mle)}\SpecialCharTok{/}\NormalTok{n}
+\NormalTok{  mle\_sd }\OtherTok{=} \FunctionTok{sqrt}\NormalTok{(mle\_var)}
+  
+\NormalTok{  t0 }\OtherTok{=} \FunctionTok{qt}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, n}\DecValTok{{-}1}\NormalTok{)}
+\NormalTok{  L }\OtherTok{=}\NormalTok{ mle }\SpecialCharTok{{-}}\NormalTok{ mle\_sd}\SpecialCharTok{*}\NormalTok{t0}
+\NormalTok{  U }\OtherTok{=}\NormalTok{ mle }\SpecialCharTok{+}\NormalTok{ mle\_sd}\SpecialCharTok{*}\NormalTok{t0}
+  
+  \CommentTok{\# define the beta distribution parameters}
+\NormalTok{  a}\OtherTok{=}\NormalTok{y}\SpecialCharTok{+}\DecValTok{1}
+\NormalTok{  b}\OtherTok{=}\NormalTok{n}\SpecialCharTok{{-}}\NormalTok{y}\SpecialCharTok{+}\DecValTok{1}
+  
+  \CommentTok{\# computing a confidence interval by taking the upper and lower percentiles of}
+  \CommentTok{\# the beta distribution computing the median to represent the center of the}
+  \CommentTok{\# distribution}
+\NormalTok{  lower }\OtherTok{=} \FunctionTok{qbeta}\NormalTok{(alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,a,b)}
+\NormalTok{  median }\OtherTok{=} \FunctionTok{qbeta}\NormalTok{(.}\DecValTok{5}\NormalTok{,a,b)}
+\NormalTok{  upper }\OtherTok{=} \FunctionTok{qbeta}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,a,b)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"bayesian estimate: "}\NormalTok{, }\FunctionTok{c}\NormalTok{(lower,median,upper),}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"mle confidence interval estimate: "}\NormalTok{, }\FunctionTok{c}\NormalTok{(L,mle,U),}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  
+  \CommentTok{\# create a grid of p for plotting. you may change to a smaller range than from}
+  \CommentTok{\# 0 to 1 to see the distribution better}
+\NormalTok{  p }\OtherTok{=} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from=}\FunctionTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{,lower}\SpecialCharTok{*}\NormalTok{.}\DecValTok{965}\NormalTok{),}\AttributeTok{to=}\FunctionTok{min}\NormalTok{(}\DecValTok{1}\NormalTok{,}\FloatTok{1.035}\SpecialCharTok{*}\NormalTok{upper),}\AttributeTok{length.out=}\DecValTok{100}\NormalTok{)}
+  \CommentTok{\# we are computing the beta density at each point in the grid}
+\NormalTok{  posterior }\OtherTok{=} \FunctionTok{dbeta}\NormalTok{(p,a,b)}
+  
+\NormalTok{  ps }\OtherTok{=} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n=}\DecValTok{1000000}\NormalTok{,}\AttributeTok{mean=}\NormalTok{mle,}\AttributeTok{sd=}\NormalTok{mle\_sd)}
+  
+  \CommentTok{\# plotting the beta density, higher values of the curve represent stronger data}
+  \CommentTok{\# evidence}
+  \FunctionTok{plot}\NormalTok{(p,posterior,}\AttributeTok{type =} \StringTok{"l"}\NormalTok{,}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+  
+  \FunctionTok{lines}\NormalTok{(}\FunctionTok{density}\NormalTok{(ps),}\AttributeTok{col=}\StringTok{"orange"}\NormalTok{)}
+  
+  \FunctionTok{points}\NormalTok{(median,}\DecValTok{0}\NormalTok{,}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{,}\AttributeTok{pch=}\StringTok{"*"}\NormalTok{)}
+  \FunctionTok{points}\NormalTok{(}\FunctionTok{c}\NormalTok{(lower,upper),}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),,}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{,}\AttributeTok{pch=}\StringTok{"|"}\NormalTok{)}
+  
+  \CommentTok{\# let\textquotesingle{}s plot the mle and confidence interval using t{-}score}
+  \FunctionTok{points}\NormalTok{(mle,}\DecValTok{0}\NormalTok{,}\AttributeTok{col=}\StringTok{"orange"}\NormalTok{,}\AttributeTok{pch=}\StringTok{"*"}\NormalTok{)}
+  \FunctionTok{points}\NormalTok{(}\FunctionTok{c}\NormalTok{(L,U),}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),,}\AttributeTok{col=}\StringTok{"orange"}\NormalTok{,}\AttributeTok{pch=}\StringTok{"|"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-a-1}{%
+\subsection{Part (a)}\label{part-a-1}}
+
+\fbox{Compute a Bayesian/likelihood interval estimate for the sensitivity,
+$\delta = \Pr(+|A)$.}
+
+Given that antibodies are present, the probability that a positive test
+result is observed is given by the sensitivity \(\delta\).
+
+In classical statistics, while the probability \(\delta\) is not known,
+the MLE estimator is \(\hat\delta = \frac{y}{n}\) which is
+asymptotically normal under regularity conditions.
+
+We compare it with the Bayesian approach, which does not assume
+normality. The following R function call computes the Bayesian interval
+estimate for a binomial probability. For comparison, we also compute the
+confidence interval for the MLE using classical techniques that rely
+upon the normality assumption of the MLE.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{binomial\_bayesian}\NormalTok{(}\AttributeTok{y=}\DecValTok{103}\NormalTok{,}\AttributeTok{n=}\DecValTok{122}\NormalTok{,}\AttributeTok{alpha=}\NormalTok{.}\DecValTok{05}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## bayesian estimate:  0.7693298 0.8405335 0.8977577 
+## mle confidence interval estimate:  0.7792689 0.8442623 0.9092557
+\end{verbatim}
+
+\includegraphics{hw5_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+The maximum likelihood estimator \(\hat\delta\) is \(0.844\) with an
+\(\alpha=0.05\) confidence interval \([0.779,0.909]\).
+
+The point estimator of \(\delta\) using the Bayesian approach, the
+\(50\%\)-percentile, is \(0.841\) with an interval estimate
+\([0.769,0.898]\).
+
+The maximum likelihood estimator and its corresponding density plot and
+confidence interval is plotted in \emph{orange} and the Bayesian
+estimator is plotted in \emph{blue}.
+
+\hypertarget{part-b-1}{%
+\subsection{Part (b)}\label{part-b-1}}
+
+\fbox{Compute a Bayesian/likelihood interval estimate for the sensitivity,
+$\gamma = \Pr(+|A)$.}
+
+We do the same thing as in part (A).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{binomial\_bayesian}\NormalTok{(}\AttributeTok{y=}\DecValTok{399}\NormalTok{,}\AttributeTok{n=}\DecValTok{401}\NormalTok{,}\AttributeTok{alpha=}\NormalTok{.}\DecValTok{05}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## bayesian estimate:  0.9821445 0.9933537 0.9984584 
+## mle confidence interval estimate:  0.9880966 0.9950125 1.001928
+\end{verbatim}
+
+\includegraphics{hw5_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+The maximum likelihood estimator \(\hat\delta\) is \(0.844\) with an
+\(\alpha=0.05\) confidence interval \([0.982,1.002]\)
+
+The point estimator of \(\delta\) using the Bayesian approach, the
+\(50\%\)-percentile, is \(0.993\) with a \(\alpha=0.05\) interval
+estimate \([0.982,0.998]\).
+
+The maximum likelihood estimator and its corresponding density plot and
+confidence interval is plotted in \emph{orange} and the Bayesian
+estimator is plotted \emph{blue}.
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+\fbox{
+\begin{minipage}{.8\textwidth}
+The clinical trial for the Moderna vaccine resulted in $n_I = 196$ cases of
+symptomatic infection, with $y_C = 185$ cases from the control group, and
+$y_V = 11$ cases from the vaccine group.
+Compute a Bayesian/likelihood interval estimate for the vaccine efficacy,
+$\operatorname{VE}$.
+\end{minipage}}
+
+The interval estimate is computed by the following R code.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# this program performs a Bayesian inference for vaccine efficacy}
+\CommentTok{\# enter the number of infections in the vaccine group}
+\CommentTok{\# and the number of infections in the control group}
+\NormalTok{v }\OtherTok{=} \DecValTok{11}
+\NormalTok{c }\OtherTok{=} \DecValTok{185}
+
+\CommentTok{\# define the beta distribution parameters}
+\NormalTok{a }\OtherTok{=}\NormalTok{ v}\SpecialCharTok{+}\DecValTok{1}
+\NormalTok{b }\OtherTok{=}\NormalTok{ c}\SpecialCharTok{+}\DecValTok{1}
+
+\CommentTok{\# simulate a very large number of draws from the posterior distribution on p=P(V|I)}
+\CommentTok{\# for each simulated p, compute the value for vaccine efficacy VE}
+\NormalTok{p }\OtherTok{=} \FunctionTok{rbeta}\NormalTok{(}\DecValTok{1000000}\NormalTok{,a,b)}
+\NormalTok{efficacy }\OtherTok{=} \DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p)}
+
+\CommentTok{\# create a plot of the posterior distribution on VE}
+\FunctionTok{hist}\NormalTok{(efficacy,}\AttributeTok{xlab=}\StringTok{"Efficacy"}\NormalTok{,}\AttributeTok{probability =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\FunctionTok{density}\NormalTok{(efficacy),}\AttributeTok{type =} \StringTok{\textquotesingle{}l\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{pt\_est }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(efficacy,}\FunctionTok{c}\NormalTok{(.}\DecValTok{5}\NormalTok{))}
+\FunctionTok{points}\NormalTok{(pt\_est,}\DecValTok{0}\NormalTok{,}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{,}\AttributeTok{pch=}\DecValTok{8}\NormalTok{)}
+
+\CommentTok{\# compute percentiles for a 95\% interval estimate}
+\NormalTok{interval\_est }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(efficacy,}\FunctionTok{c}\NormalTok{(.}\DecValTok{025}\NormalTok{,.}\DecValTok{975}\NormalTok{))}
+\FunctionTok{points}\NormalTok{(interval\_est,}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{,}\AttributeTok{pch=}\StringTok{"|"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hw5_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(pt\_est)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       50% 
+## 0.9371837
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(interval\_est)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      2.5%     97.5% 
+## 0.8916741 0.9670500
+\end{verbatim}
+
+We see that the density plot is not quite normal (e.g., non-symmetric).
+On the plot, we plotted the \(50\%\) in blue and the \(95\%\) interval
+estimate in red.
+
+\end{document}

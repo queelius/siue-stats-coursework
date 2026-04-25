@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Alex Towell (atowell@siue.edu)" />
+  <title>Discrete Multivariate Analysis - 579 - HW #10</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Discrete Multivariate Analysis - 579 - HW #10</h1>
+<p class="author">Alex Towell (<a
+href="mailto:atowell@siue.edu"><code>atowell@siue.edu</code></a>)</p>
+</header>
+<h1 id="supplemental-material">Supplemental material</h1>
+<p>We refactored the code for independence testing as a function that
+returns all relevant calculations given a matrix of cross-sectional
+data.</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p><span style="color: 0.56,0.35,0.01"><em># csdata is cross sectional
+data (observed counts) entered as an IxJ matrix.</em></span> <span
+style="color: 0.56,0.35,0.01"><em># tests for independence P(X,Y) =
+P(X)P(Y) using the X^2 statistic.</em></span> independence_test_X2 <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>function</strong></span>(csdata) {
+<span style="color: 0.56,0.35,0.01"><em># define the dimensions of the
+table</em></span> I <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>dim</strong></span>(csdata)[<span
+style="color: 0.00,0.00,0.81">1</span>] J <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>dim</strong></span>(csdata)[<span
+style="color: 0.00,0.00,0.81">2</span>]</p>
+<p><span style="color: 0.56,0.35,0.01"><em># compute the overall sample
+size, the row sample sizes, and the column sample sizes</em></span>
+total <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>sum</strong></span>(csdata)
+row.sum <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>apply</strong></span>(csdata,<span
+style="color: 0.00,0.00,0.81">1</span>,sum) col.sum <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>apply</strong></span>(csdata,<span
+style="color: 0.00,0.00,0.81">2</span>,sum)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># use matrix algebra to
+compute the table of expected cell counts</em></span> expected <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>matrix</strong></span>(row.sum)
+<span style="color: 0.81,0.36,0.00"><strong>%*%</strong></span> <span
+style="color: 0.13,0.29,0.53"><strong>t</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>matrix</strong></span>(col.sum))
+<span style="color: 0.81,0.36,0.00"><strong>/</strong></span> total
+<span
+style="color: 0.13,0.29,0.53"><strong>dimnames</strong></span>(expected)
+<span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>dimnames</strong></span>(csdata)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># compute the X^2 statistic,
+degrees of freedom, and p<span>-</span>value</em></span> X2 <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>sum</strong></span>((obs<span
+style="color: 0.81,0.36,0.00"><strong>-</strong></span>expected)<span
+style="color: 0.81,0.36,0.00"><strong>^</strong></span><span
+style="color: 0.00,0.00,0.81">2</span><span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span>expected) df
+<span style="color: 0.56,0.35,0.01">=</span> (I<span
+style="color: 0.00,0.00,0.81"><span>-</span>1</span>)<span
+style="color: 0.81,0.36,0.00"><strong>*</strong></span>(J<span
+style="color: 0.00,0.00,0.81"><span>-</span>1</span>) p.value.X2 <span
+style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>pchisq</strong></span>(X2,df,<span
+style="color: 0.13,0.29,0.53">lower.tail =</span> <span
+style="color: 0.56,0.35,0.01">FALSE</span>)</p>
+<p><span style="color: 0.56,0.35,0.01"><em># return computed values as a
+map</em></span> <span
+style="color: 0.13,0.29,0.53"><strong>list</strong></span>(<span
+style="color: 0.13,0.29,0.53">expected_counts =</span> expected, <span
+style="color: 0.13,0.29,0.53">estimate =</span> expected<span
+style="color: 0.81,0.36,0.00"><strong>/</strong></span><span
+style="color: 0.13,0.29,0.53"><strong>sum</strong></span>(obs), <span
+style="color: 0.13,0.29,0.53">X2 =</span> X2, <span
+style="color: 0.13,0.29,0.53">df =</span> df, <span
+style="color: 0.13,0.29,0.53">p.value =</span> p.value.X2) }</p>
+</div>
+</div>
+<p>We also refactored the code for independence testing under the
+assumption of a monotonic association (<span
+class="math inline">\(\gamma\)</span> correlation).</p>
+<div class="snugshade">
+
+</div>
+<h1 id="problem-1">Problem 1</h1>
+<p>The observed data is cross-sectional with a general model given by
+<span class="math display">\[\{n_{i j}\} \sim \operatorname{MULT}(n,
+\{\pi_{i j}\}).\]</span></p>
+<p>We consider a simpler model where <span
+class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span> are independent, i.e., <span
+class="math inline">\(\Pr(X,Y) = \Pr(X)\Pr(Y)\)</span>. Then, our task
+is to measure how compatible the observed data is to the null hypothesis
+<span class="math display">\[H_0 : \pi_{i j} =
+\pi_{i+}\pi_{+j}.\]</span> We prefer <span
+class="math inline">\(H_0\)</span> to a more general model that requires
+more parameters to estimate (and thus will have greater variance) and
+interpret.</p>
+<p>We perform a chi-square test for independence. The test statistic is
+given by <span class="math display">\[X^2 = \sum_{i=1}^{4} \frac{(n_{i
+j} - \hat{m}_{i j})^2}{\hat{m}_{i j}}\]</span> where <span
+class="math inline">\(\hat{m}_{i j} = n \hat{\pi}_{i j 0}\)</span> and
+<span class="math inline">\(\hat{\pi}_{i j 0} =
+\frac{n_{i+}n_{+j}}{n^2}\)</span>.</p>
+<p>Under the null model, <span class="math inline">\(X^2\)</span> is
+distributed <span class="math inline">\(\chi^2\)</span> with <span
+class="math inline">\(\rm{df} = 9\)</span> degrees of freedom.</p>
+<p>We compute the <span class="math inline">\(X^2\)</span> statistic and
+<span class="math inline">\(p\)</span>-value with the following R
+code:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>obs <span style="color: 0.56,0.35,0.01">=</span> <span
+style="color: 0.13,0.29,0.53"><strong>matrix</strong></span>(<span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.00,0.00,0.81">7</span>,<span
+style="color: 0.00,0.00,0.81">7</span>,<span
+style="color: 0.00,0.00,0.81">2</span>,<span
+style="color: 0.00,0.00,0.81">3</span>,<span
+style="color: 0.00,0.00,0.81">2</span>,<span
+style="color: 0.00,0.00,0.81">8</span>,<span
+style="color: 0.00,0.00,0.81">3</span>,<span
+style="color: 0.00,0.00,0.81">7</span>,<span
+style="color: 0.00,0.00,0.81">1</span>,<span
+style="color: 0.00,0.00,0.81">5</span>,<span
+style="color: 0.00,0.00,0.81">4</span>,<span
+style="color: 0.00,0.00,0.81">9</span>,<span
+style="color: 0.00,0.00,0.81">2</span>,<span
+style="color: 0.00,0.00,0.81">8</span>,<span
+style="color: 0.00,0.00,0.81">9</span>,<span
+style="color: 0.00,0.00,0.81">14</span>), <span
+style="color: 0.13,0.29,0.53">nrow=</span><span
+style="color: 0.00,0.00,0.81">4</span>, <span
+style="color: 0.13,0.29,0.53">byrow=</span><span
+style="color: 0.56,0.35,0.01">TRUE</span>) <span
+style="color: 0.13,0.29,0.53"><strong>colnames</strong></span>(obs)
+<span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>c</strong></span>(<span
+style="color: 0.31,0.60,0.02">"never/occassionally"</span>, <span
+style="color: 0.31,0.60,0.02">"fairly often"</span>, <span
+style="color: 0.31,0.60,0.02">"very often"</span>, <span
+style="color: 0.31,0.60,0.02">"almost always"</span>) <span
+style="color: 0.13,0.29,0.53"><strong>rownames</strong></span>(obs)
+<span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>colnames</strong></span>(obs)</p>
+<p><span
+style="color: 0.13,0.29,0.53"><strong>print</strong></span>(obs)</p>
+</div>
+</div>
+<pre><code>##                     never/occassionally fairly often very often almost always
+## never/occassionally                   7            7          2             3
+## fairly often                          2            8          3             7
+## very often                            1            5          4             9
+## almost always                         2            8          9            14</code></pre>
+<div class="snugshade">
+<div class="Highlighting">
+<p>x2_test <span style="color: 0.56,0.35,0.01">&lt;<span>-</span></span>
+<span
+style="color: 0.13,0.29,0.53"><strong>independence_test_X2</strong></span>(obs)</p>
+</div>
+</div>
+<p>The observed <span class="math inline">\(X_0^2\)</span> is 16.955 and
+the <span class="math inline">\(p\)</span>-value is 0.049. We consider
+this <span class="math inline">\(p\)</span>-value to be moderate
+evidence against the null model. Stated differently, the observed data
+is moderately incompatible with the independence model.</p>
+<p>For completeness, the estimates of <span class="math inline">\(\pi_{i
+j}\)</span> under the independence model (with no additional
+assumptions) for the given cross-sectional data is given by:</p>
+<div class="snugshade">
+
+</div>
+<pre><code>##                     never/occassionally fairly often very often almost always
+## never/occassionally               0.028        0.064      0.041         0.076
+## fairly often                      0.029        0.068      0.043         0.080
+## very often                        0.028        0.064      0.041         0.076
+## almost always                     0.048        0.112      0.072         0.132</code></pre>
+<h1 id="problem-2">Problem 2</h1>
+<p>The observed data is cross-sectional with a general model given by
+<span class="math display">\[\{n_{i j}\} \sim \operatorname{MULT}(n,
+\{\pi_{i j}\}).\]</span></p>
+<p>We consider a simpler model using <span
+class="math inline">\(\gamma\)</span>, <span class="math display">\[H_0
+: \gamma = 0,\]</span> i.e., <span class="math inline">\(\gamma\)</span>
+is zero if <span class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span> are independent.</p>
+<p>The test statistic is given by <span class="math display">\[Z^* =
+\frac{\hat\gamma-0}{\hat\sigma(\hat\gamma)},\]</span> which is normally
+distributed <span class="math inline">\(\mathcal{N}(0,1)\)</span> under
+the null model.</p>
+<p>We compute <span class="math inline">\(Z^*\)</span> and <span
+class="math inline">\(p\)</span>-value with the following R code:</p>
+<div class="snugshade">
+<div class="Highlighting">
+<p>gamma_test <span
+style="color: 0.56,0.35,0.01">&lt;<span>-</span></span> <span
+style="color: 0.13,0.29,0.53"><strong>independence_test_gamma</strong></span>(obs)</p>
+</div>
+</div>
+<p>The observed <span class="math inline">\(Z^*\)</span> is 3.207 and
+the <span class="math inline">\(p\)</span>-value is 0.001. We consider
+this <span class="math inline">\(p\)</span>-value to be very strong
+evidence against the null model. That is, the observed data provides
+very strong evidence against the independence model when testing for
+support of a monotonic association model.</p>
+<p>For completeness, the estimate for <span
+class="math inline">\(\gamma\)</span> is <span
+class="math inline">\(\hat\gamma=0.36\)</span>.</p>
+<h1 id="problem-3">Problem 3</h1>
+<p>Estimates from simpler models have smaller variances than for
+estimates from more complicated models.</p>
+</body>
+</html>

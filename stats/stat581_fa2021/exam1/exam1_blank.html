@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Alex Towell (atowell@siue.edu)" />
+  <title>STAT 581 - Exam 1: Due Dec 2, 2021</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">STAT 581 - Exam 1: Due Dec 2, 2021</h1>
+<p class="author">Alex Towell (<a
+href="mailto:atowell@siue.edu"><code>atowell@siue.edu</code></a>)</p>
+</header>
+<h1 id="problem-1">Problem 1</h1>
+<blockquote>
+<p>An experiment is conducted to study the effect of fitness level on
+ego strength. Random samples of college faculty members are selected
+from each fitness level, and an ego score is observed for each member in
+the sample. Higher values indicate greater ego. The data is provided as
+an attachment.</p>
+</blockquote>
+<h2 id="a">(a)</h2>
+<blockquote>
+<p>State the hypotheses of interest. Provide an interpretation, stated
+in the context of the problem.</p>
+</blockquote>
+<h2 id="b">(b)</h2>
+<blockquote>
+<p>Compute the <span class="math inline">\(t_0\)</span> statistic and
+the <span class="math inline">\(p\)</span>-value. Provide an
+interpretation, statedin the context of the problem.</p>
+</blockquote>
+<h2 id="c">(c)</h2>
+<blockquote>
+<p>Create a Boxplot as a graphical display of the data. Is it true that
+all high fitness faculty members have greater egos than low fitness
+faculty members?</p>
+</blockquote>
+<h2 id="d">(d)</h2>
+<blockquote>
+<p>Compute a 95% confidence interval for <span
+class="math inline">\(\delta = \mu_1 - \mu_2\)</span>. Provide an
+interpretation, stated in the context of the problem.</p>
+</blockquote>
+<h2 id="e">(e)</h2>
+<blockquote>
+<p>Explain how a confidence interval provides a complementary result to
+a hypothesis test.</p>
+</blockquote>
+<h2 id="f">(f)</h2>
+<blockquote>
+<p>Explain how a confidence interval can be used in testing <span
+class="math inline">\(H_0 : \mu_1 = \mu_2\)</span>.</p>
+</blockquote>
+<h1 id="problem-2">Problem 2</h1>
+<blockquote>
+<p>A completely randomized design is used to investigate the effect of
+drug dosage on the activity level of lab rats. Each dose level is
+applied to <span class="math inline">\(n=4\)</span> rats, and an
+activity score is observed for each rat in the sample. Higher values
+indicate greater activity. The data is provided as an attachment.</p>
+</blockquote>
+<h2 id="a-1">(a)</h2>
+<blockquote>
+<p>State the statistical hypotheses of interest. Briefly explain how the
+form of the alternative hypothesis requires a need for further
+investigation.</p>
+</blockquote>
+<h2 id="b-1">(b)</h2>
+<blockquote>
+<p>Compute the <span class="math inline">\(F_0\)</span> statistic and
+the p-value. Provide an interpretation, stated in the context of the
+problem. Create a Boxplot as a graphical display of the data.</p>
+</blockquote>
+<h2 id="c-1">(c)</h2>
+<blockquote>
+<p>Compute and display 95% confidence intervals for all pairwise
+comparisons. Explain how computing multiple intervals impacts the
+probability of committing an error.</p>
+</blockquote>
+<h2 id="d-1">(d)</h2>
+<blockquote>
+<p>Perform pairwise comparisons using the Fisher LSD method, and the
+Tukey method. Provide grouping information for each method. Comment on
+the seemingly contradictory nature of a pairwise comparisons
+analysis.</p>
+</blockquote>
+<h2 id="e-1">(e)</h2>
+<blockquote>
+<p>Describe the defining characteristics for each of the above pairwise
+comparison methods.</p>
+</blockquote>
+<h2 id="f-1">(f)</h2>
+<blockquote>
+<p>Compute the margin of error and comparison-wise error rate for the
+Tukey method in this problem.</p>
+</blockquote>
+<h2 id="g">(g)</h2>
+<blockquote>
+<p>Compute the margin of error and family-wise error rate for the Fisher
+LSD method in this problem.</p>
+</blockquote>
+<h1 id="problem-3">Problem 3</h1>
+<blockquote>
+<p>A factorial experiment is used to investigate the effect of pressure,
+temperature, and time on the yield from a chemical reaction. Two levels
+(<code>low</code>, <code>high</code>) of each factor are set and <span
+class="math inline">\(n=2\)</span> runs of a <span
+class="math inline">\(2^3\)</span> design are completed. The data is
+provided as an attachment.</p>
+</blockquote>
+<h2 id="a-2">(a)</h2>
+<blockquote>
+<p>Perform tests for all main effects and for all interaction effects.
+State the <span class="math inline">\(F\)</span>-statistic and <span
+class="math inline">\(p\)</span>-value for each test of an effect deemed
+to be important. Fit a reduced model with the main effects and the
+statistically significant interaction effect.</p>
+</blockquote>
+<h2 id="b-2">(b)</h2>
+<blockquote>
+<p>Provide a general definition of an interaction effect. Explain how an
+interaction plot is used in studying an interaction effect.</p>
+</blockquote>
+<h2 id="c-2">(c)</h2>
+<blockquote>
+<p>Create a plot for the interaction effect deemed important. Provide an
+interpretation, stated in the context of the problem.</p>
+</blockquote>
+<h2 id="d-2">(d)</h2>
+<blockquote>
+<p>Create a Boxplot showing the main effect for the remaining factor.
+Provide an interpretation, stated in the context of the problem.</p>
+</blockquote>
+<h2 id="e-2">(e)</h2>
+<blockquote>
+<p>Create a plot of the fitted values for the reduced model. Which
+setting of the factors should be used if the goal is to maximize
+yield?</p>
+</blockquote>
+<h2 id="f-2">(f)</h2>
+<blockquote>
+<p>Explain how the analysis is providing a simplification to the
+observed data.</p>
+</blockquote>
+<h1 id="problem-4">Problem 4</h1>
+<blockquote>
+<p>An experiment to compare a new drug to a standard is in the planning
+stages. The response variable of interest is the clotting time (in
+minutes) of blood drawn from the subject. The experimenters want to
+perform a two sample <span class="math inline">\(t\)</span> test at
+level <span class="math inline">\(\alpha = .05\)</span> with power <span
+class="math inline">\(\pi = .90\)</span> at <span
+class="math inline">\(\delta_A = 0.5\)</span>, for standard deviation
+<span class="math inline">\(\sigma = .7\)</span>.</p>
+</blockquote>
+<h2 id="a-3">(a)</h2>
+<blockquote>
+<p>Determine the sample size for each drug in order to achieve the
+stated test specifications.</p>
+</blockquote>
+<h2 id="b-3">(b)</h2>
+<blockquote>
+<p>Graph the power curve for the chosen sample size. Explain how the
+power curve displays the desired properties of the test.</p>
+</blockquote>
+<h2 id="c-3">(c)</h2>
+<blockquote>
+<p>Provide a general explanation of how A can be determined.</p>
+</blockquote>
+<h2 id="d-3">(d)</h2>
+<blockquote>
+<p>Briefly discuss some other issues that may provide additional insight
+to an experimental result beyond a finding of statistical
+significance.</p>
+</blockquote>
+<h2 id="e-3">(e)</h2>
+<blockquote>
+<p>Briefly comment on the additional information provided by the
+p-value, beyond a determination of statistical significance alone.</p>
+</blockquote>
+</body>
+</html>

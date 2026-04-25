@@ -1,0 +1,829 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{fbox}
+\usepackage{amsmath}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Computational Statistics - STAT 575 - HW \#2},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Computational Statistics - STAT 575 - HW \#2}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}} 
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\poi}{\operatorname{POI}}
+\newcommand{\argmax}{\operatorname{arg\,max}}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+Derive the E-M algorithm for right-censored normal data with known
+variance, say \(2 = 1\). Consider \(Y_i\)'s that are i.i.d. from a
+\(N(\theta, 1)\), \(i=1,2\ldots, n\). We observe \((x_1, \ldots, x_n)\)
+and \((\delta_1, \ldots, \delta_n)\), where \(x_i = \min(y_i,c)\), and
+\(\delta_i = I(y_i < c)\). Let \(C\) be the total number of censored
+(incomplete) observations. We denote the missing data as
+\(\{Z_i : \delta_i = 0\}\).
+
+\hypertarget{part-a}{%
+\subsection{Part (a)}\label{part-a}}
+
+\fbox{Derive the complete log-likelihood, $\operatorname{l}(\theta | Y)$.}
+
+The unobserved random variates \(\{Y_i\}\) are i.i.d. normally
+distributed, \[
+  Y_i \sim \operatorname{f_{Y_i}}(y | \theta)
+\] where \[
+  \operatorname{f_{Y_i}}(y | \theta) = (2 \pi)^{-\frac{1}{2}} \exp\left(-\frac{1}{2}(y - \theta)^2\right).
+\]
+
+The likelihood function is therefore \begin{align}
+  \operatorname{L}(\theta | \{y_i\})
+    &= \prod_{i=1}^{n} (2 \pi)^{-\frac{1}{2}} \exp\left(-\frac{1}{2}(y_i - \theta)^2\right)\\
+    &= (2 \pi)^{-\frac{n}{2}} \exp\left(-\sum_{i=1}^{n} \frac{1}{2}(y_i - \theta)^2\right).
+\end{align}
+
+Taking the logarithm of \(\operatorname{L}\), \begin{align}
+  \ell(\theta | \{y_i\})
+    &= \log \operatorname{L}(\theta | \{y_i\})\\
+    &= -\frac{n}{2} \log (2 \pi) - \frac{1}{2} \sum_{i=1}^{n} (y_i - \theta)^2\\
+    &= -\frac{n}{2} \log (2 \pi) - \frac{1}{2} \sum_{i=1}^{n} y_i^2 + \theta \sum_{i=1}^{n} y_i - \frac{n}{2} \theta^2.
+\end{align}
+
+Anticipating that we will be maximizing the complete log-likelihood with
+respect to \(\theta\), we put any terms that are not a function of
+\(\theta\) into \(k\), obtaining the result \[
+  \ell(\theta | \{y_i\}) = k + \theta \sum_{i=1}^{n} y_i - \frac{n}{2} \theta^2.
+\]
+
+\hypertarget{part-b}{%
+\subsection{Part (b)}\label{part-b}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Show the conditional expectation
+$$
+  \operatorname{E}(Y | x, \delta=1, \theta^{(t)}) = x
+$$
+and
+$$
+  \operatorname{E}(Y | x, \delta=0, \theta^{(t)}) = \operatorname{E}(Y | Y > x) = \theta^{(t)} + \frac{\phi(x-\mu)}{1 - \Phi(x-\mu)}
+$$
+where $\phi$ and $\Phi$ are pdf and cdf of standard normal.
+\end{minipage}}
+
+The distribution of \(Y\) given \(\delta = 1\), is uncensored and
+therefore it is given that \(Y\) realized the value \(x\). Since the
+expectation of a constant \(x\) is \(x\), that means
+\(\operatorname{E}(Y | Y = x) = x\).
+
+If \(\delta = 0\), \(Y\) is censored, i.e., \(Y > x\). To take its
+expectation, we first need to derive the conditional conditional
+distribution of \(Y\) given \(Y > x\) and \(\theta^{(t)}\).
+
+The probability \(\Pr(Y \leq y | Y > x)\) is given by \[
+  \Pr(Y \leq y | Y > x) = \Pr(x < Y \leq y) / \Pr(Y > x)
+\] which may be rewritten as \[
+  \Pr(Y \leq y | Y > x) = \frac{F_Y(y | \theta^{(t)}) - F_Y(x | \theta^{(t)})}{1 - F_Y(y | \theta^{(t)})}.
+\] where \(F_{Y|\theta^{(t)}}\) is the cdf of the normal distribution
+with \(\sigma=1\) and \(\mu=\theta^{(t)}\).
+
+We may rewrite \(F_{Y|\theta^{(t)}}\) in terms of the standard normal,
+\[
+  F_{Y}(y|\theta^{(t)}) = \Phi(y - \theta^{(t)}),
+\] and thus we may rewrite the conditional distribution of \(Y | Y > x\)
+as \[
+  \Pr(Y \leq y | Y > x) = \frac{\Phi(y - \theta^{(t)}) - \Phi(x - \theta^{(t)})}{1 - \Phi(x - \theta^{(t)})}
+\] and thus after further simplifying, we obtain the cdf of \(Y | x\),
+\[
+    F_{Y|x}(y|\theta^{(t)}) = 1 - \frac{1- \Phi(y - \theta^{(t)})}{1 - \Phi(x - \theta^{(t)})}
+\] which has a density given by \[
+    f_{Y}(y|x,\theta^{(t)}) = \frac{\phi(y - \theta^{(t)})}{1 - \Phi(x - \theta^{(t)})} I(y > x).
+\]
+
+The expectation of \(Y|(x,\theta^{(t)})\) is given by \begin{align}
+  \operatorname{E}(Y|x,\theta^{(t)})
+    &= \int_{x}^{\infty} y f_{Y}(y|x,\theta^{(t)}) dy\\
+    &= \int_{x}^{\infty} y \left(\frac{\phi(y - \theta^{(t)})}{1 - \Phi(x - \theta^{(t)})}\right) dy\\
+    &= \frac{1}{{1 - \Phi(x - \theta^{(t)})}}\int_{x}^{\infty} y \phi(y - \theta^{(t)}) dy.
+\end{align}
+
+Analytically, this is a tricky integration problem. Certainly, it would
+be trivial to numerically integrate this to obtain a solution, but we
+seek a closed-form solution.
+
+I searched online, and discovered an interesting way to tackle this
+integration problem.
+
+Let \(f\) and \(F\) respectively denote the pdf and cdf of the normally
+distributed \(Y\). Then, \[
+  \frac{df}{dy} = -(y - \theta) f(y)
+\] and \[
+  \int_{a}^{b} \frac{df}{dy} dy = f(b) - f(a).
+\]
+
+Then, \begin{align}
+  \operatorname{E}(Y|x,\theta^{(t)})
+    &= \frac{1}{1 - F(x)}\int_{x}^{\infty} y f(y) dy\\
+    &= -\frac{1}{1 - F(x)}\int_{x}^{\infty} - (y -\theta^{(t)}) f(y) dy + \frac{\theta^{(t)}}{1-F(x)}\int_{x}^{\infty} f(y) dy\\
+    &= -\frac{1}{1 - F(x)}\int_{x}^{\infty} \frac{df}{dy} dy + \frac{\theta^{(t)}}{1-F(x)} (1-F(x))\\
+    &= -\frac{1}{1 - F(x)}\left(f(\infty) - f(x)\right) + \theta^{(t)}\\
+    &= \frac{f(x)}{1 - F(x)} + \theta^{(t)}.
+\end{align}
+
+We may rewrite the last line as \[
+  \operatorname{E}(Y|x,\theta^{(t)}) = \theta^{(t)} + \frac{\phi(x-\theta^{(t)})}{1 - \Phi(x-\theta^{(t)})}.
+\]
+
+\hypertarget{part-c}{%
+\subsection{Part (c)}\label{part-c}}
+
+\fbox{Derive the $E$-step and $M$-step using parts (a) and (b). Give the updating equation.}
+
+\hypertarget{e-step}{%
+\subsubsection{\texorpdfstring{\(E\)-step}{E-step}}\label{e-step}}
+
+The \(E\)-step entails taking the conditional expectation of the
+complete log-likelihood function \(\ell(\theta | \{Y_i\})\) given the
+observed data \(\{x_i\}\) and \(\{\delta_i\}\).
+
+\begin{align}
+  Q(\theta | \theta^{(t)})
+    &= \operatorname{E}_{Y_i | x_i,\delta_i}(\ell(\theta | \{Y_i\})\\
+    &= \operatorname{E}_{Y_i | x_i,\delta_i}\left(k + \theta \sum_{i=1}^{n} Y_i - \frac{n}{2} \theta^2\right)\\
+    &= k - \frac{n}{2}\theta^2 + \theta \sum_{i=1}^{n} \operatorname{E}_{Y_i | x_i,\delta_i}(Y_i).
+\end{align}
+
+We have already solved the expectation of \(Y_i\) given \(x_i\) and
+\(\delta_i\). We rewrite \(Q\) by substituting
+\(\operatorname{E}(Y_i | x_i, \delta_i)\) with its previously found
+solution, \[
+  Q(\theta | \theta^{(t)}) = k - \frac{n}{2}\theta^2 + \theta \sum_{i=1}^{n} \delta_i x_i + (1-\delta_i) \left(\theta^{(t)} + \frac{\phi(x_i-\theta^{(t)})}{1 - \Phi(x_i-\theta^{(t)})}\right).
+\]
+
+Letting \(C = \sum_{i=1}^{n} (1 - \delta_i)\),
+\(R \coloneqq \sum_{i=1}^{n} \delta_i x_i\), and separating out all
+terms that are independent of \(\theta^{(t)}\), \[
+  Q(\theta | \theta^{(t)}) = k - \frac{n}{2}\theta^2 + C \theta \theta^{(t)} + R \theta
+    + \theta \sum_{i=1}^{n} \frac{(1-\delta_i)\phi(x_i-\theta^{(t)})}{1 - \Phi(x_i-\theta^{(t)})}.
+\]
+
+\hypertarget{m-step}{%
+\subsubsection{\texorpdfstring{\(M\)-step}{M-step}}\label{m-step}}
+
+We wish to solve \[
+  \theta^{(t+1)} = \operatorname{arg\,max}_{\theta} Q(\theta | \theta^{(t)}).
+\] by solving \[
+  \left. \frac{d Q(\theta | \theta^{(t)})}{d \theta} \right\vert_{\theta=\theta^{(t+1)}} = 0,
+\] which may be written as \[
+  -n\theta^{(t+1)} + C \theta^{(t)} + R + \sum_{i=1}^{n} \frac{(1-\delta_i)\phi(x_i-\theta^{(t)})}{1 - \Phi(x_i-\theta^{(t)})} = 0.
+\]
+
+Solving for \(\theta^{(t+1)}\) obtains the updating equation \[
+  \theta^{(t+1)} = \frac{R}{n} + \frac{C}{n} \theta^{(t)} + \frac{1}{n}\sum_{i=1}^{n}\frac{(1-\delta_i)\phi(x_i-\theta^{(t)})}{1 - \Phi(x_i-\theta^{(t)})}.
+\] where \[
+  R \coloneqq \sum_{i=1}^{n} \delta_i x_i
+\] and \[
+  C \coloneqq \sum_{i=1}^{n} (1-\delta_i).
+\]
+
+\hypertarget{part-d}{%
+\subsection{Part (d)}\label{part-d}}
+
+\fbox{%
+\begin{minipage}{.8\textwidth}
+Use your algorithm on the V.A. data to find the MLE of $\mu$.
+Take the log of the event times first and standardize by sample standard deviation.
+You may simply use the censored data sample mean as your starting value.
+\end{minipage}}
+
+In the following R code, we implement the updating equation derived in
+the previous step. We encapulsate the procedure into a function that
+takes its arguments in the form of a censored set, uncensorted set,
+starting value (\(\theta^{(1)}\)), and an \(\epsilon\) value to control
+stopping condition.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# assuming the uncensored and censored data are distributed normally,}
+\CommentTok{\# we use the EM algorithm to derive an estimator given censored and uncensored}
+\CommentTok{\# data.}
+\NormalTok{mean\_normal\_censored\_estimator\_em }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(uncensored,censored,theta,}\AttributeTok{eps=}\FloatTok{1e{-}6}\NormalTok{,}\AttributeTok{debug=}\NormalTok{T)}
+\NormalTok{\{}
+\NormalTok{  dev }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\FunctionTok{c}\NormalTok{(uncensored,censored)))}
+\NormalTok{  censored }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(censored) }\SpecialCharTok{/}\NormalTok{ dev}
+\NormalTok{  uncensored }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(uncensored) }\SpecialCharTok{/}\NormalTok{ dev}
+\NormalTok{  theta }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(theta) }\SpecialCharTok{/}\NormalTok{ dev}
+  
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(censored) }\SpecialCharTok{+} \FunctionTok{length}\NormalTok{(uncensored)}
+\NormalTok{  C }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(censored)}
+\NormalTok{  R }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(uncensored)}
+  
+\NormalTok{  s }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta)}
+\NormalTok{  \{}
+\NormalTok{    sum }\OtherTok{\textless{}{-}} \DecValTok{0}
+    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{C)}
+\NormalTok{    \{}
+\NormalTok{      num }\OtherTok{\textless{}{-}} \FunctionTok{dnorm}\NormalTok{(censored[i],}\AttributeTok{mean=}\NormalTok{theta,}\AttributeTok{sd=}\DecValTok{1}\NormalTok{)}
+\NormalTok{      denom }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(censored[i],}\AttributeTok{mean=}\NormalTok{theta,}\AttributeTok{sd=}\DecValTok{1}\NormalTok{)}
+\NormalTok{      sum }\OtherTok{\textless{}{-}}\NormalTok{ sum }\SpecialCharTok{+}\NormalTok{ (num }\SpecialCharTok{/}\NormalTok{ denom)}
+\NormalTok{    \}}
+\NormalTok{    sum}
+\NormalTok{  \}}
+  
+\NormalTok{  i }\OtherTok{\textless{}{-}} \DecValTok{1}
+  \ControlFlowTok{repeat}
+\NormalTok{  \{}
+\NormalTok{    theta.new }\OtherTok{\textless{}{-}}\NormalTok{ R}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{+}\NormalTok{ C}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{*}\NormalTok{ theta }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{n)}\SpecialCharTok{*}\FunctionTok{s}\NormalTok{(theta)}
+    \ControlFlowTok{if}\NormalTok{ (debug}\SpecialCharTok{==}\NormalTok{T) \{ }\FunctionTok{cat}\NormalTok{(}\StringTok{"theta["}\NormalTok{, i, }\StringTok{"] ="}\NormalTok{,theta,}\StringTok{", theta["}\NormalTok{, i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{, }\StringTok{"] ="}\NormalTok{,theta.new,}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) \}}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(theta.new }\SpecialCharTok{{-}}\NormalTok{ theta) }\SpecialCharTok{\textless{}}\NormalTok{ eps)}
+\NormalTok{    \{}
+\NormalTok{      theta }\OtherTok{\textless{}{-}}\NormalTok{ theta.new }\SpecialCharTok{*}\NormalTok{ dev}
+\NormalTok{      theta }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(theta)}
+      \FunctionTok{return}\NormalTok{(theta)}
+\NormalTok{    \}}
+\NormalTok{    i }\OtherTok{\textless{}{-}}\NormalTok{ i }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{    theta }\OtherTok{\textless{}{-}}\NormalTok{ theta.new}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We apply this procedure to the indicated data set.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MASS) }\CommentTok{\# has VA data}
+\NormalTok{VAs }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(VA,prior}\SpecialCharTok{==}\DecValTok{0}\NormalTok{)}
+\NormalTok{censored }\OtherTok{\textless{}{-}}\NormalTok{ VAs}\SpecialCharTok{$}\NormalTok{status }\SpecialCharTok{==} \DecValTok{0}
+\NormalTok{censored\_xs }\OtherTok{\textless{}{-}}\NormalTok{ VAs[censored,}\FunctionTok{c}\NormalTok{(}\StringTok{"stime"}\NormalTok{)]}
+\NormalTok{uncensored\_xs }\OtherTok{\textless{}{-}}\NormalTok{ VAs[}\SpecialCharTok{!}\NormalTok{censored,}\FunctionTok{c}\NormalTok{(}\StringTok{"stime"}\NormalTok{)]}
+
+\NormalTok{mu }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(uncensored\_xs)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"mean of the uncensored sample is "}\NormalTok{, mu, }\StringTok{"."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## mean of the uncensored sample is  112.1648 .
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sol }\OtherTok{\textless{}{-}} \FunctionTok{mean\_normal\_censored\_estimator\_em}\NormalTok{(uncensored\_xs,censored\_xs,mu)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## theta[ 1 ] = 3.857928 , theta[ 2 ] = 3.424258 
+## theta[ 2 ] = 3.424258 , theta[ 3 ] = 3.415443 
+## theta[ 3 ] = 3.415443 , theta[ 4 ] = 3.415286 
+## theta[ 4 ] = 3.415286 , theta[ 5 ] = 3.415283 
+## theta[ 5 ] = 3.415283 , theta[ 6 ] = 3.415283
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sol}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 65.2625
+\end{verbatim}
+
+We see that our estimate of \(\theta\) is \(\hat{\theta} = 65.2624985\).
+(The \(\theta\) before transforming it to the appropriate scale was
+\(3.415283\).)
+
+This mean is somewhat lower than anticipated, which makes me suspect
+something is wrong with my updating equation. If I have the time, I will
+revisit it.
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\hypertarget{part-a-1}{%
+\subsection{Part (a)}\label{part-a-1}}
+
+There are \(N=1500\) gay men in the survey sample where \(X_i\) denotes
+the \(i\)-th persons response to the number of risky sexual encounters
+he had in the previous \(30\) days. Thus, we observe a sample
+\(\vec{X} = (X_1,X_2,\ldots, X_N)\).
+
+We assume there are \(3\) groups in the population, denoted by \(z=1\),
+\(t=2\), and \(p=3\). Group \(1\) members report \(0\) risky sexual
+encounters regardless of the truth where the probability of being a
+member of group \(1\) is denoted by \(\alpha\),
+
+Group \(2\) members accurately report risky sexual encounters and
+represent typical behavior where the probability of being a member of
+group \(2\) is denoted by \(\beta\). We assume this group's number of
+sexual encounters follows a poisson with mean \(\mu\).
+
+Group \(3\) members accurately report risky sexual encounters and
+represent high-risk behavior where the probability of being a member of
+group \(3\) is \(\gamma = 1-\alpha-\beta\). We assume this group's
+number of sexual encounters follows a poisson with mean \(\lambda\).
+
+This represents a finite mixture model with a pdf \[
+  X_i \sim \operatorname{f}(x | \vec{\theta}) = \alpha I(x=0) +
+    \beta \operatorname{POI}(x | \mu) + (1-\alpha-\beta)\operatorname{POI}(x | \lambda)
+\] with a parameter vector \[
+  \vec{\theta} = (\alpha,\beta,\mu,\lambda)'.
+\]
+
+Let the uncertain group that the \(i\)-th person belongs to be denoted
+by \(Z_i\). If we observe group membership data, \(X_i | Z_i = z_i\),
+then \begin{align}
+  X_i | Z_i &= 1 \sim I(x=0),\\
+  X_i | Z_i &= 2 \sim \operatorname{POI}(\mu),\\
+  X_i | Z_i &= 3 \sim \operatorname{POI}(\lambda),
+\end{align} where \[
+  Z_i \sim f_{Z_i}(z_i | \vec{\theta}) = \Pr(Z_i=z_i) = 
+  \begin{cases}
+    \alpha                  & z_i = 1,\\
+    \beta                   & z_i = 2,\\
+    \gamma=1-\alpha-\beta   & z_i = 3,
+  \end{cases}
+\] and thus \[
+  \operatorname{f}_{X_i,Z_i}(x_i,z_i | \vec{\theta}) =
+    \alpha I(z_i = 1) + \beta \operatorname{POI}(\mu) I(z_i = 2) + (1-\alpha-\beta) \operatorname{POI}(\lambda) I(z_i=3).
+\]
+
+The \emph{complete} likelihood function is thus given by \[
+  \mathcal{L}(\vec{\theta} | \vec{X}, \vec{Z}) = \prod_{i=1}^{N} \operatorname{f}_{X_i,Z_i}(x_i,z_i | \vec{\theta}),
+\] which may be rewritten as \[
+  \mathcal{L}(\vec{\theta} | \vec{X}, \vec{Z}) =
+    \left(\prod_{\{i | z_i = 1\}} \alpha I(x_i=0)\right)
+    \left(\prod_{\{i | z_i = 2\}} \beta \frac{\mu^{x_i} e^{-\mu}}{x_i!}\right)
+    \left(\prod_{\{i | z_i = 3\}} \gamma \frac{\lambda^{x_i} e^{-\lambda}}{x_i!}\right).
+\]
+
+We wish to rewrite this so that the data is explicitly represented.
+First, we do the transformation \[
+  \mathcal{L}(\vec{\theta} | \vec{X}, \vec{Z}) =
+    \left(\prod_{\{i | z_i = 1, x_i = 0 \}} \alpha\right)
+    \prod_{k=0}^{16} \left(\prod_{\{i | z_i = 2, x_i = k\}} \beta \frac{\mu^{k} e^{-\mu}}{k!}\right)
+    \prod_{k=0}^{16} \left(\prod_{\{i | z_i = 3, x_i = k\}} \gamma \frac{\lambda^{k} e^{-\lambda}}{k!}\right).
+\]
+
+We let \(n_{a,b}\) denote the (unobserved) cardinality of
+\(\{i | z_i = a, x_i = b\}\), thus \[
+  \mathcal{L}(\vec{\theta} | \{n_{j,k}\}) =
+    \alpha^{n_{1,0}}
+    \prod_{k=0}^{16} \beta^{n_{2,k}} \frac{\mu^{k n_{2,k}} e^{-\mu n_{2,k}}}{(k!)^{n_{2,k}}}
+    \prod_{k=0}^{16} \gamma^{n_{3,k}} \frac{\lambda^{k n_{3,k}} e^{-\lambda n_{3,k}}}{(k!)^{n_{3,k}}}
+\] is the complete likelihood. The complete log-likelihood is thus \[
+  \ell(\vec{\theta} | \{n_{j,k}\}) =
+    n_{1,0} \log \alpha +
+    \sum_{k=0}^{16} \log \left(\beta^{n_{2,k}} \frac{\mu^{k n_{2,k}} e^{-\mu n_{2,k}}}{(k!)^{n_{2,k}}}\right) +
+    \sum_{k=0}^{16} \log \left(\gamma^{n_{3,k}} \frac{\lambda^{k n_{3,k}} e^{-\lambda n_{3,k}}}{(k!)^{n_{3,k}}}\right)
+\] which simplies to \begin{equation}
+\begin{split}
+  \ell(\vec{\theta} | \{n_{j,k}\}) =
+    n_{1,0} \log \alpha +
+    \sum_{k=0}^{16}
+      &n_{2,k}(\log \beta + k \log \mu - \mu - \log k!) + \\
+      &n_{3,k}(\log \gamma + k \log \lambda - \lambda - \log k!).
+\end{split}
+\end{equation}
+
+Anticipating taking \(\frac{d \ell}{d \vec{\theta}}\) to solve for the
+maximum of the log-likelihood, we remove any terms that are not a
+function of \(\vec{\theta}\), resulting in the kernel \[
+  \ell(\vec{\theta} | \{n_{j,k}\}) = n_{1,0} \log \alpha +
+    \sum_{k=0}^{16} \left\{ n_{2,k}(\log \beta + k \log \mu - \mu) + n_{3,k}(\log \gamma + k \log \lambda - \lambda) \right\}.
+\]
+
+\hypertarget{e-step-1}{%
+\subsubsection{E-step}\label{e-step-1}}
+
+The conditional expectation to solve in the EM algorithm is given by \[
+  Q(\vec{\theta} | \vec{\theta}^{(t)}) = \operatorname{E}(\ell(\vec{\theta}))
+\] where \(\{n_{k,j}\}\) are random and \(\{n_j\}\) and
+\(\vec{\theta}^{(t)}\) are given. We rewrite this as \[
+Q(\vec{\theta} | \vec{\theta}^{(t)}) = \operatorname{E}
+  \left(
+      n_{1,0} \log \alpha +
+      \sum_{k=0}^{16} \left\{
+        n_{2,k}(\log \beta + k \log \mu - \mu) +
+        n_{3,k}(\log \gamma + k \log \lambda - \lambda)
+        \right\}
+  \right).
+\]
+
+Using the linearity of expectations, we rewrite the above to \[
+Q(\vec{\theta} | \vec{\theta}^{(t)}) = \operatorname{E}(n_{1,0}) \log \alpha +
+  \sum_{k=0}^{16} \left\{
+    \operatorname{E}(n_{2,k})(\log \beta + k \log \mu - \mu) +
+    \operatorname{E}(n_{3,k})(\log \gamma + k \log \lambda - \lambda) \right\}
+\] given \(\{n_j\}\) and \(\theta^{(t)}\).
+
+Consider
+\(\operatorname{E}\!\left(n_{2,k} | \{n_j\}, \theta^{(t)}\right)\). To
+solve this expectation, we must first derive the distribution of
+\(n_{2,k}\).
+
+Suppose \(x_j = k\), then probability that the \(j\)-th person belongs
+to group \(2\) is given by \[
+  \Pr(Z_j = 2 | x_j = k) = \Pr(Z_j = 2) \Pr(x_j = k | Z_j = 2) / \Pr(x_j = k).
+\] We note that \(\Pr(x_j = k)\) is equivalent to
+\(\pi_k(\vec{\theta})\), \(\Pr(Z_j = 2)\) is the definition of
+\(\beta\), and \(\Pr(x_j = k | Z_j = 2)\) is
+\(\operatorname{f}_{X_j|Z_j}(k | Z_j=2) = \operatorname{POI}(k | \mu)\).
+
+Making the substitutions yields the result \[
+  t_k(\vec{\theta}) = \Pr(Z_j = 2 | x_j = k) = \beta \operatorname{POI}(k | \mu) / \pi_k(\vec{\theta}).
+\]
+
+Assuming \(\{X_i\}\) are i.i.d., observe that \(k \neq 0\), the
+distribution of \(n_{2,k}\) given \(n_k\), \(\theta^{(t)}\) is binomial
+distributed with a probability of success \(t_k(\vec{\theta}^{(t)})\).
+Thus, \[
+  \operatorname{E}(n_{2,k}) = n_k t_k(\vec{\theta}^{(t)}).
+\] The same logic holds for \(n_{3,k}\) and \(n_{1,0}\), and thus \[
+  \operatorname{E}(n_{3,k}) = n_k p_k(\vec{\theta}^{(t)})
+\] and \[
+  \operatorname{E}(n_{1,0}) = n_0 z_0(\vec{\theta}^{(t)}),
+\] which means \[
+Q(\vec{\theta} | \vec{\theta}^{(t)}) = n_0 z_0(\vec{\theta}^{(t)}) \log \alpha +
+  \sum_{k=0}^{16} \left\{
+    n_k t_k(\vec{\theta}^{(t)})(\log \beta + k \log \mu - \mu) +
+    n_k p_k(\vec{\theta}^{(t)})(\log \gamma + k \log \lambda - \lambda) \right\}
+\]
+
+\hypertarget{m-step-1}{%
+\subsubsection{M-step}\label{m-step-1}}
+
+We wish to solve \[
+  \vec{\theta}^{(t+1)} = \operatorname{arg\,max}_{\vec{\theta}} Q(\vec{\theta} | \vec{\theta}^{(t)}).
+\] by solving \[
+  \left. \nabla Q(\vec{\theta} | \vec{\theta}^{(t)}) \right\vert_{\vec{\theta}=\vec{\theta}^{(t+1)}} = \vec{0}.
+\]
+
+We use the Lagrangian to impose the restriction
+\(\alpha + \beta + \gamma = 1\), thus we seek to perform the constrained
+maximization of \[
+  Q_l(\vec{\theta},c | \vec{\theta}^{(t)}) = Q(\vec{\theta} | \vec{\theta}^{(t)}) + c(1-\alpha-\beta-\gamma).
+\]
+
+Thus, when we solve for \(\alpha\), \[
+  \frac{\partial Q_l}{\partial \alpha} = \frac{n_0 z_0(\theta^{(t)})}{\alpha} - c = 0,
+\] we get the result \[
+  \alpha^{(t+1)} = \frac{1}{c} n_0 z_0(\theta^{(t)}).
+\]
+
+Similar results hold for \(\beta\) and \(\gamma\), obtaining \[
+  \beta^{(t+1)} = \frac{1}{c} \sum_{k=0}^{16} n_k t_k(\theta^{(t)}).
+\] and \[
+  \gamma^{(t+1)} = \frac{1}{c} \sum_{k=0}^{16} n_k p_k(\theta^{(t)}).
+\]
+
+This does not look too promising until we realize that \[
+  n_0 z_0(\theta^{(t)}) + \sum_{k=0}^{16} n_k t_k(\theta^{(t)}) + \sum_{k=0}^{16} n_k p_k(\theta^{(t)}) = N.
+\]
+
+Thus, \(c (\alpha^{(t)}+\beta^{(t)}+\gamma^{(t)}) = N\), which means
+\(c = N\) since \(\alpha^{(t)}+\beta^{(t)}+\gamma^{(t)} = 1\). Making
+this substitution obtains the result \begin{align}
+  \alpha^{(t+1)}    &= \frac{1}{N} n_0 z_0(\theta^{(t)})\\
+  \beta^{(t+1)}     &= \frac{1}{N} \sum_{k=0}^{16} n_k t_k(\theta^{(t)})\\
+  \gamma^{(t+1)}    &= \frac{1}{N} \sum_{k=0}^{16} n_k p_k(\theta^{(t)}).
+\end{align}
+
+Solving an estimator for \(\mu\) at iteration \((t+1)\), \begin{align}
+  \left. \frac{\partial Q_l}{\partial \mu} \right\vert_{\mu=\mu^{(t+1}} &= 0\\
+  \sum_{k=0}^{16} n_k t_k(\theta^{(t)})(k/\mu^{(t+1)}-1)           &= 0\\
+  \frac{1}{\mu^{(t+1)}} \sum_{k=0}^{16} n_k t_k(\theta^{(t)}) k    &= \sum_{k=0}^{16} n_k t_k(\theta^{(t)})\\
+  \mu^{(t+1)} &= \frac{\sum_{k=0}^{16} k n_k t_k(\theta^{(t)})}{\sum_{k=0}^{16} n_k t_k(\theta^{(t)})}.
+\end{align}
+
+The same derivation essentially follows for \(\lambda\), and thus \[
+  \lambda^{(t+1)} = \frac{\sum_{k=0}^{16} k n_k p_k(\theta^{(t)})}{\sum_{k=0}^{16} n_k p_k(\theta^{(t)})}.
+\]
+
+\hypertarget{part-b-1}{%
+\subsection{Part (b)}\label{part-b-1}}
+
+\fbox{Estimate the parameters of the model, using the observed data.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# we observe n = (n0,n1,...,n16)}
+\NormalTok{ns }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{379}\NormalTok{,}\DecValTok{299}\NormalTok{,}\DecValTok{222}\NormalTok{,}\DecValTok{145}\NormalTok{,}\DecValTok{109}\NormalTok{,}\DecValTok{95}\NormalTok{,}\DecValTok{73}\NormalTok{,}\DecValTok{59}\NormalTok{,}\DecValTok{45}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{24}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\NormalTok{N }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(ns)}
+
+\CommentTok{\# theta := (alpha, beta, mu, lambda)\textquotesingle{}}
+\CommentTok{\# note that there is an implicit parameter gamma s.t.}
+\CommentTok{\# alpha + beta + gamma = 1}
+\CommentTok{\# the initial value assumes each category z, t, or p}
+\CommentTok{\# is equally probable, and so we let}
+\CommentTok{\#     (alpha\^{}(0),beta\^{}(0)) = (1/3,1/3)}
+\CommentTok{\# and mu\^{}(0) and lambda\^{}(0) are just arbitrarily chosen to be 2 and 3,}
+\CommentTok{\# with the insight that group 3 is more risky than group 2.}
+\NormalTok{theta }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{,}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)}
+
+\CommentTok{\# theta := (alpha, beta, mu, lambda)}
+\NormalTok{Pi }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(i,theta)}
+\NormalTok{\{}
+\NormalTok{  res }\OtherTok{\textless{}{-}} \DecValTok{0}
+  \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)}
+\NormalTok{    res }\OtherTok{\textless{}{-}}\NormalTok{ theta[}\DecValTok{1}\NormalTok{]}
+  
+\NormalTok{  res }\OtherTok{\textless{}{-}}\NormalTok{ res }\SpecialCharTok{+}\NormalTok{ theta[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ theta[}\DecValTok{3}\NormalTok{]}\SpecialCharTok{\^{}}\NormalTok{i }\SpecialCharTok{*} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{theta[}\DecValTok{3}\NormalTok{])}
+\NormalTok{  res }\OtherTok{\textless{}{-}}\NormalTok{ res }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ theta[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ theta[}\DecValTok{2}\NormalTok{]) }\SpecialCharTok{*}\NormalTok{ theta[}\DecValTok{4}\NormalTok{]}\SpecialCharTok{\^{}}\NormalTok{i }\SpecialCharTok{*} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{theta[}\DecValTok{4}\NormalTok{])}
+\NormalTok{  res}
+\NormalTok{\}}
+
+\NormalTok{z0 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta)}
+\NormalTok{\{}
+\NormalTok{  theta[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{/} \FunctionTok{Pi}\NormalTok{(}\DecValTok{0}\NormalTok{,theta)}
+\NormalTok{\}}
+
+\NormalTok{t }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(i,theta)}
+\NormalTok{\{}
+\NormalTok{  theta[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ theta[}\DecValTok{3}\NormalTok{]}\SpecialCharTok{\^{}}\NormalTok{i }\SpecialCharTok{*} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{theta[}\DecValTok{3}\NormalTok{]) }\SpecialCharTok{/} \FunctionTok{Pi}\NormalTok{(i,theta)}
+\NormalTok{\}}
+
+\NormalTok{p }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(i,theta)}
+\NormalTok{\{}
+\NormalTok{  (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{theta[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ theta[}\DecValTok{2}\NormalTok{]) }\SpecialCharTok{*}\NormalTok{ theta[}\DecValTok{4}\NormalTok{]}\SpecialCharTok{\^{}}\NormalTok{i }\SpecialCharTok{*} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{theta[}\DecValTok{4}\NormalTok{]) }\SpecialCharTok{/} \FunctionTok{Pi}\NormalTok{(i,theta)}
+\NormalTok{\}}
+
+\CommentTok{\# update algorithm, based on EM algorithm}
+\NormalTok{update }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta,ns)}
+\NormalTok{\{}
+  \CommentTok{\# note: n0 := ns[1] instead of ns[0] since R does not use zero{-}based indexes}
+\NormalTok{  alpha }\OtherTok{\textless{}{-}}\NormalTok{ ns[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*} \FunctionTok{z0}\NormalTok{(theta) }\SpecialCharTok{/}\NormalTok{ N}
+\NormalTok{  beta }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{  mu\_num }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{  mu\_denom }\OtherTok{\textless{}{-}} \DecValTok{0}
+  
+\NormalTok{  lam\_num }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{  lam\_denom }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{0}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)}
+\NormalTok{  \{}
+\NormalTok{    ti }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(i,theta)}
+\NormalTok{    pi }\OtherTok{\textless{}{-}} \FunctionTok{p}\NormalTok{(i,theta)}
+    
+\NormalTok{    beta }\OtherTok{\textless{}{-}}\NormalTok{ beta }\SpecialCharTok{+}\NormalTok{ ns[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ ti}
+    
+\NormalTok{    mu\_num }\OtherTok{\textless{}{-}}\NormalTok{ mu\_num }\SpecialCharTok{+}\NormalTok{ i }\SpecialCharTok{*}\NormalTok{ ns[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ ti}
+\NormalTok{    mu\_denom }\OtherTok{\textless{}{-}}\NormalTok{ mu\_denom }\SpecialCharTok{+}\NormalTok{ ns[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ ti}
+    
+\NormalTok{    lam\_num }\OtherTok{\textless{}{-}}\NormalTok{ lam\_num }\SpecialCharTok{+}\NormalTok{ i }\SpecialCharTok{*}\NormalTok{ ns[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ pi}
+\NormalTok{    lam\_denom }\OtherTok{\textless{}{-}}\NormalTok{ lam\_denom }\SpecialCharTok{+}\NormalTok{ ns[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ pi}
+\NormalTok{  \}}
+  
+\NormalTok{  beta }\OtherTok{\textless{}{-}}\NormalTok{ beta }\SpecialCharTok{/}\NormalTok{ N}
+\NormalTok{  mu }\OtherTok{\textless{}{-}}\NormalTok{ mu\_num }\SpecialCharTok{/}\NormalTok{ mu\_denom}
+\NormalTok{  lam }\OtherTok{\textless{}{-}}\NormalTok{ lam\_num }\SpecialCharTok{/}\NormalTok{ lam\_denom}
+  
+  \FunctionTok{c}\NormalTok{(alpha,beta,mu,lam)}
+\NormalTok{\}}
+
+\NormalTok{em }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta,ns,}\AttributeTok{steps=}\DecValTok{10000}\NormalTok{,}\AttributeTok{debug=}\NormalTok{T)}
+\NormalTok{\{}
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{steps)}
+\NormalTok{  \{}
+\NormalTok{    theta }\OtherTok{=} \FunctionTok{update}\NormalTok{(theta,ns)}
+    \ControlFlowTok{if}\NormalTok{ (debug}\SpecialCharTok{==}\NormalTok{T)}
+\NormalTok{    \{}
+      \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{\%\%} \DecValTok{1000} \SpecialCharTok{==} \DecValTok{0}\NormalTok{) \{ }\FunctionTok{cat}\NormalTok{(}\StringTok{"iteration ="}\NormalTok{,i,}\StringTok{" theta = ("}\NormalTok{,theta,}\StringTok{")\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) \}}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{  theta}
+\NormalTok{\}}
+
+\CommentTok{\# solution theta = (alpha, beta, mu, lambda)}
+\NormalTok{sol }\OtherTok{\textless{}{-}} \FunctionTok{em}\NormalTok{(theta,ns,}\DecValTok{10000}\NormalTok{,T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## iteration = 1000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 2000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 3000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 4000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 5000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 6000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 7000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 8000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 9000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+## iteration = 10000  theta = ( 0.1221661 0.5625419 1.467475 5.938889 )'
+\end{verbatim}
+
+We see that the solution is
+\(0.1221661, 0.5625419, 1.4674746, 5.9388889\).
+
+\hypertarget{part-c-1}{%
+\subsection{Part (c)}\label{part-c-1}}
+
+\fbox{Estimate the standard errors and pairwise correlations of your parameters,
+using any available method.}
+
+We have chosen to use the Bootstrap method.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ns = (379,299,222,145,109,95,73,59,45,30,24,12,4,2,0,1,1)}
+\CommentTok{\# 379 responded 0 encounters}
+\CommentTok{\# 299 responded 1 encounters}
+\CommentTok{\# 222 responded 2 encounters}
+\CommentTok{\# ...}
+\CommentTok{\# 1 responded 16 encounters}
+\CommentTok{\#}
+\CommentTok{\# to resample, we resample from the data set that includes each}
+\CommentTok{\# persons response, as determined by ns.}
+\NormalTok{data }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(ns))}
+\NormalTok{\{}
+\NormalTok{  data }\OtherTok{\textless{}{-}} \FunctionTok{append}\NormalTok{(data,}\FunctionTok{rep}\NormalTok{((i}\DecValTok{{-}1}\NormalTok{),ns[i]))}
+\NormalTok{\}}
+
+\NormalTok{make\_into\_counts }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data)}
+\NormalTok{\{}
+\NormalTok{  ns }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{0}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)}
+\NormalTok{  \{}
+\NormalTok{    ni }\OtherTok{\textless{}{-}}\NormalTok{ data[data }\SpecialCharTok{==}\NormalTok{ i]}
+\NormalTok{    l }\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(ni)}
+\NormalTok{    ns }\OtherTok{\textless{}{-}} \FunctionTok{append}\NormalTok{(ns,l)}
+\NormalTok{  \}}
+\NormalTok{  ns}
+\NormalTok{\}}
+
+\NormalTok{m }\OtherTok{\textless{}{-}} \DecValTok{1000} \CommentTok{\# bootstrap replicates}
+\NormalTok{steps }\OtherTok{\textless{}{-}} \DecValTok{500}
+\NormalTok{theta.bs }\OtherTok{\textless{}{-}} \FunctionTok{em}\NormalTok{(theta,ns,steps,F)}
+\NormalTok{thetas }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(theta.bs)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{m)}
+\NormalTok{\{}
+\NormalTok{  indices }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(N,N,}\AttributeTok{replace=}\NormalTok{T)}
+\NormalTok{  resampled }\OtherTok{\textless{}{-}} \FunctionTok{make\_into\_counts}\NormalTok{(data[indices])}
+\NormalTok{  theta.bs }\OtherTok{\textless{}{-}} \FunctionTok{em}\NormalTok{(theta,resampled,steps,F)}
+\NormalTok{  thetas }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(thetas,theta.bs)}
+  \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{\%\%} \DecValTok{100} \SpecialCharTok{==} \DecValTok{0}\NormalTok{) \{ }\FunctionTok{cat}\NormalTok{(}\StringTok{"iteration"}\NormalTok{, i, }\StringTok{": "}\NormalTok{, theta.bs, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## iteration 100 :  0.1202674 0.5681112 1.519115 6.09385 
+## iteration 200 :  0.1345963 0.5588609 1.588654 6.207387 
+## iteration 300 :  0.09952392 0.565353 1.369021 5.52042 
+## iteration 400 :  0.1204714 0.5681574 1.45573 5.723874 
+## iteration 500 :  0.1240077 0.5468764 1.502662 5.83856 
+## iteration 600 :  0.1116724 0.5736862 1.60266 5.962054 
+## iteration 700 :  0.1161729 0.5769302 1.486408 6.129461 
+## iteration 800 :  0.1244822 0.575823 1.481806 6.09534 
+## iteration 900 :  0.08395545 0.5999121 1.401224 5.801542 
+## iteration 1000 :  0.1248928 0.5640767 1.444692 6.022184
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cov.bs }\OtherTok{\textless{}{-}} \FunctionTok{cov}\NormalTok{(thetas)}
+\NormalTok{cor.bs }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(thetas)}
+\end{Highlighting}
+\end{Shaded}
+
+The Bootstrap estimator of the covariance matrix is given by
+
+\begin{verbatim}
+##               [,1]          [,2]         [,3]        [,4]
+## [1,]  0.0004284232 -0.0002202565  0.001656424 0.001417201
+## [2,] -0.0002202565  0.0004590897 -0.000108595 0.001307151
+## [3,]  0.0016564240 -0.0001085950  0.012243409 0.012747923
+## [4,]  0.0014172014  0.0013071507  0.012747923 0.036646178
+\end{verbatim}
+
+and the correlation matrix is given by
+
+\begin{verbatim}
+##            [,1]        [,2]        [,3]      [,4]
+## [1,]  1.0000000 -0.49664198  0.72324230 0.3576685
+## [2,] -0.4966420  1.00000000 -0.04580467 0.3186857
+## [3,]  0.7232423 -0.04580467  1.00000000 0.6018301
+## [4,]  0.3576685  0.31868567  0.60183012 1.0000000
+\end{verbatim}
+
+\end{document}

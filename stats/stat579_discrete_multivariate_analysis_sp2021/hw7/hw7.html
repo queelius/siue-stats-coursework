@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Alex Towell (atowell@siue.edu)" />
+  <title>Discrete Multivariate Analysis - 579 - HW #7</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Discrete Multivariate Analysis - 579 - HW #7</h1>
+<p class="author">Alex Towell (<a
+href="mailto:atowell@siue.edu"><code>atowell@siue.edu</code></a>)</p>
+</header>
+<h1 id="problem-1">Problem 1</h1>
+<p>Consider an experiment on chlorophyll inheritance in maize. A genetic
+theory predicts the ratio of green to yellow to be 3:1. In a sample of
+<span class="math inline">\(n = 1103\)</span> seedlings, <span
+class="math inline">\(n_1 = 854\)</span> were green and <span
+class="math inline">\(n_2 = 249\)</span> were yellow.</p>
+<h2 id="part-a">Part (a)</h2>
+<p>The statistic is defined as <span class="math display">\[X^2 =
+\sum_{j=1}^{c} \frac{(n_j - n \pi_{j 0})^2}{n \pi_{j 0}}.\]</span></p>
+<p>Under the null model, the odds are 3:1, or <span
+class="math inline">\(\pi_{1 0} = 0.75\)</span> and <span
+class="math inline">\(\pi_{1 1} = 0.25\)</span>. We are given <span
+class="math inline">\(n = 1103\)</span>, <span class="math inline">\(n_1
+= 854\)</span>, and <span class="math inline">\(n_2 = 249\)</span>.
+Under the null model, these values have expectations given respectively
+by <span class="math inline">\(n \pi_{1 0} = 827.25\)</span> and <span
+class="math inline">\(275.75\)</span>.</p>
+<p>The observed statistic is thus given by <span
+class="math display">\[X_0^2 = \frac{(854 - 827.25)^2}{827.25} +
+\frac{(249 - 275.75)^2}{275.75} = 3.46.\]</span></p>
+<h2 id="part-b">Part (b)</h2>
+<p>The reference distribution is the chi-squared distribution with <span
+class="math inline">\(1\)</span> degree of freedom, denoted by <span
+class="math inline">\(\chi^2(1)\)</span>.</p>
+<p>The upper 10th percentile given <span
+class="math inline">\(1\)</span> degree of freedom, denoted by <span
+class="math inline">\(\chi_{0.10}^2(1)\)</span>, is found by solving for
+<span class="math inline">\(\chi_{0.10}^2(1)\)</span> in the equation
+<span class="math inline">\(\Pr(\chi^2(1) \geq \chi_{0.10}^2(1)) =
+1-0.10 = 0.9\)</span>, which yields the result <span
+class="math display">\[\chi_{0.10}^2(1) = 2.71.\]</span></p>
+<h2 id="part-c">Part (c)</h2>
+<p>We see that any observed statistic <span
+class="math inline">\(X_0^2\)</span> with <span
+class="math inline">\(\rm{df}=1\)</span> greater than <span
+class="math inline">\(\chi^2_{0.10}(1) = 2.71\)</span> is not compatible
+with the null model at significance level <span
+class="math inline">\(\alpha = 0.10\)</span>.</p>
+<p>Since the observed statistic <span class="math inline">\(X_0^2 = 3.46
+&gt; 2.71\)</span>, the null model, which is the genetic theory where
+the ratio of green to yellow is 3:1, is not compatible with the
+data.</p>
+<h2 id="part-d">Part (d)</h2>
+<p>Hypothesis testing, as a dichotomous measure of evidence, does not
+provide as much information as a more quantitative evidence measure. For
+instance, it does not provide information about <em>effect
+size</em>.</p>
+<h1 id="problem-2">Problem 2</h1>
+<h2 id="part-a-1">Part (a)</h2>
+<p>The MLE of <span class="math inline">\(\pi_1\)</span> is given by
+<span class="math inline">\(\hat{\pi}_1 = \frac{n_1}{n} =
+\frac{854}{1103} = 0.774\)</span>. Letting <span
+class="math inline">\(\alpha = 0.10\)</span> and inverting the Wald test
+statistic, we get the <span class="math inline">\(90\%\)</span>
+confidence interval for <span class="math inline">\(\pi_1\)</span>,
+<span class="math display">\[\hat{\pi}_1 \pm z_{1-alpha/2}
+\sigma_{\hat\pi} = 0.744 \pm 1.645
+\sqrt{\frac{0.774(1-0.774)}{1103}},\]</span> which may be rewritten as
+<span class="math display">\[[0.754, 0.795].\]</span></p>
+<h2 id="part-b-1">Part (b)</h2>
+<p>Based on the observed data, we estimate that the probability <span
+class="math inline">\(\pi_1\)</span> of a green strain is between <span
+class="math inline">\(0.754\)</span> and <span
+class="math inline">\(0.795\)</span>.</p>
+<p>As expected, the null model specifies a value for <span
+class="math inline">\(\pi_1\)</span> (<span
+class="math inline">\(0.75\)</span>) that is not contained in this
+confidence interval.</p>
+</body>
+</html>

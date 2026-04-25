@@ -1,0 +1,326 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1cm]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{enumerate}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Regression Analysis - STAT 482 - Exam 2: Due Dec 14, 2021},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Regression Analysis - STAT 482 - Exam 2: Due Dec 14, 2021}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\param}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\ci}{\operatorname{CI}}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\begin{quote}
+A beer distributor is interested in the amount of time to service its
+retail outlets. Two factors are thought to influence the delivery time
+(\(y\)) in minutes: the number of cases delivered (\(x_1\)) and the
+distance traveled (\(x_2\)) in miles. A random sample of delivery time
+data has been collected. The data is available on Blackboard as a csv
+file.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a}{%
+\subsection{(a)}\label{a}}
+
+\begin{quote}
+Provide an interpretation of a regression coefficient in a multiple
+regression model.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b}{%
+\subsection{(b)}\label{b}}
+
+\begin{quote}
+Compute \(b_1,b_2\), the estimated the regression coefficients for the
+delivery time data.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c}{%
+\subsection{(c)}\label{c}}
+
+\begin{quote}
+Compute \(t\) statistics for testing the effect of each input variable.
+Explain what type of effect is being tested here.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{d}{%
+\subsection{(d)}\label{d}}
+
+\begin{quote}
+Compute \(\sos{R}(X_1)\) and \(\sos{R}(X_2|X_1)\). Explain what each sum
+of squares represents.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{e}{%
+\subsection{(e)}\label{e}}
+
+\begin{quote}
+Test for a marginal effect of \(x_2\) against a model which includes no
+other input variables. (Compute the test statistic and \(p\)-value.)
+Provide an interpretation of the result, stated in the context of the
+problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{f}{%
+\subsection{(f)}\label{f}}
+
+\begin{quote}
+Test for a partial effect of \(x_2\) against a model which includes
+\(x_1\). (Compute the test statistic and \(p\)-value.) Provide an
+interpretation of the result, stated in the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{g}{%
+\subsection{(g)}\label{g}}
+
+\begin{quote}
+Compute the correlation matrix. What feature of multidimensional
+modeling is illustrated in this problem?
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\begin{quote}
+A bakery is interested in the best formulation for a new product. A
+small-scale experiment is conducted to investigate the relationship
+between the product satisfaction (\(y\)), and the moisture content
+(input 1) and sweetness (input 2) of the product. The input variables
+have been coded \((x_1,x_2)\) for ease of calculation. The data is
+available on Blackboard as a csv file.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a-1}{%
+\subsection{(a)}\label{a-1}}
+
+\begin{quote}
+Provide a definition for an orthogonal design. Discuss an advantage to
+using an orthogonal design.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b-1}{%
+\subsection{(b)}\label{b-1}}
+
+\begin{quote}
+Provide a definition for an interaction effect.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c-1}{%
+\subsection{(c)}\label{c-1}}
+
+\begin{quote}
+Fit an interaction model using the coded variables. Compute the
+regression coefficient estimates and their standard errors.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{d-1}{%
+\subsection{(d)}\label{d-1}}
+
+\begin{quote}
+Write the estimated regression as a function of \(x_1\) for
+\(x_2 = 1,0,-1\).
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{e-1}{%
+\subsection{(e)}\label{e-1}}
+
+\begin{quote}
+Create interaction plots for both the interaction model and the additive
+effects model.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{f-1}{%
+\subsection{(f)}\label{f-1}}
+
+\begin{quote}
+Test for an interaction effect. (Compute the test statistic and
+\(p\)-value.)
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+\begin{quote}
+An engineer is interested in comparing three chemical processes
+(categorical input with groups \(A\),\(B\),\(C\)) for manufacturing a
+compound. It is suspected that the impurity (continuous input \(x\)) of
+the raw material will affect the yield (response variable \(y\)) of the
+product. The data is available on Blackboard as a csv file.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a-2}{%
+\subsection{(a)}\label{a-2}}
+
+\begin{quote}
+Define indicator variables \(I_1\) and \(I_2\) using chemical process
+\(C\) as the baseline level.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b-2}{%
+\subsection{(b)}\label{b-2}}
+
+\begin{quote}
+Write an additive model for response \(y\) using continuous input
+variable \(x\) and indicator variables \(I_1\), \(I_2\).
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c-2}{%
+\subsection{(c)}\label{c-2}}
+
+\begin{quote}
+Write a regression function for each of the chemical processes.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{d-2}{%
+\subsection{(d)}\label{d-2}}
+
+\begin{quote}
+Provide an interpretation for each effect parameter, stated in the
+context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{e-2}{%
+\subsection{(e)}\label{e-2}}
+
+\begin{quote}
+Compute interval estimates for each of the effect parameters.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{f-2}{%
+\subsection{(f)}\label{f-2}}
+
+\begin{quote}
+Create a scatterplot of the data with the estimated regression lines.
+\end{quote}
+
+\end{document}

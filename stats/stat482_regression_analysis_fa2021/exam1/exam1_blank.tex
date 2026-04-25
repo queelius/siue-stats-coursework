@@ -1,0 +1,308 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1cm]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{enumerate}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Regression Analysis - STAT 482 - Exam 1: Due December 2, 2021},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Regression Analysis - STAT 482 - Exam 1: Due December 2, 2021}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\sos}[1]{\mathrm{SS_{#1}}}
+\newcommand{\ms}[1]{\mathrm{MS_{#1}}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{cor}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+\newcommand{\degf}[1]{\mathrm{df_{#1}}}
+\newcommand{\entropy}{\operatorname{H}}
+\newcommand{\param}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\ci}{\operatorname{CI}}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\begin{quote}
+Experience with a certain type of plastic indicates that a relationship
+exists between the hardness (measured in Brinell units) of items molded
+from the plastic (response variable \(y\) ) and the elapsed time
+(measured in hours) since the termination of the molding process (input
+variable \(x\)). Sixteen batches of the plastic were made, and from each
+batch one test item was molded. Each test item was randomly assigned to
+one of the four predetermined time levels. The data is available on
+Blackboard as a csv file.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a}{%
+\subsection{(a)}\label{a}}
+
+\begin{quote}
+State the simple linear regression model.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b}{%
+\subsection{(b)}\label{b}}
+
+\begin{quote}
+Provide an interpretation for the regression parameter
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c}{%
+\subsection{(c)}\label{c}}
+
+\begin{quote}
+Compute an interval estimate for \(\beta_1\), stated in the context of
+the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{d}{%
+\subsection{(d)}\label{d}}
+
+\begin{quote}
+Compute a confidence interval for \(h\) at \(x_h = 40\) hours.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{e}{%
+\subsection{(e)}\label{e}}
+
+\begin{quote}
+Compute a prediction interval for \(Y_{h(\text{new})}\) at \(x_h = 40\)
+hours.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{f}{%
+\subsection{(f)}\label{f}}
+
+\begin{quote}
+Explain the di¤erence between a confidence interval and a prediction
+interval, stated in the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{g}{%
+\subsection{(g)}\label{g}}
+
+\begin{quote}
+State the equations for \(E(\ms{R})\) and \(\ms{E}\).
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{h}{%
+\subsection{(h)}\label{h}}
+
+\begin{quote}
+Use part (g) to explain a motivation behind the F test for input
+effects.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{i}{%
+\subsection{(i)}\label{i}}
+
+\begin{quote}
+Compute the \(F^*\) statistic and the \(p\)-value. Provide an
+interpretation of the result, stated in the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{j}{%
+\subsection{(j)}\label{j}}
+
+\begin{quote}
+Compute the coefficient of determination \(r^2\). Provide an
+interpretation of the result, stated in the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{k}{%
+\subsection{(k)}\label{k}}
+
+\begin{quote}
+State the full model (saturated model) in testing for regression model
+fit.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{l}{%
+\subsection{(l)}\label{l}}
+
+\begin{quote}
+Compute \(\sos{PE}\) and \(\sos{LF}\) for testing the fit of the linear
+regression model.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{m}{%
+\subsection{(m)}\label{m}}
+
+\begin{quote}
+Compute the \(F_{LF}\) statistic and the \(p\)-value. Provide an
+interpretation of the result, stated in the context of the problem.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{n}{%
+\subsection{(n)}\label{n}}
+
+\begin{quote}
+Create a plot comparing the fitted values from the regression model with
+the fitted values from the saturated model.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{o}{%
+\subsection{(o)}\label{o}}
+
+\begin{quote}
+Explain an advantage of using the regression estimate \(\hat{\mu}_{40}\)
+instead of the sample mean \(\bar{y}_{40}\) and explain when this
+advantage will lead to a more accurate estimator.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\begin{quote}
+Measurements were made on men involved in a physical fitness course. The
+input variables under consideration are age (in years), weight (in kgs),
+time to run 1.5 miles (in minutes), heart rate while resting (in bpm),
+heart rate while running, and maximum heart rate. The goal is to
+determine which input variables are needed to model the oxygen uptake
+rate (ml/kg body weight per minute). The data is available on Blackboard
+as a csv file.
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{a-1}{%
+\subsection{(a)}\label{a-1}}
+
+\begin{quote}
+Describe the goal of the discrepancy function approach to model
+selection. How is the best model defined? What are the two sources of
+model error?
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{b-1}{%
+\subsection{(b)}\label{b-1}}
+
+\begin{quote}
+Plot the \(C_p\) statistic against the model dimension. Plot the \(C_p\)
+statistic against the candidate models. Which variables are included in
+the selected model?
+\end{quote}
+
+\vspace{50pt}
+
+\hypertarget{c-1}{%
+\subsection{(c)}\label{c-1}}
+
+\begin{quote}
+Test the selected model against its best competitor having fewer
+parameters. (Compute the test statistic and the \(p\)-value.) How does
+discrepancy based model selection compare to \(p\)-value based
+selection?
+\end{quote}
+
+\end{document}

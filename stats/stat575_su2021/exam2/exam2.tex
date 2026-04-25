@@ -1,0 +1,1062 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  11pt,
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=.5in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{fbox}
+\usepackage{amsmath}
+\usepackage{hw4}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Computational Statistics - STAT 575 - Exam \#2},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Computational Statistics - STAT 575 - Exam \#2}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Consider finding $\sigma^2 = \expect(X^2)$ when $X$ has the density that is
+proportional to
+$$
+  q(x) = \frac{e^x}{e^{2x}+1}, x \in (-\infty,\infty).
+$$
+\end{minipage}}
+
+\hypertarget{part-a}{%
+\subsection{Part (a)}\label{part-a}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Find the Monte Carlo estimate of $\sigma^2$ using acceptance-rejection sampling.
+Take the candidate distribution as the double exponential, i.e., $g(x) = \exp(-|x|)$.
+\end{minipage}}
+
+We are interested in sampling \(X\) from a kernel \(q\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{q }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ }\FunctionTok{exp}\NormalTok{(x)}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{exp}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{x)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{) \}}
+\end{Highlighting}
+\end{Shaded}
+
+Suppose \(Y\) is the double exponential random variable with the kernel
+\(g\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{g }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ }\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{abs}\NormalTok{(x)) \}}
+\end{Highlighting}
+\end{Shaded}
+
+Since the double exponential is symmetric about its mean \(0\), we can
+simply sample \(W \sim \operatorname{EXP}(\lambda=1)\) and let
+\(Y = -W\) with probability \(0.5\) and \(Y = W\) with probability
+\(0.5\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ry }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n)}
+\NormalTok{\{}
+\NormalTok{  ys }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{  ws }\OtherTok{\textless{}{-}} \FunctionTok{rexp}\NormalTok{(}\AttributeTok{n=}\NormalTok{n,}\AttributeTok{rate=}\DecValTok{1}\NormalTok{)}
+\NormalTok{  us }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(n)}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{ ys[i] }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(us[i] }\SpecialCharTok{\textless{}} \FloatTok{0.5}\NormalTok{,}\SpecialCharTok{{-}}\NormalTok{ws[i],ws[i]) \}}
+\NormalTok{  ys}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+To find the constant \(c\) such that \(f(x)/c g(x) \leq 1\), we solve
+\begin{align}
+  c &= \max_x \left\{\frac{q(x)}{g(x)}\right\}\\
+    &= \max_x \left\{\frac{e^{x+|x|}}{e^{2x}+1}\right\}.
+\end{align} We forgo a formal proof and point out that the denominator
+is always larger than the numerator, i.e., \(q(x)/g(x) < 1\). However,
+as \(x\) goes to \(\pm \infty\), \(q(x)/g(x)\) goes to \(1\) and thus
+\(c = 1\). We implement the acceptance-rejection sampler for \(X\) with
+kernel \(q\) with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rx }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n)}
+\NormalTok{\{}
+\NormalTok{  xs }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}
+\NormalTok{  \{}
+    \ControlFlowTok{repeat}
+\NormalTok{    \{}
+\NormalTok{      y }\OtherTok{\textless{}{-}} \FunctionTok{ry}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+      \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\textless{}} \FunctionTok{q}\NormalTok{(y)}\SpecialCharTok{/}\FunctionTok{g}\NormalTok{(y))}
+\NormalTok{      \{}
+\NormalTok{        xs[i] }\OtherTok{\textless{}{-}}\NormalTok{ y}
+        \ControlFlowTok{break}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{  xs}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We estimate \(\expect(X^2)\) by taking the square of a sample:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rx}\NormalTok{(}\DecValTok{10000}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{mean}\NormalTok{(x}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.569127
+\end{verbatim}
+
+\hypertarget{part-b}{%
+\subsection{Part (b)}\label{part-b}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Find the normalizing constant of the pdf by integrating $q(x)$ over the support.
+Then derive the CDF of $X$.
+\end{minipage}}
+
+The normalizing constant is given by solving for \(Z\) in \[
+  \frac{1}{Z} \int_{-\infty}^{\infty} q(x) dx = 1.
+\]
+
+Let \(u = e^x\), then \(du = e^x dx\), \(e^{2x} = (e^{x})^2 = u^2\), and
+by symmetry about \(0\), \[
+  Z = 2 \int_{1}^{\infty} \frac{1}{1+u^2} du.
+\]
+
+The antiderivative is just \(\operatorname{arctan}(u)\), and thus \[
+  Z = 2 (\operatorname{arctan}(\infty) - \operatorname{arctan}(1))
+\]
+
+Since \(\tan y = \sin y / \cos y = x\), as \(y \to \pi/2\),
+\(x \to \infty\), that means that \(\operatorname{arctan}(x) \to \pi/2\)
+as \(x \to \infty\). Furthermore, \(\tan(x)=1\) when \(x=\pi/4\), thus
+\[
+  Z = 2 (2\pi/4 - \pi/4) = 2(\pi/4) = \pi/2.
+\]
+
+We verify with a numerical integrator:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{right\_riemann\_sum }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(f, a, b, n)}
+\NormalTok{\{}
+\NormalTok{  h }\OtherTok{\textless{}{-}}\NormalTok{ (b}\SpecialCharTok{{-}}\NormalTok{a)}\SpecialCharTok{/}\NormalTok{n}
+\NormalTok{  h}\SpecialCharTok{*}\FunctionTok{sum}\NormalTok{(}\FunctionTok{f}\NormalTok{(a }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}\SpecialCharTok{*}\NormalTok{h))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+When we apply the numerical integrator to the kernel \(q\) and subtract
+\(\pi/2\) we obtain a result that is approximately \(0\), confirming our
+earlier calculation:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{right\_riemann\_sum}\NormalTok{(q,}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{1000}\NormalTok{) }\SpecialCharTok{{-}}\NormalTok{ pi}\SpecialCharTok{/}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -9.080289e-05
+\end{verbatim}
+
+Thus, the density of \(X\) is given by \[
+  f(x) = \frac{2}{\pi} \frac{e^x}{e^{2x}+1}.
+\]
+
+The cdf of \(X\) is thus given by \[
+  F(x) = \int_{-\infty}^{x} f(s) ds = \frac{2}{\pi} (\operatorname{arctan}(e^x) - \operatorname{arctan}(0))
+\] which simplifies to \[
+  F(x) = \frac{2}{\pi} \operatorname{arctan}(e^x).
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pdf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ }\DecValTok{2}\SpecialCharTok{/}\NormalTok{pi }\SpecialCharTok{*} \FunctionTok{q}\NormalTok{(x) \}}
+\NormalTok{cdf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ }\DecValTok{2}\SpecialCharTok{/}\NormalTok{pi }\SpecialCharTok{*} \FunctionTok{arctan}\NormalTok{(}\FunctionTok{exp}\NormalTok{(x)) \}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-c}{%
+\subsection{Part (c)}\label{part-c}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Generate a sample of $X$ using inverse transform method and find the Monte
+Carlo estimate of $\sigma^2$.
+\end{minipage}}
+
+To apply the inverse transform method, we solve for \(x\) in
+\(p = F(x)\), \begin{align}
+  p                                 &= \frac{2}{\pi} \operatorname{arctan}(e^x)\\
+  \frac{\pi}{2} p                   &= \operatorname{arctan}(e^x)\\
+  \tan\left(\frac{\pi}{2} p\right)  &= e^x\\
+  x                                 &= \log\left(\tan\left(\frac{\pi}{2} p\right)\right).
+\end{align}
+
+Thus, a sampler for \(X\) is given by \[
+  X = \log\left(\tan\left(\frac{\pi}{2} U\right)\right)
+\] where \(U \sim \operatorname{UNIF}(0,1)\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rx.transform }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n)}
+\NormalTok{\{}
+\NormalTok{  us }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(n)}
+  \FunctionTok{log}\NormalTok{(}\FunctionTok{tan}\NormalTok{(pi}\SpecialCharTok{/}\DecValTok{2}\SpecialCharTok{*}\NormalTok{us))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We estimate \(\sigma^2\) with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rx.transform}\NormalTok{(}\DecValTok{10000}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{mean}\NormalTok{(x}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.401874
+\end{verbatim}
+
+\hypertarget{part-d}{%
+\subsection{Part (d)}\label{part-d}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Repeat the estimation using importance sampling with standardized weights.
+\end{minipage}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\textquotesingle{} importance sampling}
+\CommentTok{\#\textquotesingle{}}
+\CommentTok{\#\textquotesingle{} estimates E\{h(X)\} by taking n sample points from g and then taking a}
+\CommentTok{\#\textquotesingle{} weighted mean using the standardized weights.}
+\NormalTok{rx.importance }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n,h)}
+\NormalTok{\{}
+\NormalTok{  w }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{     out }\OtherTok{\textless{}{-}} \FunctionTok{q}\NormalTok{(x)}\SpecialCharTok{/}\FunctionTok{g}\NormalTok{(x)}
+\NormalTok{     out}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(out)}
+\NormalTok{  \}}
+
+\NormalTok{  ys }\OtherTok{\textless{}{-}} \FunctionTok{ry}\NormalTok{(n)}
+  \FunctionTok{sum}\NormalTok{(}\FunctionTok{w}\NormalTok{(ys)}\SpecialCharTok{*}\FunctionTok{h}\NormalTok{(ys))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We apply the procedure to \(h(x) = x^2\) to estimate \(\expect(h(X))\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{rx.importance}\NormalTok{(}\DecValTok{10000}\NormalTok{,}\ControlFlowTok{function}\NormalTok{(x) \{ x}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{\} ))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.437203
+\end{verbatim}
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Consider the inverse Gaussian distribution with density
+$$
+  f(x|\theta_1,\theta_2) \propto x^{-1.5} \exp\left\{-\theta_1 x - \frac{\theta_2}{x} + \psi(\theta_1,\theta_2)\right\}
+$$
+where $\psi(\theta_1,\theta_2) = 2\sqrt{\theta_1\theta_2} + \log(2\theta_2)$.
+Estimate $\expect(X)$ using MCMC. You may take the proposal distribution as a
+$\operatorname{Gamma}(\sqrt{\theta_2/\theta_1},1)$.
+\end{minipage}}
+
+Here is our implementation of the Metropolis-Hastings algorithm:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# A sampling procedure from the pdf f using Metropolis{-}Hastings algorithm}
+\NormalTok{rf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n, theta1, theta2, }\AttributeTok{burn=}\DecValTok{0}\NormalTok{)}
+\NormalTok{\{}
+\NormalTok{    g }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ }\FunctionTok{dgamma}\NormalTok{(x,}\AttributeTok{shape=}\FunctionTok{sqrt}\NormalTok{(theta2}\SpecialCharTok{/}\NormalTok{theta1),}\AttributeTok{rate=}\DecValTok{1}\NormalTok{) \}}
+\NormalTok{    rg }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n) \{ }\FunctionTok{rgamma}\NormalTok{(n,}\AttributeTok{shape=}\FunctionTok{sqrt}\NormalTok{(theta2}\SpecialCharTok{/}\NormalTok{theta1),}\AttributeTok{rate=}\DecValTok{1}\NormalTok{) \}}
+\NormalTok{    ker }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ x}\SpecialCharTok{\^{}}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.5}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{theta1}\SpecialCharTok{*}\NormalTok{x}\SpecialCharTok{{-}}\NormalTok{theta2}\SpecialCharTok{/}\NormalTok{x) \}}
+  
+\NormalTok{    m }\OtherTok{\textless{}{-}}\NormalTok{ n }\SpecialCharTok{+}\NormalTok{ burn}
+\NormalTok{    xs }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\AttributeTok{length =}\NormalTok{ m)}
+\NormalTok{    xs[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{rg}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+    
+    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{m) \{}
+\NormalTok{        v }\OtherTok{\textless{}{-}} \FunctionTok{rg}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{        u }\OtherTok{\textless{}{-}}\NormalTok{ xs[i}\DecValTok{{-}1}\NormalTok{]}
+\NormalTok{        R }\OtherTok{\textless{}{-}} \FunctionTok{ker}\NormalTok{(v) }\SpecialCharTok{*} \FunctionTok{g}\NormalTok{(u) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{ker}\NormalTok{(u) }\SpecialCharTok{*} \FunctionTok{g}\NormalTok{(v))}
+        \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\textless{}=}\NormalTok{ R) \{ xs[i] }\OtherTok{\textless{}{-}}\NormalTok{ v \}}
+        \ControlFlowTok{else}\NormalTok{ \{ xs[i] }\OtherTok{\textless{}{-}}\NormalTok{ u \}}
+\NormalTok{    \}}
+\NormalTok{    xs[(burn}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{m]}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We apply the algorithm to \(\theta_1 = 5\) and \(\theta_2 = 3\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{100000}
+\NormalTok{theta1 }\OtherTok{\textless{}{-}} \DecValTok{3}
+\NormalTok{theta2 }\OtherTok{\textless{}{-}} \DecValTok{5}
+\NormalTok{xs }\OtherTok{\textless{}{-}} \FunctionTok{rf}\NormalTok{(n,theta1,theta2,}\AttributeTok{burn=}\DecValTok{20000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Now, we estimate \(\expect(X)\) with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{mean}\NormalTok{(xs))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.291016
+\end{verbatim}
+
+We have deduced that the true mean is given by
+\(\mu = \sqrt{\theta_2/\theta_1}\), and so we see the algorithm provides
+a reasonable estimation.
+
+We would like to plot the histogram with the density superimposed on top
+of it. So, we implement the density function with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f.make }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta1,theta2)}
+\NormalTok{\{}
+\NormalTok{  k }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ x}\SpecialCharTok{\^{}}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{theta1}\SpecialCharTok{*}\NormalTok{x }\SpecialCharTok{{-}}\NormalTok{ theta2}\SpecialCharTok{/}\NormalTok{x) \}}
+\NormalTok{  Z }\OtherTok{\textless{}{-}} \FunctionTok{right\_riemann\_sum}\NormalTok{(k,}\DecValTok{0}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{10000}\NormalTok{)}
+  \ControlFlowTok{function}\NormalTok{(x) \{ }\FunctionTok{k}\NormalTok{(x) }\SpecialCharTok{/}\NormalTok{ Z \}}
+\NormalTok{\}}
+\NormalTok{f }\OtherTok{\textless{}{-}} \FunctionTok{f.make}\NormalTok{(theta1,theta2)}
+\FunctionTok{hist}\NormalTok{(xs,}\AttributeTok{breaks=}\DecValTok{200}\NormalTok{,}\AttributeTok{freq=}\NormalTok{F)}
+\NormalTok{ps }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{by=}\NormalTok{.}\DecValTok{01}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\AttributeTok{x=}\NormalTok{ps,}\AttributeTok{y=}\FunctionTok{f}\NormalTok{(ps))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam2_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+Consider the data on coal-mining disasters from 1851 to 1962 (coal.txt
+data on blackboard). The rate of accidents per year appears to decrease
+around 1900, so we consider a change-point model for these data. Let
+\(X_j\) be the number of accidents in year \(j\).
+\(X_j \sim \operatorname{Poisson}(λ_1)\), \(j = 1, \ldots, θ\), and
+\(X_j \sim \operatorname{Poisson}(λ_2)\), \(j = θ + 1, \ldots, 112\).
+The change-point occurs after the \(θ\)-th year in the series. This
+model has parameters are \(θ, λ_1, λ_2\). Below are three sets of priors
+for a Bayesian analysis of this model. Assume prior
+\(λ_i \sim \operatorname{Gamma}(3, 1)\) for \(i = 1, 2\), and assume
+\(θ\) follows a discrete uniform distribution over \(\{1, ..., 111\}\).
+
+\hypertarget{part-a-1}{%
+\subsection{Part (a)}\label{part-a-1}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Derive the posterior distribution of $(θ, λ_1, λ_2)$.
+\end{minipage}}
+
+First, we derive the distribution of
+\(X_i|(\lambda_1,\lambda_2,\theta)\), \[
+  X_i \sim f(x_i | \lambda_1,\lambda_2,\theta)
+\] where \[
+  f(x_i | \lambda_1,\lambda_2,\theta) =
+     \frac{\lambda_1^{x_i} e^{-\lambda_1}}{x_i!} I(i \leq \theta) +
+     \frac{\lambda_2^{x_i} e^{-\lambda_2}}{x_i!} I(i > \theta).
+\] Thus, the likelihood is \[
+  L(\lambda_1,\lambda_2,\theta|\vec{x}) =
+    \prod_{i=1}^{\theta} \frac{\lambda_1^{x_i} e^{-\lambda_1}}{x_i!}
+    \prod_{\theta+1}^{n} \frac{\lambda_2^{x_i} e^{-\lambda_2}}{x_i!}
+\] which up to proportionality of the parameters may be written as \[
+  L(\lambda_1,\lambda_2,\theta|\vec{x}) \propto
+    \lambda_1^{t(\theta)} e^{-\theta \lambda_1}
+    \lambda_2^{t(n)-t(\theta)} e^{-(n-\theta) \lambda_2}.
+\] where \(t(\theta) = \sum_{i=1}^{\theta} x_i\).
+
+The posterior distribution is given by \[
+  f(\theta,\lambda_1,\lambda_2|\vec{x}) = f(\vec{x}|\theta,\lambda_1,\lambda_2)f(\theta,\lambda_1,\lambda_2)/f(\vec{x})
+\] which up to proportionality may be rewritten as \[
+  f(\theta,\lambda_1,\lambda_2|\vec{x}) \propto L(\theta,\lambda_1,\lambda_2|\vec{x})f(\theta)f(\lambda_1)f(\lambda_2).
+\] where \(f(\theta) \propto I(0 \leq \theta < n)\) and
+\(f(\lambda_j) \propto \lambda_j^2 \exp(-\lambda_j)\).
+
+We are given the priors \(\lambda_j \sim \operatorname{GAM}(3,1)\), and
+thus \[
+  f(\lambda_j) \propto \lambda_j^2 e^{-\lambda_j}.
+\]
+
+Putting it all together, the posterior distribution is given by \[
+  f(\theta,\lambda_1,\lambda_2|\vec{x}) \propto
+    \lambda_1^{t(\theta)} e^{-\theta \lambda_1}
+    \lambda_2^{t(n)-t(\theta)} e^{-(n-\theta) \lambda_2} \lambda_1^2 e^{-\lambda_1} \lambda_2^2 e^{-\lambda_2}
+\] where \(t(\theta) = \sum_{i=1}^{\theta} x_i\), \(1 \leq \theta < n\),
+and \(\lambda_1,\lambda_2 > 0\).
+
+\hypertarget{part-b-1}{%
+\subsection{Part (b)}\label{part-b-1}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Derive the conditional posterior distributions necessary to carry out Gibbs
+sampling for this change-point model.
+\end{minipage}}
+
+First, we find the conditional posterior distribution for \(\lambda_1\)
+by simply dropping those factors in the posterior that are not a
+function of \(\lambda_1\), \[
+  f(\lambda_1|\theta,\lambda_2,\vec{x}) \propto \lambda_1^{t(\theta) + 2} e^{-(\theta+1) \lambda_1},
+\] which is the kernel for \(\operatorname{GAM}(t(\theta)+1,\theta+1)\),
+\[
+  \lambda_1 \sim \operatorname{GAM}(t(\theta)+1,\theta+1).
+\]
+
+Next, we find the conditional posterior distribution for \(\lambda_2\)
+using the same argument, \[
+  f(\lambda_2|\theta,\lambda_1,\vec{x}) \propto
+    \lambda_2^{t(n)-t(\theta)+2} e^{-(n-\theta+1) \lambda_2},
+\] which is the kernel for
+\(\operatorname{GAM}(t(n)-t(\theta)+1,n-\theta+1)\), \[
+  \lambda_2 \sim \operatorname{GAM}(t(n) - t(\theta) + 1,n-\theta+1).
+\]
+
+Finally, we find the conditional posterior distribution for \(\theta\).
+First, we drop factors that are not a function of \(\theta\), \[
+  f(\theta|\lambda_1,\lambda_2,\vec{x}) \propto
+    \lambda_1^{t(\theta)} e^{-\theta \lambda_1}
+    \lambda_2^{-t(\theta)} e^{\theta \lambda_2}.
+\]
+
+Simplifying, \[
+  f(\theta|\lambda_1,\lambda_2,\vec{x}) \propto
+    \left(\frac{\lambda_1}{\lambda_2}\right)^{t(\theta)} e^{(\lambda_2 - \lambda_1) \theta} I(\theta \in \{1,\ldots,n-1\}),
+\] which is the kernel of a probability mass function parameterized by
+\(\lambda_1\) and \(\lambda_2\).
+
+To generate random variates from the conditional posterior of
+\(\theta\), we sample from \(\{1,\ldots,n-1\}\) where \(\theta=k\) is
+realized with probability \(f(k|\lambda_1,\lambda_2,\vec{x})\).
+Algorithmically, let \(U \sim \operatorname{UNIF(0,1)}\) and then
+\(\theta\) realizes \(k\) if \[
+  \sum_{\theta=1}^{k-1} f(\theta|\cdot) < U \leq \sum_{\theta=1}^{k} f(\theta|\cdot).
+\]
+
+\hypertarget{additional-analysis}{%
+\subsubsection{Additional analysis}\label{additional-analysis}}
+
+Note that \(\theta\) has a prior that only assigns non-zero values to
+\(\theta \in \{1,\ldots,n-1\}\) where \(n=112\) (there are \(112\) data
+rows in the ``coal.txt'\,' data file). Thus, given a prior that assigns
+\(0\) probability to the outcome \(\theta=n\), the conditional posterior
+distribution for \(\theta\) also assigns zero probability to
+\(\theta=n\). Intuitively, it makes sense that no amount of evidence is
+sufficient to overcome a prior of zero probability.
+
+Furthermore, recall that \(\theta\) is the change-point. If the
+change-point occurs at \(\theta=n\), then in fact there was no
+change-point and \(X_i \sim \operatorname{POI}(\lambda_1)\) for
+\(i=1,\ldots,n\). In other words, assigning \(\theta=n\) a prior
+probability of \(0\) is equivalent to claiming there is a change point.
+
+We may generalize this so that if we are given prior information that
+\(\theta \notin \mathbb{K}\), we may assign zero probability to that
+event in the prior, i.e., \(\sum_{k \in \mathbb{K}} f_{\theta}(k) = 0\).
+Of course, we may assign a non-uniform prior over the support, as well.
+The posterior distribution \(f_{\theta|\cdot}\) from a previous
+experiment is a likely candidate for such a prior.
+
+\hypertarget{part-c-1}{%
+\subsection{Part (c)}\label{part-c-1}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Implement the Gibbs sampler.
+Use a suite of convergence diagnostics to evaluate the convergence and mixing of
+your sampler.
+\end{minipage}}
+
+We load the data with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"coal.txt"}\NormalTok{,}\AttributeTok{header=}\NormalTok{T)[,}\DecValTok{2}\NormalTok{]}
+\NormalTok{N }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+We implement the conditional samplers with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta) \{ }\FunctionTok{sum}\NormalTok{(x[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{theta]) \}}
+\NormalTok{rlambda1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n,theta) \{ }\FunctionTok{rgamma}\NormalTok{(n,}\FunctionTok{t}\NormalTok{(theta)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{,theta}\SpecialCharTok{+}\DecValTok{1}\NormalTok{) \}}
+\NormalTok{rlambda2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n,theta) \{ }\FunctionTok{rgamma}\NormalTok{(n,}\FunctionTok{t}\NormalTok{(N)}\SpecialCharTok{{-}}\FunctionTok{t}\NormalTok{(theta)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{,N}\SpecialCharTok{{-}}\NormalTok{theta}\SpecialCharTok{+}\DecValTok{1}\NormalTok{) \}}
+
+\NormalTok{ktheta }\OtherTok{\textless{}{-}} \FunctionTok{Vectorize}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(theta,lambda1,lambda2)}
+\NormalTok{\{}
+  \ControlFlowTok{if}\NormalTok{ (theta }\SpecialCharTok{\textless{}} \DecValTok{1} \SpecialCharTok{||}\NormalTok{ theta }\SpecialCharTok{\textgreater{}=}\NormalTok{ N) \{ }\FunctionTok{return}\NormalTok{(}\DecValTok{0}\NormalTok{) \}  }
+\NormalTok{  (lambda1}\SpecialCharTok{/}\NormalTok{lambda2)}\SpecialCharTok{\^{}}\FunctionTok{t}\NormalTok{(theta)}\SpecialCharTok{*}\FunctionTok{exp}\NormalTok{(theta}\SpecialCharTok{*}\NormalTok{(lambda2}\SpecialCharTok{{-}}\NormalTok{lambda1))}
+\NormalTok{\},}\StringTok{"theta"}\NormalTok{)}
+
+\NormalTok{ptheta }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta,lambda1,lambda2)}
+\NormalTok{\{}
+\NormalTok{  Z }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{ktheta}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(N}\DecValTok{{-}1}\NormalTok{),lambda1,lambda2))}
+  \FunctionTok{ktheta}\NormalTok{(theta,lambda1,lambda2)}\SpecialCharTok{/}\NormalTok{Z}
+\NormalTok{\}}
+
+\NormalTok{rtheta }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(n,lambda1,lambda2)}
+\NormalTok{\{ }
+  \FunctionTok{sample}\NormalTok{(}\AttributeTok{x=}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(N}\DecValTok{{-}1}\NormalTok{),n,}\AttributeTok{replace=}\NormalTok{T,}\AttributeTok{prob=}\FunctionTok{ptheta}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(N}\DecValTok{{-}1}\NormalTok{),lambda1,lambda2)) }
+\NormalTok{\}}
+
+\NormalTok{rlambda1.prior }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{ }\FunctionTok{rgamma}\NormalTok{(}\DecValTok{1}\NormalTok{,}\AttributeTok{shape=}\DecValTok{3}\NormalTok{,}\AttributeTok{rate=}\DecValTok{1}\NormalTok{) \}}
+\NormalTok{rlambda2.prior }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{ }\FunctionTok{rgamma}\NormalTok{(}\DecValTok{1}\NormalTok{,}\AttributeTok{shape=}\DecValTok{3}\NormalTok{,}\AttributeTok{rate=}\DecValTok{1}\NormalTok{) \}}
+\NormalTok{rtheta.prior }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{ }\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(N}\DecValTok{{-}1}\NormalTok{),}\DecValTok{1}\NormalTok{,}\AttributeTok{replace=}\NormalTok{T) \}}
+\end{Highlighting}
+\end{Shaded}
+
+We implement the Gibbs sampling with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gibbs }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n,}\AttributeTok{burn=}\DecValTok{1000}\NormalTok{)}
+\NormalTok{\{}
+\NormalTok{  nn }\OtherTok{\textless{}{-}}\NormalTok{ n}\SpecialCharTok{+}\NormalTok{burn}
+\NormalTok{  thetas }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow=}\NormalTok{nn,}\AttributeTok{ncol=}\DecValTok{3}\NormalTok{)}
+\NormalTok{  thetas[}\DecValTok{1}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{rtheta.prior}\NormalTok{(),}\FunctionTok{rlambda1.prior}\NormalTok{(),}\FunctionTok{rlambda2.prior}\NormalTok{())}
+  
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(nn}\DecValTok{{-}1}\NormalTok{))}
+\NormalTok{  \{}
+\NormalTok{    theta.new }\OtherTok{\textless{}{-}} \FunctionTok{rtheta}\NormalTok{(}\DecValTok{1}\NormalTok{,thetas[i,}\DecValTok{2}\NormalTok{],thetas[i,}\DecValTok{3}\NormalTok{])}
+\NormalTok{    lambda1.new }\OtherTok{\textless{}{-}} \FunctionTok{rlambda1}\NormalTok{(}\DecValTok{1}\NormalTok{,theta.new)}
+\NormalTok{    lambda2.new }\OtherTok{\textless{}{-}} \FunctionTok{rlambda2}\NormalTok{(}\DecValTok{1}\NormalTok{,theta.new)}
+\NormalTok{    thetas[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(theta.new,lambda1.new,lambda2.new)}
+\NormalTok{  \}}
+
+\NormalTok{  thetas }\OtherTok{\textless{}{-}}\NormalTok{ thetas[(burn}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{nn,]}
+\NormalTok{  theta.est }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(thetas[,}\DecValTok{1}\NormalTok{])}
+\NormalTok{  lambda1.est }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(thetas[,}\DecValTok{2}\NormalTok{])}
+\NormalTok{  lambda2.est }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(thetas[,}\DecValTok{3}\NormalTok{])}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{theta.dist=}\NormalTok{thetas,}
+       \AttributeTok{theta.est=}\NormalTok{theta.est,}
+       \AttributeTok{lambda1.est=}\NormalTok{lambda1.est,}
+       \AttributeTok{lambda2.est=}\NormalTok{lambda2.est)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{5000}
+\NormalTok{burn }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{gibbs}\NormalTok{(n,burn)}
+\NormalTok{param.est }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.est,res}\SpecialCharTok{$}\NormalTok{lambda1.est,res}\SpecialCharTok{$}\NormalTok{lambda2.est)}
+\FunctionTok{names}\NormalTok{(param.est) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"theta"}\NormalTok{,}\StringTok{"lambda1"}\NormalTok{,}\StringTok{"lambda2"}\NormalTok{)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(param.est))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+& param.est \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+theta & 40.1418000 \\
+lambda1 & 3.0600374 \\
+lambda2 & 0.9224232 \\
+\end{longtable}
+
+Now, we plot the marginals for the estimator.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\FunctionTok{hist}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[,}\DecValTok{1}\NormalTok{],}\AttributeTok{freq=}\NormalTok{F,}\AttributeTok{main=}\StringTok{"theta"}\NormalTok{,}\AttributeTok{xlab=}\StringTok{""}\NormalTok{,}\AttributeTok{breaks=}\DecValTok{50}\NormalTok{)}
+\FunctionTok{hist}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[,}\DecValTok{2}\NormalTok{],}\AttributeTok{freq=}\NormalTok{F,}\AttributeTok{main=}\StringTok{"lambda1"}\NormalTok{,}\AttributeTok{xlab=}\StringTok{""}\NormalTok{,}\AttributeTok{breaks=}\DecValTok{50}\NormalTok{)}
+\FunctionTok{hist}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[,}\DecValTok{3}\NormalTok{],}\AttributeTok{freq=}\NormalTok{F,}\AttributeTok{main=}\StringTok{"lambda2"}\NormalTok{,}\AttributeTok{xlab=}\StringTok{""}\NormalTok{,}\AttributeTok{breaks=}\DecValTok{50}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam2_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{,}\DecValTok{1}\NormalTok{],}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{main=}\StringTok{""}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"theta"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{],}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{main=}\StringTok{"initial sample path"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"lambda1"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{,}\DecValTok{3}\NormalTok{],}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{main=}\StringTok{""}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"lambda2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam2_files/figure-latex/unnamed-chunk-22-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[}\DecValTok{2000}\SpecialCharTok{:}\DecValTok{2100}\NormalTok{,}\DecValTok{1}\NormalTok{],}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{main=}\StringTok{""}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"theta"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[}\DecValTok{2000}\SpecialCharTok{:}\DecValTok{2100}\NormalTok{,}\DecValTok{2}\NormalTok{],}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{main=}\StringTok{"later sample path"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"lambda1"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[}\DecValTok{2000}\SpecialCharTok{:}\DecValTok{2100}\NormalTok{,}\DecValTok{3}\NormalTok{],}\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{main=}\StringTok{""}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"lambda2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam2_files/figure-latex/unnamed-chunk-22-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{acf}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[,}\DecValTok{1}\NormalTok{],}\AttributeTok{main=}\StringTok{"theta"}\NormalTok{)}
+\FunctionTok{acf}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[,}\DecValTok{2}\NormalTok{],}\AttributeTok{main=}\StringTok{"lambda1"}\NormalTok{)}
+\FunctionTok{acf}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{theta.dist[,}\DecValTok{3}\NormalTok{],}\AttributeTok{main=}\StringTok{"lambda2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{exam2_files/figure-latex/unnamed-chunk-22-4.pdf}
+
+They all satisfy normality (approximately symmetric around the mean),
+converge quickly, exhibit low autocorrelation (ACF decays quickly), and
+show good support (they vigorously jiggle around the mean).
+
+\hypertarget{problem-4}{%
+\section{Problem 4}\label{problem-4}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Compare bootstrapped CIs for the population 90th percentile to the large sample
+estimate as in the notes for (a) $\operatorname{EXP}(1)$ data,
+(b) $N(0,1)$ data, (c) $U(0, 1)$ data, and (d) $\chi^2(1)$ data.
+For sample sizes of $n = 100$ and replicate $B = 500$.
+\end{minipage}}
+
+Suppose we have a sample \(\{X_i\} \iid F\) where \(F\) is the cdf. An
+estimate of \(F\) is given by \[
+  F_n(x) = \frac{1}{n} \sum_{i=1}^{n} I(x_i \leq x).
+\]
+
+Assuming \(F\) is continuous, the \(p\)-th \emph{quantile} of a
+distribution \(F\) is given by \[
+  q = F^{-1}(p)
+\] which may be estimated with \(q_n = F^{-1}_n(p) = x_{[n p]}\).
+
+\hypertarget{delta-method}{%
+\subsection{Delta method}\label{delta-method}}
+
+Asymptotically, \[
+  q_n \sim \operatorname{AN}\left(q, \frac{p(1-p)}{n f^2(q)}\right).
+\]
+
+Since the pdf \(f\) is not known, we must estimate it with \(f_n\) (note
+that we cannot simply take the derivative of \(F_m\) since it is a step
+function). We use the built-in R function \(\operatorname{density}\) to
+estimate \(f\).
+
+Using the asymptotic normality, we see that the variance of our
+estimator \(q_n\) may be estimated as \[
+  \var(q_n) = \frac{p(1-p)}{n f_n^2(q)}
+\] and thus an \((1-\alpha) \times 100\%\) confidence interval is given
+by \[
+  q_n \pm z_{1-\alpha/2} \sqrt{\frac{p(1-p)}{n f_n^2(q_n)}}.
+\]
+
+We implement the confidence interval estimator for \(q_n\) with the
+following:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{q.ci.delta }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(samp,p,alpha,}\AttributeTok{bw=}\StringTok{"bcv"}\NormalTok{)}
+\NormalTok{\{}
+\NormalTok{  z }\OtherTok{\textless{}{-}} \FunctionTok{qnorm}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{  q.est }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(samp,p)}
+\NormalTok{  f }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(samp,}\AttributeTok{bw=}\NormalTok{bw,}\AttributeTok{n=}\DecValTok{1}\NormalTok{,}\AttributeTok{from=}\NormalTok{q.est,}\AttributeTok{to=}\NormalTok{q.est)}\SpecialCharTok{$}\NormalTok{y}
+\NormalTok{  se }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(p}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p)}\SpecialCharTok{/}\NormalTok{(n}\SpecialCharTok{*}\NormalTok{f}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{estimate=}\NormalTok{q.est,}\AttributeTok{p=}\NormalTok{p,}\AttributeTok{alpha=}\NormalTok{alpha,}\AttributeTok{ci=}\FunctionTok{c}\NormalTok{(q.est}\SpecialCharTok{{-}}\NormalTok{z}\SpecialCharTok{*}\NormalTok{se,q.est}\SpecialCharTok{+}\NormalTok{z}\SpecialCharTok{*}\NormalTok{se))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{bootstrap-method}{%
+\subsection{Bootstrap method}\label{bootstrap-method}}
+
+Next, we consider the Bootstrap method. The statistic for the Bootstrap
+method, the \(p\)-th quantile, is given by:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# p{-}quantile statistic that we provide as input to the}
+\CommentTok{\# bootstrap function}
+\NormalTok{q.stat }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{p=}\FloatTok{0.9}\NormalTok{)}
+\NormalTok{\{}
+  \ControlFlowTok{function}\NormalTok{(x,indices)}
+\NormalTok{  \{}
+\NormalTok{    f }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(x[indices],p)}
+    \FunctionTok{names}\NormalTok{(f) }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{    f}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We implement the Bootstrap confidence interval estimator for \(q_n\)
+with the following:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{q.ci.bs }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(samp,p,alpha,B)}
+\NormalTok{\{}
+  \FunctionTok{library}\NormalTok{(boot)}
+\NormalTok{  b }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(samp, }\FunctionTok{q.stat}\NormalTok{(p), B)}
+\NormalTok{  ci }\OtherTok{\textless{}{-}} \FunctionTok{boot.ci}\NormalTok{(b,}\AttributeTok{conf=}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha,}\AttributeTok{type=}\StringTok{"perc"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{percent}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{estimate=}\FunctionTok{quantile}\NormalTok{(samp,p),}\AttributeTok{p=}\NormalTok{p,}\AttributeTok{alpha=}\NormalTok{alpha,}\AttributeTok{ci=}\FunctionTok{c}\NormalTok{(ci[}\DecValTok{4}\NormalTok{],ci[}\DecValTok{5}\NormalTok{]))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We simply sample from the empirical distribution (resample the observed
+sample) and apply the quantile statistic to each resample, geting a
+sampling distribution \[
+  q_n^{(1)},\ldots,q_n^{(B)}
+\] and then pick the \(p\)-th percentile.
+
+\hypertarget{part-a-2}{%
+\subsection{Part (a)}\label{part-a-2}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Compute coverage probabilities of the two intervals and average interval length. (You need to run
+the intervals for $M$ times.)
+\end{minipage}}
+
+To capture the data for each random variable, we encapsulate the process
+into a procedure that may be invoked for any function that models a
+random variable and whose first parameter denotes the sample size.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\textquotesingle{} Retrieve CI stats for the specified method and random variable}
+\CommentTok{\#\textquotesingle{}}
+\CommentTok{\#\textquotesingle{} @param q.star the true value for the p{-}th quantile}
+\CommentTok{\#\textquotesingle{} @param rv the random variable generator, of type n {-}\textgreater{} R\^{}n}
+\CommentTok{\#\textquotesingle{} @param n size of sample to generate}
+\CommentTok{\#\textquotesingle{} @param M number of trials}
+\CommentTok{\#\textquotesingle{} @param type "bootstrap" or "delta"}
+\CommentTok{\#\textquotesingle{} @param B number of bootstrap replicates (only relevant if type == "bootstrap")}
+\CommentTok{\#\textquotesingle{} @returns a vector of the relevant results}
+\NormalTok{ci.stats }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(q.star, rv, p, n, }\AttributeTok{M=}\DecValTok{250}\NormalTok{, }\AttributeTok{type=}\StringTok{"bootstrap"}\NormalTok{, }\AttributeTok{B=}\DecValTok{500}\NormalTok{)}
+\NormalTok{\{}
+\NormalTok{  coverage.prop }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{  avg.length }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{M)}
+\NormalTok{  \{}
+\NormalTok{    samp }\OtherTok{\textless{}{-}} \FunctionTok{rv}\NormalTok{(n)}
+\NormalTok{    res }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+    \ControlFlowTok{if}\NormalTok{ (type}\SpecialCharTok{==}\StringTok{"bootstrap"}\NormalTok{) \{ res }\OtherTok{\textless{}{-}} \FunctionTok{q.ci.bs}\NormalTok{(samp,p,alpha,B) \}}
+    \ControlFlowTok{else}\NormalTok{                   \{ res }\OtherTok{\textless{}{-}} \FunctionTok{q.ci.delta}\NormalTok{(samp,p,alpha) \}}
+    
+\NormalTok{    avg.length }\OtherTok{\textless{}{-}}\NormalTok{ avg.length }\SpecialCharTok{+}\NormalTok{ (res}\SpecialCharTok{$}\NormalTok{ci[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{ci[}\DecValTok{1}\NormalTok{])}
+    \ControlFlowTok{if}\NormalTok{ (q.star }\SpecialCharTok{\textgreater{}=}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{ci[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{\&\&}\NormalTok{ q.star }\SpecialCharTok{\textless{}=}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{ci[}\DecValTok{2}\NormalTok{]) \{}
+\NormalTok{      coverage.prop }\OtherTok{\textless{}{-}}\NormalTok{ coverage.prop }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{  avg.length }\OtherTok{\textless{}{-}}\NormalTok{ avg.length }\SpecialCharTok{/}\NormalTok{ M}
+\NormalTok{  coverage.prop }\OtherTok{\textless{}{-}}\NormalTok{ coverage.prop }\SpecialCharTok{/}\NormalTok{ M}
+
+  \FunctionTok{c}\NormalTok{(q.star,res}\SpecialCharTok{$}\NormalTok{estimate,coverage.prop,avg.length)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Now, we use \(\operatorname{ci.stats}\) to generate and compute the
+data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p }\OtherTok{\textless{}{-}} \FloatTok{0.9} \CommentTok{\# p{-}th quantile}
+\NormalTok{alpha }\OtherTok{\textless{}{-}} \FloatTok{0.05} \CommentTok{\# CI alpha level}
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{100} \CommentTok{\# sample size}
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{500} \CommentTok{\# bootstrap replicates}
+\NormalTok{M }\OtherTok{\textless{}{-}} \DecValTok{500}
+
+\CommentTok{\# simulate and compute the data}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow=}\DecValTok{8}\NormalTok{,}\AttributeTok{ncol=}\DecValTok{4}\NormalTok{)}
+\FunctionTok{rownames}\NormalTok{(tab) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"exp(1): delta"}\NormalTok{,}
+                   \StringTok{"exp(1): bootstrap"}\NormalTok{,}
+                   \StringTok{"N(0,1): delta"}\NormalTok{,}
+                   \StringTok{"N(0,1): bootstrap"}\NormalTok{,}
+                   \StringTok{"U(0,1): delta"}\NormalTok{,}
+                   \StringTok{"U(0,1): bootstrap"}\NormalTok{,}
+                   \StringTok{"X\^{}2(1): delta"}\NormalTok{,}
+                   \StringTok{"X\^{}2(1): bootstrap"}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(tab) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"q.star"}\NormalTok{, }\StringTok{"q.est"}\NormalTok{, }\StringTok{"coverage"}\NormalTok{, }\StringTok{"average length"}\NormalTok{)}
+\NormalTok{tab[}\DecValTok{1}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{ci.stats}\NormalTok{(}\FunctionTok{qexp}\NormalTok{(p),rexp,p,n,M,}\StringTok{"delta"}\NormalTok{)}
+\NormalTok{tab[}\DecValTok{2}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{ci.stats}\NormalTok{(}\FunctionTok{qexp}\NormalTok{(p),rexp,p,n,M,}\StringTok{"bootstrap"}\NormalTok{,B)}
+\NormalTok{tab[}\DecValTok{3}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{ci.stats}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(p),rnorm,p,n,M,}\StringTok{"delta"}\NormalTok{)}
+\NormalTok{tab[}\DecValTok{4}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{ci.stats}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(p),rnorm,p,n,M,}\StringTok{"bootstrap"}\NormalTok{,B)}
+\NormalTok{tab[}\DecValTok{5}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{ci.stats}\NormalTok{(}\FunctionTok{qunif}\NormalTok{(p),runif,p,n,M,}\StringTok{"delta"}\NormalTok{)}
+\NormalTok{tab[}\DecValTok{6}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{ci.stats}\NormalTok{(}\FunctionTok{qunif}\NormalTok{(p),runif,p,n,M,}\StringTok{"bootstrap"}\NormalTok{,B)}
+\NormalTok{tab[}\DecValTok{7}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{ci.stats}\NormalTok{(}\FunctionTok{qchisq}\NormalTok{(p,}\AttributeTok{df=}\DecValTok{1}\NormalTok{),}\ControlFlowTok{function}\NormalTok{(n) \{ }\FunctionTok{rchisq}\NormalTok{(n,}\AttributeTok{df=}\DecValTok{1}\NormalTok{) \},p,n,M,}\StringTok{"delta"}\NormalTok{)}
+\NormalTok{tab[}\DecValTok{8}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{ci.stats}\NormalTok{(}\FunctionTok{qchisq}\NormalTok{(p,}\AttributeTok{df=}\DecValTok{1}\NormalTok{),}\ControlFlowTok{function}\NormalTok{(n) \{ }\FunctionTok{rchisq}\NormalTok{(n,}\AttributeTok{df=}\DecValTok{1}\NormalTok{) \},p,n,M,}\StringTok{"bootstrap"}\NormalTok{,B)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-b-2}{%
+\subsection{Part (b)}\label{part-b-2}}
+
+\fbox{
+\begin{minipage}{\columnwidth}
+Summarizing your results in a table. Comment on your findings. Which is better?
+\end{minipage}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(tab))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\toprule\noalign{}
+& q.star & q.est & coverage & average.length \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+exp(1): delta & 2.302585 & 2.3816688 & 0.872 & 1.0378501 \\
+exp(1): bootstrap & 2.302585 & 2.3670527 & 0.918 & 1.1658210 \\
+N(0,1): delta & 1.281552 & 1.2422996 & 0.932 & 0.6241126 \\
+N(0,1): bootstrap & 1.281552 & 1.4118911 & 0.946 & 0.6683334 \\
+U(0,1): delta & 0.900000 & 0.8507864 & 0.976 & 0.1492547 \\
+U(0,1): bootstrap & 0.900000 & 0.8549862 & 0.946 & 0.1180439 \\
+X\^{}2(1): delta & 2.705544 & 2.7108196 & 0.870 & 1.5821569 \\
+X\^{}2(1): bootstrap & 2.705544 & 2.1485428 & 0.940 & 1.8338545 \\
+\end{longtable}
+
+Overall, the Bootstrap estimator of CI is more compatible with the
+claimed confidence interval.
+
+Since both are asymptotically normal, if we were to increase the sample
+size, they should converge to the coverage \((1-\alpha) = 0.95\) with an
+expected length given by \[
+  2 z_{1-\alpha/2} \sigma_q
+\] where \[
+  \sigma_q = \sqrt{\frac{p(1-p)}{n f^2(q^*)}}.
+\]
+
+\hypertarget{problem-1-supplementary-material-inverse-transform-methodweb}{%
+\section{Problem 1 supplementary material: inverse transform
+methodweb}\label{problem-1-supplementary-material-inverse-transform-methodweb}}
+
+In problem 1, \(Y\) is the double exponential random variable and we
+sampled from it by recognizing we can simply sample from the exponential
+and taking its negative with probability \(0.5\).
+
+Now, we consider the inverse transform method. We are given the kernel
+\(g\), but for the inverse transform method we need the cdf. The
+normalizing constant \(Z\) is given by \[
+  \frac{1}{Z} \int_{-\infty}^{\infty} g(x) dx = 1,
+\] which may be rewritten as \[
+  \int_{-\infty}^{0} e^{x} dx + \int_{0}^{\infty} e^{-x} dx = Z,
+\] which has the solution \(Z=2\). Thus, random variable \(Y\) that has
+a kernel \(g\) has a density \[
+  f_Y(y) = \frac{1}{2} \exp(-|x|).
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{g.density }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y) \{ }\FloatTok{0.5}\SpecialCharTok{*}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{abs}\NormalTok{(y)) \}}
+\end{Highlighting}
+\end{Shaded}
+
+The cdf \(F_Y\) is defined as \[
+  F_Y(y) = \frac{1}{2}\int_{-\infty}^{y} \exp(-|s|) ds.
+\] If \(y \leq 0\), then \[
+  F_Y(y) = \frac{1}{2} \int_{-\infty}^{y} \exp(s) ds = \frac{1}{2}\exp(y)
+\] and if \(y > 0\), then \[
+  F_Y(y) = F_Y(0) + \frac{1}{2} \int_{0}^{y} \exp(-s) ds = \frac{1}{2} + \frac{1}{2}(1 - \exp(-y)),
+\] which may be written as the piece-wise function \[
+  F_Y(y) =
+  \begin{cases}
+    \frac{1}{2} \exp(y)                & y \leq 0\\
+    1 - \frac{1}{2} \exp(-y) & y > 0.
+  \end{cases}
+\]
+
+Now, we find the inverse of \(F_Y\). Over \(y \leq 0\), the inverse of
+\(F_Y\) is given by \[
+  p = \frac{1}{2} \exp(y).
+\] Solving for \(y\), we obtain \(y = \log(2p)\). Note that given
+\(y \leq 0\), \(p \in (0,0.5]\). Over \(y > 0\), the inverse of \(F_Y\)
+is given by \[
+  p = 1 - \frac{1}{2} \exp(-y).
+\] Solving for \(y\), we obtain \[
+  y = -\log(2-2p)
+\] where \(p \in (0.5,1)\). We thus have a piecewise function \[
+  F^{-1}(p) =
+  \begin{cases}
+    \log(2p)        & p \in (0,0.5]\\
+    -\log(2-2p)     & p \in (0.5,1).
+  \end{cases}
+\] Thus, to sample from \(Y\), we observe \(u\) from \(U(0,1)\) and, if
+\(u \leq 0.5\), we let \(y = \log(2u)\) and otherwise let
+\(y = -\log(2-2u)\).
+
+We implement this sampler with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ry.itm }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n)}
+\NormalTok{\{}
+\NormalTok{  ys }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}
+\NormalTok{  \{}
+\NormalTok{    u }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{ (u }\SpecialCharTok{\textless{}=} \FloatTok{0.5}\NormalTok{) \{ ys[i] }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{u) \}}
+    \ControlFlowTok{else}\NormalTok{ \{ ys[i] }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\FunctionTok{log}\NormalTok{(}\DecValTok{2{-}2}\SpecialCharTok{*}\NormalTok{u)\}}
+\NormalTok{  \}}
+\NormalTok{  ys}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

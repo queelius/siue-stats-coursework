@@ -1,0 +1,547 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{fbox}
+\usepackage{amsmath}
+\usepackage{custom}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={STAT 581 - Problem Set 8},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{STAT 581 - Problem Set 8}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\begin{quote}
+An experiment is designed to test for systematic differences in the
+hardness measurements provided by two devices (fixed effect, factor
+\(A\)). Ten specimens are randomly selected (random effect, factor
+\(B\)). Each device is used to make \(n=3\) hardness measurements on
+each specimen. The data is available on Blackboard as an Excel File.
+\end{quote}
+
+\hypertarget{part-a}{%
+\subsection{Part (a)}\label{part-a}}
+
+\begin{quote}
+Write the model for this mixed effects design, defining the fixed effect
+parameters, and the random effect parameters.
+\end{quote}
+
+The mixed-effects model is given by \[
+  Y_{i j k} = \mu + \tau_i + \beta_j + (\tau\!\beta)_{i j} + \epsilon_{i j k}
+  \;
+  \begin{cases}
+    i = 1,\ldots,a=2\\
+    j = 1,\ldots,b=10\\
+    k = 1,\ldots,n=3
+  \end{cases}
+\] where the fixed effect parameters are \[
+  \tau_1,\ldots,\tau_a \qquad \left(\sum \tau_i = 0\right)
+\] and the random effect parameters are \[
+  \sigma_\beta^2, \sigma_{\tau\!\beta}^2, \sigma^2.
+\]
+
+\hypertarget{part-b}{%
+\subsection{Part (b)}\label{part-b}}
+
+\begin{quote}
+Create an interaction plot to display the device effect on hardness
+measurement.
+\end{quote}
+
+First, we load the data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"readxl"}\NormalTok{)}
+\NormalTok{data }\OtherTok{=} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"handout8data.xlsx"}\NormalTok{)}
+\NormalTok{A }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{device))}
+\NormalTok{B }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{specimen))}
+\NormalTok{y }\OtherTok{=} \FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{hardness)}
+
+\NormalTok{a }\OtherTok{=} \FunctionTok{length}\NormalTok{(}\FunctionTok{levels}\NormalTok{(A))}
+\NormalTok{b }\OtherTok{=} \FunctionTok{length}\NormalTok{(}\FunctionTok{levels}\NormalTok{(B))}
+\NormalTok{N }\OtherTok{=} \FunctionTok{length}\NormalTok{(y)}
+\NormalTok{n }\OtherTok{=}\NormalTok{ N }\SpecialCharTok{/}\NormalTok{ (a }\SpecialCharTok{*}\NormalTok{ b)}
+
+\NormalTok{df.A }\OtherTok{=}\NormalTok{ a}\DecValTok{{-}1}
+\NormalTok{df.B }\OtherTok{=}\NormalTok{ b}\DecValTok{{-}1}
+\NormalTok{df.AB }\OtherTok{=}\NormalTok{ (a}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(b}\DecValTok{{-}1}\NormalTok{)}
+\FunctionTok{c}\NormalTok{(}\StringTok{"a"}\OtherTok{=}\NormalTok{a,}\StringTok{"b"}\OtherTok{=}\NormalTok{b,}\StringTok{"n"}\OtherTok{=}\NormalTok{n,}\StringTok{"N"}\OtherTok{=}\NormalTok{N,}\StringTok{"df.A"}\OtherTok{=}\NormalTok{df.A,}\StringTok{"df.B"}\OtherTok{=}\NormalTok{df.B,}\StringTok{"df.AB"}\OtherTok{=}\NormalTok{df.AB)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     a     b     n     N  df.A  df.B df.AB 
+##     2    10     3    60     1     9     9
+\end{verbatim}
+
+The interaction plot is given by:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# remember that we are testing whether operator differences are}
+\CommentTok{\# generalizable to a larger population of parts.}
+\FunctionTok{interaction.plot}\NormalTok{(B,A,y)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hw8_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\hypertarget{part-c}{%
+\subsection{Part (c)}\label{part-c}}
+
+\begin{quote}
+Use a mixed model likelihood approach to test for a systematic
+difference in the measurements of the two devices. Compute the \(F_0\)
+statistic, and the \(p\)-value. Provide an interpretation, stated in the
+context of the problem.
+\end{quote}
+
+We compute the statistic with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"lme4"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: Matrix
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{contrasts}\NormalTok{(A)}\OtherTok{=}\NormalTok{contr.sum}
+\NormalTok{mixed.mod }\OtherTok{=} \FunctionTok{lmer}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{|}\NormalTok{B) }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{|}\NormalTok{A}\SpecialCharTok{:}\NormalTok{B))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## boundary (singular) fit: see help('isSingular')
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(mixed.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+##   npar  Sum Sq Mean Sq F value
+## A    1 0.41667 0.41667  0.3121
+\end{verbatim}
+
+We see that \(F_0 = .312\) (\(p = .579\)).
+
+\hypertarget{interpretation}{%
+\subsubsection{Interpretation}\label{interpretation}}
+
+Based on these observed test statistics, the experiment finds that
+factor \(A\) (device) has no effect on response \(y\) (hardness
+measurement of specimen).
+
+\hypertarget{part-d}{%
+\subsection{Part (d)}\label{part-d}}
+
+\begin{quote}
+Compute estimates of the fixed effect parameters.
+\end{quote}
+
+The formula for the estimates of the fixed effect parameters
+\(\{\tau_i\}\) are given by \[
+  \hat{\tau}_i = \bar{y}_{i \cdot\cdot} - \bar{y}_{\cdot\cdot\cdot}
+\] for \(i=1,\ldots,a=2\). We use the following R code to compute
+\(\hat{\tau}_1\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{coef}\NormalTok{(}\FunctionTok{summary}\NormalTok{(mixed.mod))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                Estimate Std. Error     t value
+## (Intercept) 49.95000000  0.4282105 116.6482481
+## A1           0.08333333  0.1491662   0.5586608
+\end{verbatim}
+
+Since \(\tau_1 + \tau_2 = 0\), this means \(\hat{\tau}_1 = .083\) and
+\(\hat{\tau}_2 = -\hat{\tau}_1 = -.083\).
+
+\hypertarget{part-e}{%
+\subsection{Part (e)}\label{part-e}}
+
+\begin{quote}
+Now write an \(F_A\) statistic as a ratio of mean squares.
+\end{quote}
+
+We use Dr.~Neath's custom function \[
+  \operatorname{mixed.test} : [\text{fixed factors}] \times
+    [\text{random factors}] \times [\text{responses}] \mapsto
+    [\text{statistics}]
+\] to compute the \(F_A\) statistic:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mixed.test}\NormalTok{(A,B,y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                         SS df         MS
+## Fixed Effect A   0.4166667  1  0.4166667
+## Random Effect B 99.0166667  9 11.0018519
+## Interaction AB   5.4166667  9  0.6018519
+## Error           60.0000000 40  1.5000000
+##  F-test for fixed effect   p-value
+##                0.6923077 0.4269057
+##  error.var interaction.var block.var
+##        1.5      -0.2993827  1.733333
+\end{verbatim}
+
+The \(F\)-test statistic for the factor \(A\) effect is given by \[
+  F_A = \frac{\ms{A}}{\ms{A B}} = .692,
+\] which has the reference distribution \[
+  F(\rm{df}_A=a-1,\rm{df}_{A B} = (a-1)(b-1)) = F(1,9).
+\] Thus, the \(p\)-value is given by \(\Pr\{F(1,9) > F_A\} = .427\).
+
+\hypertarget{part-f}{%
+\subsection{Part (f)}\label{part-f}}
+
+\begin{quote}
+Write the algebraic formula for the \(F_0\) statistic from a block
+design on the sample means.
+\end{quote}
+
+\[
+  F_0 = \frac
+    {b \sum_{i=1}^{a}(\bar{Y}_{i\cdot\cdot} - \bar{Y}_{\cdot\cdot\cdot})^2/(a-1)}
+    {\sum_{i=1}^{a}\sum_{j=1}^{b}(
+      \bar{Y}_{i j\cdot}-
+      \bar{Y_{i \cdot\cdot}}-
+      \bar{Y}_{\cdot j \cdot}+
+      \bar{Y}_{\cdot\cdot\cdot}
+      )^2 / (a-1)(b-1)}.
+\]
+
+\hypertarget{part-g}{%
+\subsection{Part (g)}\label{part-g}}
+
+\begin{quote}
+Show computationally that (e) and (f) lead to the same test statistic.
+\end{quote}
+
+We must use the means of the response over repeated measurements of the
+block (specimen) at a given factor level \(A\). These values have
+already been computed for us \texttt{handout8data.xlsx}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# the variables below represent the same data, only with repeat measurements}
+\CommentTok{\# summarized by their sample mean.}
+\NormalTok{d }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{d))}
+\NormalTok{s }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{s))}
+\NormalTok{h.means }\OtherTok{=} \FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{h)}
+\end{Highlighting}
+\end{Shaded}
+
+Now, we do the calculations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# below we run a randomized block design with the sample means as the}
+\CommentTok{\# response variables.}
+\CommentTok{\# note that the test for a fixed factor effect is equivalent to that}
+\CommentTok{\# from the mixed.test function.}
+\NormalTok{rcbd.mod }\OtherTok{=} \FunctionTok{lmer}\NormalTok{(h.means }\SpecialCharTok{\textasciitilde{}}\NormalTok{ d }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{|}\NormalTok{s))}
+\FunctionTok{anova}\NormalTok{(rcbd.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+##   npar  Sum Sq Mean Sq F value
+## d    1 0.13945 0.13945  0.6954
+\end{verbatim}
+
+We see that this result matches the result in (e), i.e.,
+\texttt{mix.test(A,B,y)} produced the same result.
+
+\hypertarget{part-h}{%
+\subsection{Part (h)}\label{part-h}}
+
+\begin{quote}
+Use the result from (g) to argue why interaction mean squares is the
+appropriate error term.
+\end{quote}
+
+Repeat measurements are summarized by a sample mean. The test statistic
+for a block design then leads to the interaction mean squares under a
+mixed model as the error term.
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\begin{quote}
+A mixed effects design is used to investigate the effects of operator
+(fixed effect, factor A) and machine (random effect, factor B) on the
+breaking strength of a synthetic fiber. There are \(a=3\) operators
+under investigation. A random sample of \(b=4\) machines is selected,
+and each operator produces \(n=2\) samples on each of the selected
+machines. The data is available on Blackboard as an Excel File.
+\end{quote}
+
+\hypertarget{part-a-1}{%
+\subsection{Part (a)}\label{part-a-1}}
+
+\begin{quote}
+State the expected value for each of the mean squares.
+\end{quote}
+
+\begin{align*}
+  E(\ms{A}) &= \sigma^2 + n \sigma_{\tau \! \beta}^2 +
+    \frac{b n \sum_{i=1}^{a}\tau_i^2}{a-1},\\
+  E(\ms{B}) &= \sigma^2 + n \sigma_{\tau \! \beta}^2 + a n \sigma_{\beta}^2,\\
+  E(\ms{A B}) &= \sigma^2 + n \sigma_{\tau \! \beta}^2,\\
+  E(\ms{E}) &= \sigma^2.
+\end{align*}
+
+\hypertarget{part-b-1}{%
+\subsection{Part (b)}\label{part-b-1}}
+
+\begin{quote}
+Compute unbiased estimates for the random effect parameters.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{op))}
+\NormalTok{B }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{mach))}
+\NormalTok{y }\OtherTok{=} \FunctionTok{na.omit}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{strength)}
+\FunctionTok{mixed.test}\NormalTok{(A,B,y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                        SS df        MS
+## Fixed Effect A  160.33333  2 80.166667
+## Random Effect B  12.45833  3  4.152778
+## Interaction AB   44.66667  6  7.444444
+## Error            45.50000 12  3.791667
+##  F-test for fixed effect    p-value
+##                 10.76866 0.01034401
+##  error.var interaction.var  block.var
+##   3.791667        1.826389 -0.5486111
+\end{verbatim}
+
+The random effect parameters are given by \(\sigma^2\),
+\(\sigma_\beta^2\), and \(\sigma_{\tau\beta}^2\). Estimators for these
+parameters are given by \begin{align*}
+  \hat\sigma^2               &= \ms{E}     = 3.792,\\
+  \hat\sigma_{\beta}^2       &= \frac{\ms{B}-\ms{A B}}{a n} = -0.549,\\
+  \hat\sigma_{\tau\!\beta}^2 &= \frac{\ms{A B}-\ms{E}}{n} = 1.826.
+\end{align*}
+
+\hypertarget{part-c-1}{%
+\subsection{Part (c)}\label{part-c-1}}
+
+\begin{quote}
+Use the result from (a) to argue why interaction mean squares is the
+appropriate error term.
+\end{quote}
+
+Under the null hypothesis \[
+  H_0 : \tau_1 = \cdots = \tau_a = 0,
+\]
+\(E(\ms{A}) = \sigma^2 + n \sigma_{\tau \! \beta}^2 +  \frac{b n \sum_{i=1}^{a}\tau_i^2}{a-1} = \sigma^2 + n \sigma_{\tau\!\beta}^2\).
+The scaling requires a denominator with the same expected value. Thus,
+\(\ms{A B}\) is the appropriate error term.
+
+\hypertarget{part-d-1}{%
+\subsection{Part (d)}\label{part-d-1}}
+
+\begin{quote}
+Perform a test for operator effects. Compute the \(F_A\) statistic, and
+the \(p\)-value. Provide an interpretation, stated in the context of the
+problem.
+\end{quote}
+
+From part (b), \(F_A = \frac{\ms{A}}{\ms{A B}} = 10.769\), which has a
+\(p\)-value of \(.010\).
+
+\hypertarget{interpretation-1}{%
+\subsubsection{Interpretation}\label{interpretation-1}}
+
+The experiment finds that factor \(A\) (operator) does have an effect on
+the fiber strength.
+
+\hypertarget{part-e-1}{%
+\subsection{Part (e)}\label{part-e-1}}
+
+\begin{quote}
+Now, use the idea of random factors as an experimental unit to explain
+why interaction mean squares is the appropriate error term. In
+particular, comment on how taking repeat measurements on a selected
+level of a random factor does not increase the pertinent sample size.
+\end{quote}
+
+Taking repeat measurements at each randomly selected level may serve to
+increase the measurement accuracy, but does not increase the pertinent
+sample size. (However, taking repeat measurements does allow us to learn
+more about the treatment effect \emph{at those} selected levels, e.g., a
+therapy may work well for you but is not effective on average.)
+
+\hypertarget{appendix-code}{%
+\section{Appendix: code}\label{appendix-code}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mixed.test }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(A,B,y)}
+\NormalTok{\{}
+\NormalTok{  av}\OtherTok{=}\FunctionTok{anova}\NormalTok{(}\FunctionTok{lm}\NormalTok{(y}\SpecialCharTok{\textasciitilde{}}\NormalTok{A}\SpecialCharTok{*}\NormalTok{B))}
+\NormalTok{  F.a }\OtherTok{=}\NormalTok{ av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{3}\NormalTok{]}
+\NormalTok{  p.value }\OtherTok{=} \FunctionTok{pf}\NormalTok{(F.a,}\AttributeTok{df1=}\NormalTok{av}\SpecialCharTok{$}\NormalTok{Df[}\DecValTok{1}\NormalTok{],}\AttributeTok{df2=}\NormalTok{av}\SpecialCharTok{$}\NormalTok{Df[}\DecValTok{3}\NormalTok{],}\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{  table1 }\OtherTok{=} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Sum Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{1}\NormalTok{],av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Sum Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{2}\NormalTok{],av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Sum Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{3}\NormalTok{],av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Sum Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{4}\NormalTok{],}
+\NormalTok{                    av}\SpecialCharTok{$}\NormalTok{Df[}\DecValTok{1}\NormalTok{],av}\SpecialCharTok{$}\NormalTok{Df[}\DecValTok{2}\NormalTok{],av}\SpecialCharTok{$}\NormalTok{Df[}\DecValTok{3}\NormalTok{],av}\SpecialCharTok{$}\NormalTok{Df[}\DecValTok{4}\NormalTok{],}
+\NormalTok{                    av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{1}\NormalTok{],av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{2}\NormalTok{],av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{3}\NormalTok{],av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{4}\NormalTok{]),}\AttributeTok{nrow =} \DecValTok{4}\NormalTok{)}
+  \FunctionTok{dimnames}\NormalTok{(table1) }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"Fixed Effect A"}\NormalTok{,}\StringTok{"Random Effect B"}\NormalTok{,}\StringTok{"Interaction AB"}\NormalTok{,}\StringTok{"Error"}\NormalTok{),}
+                          \FunctionTok{c}\NormalTok{(}\StringTok{"SS"}\NormalTok{,}\StringTok{"df"}\NormalTok{,}\StringTok{"MS"}\NormalTok{))}
+  \FunctionTok{print}\NormalTok{(table1)}
+  
+\NormalTok{  table2 }\OtherTok{=} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(F.a,p.value),}\AttributeTok{nrow =} \DecValTok{1}\NormalTok{)}
+  \FunctionTok{dimnames}\NormalTok{(table2) }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{),}\FunctionTok{c}\NormalTok{(}\StringTok{"F{-}test for fixed effect"}\NormalTok{,}\StringTok{"p{-}value"}\NormalTok{))}
+  \FunctionTok{print}\NormalTok{(table2)}
+  
+\NormalTok{  a}\OtherTok{=}\FunctionTok{nlevels}\NormalTok{(A)}
+\NormalTok{  b}\OtherTok{=}\FunctionTok{nlevels}\NormalTok{(B)}
+\NormalTok{  n}\OtherTok{=}\FunctionTok{length}\NormalTok{(y) }\SpecialCharTok{/}\NormalTok{ a }\SpecialCharTok{/}\NormalTok{ b}
+  
+\NormalTok{  var.hat }\OtherTok{=}\NormalTok{ av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{4}\NormalTok{]}
+\NormalTok{  var.interaction.hat }\OtherTok{=}\NormalTok{ (av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{3}\NormalTok{]}\SpecialCharTok{{-}}\NormalTok{av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{4}\NormalTok{])}\SpecialCharTok{/}\NormalTok{n}
+\NormalTok{  var.block }\OtherTok{=}\NormalTok{ (av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{{-}}\NormalTok{av}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean Sq}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{3}\NormalTok{])}\SpecialCharTok{/}\NormalTok{n}\SpecialCharTok{/}\NormalTok{a}
+  
+\NormalTok{  table3 }\OtherTok{=} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(var.hat,var.interaction.hat,var.block),}\AttributeTok{nrow=}\DecValTok{1}\NormalTok{)}
+  \FunctionTok{dimnames}\NormalTok{(table3) }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{),}\FunctionTok{c}\NormalTok{(}\StringTok{"error.var"}\NormalTok{,}\StringTok{"interaction.var"}\NormalTok{,}\StringTok{"block.var"}\NormalTok{))}
+  \FunctionTok{print}\NormalTok{(table3)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

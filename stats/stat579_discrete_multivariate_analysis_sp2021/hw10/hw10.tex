@@ -1,0 +1,332 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{booktabs}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Discrete Multivariate Analysis - 579 - HW \#10},
+  pdfauthor={Alex Towell (atowell@siue.edu)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Discrete Multivariate Analysis - 579 - HW \#10}
+\author{Alex Towell
+(\href{mailto:atowell@siue.edu}{\nolinkurl{atowell@siue.edu}})}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\expect}{\operatorname{E}}
+\newcommand{\corr}{\operatorname{Corr}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\ssr}{\operatorname{SSR}}
+\newcommand{\se}{\operatorname{SE}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\RR}{\operatorname{RR}}
+\newcommand{\eval}[2]{\left. #1 \right\vert_{#2}}
+
+\hypertarget{supplemental-material}{%
+\section{Supplemental material}\label{supplemental-material}}
+
+We refactored the code for independence testing as a function that
+returns all relevant calculations given a matrix of cross-sectional
+data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# csdata is cross sectional data (observed counts) entered as an IxJ matrix.}
+\CommentTok{\# tests for independence P(X,Y) = P(X)P(Y) using the X\^{}2 statistic.}
+\NormalTok{independence\_test\_X2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(csdata)}
+\NormalTok{\{}
+  \CommentTok{\# define the dimensions of the table}
+\NormalTok{  I }\OtherTok{=} \FunctionTok{dim}\NormalTok{(csdata)[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  J }\OtherTok{=} \FunctionTok{dim}\NormalTok{(csdata)[}\DecValTok{2}\NormalTok{]}
+  
+  \CommentTok{\# compute the overall sample size, the row sample sizes, and the column sample sizes}
+\NormalTok{  total }\OtherTok{=} \FunctionTok{sum}\NormalTok{(csdata)}
+\NormalTok{  row.sum }\OtherTok{=} \FunctionTok{apply}\NormalTok{(csdata,}\DecValTok{1}\NormalTok{,sum)}
+\NormalTok{  col.sum }\OtherTok{=} \FunctionTok{apply}\NormalTok{(csdata,}\DecValTok{2}\NormalTok{,sum)}
+  
+  \CommentTok{\# use matrix algebra to compute the table of expected cell counts}
+\NormalTok{  expected }\OtherTok{=} \FunctionTok{matrix}\NormalTok{(row.sum) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(col.sum)) }\SpecialCharTok{/}\NormalTok{ total}
+  \FunctionTok{dimnames}\NormalTok{(expected) }\OtherTok{=} \FunctionTok{dimnames}\NormalTok{(csdata)}
+  
+  \CommentTok{\# compute the X\^{}2 statistic, degrees of freedom, and p{-}value}
+\NormalTok{  X2 }\OtherTok{=} \FunctionTok{sum}\NormalTok{((obs}\SpecialCharTok{{-}}\NormalTok{expected)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\NormalTok{expected)}
+\NormalTok{  df }\OtherTok{=}\NormalTok{ (I}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(J}\DecValTok{{-}1}\NormalTok{)}
+\NormalTok{  p.value.X2 }\OtherTok{=} \FunctionTok{pchisq}\NormalTok{(X2,df,}\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+  
+  \CommentTok{\# return computed values as a map}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{expected\_counts =}\NormalTok{ expected,}
+       \AttributeTok{estimate =}\NormalTok{ expected}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(obs),}
+       \AttributeTok{X2 =}\NormalTok{ X2,}
+       \AttributeTok{df =}\NormalTok{ df,}
+       \AttributeTok{p.value =}\NormalTok{ p.value.X2)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We also refactored the code for independence testing under the
+assumption of a monotonic association (\(\gamma\) correlation).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{independence\_test\_gamma }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(csdata)}
+\NormalTok{\{}
+  \CommentTok{\# to compute the estimate of gamma and the standard error, we need MESS}
+  \FunctionTok{library}\NormalTok{(}\StringTok{"MESS"}\NormalTok{)}
+
+  \CommentTok{\# gkgamma takes an IxJ matrix as an input}
+\NormalTok{  gk.result }\OtherTok{=} \FunctionTok{gkgamma}\NormalTok{(csdata)}
+
+  \CommentTok{\# compute gamma.hat and its standard error}
+\NormalTok{  gamma.hat }\OtherTok{=}\NormalTok{ gk.result}\SpecialCharTok{$}\NormalTok{estimate}
+\NormalTok{  se }\OtherTok{=}\NormalTok{ gk.result}\SpecialCharTok{$}\NormalTok{se1}
+
+  \CommentTok{\# compute the z statistic and p{-}value for testing gamma=0 (independence)}
+\NormalTok{  z }\OtherTok{=}\NormalTok{ gamma.hat }\SpecialCharTok{/}\NormalTok{ se}
+\NormalTok{  p.value.g }\OtherTok{=} \DecValTok{2}\SpecialCharTok{*}\FunctionTok{pnorm}\NormalTok{(}\FunctionTok{abs}\NormalTok{(z),}\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+
+  \CommentTok{\# display the results}
+\NormalTok{  g.table }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\AttributeTok{estimate=}\NormalTok{gamma.hat,}
+                 \AttributeTok{ase=}\NormalTok{se,}
+                 \AttributeTok{z.stat=}\NormalTok{z,}
+                 \AttributeTok{p.value=}\NormalTok{p.value.g)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{problem-1}{%
+\section{Problem 1}\label{problem-1}}
+
+\fbox{\begin{minipage}{.8\textwidth}
+Compute the statistic $X^2$ and the $p$-value for testing the model with
+independence between husband's rating and wife's rating.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+The observed data is cross-sectional with a general model given by \[
+  \{n_{i j}\} \sim \operatorname{MULT}(n, \{\pi_{i j}\}).
+\]
+
+We consider a simpler model where \(X\) and \(Y\) are independent, i.e.,
+\(\Pr(X,Y) = \Pr(X)\Pr(Y)\). Then, our task is to measure how compatible
+the observed data is to the null hypothesis \[
+  H_0 : \pi_{i j} = \pi_{i+}\pi_{+j}.
+\] We prefer \(H_0\) to a more general model that requires more
+parameters to estimate (and thus will have greater variance) and
+interpret.
+
+We perform a chi-square test for independence. The test statistic is
+given by \[
+  X^2 = \sum_{i=1}^{4} \frac{(n_{i j} - \hat{m}_{i j})^2}{\hat{m}_{i j}}
+\] where \(\hat{m}_{i j} = n \hat{\pi}_{i j 0}\) and
+\(\hat{\pi}_{i j 0} = \frac{n_{i+}n_{+j}}{n^2}\).
+
+Under the null model, \(X^2\) is distributed \(\chi^2\) with
+\(\rm{df} = 9\) degrees of freedom.
+
+We compute the \(X^2\) statistic and \(p\)-value with the following R
+code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{obs }\OtherTok{=} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{14}\NormalTok{), }\AttributeTok{nrow=}\DecValTok{4}\NormalTok{, }\AttributeTok{byrow=}\ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(obs) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"never/occassionally"}\NormalTok{, }\StringTok{"fairly often"}\NormalTok{, }\StringTok{"very often"}\NormalTok{, }\StringTok{"almost always"}\NormalTok{)}
+\FunctionTok{rownames}\NormalTok{(obs) }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(obs)}
+
+\FunctionTok{print}\NormalTok{(obs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                     never/occassionally fairly often very often almost always
+## never/occassionally                   7            7          2             3
+## fairly often                          2            8          3             7
+## very often                            1            5          4             9
+## almost always                         2            8          9            14
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x2\_test }\OtherTok{\textless{}{-}} \FunctionTok{independence\_test\_X2}\NormalTok{(obs)}
+\end{Highlighting}
+\end{Shaded}
+
+The observed \(X_0^2\) is 16.955 and the \(p\)-value is 0.049. We
+consider this \(p\)-value to be moderate evidence against the null
+model. Stated differently, the observed data is moderately incompatible
+with the independence model.
+
+For completeness, the estimates of \(\pi_{i j}\) under the independence
+model (with no additional assumptions) for the given cross-sectional
+data is given by:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(x2\_test}\SpecialCharTok{$}\NormalTok{estimate,}\AttributeTok{digits=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                     never/occassionally fairly often very often almost always
+## never/occassionally               0.028        0.064      0.041         0.076
+## fairly often                      0.029        0.068      0.043         0.080
+## very often                        0.028        0.064      0.041         0.076
+## almost always                     0.048        0.112      0.072         0.132
+\end{verbatim}
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\fbox{\begin{minipage}{.8\textwidth}
+Now compute the statistic $Z^*$  and the $p$-value for testing the independence
+model using the correlation estimate $\hat\gamma$.
+Provide an interpretation, stated in the context of the problem.
+\end{minipage}}
+
+The observed data is cross-sectional with a general model given by \[
+  \{n_{i j}\} \sim \operatorname{MULT}(n, \{\pi_{i j}\}).
+\]
+
+We consider a simpler model using \(\gamma\), \[
+  H_0 : \gamma = 0,
+\] i.e., \(\gamma\) is zero if \(X\) and \(Y\) are independent.
+
+The test statistic is given by \[
+  Z^* = \frac{\hat\gamma-0}{\hat\sigma(\hat\gamma)},
+\] which is normally distributed \(\mathcal{N}(0,1)\) under the null
+model.
+
+We compute \(Z^*\) and \(p\)-value with the following R code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gamma\_test }\OtherTok{\textless{}{-}} \FunctionTok{independence\_test\_gamma}\NormalTok{(obs)}
+\end{Highlighting}
+\end{Shaded}
+
+The observed \(Z^*\) is 3.207 and the \(p\)-value is 0.001. We consider
+this \(p\)-value to be very strong evidence against the null model. That
+is, the observed data provides very strong evidence against the
+independence model when testing for support of a monotonic association
+model.
+
+For completeness, the estimate for \(\gamma\) is \(\hat\gamma=0.36\).
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+\fbox{\begin{minipage}{.8\textwidth}
+Explain why a monotonic association model is better than a general association
+model in this example.
+\end{minipage}}
+
+Estimates from simpler models have smaller variances than for estimates
+from more complicated models.
+
+\end{document}
